@@ -12,11 +12,14 @@ struct MapView: UIViewRepresentable {
     
     let mapType: MKMapType
     //let region: MKCoordinateRegion
-    let center: CLLocationCoordinate2D
+    @Binding var center: CLLocationCoordinate2D
     var wasFirstChangeVR: Bool
     //@Binding var center: CLLocationCoordinate2D
     
     @Binding var showCurrentLocation: Bool
+    @Binding var span: MKCoordinateSpan
+    
+    @Binding var needChangeMapView: Bool
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -24,23 +27,32 @@ struct MapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+        //let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         let region = MKCoordinateRegion(center: center, span: span)
         mapView.setRegion(region, animated: false)
+        
+        mapView.userTrackingMode = .follow
+        mapView.showsUserLocation = true
+        mapView.showsScale = true
+
         return mapView
     }
 
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<MapView>) {
         
         view.mapType = mapType
-        view.showsUserLocation = true
-        if showCurrentLocation {
-  
+        
+        if needChangeMapView {
+            
+            //var span = view.region.span
+            
             //current span = view.region.span
-            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            //let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: true)
-        
+            
+            view.userTrackingMode = .none
+            
         }
         
     }
@@ -54,9 +66,16 @@ struct MapView: UIViewRepresentable {
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
             if parent.wasFirstChangeVR {
-                parent.showCurrentLocation = false
+                parent.needChangeMapView = true
             }
             parent.wasFirstChangeVR = true
+            parent.span = mapView.region.span
+            parent.center = mapView.region.center
+            
+            if parent.needChangeMapView {
+                parent.needChangeMapView = false
+            }
+            
         }
         
     }
