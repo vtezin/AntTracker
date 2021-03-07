@@ -16,103 +16,106 @@ struct ContentView: View {
     @State private var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     @State private var needChangeMapView = false
     
+    let minSpan: Double = 0.0008
+    let maxSpan: Double = 108
+    
     @StateObject private var clManager = LocationManager()
     
     var body: some View {
         
-        MapView(mapType: mapType, center: $center, wasFirstChangeVR: false, showCurrentLocation: $showCurrentLocation, span: $span, needChangeMapView: $needChangeMapView)
-            .onAppear {
+        ZStack {
+            
+            MapView(mapType: mapType, center: $center, wasFirstChangeVR: false, showCurrentLocation: $showCurrentLocation, span: $span, needChangeMapView: $needChangeMapView)
+                .edgesIgnoringSafeArea(.top)
+            
+            VStack {
+                
+                HStack {
+                 
+                    Image(systemName: mapType == .standard ? "globe" : "map")
+                        .modifier(MapButton())
+                        .font(nil)
+                        .onTapGesture(count: 1) {
+                            if mapType == .standard {
+                                mapType = .hybrid
+                            } else {
+                                mapType = .standard
+                            }
 
+                            needChangeMapView = true
+                        }
+                    
+                    Spacer()
+                    
+                }
+                .padding()
+                
+                Spacer()
+                
+                HStack {
+                    
+
+                    
+                    Spacer()
+                    
+                    Image(systemName: "minus")
+                        .modifier(MapButton())
+                        .onTapGesture(count: 2) {
+                            let newDelta = min(span.latitudeDelta * 4, maxSpan)
+                            
+                            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                                    longitudeDelta: newDelta)
+                            
+                            needChangeMapView = true
+                        }
+                        .onTapGesture(count: 1) {
+                            let newDelta = min(span.latitudeDelta * 2, maxSpan)
+                            
+                            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                                    longitudeDelta: newDelta)
+                            
+                            needChangeMapView = true
+                        }
+                    
+                    
+                    Image(systemName: mapShowsCurrentLocation() ? "location" : "location")
+                        .modifier(MapButton())
+                        .onTapGesture(count: 2) {
+                            span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
+                                                    longitudeDelta: minSpan * 2)
+                            center = clManager.region.center
+                            needChangeMapView = true
+                        }
+                        .onTapGesture(count: 1) {
+                            center = clManager.region.center
+                            needChangeMapView = true
+                        }
+                    
+                    Image(systemName: "plus")
+                        .modifier(MapButton())
+                        .onTapGesture(count: 2) {
+                            let newDelta = max(span.latitudeDelta/4, minSpan)
+                            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                                    longitudeDelta: newDelta)
+                            needChangeMapView = true
+                        }
+                        .onTapGesture(count: 1) {
+                            let newDelta = max(span.latitudeDelta/2, minSpan)
+                            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                                    longitudeDelta: newDelta)
+                            needChangeMapView = true
+                        }
+                    
+                }
+                .padding()
             }
-            .edgesIgnoringSafeArea(.top)
-            .toolbar {
-                
-                ToolbarItem(placement: .bottomBar) {
-                    
-                    Button(action: {
-                        if mapType == .standard {
-                            mapType = .hybrid
-                        } else {
-                            mapType = .standard
-                        }
-                        
-                        needChangeMapView = true
-                        
-                    }) {
-                        HStack{
-                            Image(systemName: mapType == .standard ? "globe" : "map")
-                                .font(.title)
-                        }
-                    }
-                    
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    Spacer()
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                             
-                        let newDelta = max(span.latitudeDelta/zoomMultiplikator(),0.0008)
-                        
-                        span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                longitudeDelta: newDelta)
-                        needChangeMapView = true
-                        
-                    }) {
-                        HStack{
-                            Image(systemName: "plus")
-                                .font(.title)
-                        }
-                    }
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    Spacer()
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    
-                    Button(action: {
-                                  
-                        let newDelta = min(span.latitudeDelta * zoomMultiplikator(), 108)
-                        
-                        span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                longitudeDelta: newDelta)
-                        
-                        needChangeMapView = true
-                        
-                        
-                    }) {
-                        HStack{
-                            Image(systemName: "minus")
-                                .font(.title)
-                        }
-                    }
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    Spacer()
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    
-                    Button(action: {
-                        showCurrentLocation = true
-                        center = clManager.region.center
-                        needChangeMapView = true
-                    }) {
-                        HStack{
-                            Image(systemName: mapShowsCurrentLocation() ? "location.fill" : "location")
-                                .font(.title)
-                        }
-                    }
-                    
-                }
-                
-                
-            }
+            
+            
+        }
+        
+        
+
+        
         
         
         
@@ -138,6 +141,7 @@ struct ContentView: View {
     
 
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
