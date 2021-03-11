@@ -11,27 +11,37 @@ import MapKit
 struct ContentView: View {
     
     @State private var mapType: MKMapType = .hybrid
-    @State private var showCurrentLocation = true
     @State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     @State private var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     @State private var needChangeMapView = false
+    @State private var stateAddingPOI = false
     
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
     
     @StateObject private var clManager = LocationManager()
     
+    @State private var showRecordTrackControls = false
+    @State private var trackRecordingMode = TrackRecordingModes.stop
+    
     var body: some View {
         
         ZStack {
             
-            MapView(mapType: mapType, center: $center, wasFirstChangeVR: false, showCurrentLocation: $showCurrentLocation, span: $span, needChangeMapView: $needChangeMapView)
-                .edgesIgnoringSafeArea(.top)
-            
             VStack {
                 
-                HStack {
-                 
+                MapView(mapType: mapType, center: $center, wasFirstChangeVR: false, span: $span, needChangeMapView: $needChangeMapView, currentTrack: $clManager.currentTrack)
+                    .edgesIgnoringSafeArea(.top)
+                
+            }
+            
+            // position/zoom control - visible forever
+            
+            HStack{
+                
+                //left row
+                VStack {
+                    
                     Image(systemName: mapType == .standard ? "globe" : "map")
                         .modifier(MapButton())
                         .font(nil)
@@ -47,29 +57,64 @@ struct ContentView: View {
                     
                     Spacer()
                     
+                    Image(systemName: "mappin.and.ellipse")
+                        .modifier(MapButton())
+                        .onTapGesture() {
+                            stateAddingPOI = true
+                        }
+                    
+                    Image(systemName: "arrow.triangle.swap")
+                        .modifier(MapButton())
+                        .onTapGesture()
+                        {
+                            withAnimation {
+                                showRecordTrackControls.toggle()
+                            }
+    
+                        }
                 }
                 .padding()
                 
-                Spacer()
-                
-                HStack {
-                    
+                //center
+                if showRecordTrackControls {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
+                                .background(Color.white.opacity(0.5).clipShape(RoundedRectangle(cornerRadius: 20))
+                                )
+                            Spacer()
+                        }
+                        .padding(.bottom)
 
+                    }
+                } else {
+                    Spacer()
+                }
+        
+                // right row
+                VStack{
                     
                     Spacer()
+                    Spacer()
+                    
+                    Image(systemName: "plus")
+                        .modifier(MapButton())
+                        .font(.title)
+                        .onTapGesture() {
+                            let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
+                            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                                    longitudeDelta: newDelta)
+                            needChangeMapView = true
+                        }
                     
                     Image(systemName: "minus")
                         .modifier(MapButton())
-                        .onTapGesture(count: 2) {
-                            let newDelta = min(span.latitudeDelta * 4, maxSpan)
-                            
-                            span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                    longitudeDelta: newDelta)
-                            
-                            needChangeMapView = true
-                        }
-                        .onTapGesture(count: 1) {
-                            let newDelta = min(span.latitudeDelta * 2, maxSpan)
+                        .font(.title)
+                        .padding(.top)
+                        .onTapGesture() {
+                            let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
                             
                             span = MKCoordinateSpan(latitudeDelta: newDelta,
                                                     longitudeDelta: newDelta)
@@ -77,9 +122,12 @@ struct ContentView: View {
                             needChangeMapView = true
                         }
                     
+                    
+                    //Spacer()
                     
                     Image(systemName: mapShowsCurrentLocation() ? "location" : "location")
                         .modifier(MapButton())
+                        .font(.title)
                         .onTapGesture(count: 2) {
                             span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
                                                     longitudeDelta: minSpan * 2)
@@ -91,26 +139,11 @@ struct ContentView: View {
                             needChangeMapView = true
                         }
                     
-                    Image(systemName: "plus")
-                        .modifier(MapButton())
-                        .onTapGesture(count: 2) {
-                            let newDelta = max(span.latitudeDelta/4, minSpan)
-                            span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                    longitudeDelta: newDelta)
-                            needChangeMapView = true
-                        }
-                        .onTapGesture(count: 1) {
-                            let newDelta = max(span.latitudeDelta/2, minSpan)
-                            span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                    longitudeDelta: newDelta)
-                            needChangeMapView = true
-                        }
-                    
                 }
                 .padding()
             }
             
-            
+                
         }
         
         

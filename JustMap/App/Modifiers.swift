@@ -11,9 +11,9 @@ struct MapButton: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
-            .background(Color.black.opacity(0.2))
+            .background(Color.primary.opacity(0.5))
             .foregroundColor(.orange)
-            .font(.title)
+            //.font(.)
             .clipShape(Circle())
     }
 }

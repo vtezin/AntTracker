@@ -16,10 +16,9 @@ struct MapView: UIViewRepresentable {
     var wasFirstChangeVR: Bool
     //@Binding var center: CLLocationCoordinate2D
     
-    @Binding var showCurrentLocation: Bool
     @Binding var span: MKCoordinateSpan
-    
     @Binding var needChangeMapView: Bool
+    @Binding var currentTrack: Track
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -53,7 +52,25 @@ struct MapView: UIViewRepresentable {
             
             view.userTrackingMode = .none
             
+            
         }
+        
+        if currentTrack.points.count == 0 && view.overlays.count > 0 {
+            let overlays = view.overlays
+            view.removeOverlays(overlays)
+        }
+        
+        if currentTrack.points.count - 1 > view.overlays.count {
+
+            let oldCoordinates = currentTrack.points[currentTrack.points.count - 2].coordinate
+            let newCoordinates = currentTrack.points[currentTrack.points.count - 1].coordinate
+            var area = [oldCoordinates, newCoordinates]
+            let polyline = MKPolyline(coordinates: &area, count: area.count)
+            view.addOverlay(polyline)
+            
+        }
+        
+        //print("track: \(currentTrack.points.count), overlays: \(view.overlays.count)")
         
     }
     
@@ -76,6 +93,20 @@ struct MapView: UIViewRepresentable {
                 parent.needChangeMapView = false
             }
             
+        }
+        
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+                        
+            if (overlay is MKPolyline) {
+                
+                let pr = MKPolylineRenderer(overlay: overlay)
+                pr.strokeColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+                pr.lineWidth = 5
+                return pr
+            }
+            
+            return MKOverlayRenderer()
         }
         
     }
