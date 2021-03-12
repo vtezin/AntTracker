@@ -11,6 +11,8 @@ import MapKit
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion()
+    @Published var location = CLLocation()
+    
     private let manager = CLLocationManager()
     
     @Published var trackRecording: Bool {
@@ -37,10 +39,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         locations.last.map {
             let center = CLLocationCoordinate2D(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)
             let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
-            region = MKCoordinateRegion(center: center, span: span)
             
+            location = $0
+            region = MKCoordinateRegion(center: center, span: span)            
             
-            if trackRecording {
+            if trackRecording && Int(location.horizontalAccuracy) <= 10 {
                 //print("\($0.coordinate)")
                 currentTrack.points.append($0)
             }

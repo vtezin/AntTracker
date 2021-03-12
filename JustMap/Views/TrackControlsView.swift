@@ -24,11 +24,13 @@ struct TrackControlsView: View {
         VStack{
             
             HStack {
-                Text("\(locationManager.currentTrack.points.count) points")
+                Text("\(locationManager.currentTrack.totalDistance()) meters")
             }
-            .padding()
+            .padding(.bottom)
             
             HStack {
+                
+                Spacer()
                 
                 Image(systemName: locationManager.trackRecording ? "pause.circle" : "play.circle")
                     .font(.largeTitle)
@@ -54,17 +56,13 @@ struct TrackControlsView: View {
                     
                 }
                 
+                Spacer()
+                
             }
-            .padding()
-            
-//            Button("Tracks...")
-//            {
-//                
-//            }
-//            .padding()
+            //.padding(.horizontal)
             
         }
-        //.padding()
+    
     }
 }
 

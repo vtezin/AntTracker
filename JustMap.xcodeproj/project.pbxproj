@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
+		52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52779A7F25FA64B000CE50EE /* POIControlsView.swift */; };
 		529B5C4425F9E92A00BACDA8 /* TrackControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */; };
 		52D3A92925E682D4001A50C1 /* JustMapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* JustMapApp.swift */; };
 		52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92A25E682D4001A50C1 /* ContentView.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
 		529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackControlsView.swift; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* JustMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D3A92825E682D4001A50C1 /* JustMapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustMapApp.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				52D3A93825E68310001A50C1 /* MapView.swift */,
 				529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */,
+				52779A7F25FA64B000CE50EE /* POIControlsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				52D3A92925E682D4001A50C1 /* JustMapApp.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				52F3367A25F7DDCE002C0B1E /* Track.swift in Sources */,
+				52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

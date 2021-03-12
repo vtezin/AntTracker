@@ -20,4 +20,23 @@ class Track: ObservableObject {
         self.points.removeAll()
     }
     
+    func totalDistance() -> Int {
+        
+        var totalDistance = 0
+        
+        var prevPoint: CLLocation? = nil
+        
+        for curPoint in points {
+            
+            if let _prevPoint = prevPoint {
+                totalDistance += Int(curPoint.distance(from: _prevPoint))
+            }
+            
+            prevPoint = curPoint
+        }
+        
+        return totalDistance
+        
+    }
+    
 }
