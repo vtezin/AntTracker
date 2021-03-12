@@ -14,7 +14,6 @@ struct ContentView: View {
     @State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     @State private var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     @State private var needChangeMapView = false
-    @State private var stateAddingPOI = false
     
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
@@ -130,7 +129,7 @@ struct ContentView: View {
                         Image(systemName: "mappin.and.ellipse")
                             .modifier(MapButton())
                             .onTapGesture() {
-                                stateAddingPOI = true
+                                
                             }
                         
                         Image(systemName: "arrow.triangle.swap")
@@ -164,6 +163,8 @@ struct ContentView: View {
                     //Spacer()
                     
                 }.padding()
+                
+                
                 
                 
             }

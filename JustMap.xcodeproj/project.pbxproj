@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
 		52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52779A7F25FA64B000CE50EE /* POIControlsView.swift */; };
 		529B5C4425F9E92A00BACDA8 /* TrackControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLInfoView.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
 		529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackControlsView.swift; sourceTree = "<group>"; };
@@ -45,13 +47,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		521A0CB325FB4D61001FA9A7 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */,
+				52779A7F25FA64B000CE50EE /* POIControlsView.swift */,
+				521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				52D3A93825E68310001A50C1 /* MapView.swift */,
-				529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */,
-				52779A7F25FA64B000CE50EE /* POIControlsView.swift */,
+				521A0CB325FB4D61001FA9A7 /* Controls */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,6 +199,7 @@
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				52F3367A25F7DDCE002C0B1E /* Track.swift in Sources */,
 				52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */,
+				521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

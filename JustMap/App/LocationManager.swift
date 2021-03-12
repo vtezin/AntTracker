@@ -43,7 +43,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             location = $0
             region = MKCoordinateRegion(center: center, span: span)            
             
-            if trackRecording && Int(location.horizontalAccuracy) <= 10 {
+            if trackRecording && Int(location.horizontalAccuracy) <= 5 {
                 //print("\($0.coordinate)")
                 currentTrack.points.append($0)
             }

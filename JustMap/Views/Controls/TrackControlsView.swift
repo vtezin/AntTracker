@@ -24,7 +24,7 @@ struct TrackControlsView: View {
         VStack{
             
             HStack {
-                Text("\(locationManager.currentTrack.totalDistance()) meters")
+                Text(locationManager.currentTrack.totalDistanceString())
             }
             .padding(.bottom)
             
