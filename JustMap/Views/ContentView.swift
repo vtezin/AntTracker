@@ -11,6 +11,7 @@ import MapKit
 struct ContentView: View {
     
     @State private var mapType: MKMapType = .hybrid
+    //@State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     @State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     @State private var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     @State private var needChangeMapView = false
@@ -22,6 +23,8 @@ struct ContentView: View {
     
     @State private var showRecordTrackControls = false
     @State private var trackRecordingMode = TrackRecordingModes.stop
+    @State private var showAdditionalControls = false
+    @State private var fixCenterMapAtCL = false
     
     var body: some View {
         
@@ -29,108 +32,45 @@ struct ContentView: View {
             
             VStack {
                 
-                MapView(mapType: mapType, center: $center, wasFirstChangeVR: false, span: $span, needChangeMapView: $needChangeMapView, currentTrack: $clManager.currentTrack)
-                    .edgesIgnoringSafeArea(.top)
+                MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, needChangeMapView: $needChangeMapView, fixCenterMapAtCL: $fixCenterMapAtCL)
+                    //.edgesIgnoringSafeArea(.top)
+//                MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, needChangeMapView: $needChangeMapView, fixCenterMapAtCL: $fixCenterMapAtCL)
                 
             }
-            
-            VStack{
+            .onAppear(perform: {
                 
-                //top
-                HStack {
-                    
-                    Image(systemName: mapType == .standard ? "globe" : "map")
-                        .modifier(MapButton())
-                        .onTapGesture(count: 1) {
-                            if mapType == .standard {
-                                mapType = .hybrid
-                            } else {
-                                mapType = .standard
-                            }
-                            
-                            needChangeMapView = true
-                        }
-                    
-                    Spacer()
-                    
-                    Image(systemName: "gear")
-                    .modifier(MapButton())
-                    
-                }.padding()
-                
-                Spacer()
-                
-                //center
-                HStack {
-                    
-                    Spacer()
-                    
-                    VStack{
-                        
-                        Spacer()
-                        
-                        Image(systemName: "plus")
-                            .modifier(MapButton())
-                            .font(.title)
-                            .onTapGesture() {
-                                let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
-                                span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                        longitudeDelta: newDelta)
-                                needChangeMapView = true
-                            }
-                        
-                        Image(systemName: "minus")
-                            .modifier(MapButton())
-                            .font(.title)
-                            .padding(.top)
-                            .onTapGesture() {
-                                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
-                                
-                                span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                                        longitudeDelta: newDelta)
-                                
-                                needChangeMapView = true
-                            }
-                        
-                        Spacer()
-                        
-                        Image(systemName: mapShowsCurrentLocation() ? "location" : "location")
-                            .modifier(MapButton())
-                            .font(.title)
-                            .onTapGesture(count: 2) {
-                                span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
-                                                        longitudeDelta: minSpan * 2)
-                                center = clManager.region.center
-                                needChangeMapView = true
-                            }
-                            .onTapGesture(count: 1) {
-                                center = clManager.region.center
-                                needChangeMapView = true
-                            }
-                        Text(" +/- \(Int(clManager.location.horizontalAccuracy)) m")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .padding(5)
-                            .background(Color(UIColor.systemBackground).opacity(0.5).clipShape(RoundedRectangle(cornerRadius: 5)))
-                        
-                    }
-                    
-                    
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    center = clManager.region.center
+                    needChangeMapView = true
+                    //print("\(clManager.region.center)")
                 }
-                .padding(.horizontal)
                 
-                Spacer()
+            })
+            
+            
+            HStack{
                 
-                //bottom
-                HStack {
+                //left - additional controls
+                VStack{
                     
-                    VStack{
+                    Spacer()
+                    
+                    if showAdditionalControls {
+                        
+                        Image(systemName: "gear")
+                            .modifier(MapButton())
+                        
+                        Image(systemName: mapType == .standard ? "globe" : "map")
+                            .modifier(MapButton())
+                            .onTapGesture(count: 1) {
+                                                                
+                                mapType = mapType == .standard ? .hybrid : .standard
+                                needChangeMapView = true
+                                
+                            }
                         
                         Image(systemName: "mappin.and.ellipse")
                             .modifier(MapButton())
-                            .onTapGesture() {
-                                
-                            }
                         
                         Image(systemName: "arrow.triangle.swap")
                             .modifier(MapButton())
@@ -138,34 +78,94 @@ struct ContentView: View {
                             {
                                 withAnimation {
                                     showRecordTrackControls.toggle()
+                                    showAdditionalControls = false
                                 }
-                                
                             }
                             .overlay(
                                     Circle()
-                                        .stroke(Color(UIColor.systemBackground), lineWidth: showRecordTrackControls ? 2 : 0)
+                                        .stroke(Color(UIColor.systemBackground),
+                                                lineWidth: showRecordTrackControls ? 2 : 0)
                                 )
+                        
                     }
+                    
+                    Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
+                        .modifier(MapButton())
+                        .font(.title)
+                        .onTapGesture(count: 1) {
+                            withAnimation {
+                                showAdditionalControls.toggle()
+                            }
+                        }
+                    
+                }
+                .padding()
+                
+                //right
+                VStack{
+                    
+                    // zoom/loc
+                    VStack{
+                        
+                        HStack{
+                            
+                            Spacer()
+                            
+                            VStack{
+                                
+                                Text(" +/- \(Int(clManager.location.horizontalAccuracy)) m")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .padding(5)
+                                    .background(Color(UIColor.systemBackground).opacity(0.5).clipShape(RoundedRectangle(cornerRadius: 5)))
+                                
+                                Spacer()
+                                Spacer()
+                                
+                                buttonZoomIn
+                                    .modifier(MapButton())
+                                    .font(.title)
+                                
+                                buttonZoomOut
+                                    .modifier(MapButton())
+                                    .font(.largeTitle)
+                                    .padding(.top)
+                                
+                                Spacer()
+                                
+                                buttonCurLocation
+                                    .modifier(MapButton())
+                                    .font(.title)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color(UIColor.systemBackground),
+                                                    lineWidth: fixCenterMapAtCL ? 2 : 0)
+                                    )
+                                
+                                Spacer()
+
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    // panel
                     
                     if showRecordTrackControls {
                         
                         HStack {
-                            Spacer()
                             TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
                                 .modifier(MapControl())
-                            Spacer()
                         }
                         
                     } else {
                         Spacer()
                     }
                     
-                    //Spacer()
-                    
-                }.padding()
-                
-                
-                
+                }
+                .padding()
                 
             }
             
@@ -173,17 +173,66 @@ struct ContentView: View {
         }
         
         
+    }
+    
+    var buttonZoomIn: some View {
         
-        
-        
-        
+        Image(systemName: "plus")
+//            .onTapGesture(count: 2) {
+//                span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
+//                                        longitudeDelta: minSpan * 2)
+//                center = clManager.region.center
+//                needChangeMapView = true
+//            }
+            .onTapGesture(count: 1) {
+                let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
+                span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                        longitudeDelta: newDelta)
+                needChangeMapView = true
+            }
         
     }
     
+    var buttonZoomOut: some View {
+        
+        Image(systemName: "minus")
+//            .onTapGesture(count: 2) {
+//                span = MKCoordinateSpan(latitudeDelta: maxSpan / 2,
+//                                        longitudeDelta: maxSpan / 2)
+//                center = clManager.region.center
+//                needChangeMapView = true
+//            }
+            .onTapGesture(count: 1) {
+                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
+                
+                span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                        longitudeDelta: newDelta)
+                
+                needChangeMapView = true
+                
+                
+                
+            }
+        
+    }
+    
+    var buttonCurLocation: some View {
+        
+        Image(systemName: mapShowsCurrentLocation() ? "location" : "location")
+            
+            .onTapGesture(count: 2) {
+                fixCenterMapAtCL.toggle()
+                needChangeMapView = true
+            }
+            .onTapGesture(count: 1) {
+                center = clManager.region.center
+                needChangeMapView = true
+            }
+ 
+    }
+    
     func mapShowsCurrentLocation() -> Bool {
-        
         return true
-        
     }
     
     func zoomMultiplikator() -> Double {

@@ -15,6 +15,7 @@ struct MapButton: ViewModifier {
             //.background(Color(UIColor.systemBackground).opacity(0.4))
             //.foregroundColor(.primary)
             .modifier(MapControl())
+            .font(.title)
             .clipShape(Circle())
     }
 }

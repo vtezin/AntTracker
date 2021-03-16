@@ -59,8 +59,7 @@ struct TrackControlsView: View {
                 Spacer()
                 
             }
-            //.padding(.horizontal)
-            
+                
         }
     
     }

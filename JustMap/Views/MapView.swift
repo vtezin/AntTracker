@@ -10,15 +10,21 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
-    let mapType: MKMapType
-    //let region: MKCoordinateRegion
-    @Binding var center: CLLocationCoordinate2D
-    var wasFirstChangeVR: Bool
-    //@Binding var center: CLLocationCoordinate2D
+    @Binding var mapType: MKMapType
     
+    //center & span
+    @Binding var center: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
-    @Binding var needChangeMapView: Bool
+    
+    //current location
+    @Binding var currentLocation: CLLocation
+    
+    //track visualisation
     @Binding var currentTrack: Track
+        
+    @Binding var needChangeMapView: Bool
+    @Binding var fixCenterMapAtCL: Bool
+    
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -30,31 +36,27 @@ struct MapView: UIViewRepresentable {
         let region = MKCoordinateRegion(center: center, span: span)
         mapView.setRegion(region, animated: false)
         
-        mapView.userTrackingMode = .follow
+        mapView.userTrackingMode = .none
         mapView.showsUserLocation = true
         mapView.showsScale = true
-
+        mapView.showsCompass = true
+        mapView.showsBuildings = true
+    
         return mapView
     }
 
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<MapView>) {
         
         view.mapType = mapType
+
+            //var span = view.region.span
+            //current span = view.region.span
         
         if needChangeMapView {
-            
-            //var span = view.region.span
-            
-            //current span = view.region.span
-            //let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: true)
-            
-            view.userTrackingMode = .none
-            
-            
         }
-        
+
         if currentTrack.points.count == 0 && view.overlays.count > 0 {
             let overlays = view.overlays
             view.removeOverlays(overlays)
@@ -75,6 +77,7 @@ struct MapView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, MKMapViewDelegate {
+        
         var parent: MapView
 
         init(_ parent: MapView) {
@@ -82,10 +85,18 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-            if parent.wasFirstChangeVR {
-                parent.needChangeMapView = true
-            }
-            parent.wasFirstChangeVR = true
+            
+            //print(#function)
+            
+//            if parent.fixCenterMapAtCL {
+//                let clCenter = CLLocationCoordinate2D(latitude: parent.currentLocation.coordinate.latitude,
+//                                                      longitude: parent.currentLocation.coordinate.longitude)
+//
+//                parent.center = clCenter
+//                parent.needChangeMapView = true
+//
+//            }
+            
             parent.span = mapView.region.span
             parent.center = mapView.region.center
             
@@ -95,14 +106,14 @@ struct MapView: UIViewRepresentable {
             
         }
         
-        
+        //rendering track
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
                         
             if (overlay is MKPolyline) {
                 
                 let pr = MKPolylineRenderer(overlay: overlay)
-                pr.strokeColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-                pr.lineWidth = 5
+                pr.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                pr.lineWidth = 3
                 return pr
             }
             
