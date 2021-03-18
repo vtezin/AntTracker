@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct JustMapApp: App {
+    
+    @StateObject var clManager = LocationManager()
+    //@StateObject var currentTrack = Track()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+            .environmentObject(clManager)
         }
     }
 }

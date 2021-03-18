@@ -11,15 +11,15 @@ import MapKit
 struct ContentView: View {
     
     @State private var mapType: MKMapType = .hybrid
-    //@State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     @State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+    
     @State private var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     @State private var needChangeMapView = false
     
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
     
-    @StateObject private var clManager = LocationManager()
+    @EnvironmentObject var clManager: LocationManager // environment object
     
     @State private var showRecordTrackControls = false
     @State private var trackRecordingMode = TrackRecordingModes.stop
@@ -45,7 +45,7 @@ struct ContentView: View {
             }
             .onAppear(perform: {
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     center = clManager.region.center
                     needChangeMapView = true
                     //print("\(clManager.region.center)")
