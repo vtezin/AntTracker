@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 521345682601C95500F7A43C /* Model.xcdatamodeld */; };
+		521345AF2601CD4400F7A43C /* CoreDataPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521345AE2601CD4400F7A43C /* CoreDataPersistence.swift */; };
 		521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
 		52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52779A7F25FA64B000CE50EE /* POIControlsView.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		521345692601C95500F7A43C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		521345AE2601CD4400F7A43C /* CoreDataPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistence.swift; sourceTree = "<group>"; };
 		521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLInfoView.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
@@ -47,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		521345B22601D2C000F7A43C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				521345AE2601CD4400F7A43C /* CoreDataPersistence.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		521A0CB325FB4D61001FA9A7 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +115,7 @@
 		52D3A92725E682D4001A50C1 /* JustMap */ = {
 			isa = PBXGroup;
 			children = (
+				521345B22601D2C000F7A43C /* CoreData */,
 				529B5C4225F9E8AE00BACDA8 /* App */,
 				529B5C3E25F9E84A00BACDA8 /* Views */,
 				529B5C4125F9E87600BACDA8 /* Model */,
@@ -110,6 +123,7 @@
 				52D3A92C25E682D7001A50C1 /* Assets.xcassets */,
 				52D3A93125E682D7001A50C1 /* Info.plist */,
 				52D3A92E25E682D7001A50C1 /* Preview Content */,
+				521345682601C95500F7A43C /* Model.xcdatamodeld */,
 			);
 			path = JustMap;
 			sourceTree = "<group>";
@@ -191,6 +205,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521345AF2601CD4400F7A43C /* CoreDataPersistence.swift in Sources */,
 				529B5C4425F9E92A00BACDA8 /* TrackControlsView.swift in Sources */,
 				52D3A93D25E6A96D001A50C1 /* LocationManager.swift in Sources */,
 				52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */,
@@ -198,6 +213,7 @@
 				52D3A92925E682D4001A50C1 /* JustMapApp.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				52F3367A25F7DDCE002C0B1E /* Track.swift in Sources */,
+				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
 				52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */,
 				521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */,
 			);
@@ -388,6 +404,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		521345682601C95500F7A43C /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				521345692601C95500F7A43C /* Model.xcdatamodel */,
+			);
+			currentVersion = 521345692601C95500F7A43C /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 52D3A91D25E682D4001A50C1 /* Project object */;
 }

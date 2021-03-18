@@ -20,11 +20,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             manager.allowsBackgroundLocationUpdates = trackRecording
         }
     }
-    @Published var currentTrack : Track
+    @Published var currentTrack : CurrentTrack
     
     override init() {
         
-        self.currentTrack = Track()
+        self.currentTrack = CurrentTrack()
         self.trackRecording = false
         
         super.init()

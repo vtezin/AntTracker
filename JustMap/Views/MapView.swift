@@ -20,10 +20,10 @@ struct MapView: UIViewRepresentable {
     @Binding var currentLocation: CLLocation
     
     //track visualisation
-    @Binding var currentTrack: Track
+    @Binding var currentTrack: CurrentTrack
         
-    @Binding var needChangeMapView: Bool
-    @Binding var fixCenterMapAtCL: Bool
+    @Binding var mapChangedByButton: Bool
+    @Binding var followCL: Bool
     
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
@@ -52,7 +52,7 @@ struct MapView: UIViewRepresentable {
             //var span = view.region.span
             //current span = view.region.span
         
-        if needChangeMapView {
+        if mapChangedByButton || followCL {
             let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: true)
         }
@@ -97,11 +97,16 @@ struct MapView: UIViewRepresentable {
 //
 //            }
             
-            parent.span = mapView.region.span
-            parent.center = mapView.region.center
+            if !parent.followCL {
+                parent.center = mapView.region.center
+                parent.span = mapView.region.span
+            }
             
-            if parent.needChangeMapView {
-                parent.needChangeMapView = false
+            
+            
+            
+            if parent.mapChangedByButton {
+                parent.mapChangedByButton = false
             }
             
         }

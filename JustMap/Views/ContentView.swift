@@ -24,7 +24,7 @@ struct ContentView: View {
     @State private var showRecordTrackControls = false
     @State private var trackRecordingMode = TrackRecordingModes.stop
     @State private var showAdditionalControls = false
-    @State private var fixCenterMapAtCL = false
+    @State private var followCL = false
     
     var body: some View {
         
@@ -32,9 +32,15 @@ struct ContentView: View {
             
             VStack {
                 
-                MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, needChangeMapView: $needChangeMapView, fixCenterMapAtCL: $fixCenterMapAtCL)
+                if followCL {
+                    MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                    
+                } else {
+                    
+                    MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                }
+                
                     //.edgesIgnoringSafeArea(.top)
-//                MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, needChangeMapView: $needChangeMapView, fixCenterMapAtCL: $fixCenterMapAtCL)
                 
             }
             .onAppear(perform: {
@@ -123,12 +129,7 @@ struct ContentView: View {
                                 Spacer()
                                 
                                 buttonZoomIn
-                                    .modifier(MapButton())
-                                    .font(.title)
-                                
                                 buttonZoomOut
-                                    .modifier(MapButton())
-                                    .font(.largeTitle)
                                     .padding(.top)
                                 
                                 Spacer()
@@ -139,7 +140,7 @@ struct ContentView: View {
                                     .overlay(
                                         Circle()
                                             .stroke(Color(UIColor.systemBackground),
-                                                    lineWidth: fixCenterMapAtCL ? 2 : 0)
+                                                    lineWidth: followCL ? 2 : 0)
                                     )
                                 
                                 Spacer()
@@ -178,6 +179,8 @@ struct ContentView: View {
     var buttonZoomIn: some View {
         
         Image(systemName: "plus")
+            .modifier(MapButton())
+            .font(.title)
 //            .onTapGesture(count: 2) {
 //                span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
 //                                        longitudeDelta: minSpan * 2)
@@ -196,6 +199,8 @@ struct ContentView: View {
     var buttonZoomOut: some View {
         
         Image(systemName: "minus")
+            .modifier(MapButton())
+            .font(.largeTitle)
 //            .onTapGesture(count: 2) {
 //                span = MKCoordinateSpan(latitudeDelta: maxSpan / 2,
 //                                        longitudeDelta: maxSpan / 2)
@@ -203,14 +208,13 @@ struct ContentView: View {
 //                needChangeMapView = true
 //            }
             .onTapGesture(count: 1) {
+                
                 let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
                 
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
                 
                 needChangeMapView = true
-                
-                
                 
             }
         
@@ -221,7 +225,7 @@ struct ContentView: View {
         Image(systemName: mapShowsCurrentLocation() ? "location" : "location")
             
             .onTapGesture(count: 2) {
-                fixCenterMapAtCL.toggle()
+                followCL.toggle()
                 needChangeMapView = true
             }
             .onTapGesture(count: 1) {
