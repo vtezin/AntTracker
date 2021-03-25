@@ -54,6 +54,11 @@ struct ContentView: View {
                 }
                 
             })
+            .onTapGesture() {
+                withAnimation {
+                    showAdditionalControls = false
+                }
+            }
             
             // layer 2 - info
             
@@ -110,27 +115,13 @@ struct ContentView: View {
                         
                     }
                     
-                    if showTrackButton{
-                        Image(systemName: "arrow.triangle.swap")
-                            .modifier(MapButton())
-                            .onTapGesture()
-                            {
-                                withAnimation {
-                                    showRecordTrackControls.toggle()
-                                    showAdditionalControls = false
-                                }
-                            }
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.primary,
-                                            lineWidth: showRecordTrackControls ? 2 : 0)
-                            )
+                    if showTrackRecordingButton{
+                        buttonTrackRecording
                     }
                                         
                     
                     Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
                         .modifier(MapButton())
-                        .font(.title)
                         .onTapGesture(count: 1) {
                             withAnimation {
                                 showAdditionalControls.toggle()
@@ -193,7 +184,7 @@ struct ContentView: View {
         
     }
     
-    var showTrackButton: Bool {
+    var showTrackRecordingButton: Bool {
         return showAdditionalControls || showRecordTrackControls || trackRecordingMode == .record
     }
     
@@ -219,17 +210,35 @@ struct ContentView: View {
             .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
     }
     
+    var buttonTrackRecording: some View {
+        
+        Image(systemName: "arrow.triangle.swap")
+            .modifier(MapButton())
+            .onTapGesture()
+            {
+                withAnimation {
+                    showRecordTrackControls.toggle()
+                    showAdditionalControls = false
+                }
+            }
+            .overlay(
+                Circle()
+                    .stroke(Color.secondary,
+                            lineWidth: showRecordTrackControls ? 3 : 0)
+            )
+        
+    }
+    
     var buttonZoomIn: some View {
         
         Image(systemName: "plus")
             .modifier(MapButton())
-            .font(.title)
-//            .onTapGesture(count: 2) {
-//                span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
-//                                        longitudeDelta: minSpan * 2)
-//                center = clManager.region.center
-//                needChangeMapView = true
-//            }
+            .onTapGesture(count: 2) {
+                span = MKCoordinateSpan(latitudeDelta: minSpan * 4,
+                                        longitudeDelta: minSpan * 4)
+                center = clManager.region.center
+                needChangeMapView = true
+            }
             .onTapGesture(count: 1) {
                 let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
@@ -243,7 +252,14 @@ struct ContentView: View {
         
         Image(systemName: "minus")
             .modifier(MapButton())
-            .font(.largeTitle)
+            
+            .onTapGesture(count: 2) {
+                span = MKCoordinateSpan(latitudeDelta: maxSpan / 30,
+                                        longitudeDelta: maxSpan / 30)
+                center = clManager.region.center
+                needChangeMapView = true
+            }
+            
             .onTapGesture(count: 1) {
 
                 let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
