@@ -56,7 +56,8 @@ struct ContentView: View {
             })
             .onTapGesture() {
                 withAnimation {
-                    showAdditionalControls = false
+                    //showAdditionalControls = false
+                    showAdditionalControls.toggle()
                 }
             }
             
@@ -66,21 +67,17 @@ struct ContentView: View {
                 
                 // panel
                 
-                if showRecordTrackControls {
+                if showRecordTrackControls || clManager.trackRecording {
                     
-                    HStack {
-                        TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
-                            .modifier(MapControl())
-                    }
+                    TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
+                        .modifier(MapControl())
                     
                 }
                 
                 Spacer()
                 
-                //HStack {
                     gpsAccuracyInfo()
                         .padding()
-                //}
                 
                 
             }
@@ -119,14 +116,16 @@ struct ContentView: View {
                         buttonTrackRecording
                     }
                                         
-                    
-                    Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
-                        .modifier(MapButton())
-                        .onTapGesture(count: 1) {
-                            withAnimation {
-                                showAdditionalControls.toggle()
-                            }
-                        }
+//                    if !showAdditionalControls {
+//
+//                    Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
+//                        .modifier(MapButton())
+//                        .onTapGesture(count: 1) {
+//                            withAnimation {
+//                                showAdditionalControls.toggle()
+//                            }
+//                        }
+//                    }
                     
                 }
                 .padding()
@@ -185,7 +184,7 @@ struct ContentView: View {
     }
     
     var showTrackRecordingButton: Bool {
-        return showAdditionalControls || showRecordTrackControls || trackRecordingMode == .record
+        return showAdditionalControls || showRecordTrackControls || clManager.trackRecording
     }
     
     func gpsAccuracyInfo() -> some View {
@@ -223,8 +222,8 @@ struct ContentView: View {
             }
             .overlay(
                 Circle()
-                    .stroke(Color.secondary,
-                            lineWidth: showRecordTrackControls ? 3 : 0)
+                    .stroke(clManager.trackRecording ? Color.blue : Color.secondary,
+                            lineWidth: clManager.trackRecording ? 3 : 0)
             )
         
     }
@@ -237,12 +236,14 @@ struct ContentView: View {
                 span = MKCoordinateSpan(latitudeDelta: minSpan * 4,
                                         longitudeDelta: minSpan * 4)
                 center = clManager.region.center
+                showAdditionalControls = false
                 needChangeMapView = true
             }
             .onTapGesture(count: 1) {
                 let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
+                showAdditionalControls = false
                 needChangeMapView = true
             }
         
@@ -254,9 +255,10 @@ struct ContentView: View {
             .modifier(MapButton())
             
             .onTapGesture(count: 2) {
-                span = MKCoordinateSpan(latitudeDelta: maxSpan / 30,
-                                        longitudeDelta: maxSpan / 30)
+                span = MKCoordinateSpan(latitudeDelta: maxSpan / 500,
+                                        longitudeDelta: maxSpan / 500)
                 center = clManager.region.center
+                showAdditionalControls = false
                 needChangeMapView = true
             }
             
@@ -266,7 +268,7 @@ struct ContentView: View {
 
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
-
+                showAdditionalControls = false
                 needChangeMapView = true
 
             }
@@ -280,10 +282,12 @@ struct ContentView: View {
             .onTapGesture(count: 2) {
                 followCL.toggle()
                 needChangeMapView = true
+                showAdditionalControls = false
             }
             .onTapGesture(count: 1) {
                 center = clManager.region.center
                 needChangeMapView = true
+                showAdditionalControls = false
             }
  
     }
