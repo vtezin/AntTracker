@@ -41,9 +41,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
             
             location = $0
-            region = MKCoordinateRegion(center: center, span: span)            
+            region = MKCoordinateRegion(center: center, span: span)
             
-            if trackRecording && Int(location.horizontalAccuracy) <= 5 {
+            if trackRecording && Int(location.horizontalAccuracy) <= 10 {
                 //print("\($0.coordinate)")
                 currentTrack.points.append($0)
             }
@@ -53,5 +53,34 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
     }
     
+    
+}
+
+extension CLLocation {
+    
+    func speedKmH() -> String {
+        
+        let doubleSpeed = Double(self.speed)
+        //convert to km/h
+        let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
+        return String(format: "%.2f", doubleSpeedKmH)
+        
+    }
+    
+}
+
+extension CLLocationSpeed {
+    
+    func doubleKmH() -> Double {
+        return self/1000 * 60 * 60
+    }
+    
+}
+
+extension Double {
+    
+    func string2s() -> String {
+        return String(format: "%.2f", self)
+    }
     
 }

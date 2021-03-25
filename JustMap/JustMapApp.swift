@@ -11,7 +11,6 @@ import SwiftUI
 struct JustMapApp: App {
     
     @StateObject var clManager = LocationManager()
-    //@StateObject var currentTrack = Track()
     
     var body: some Scene {
         WindowGroup {

@@ -21,26 +21,55 @@ struct TrackControlsView: View {
     
     var body: some View {
         
-        VStack{
+        VStack {
             
-            HStack {
-                Text(locationManager.currentTrack.totalDistanceString())
-            }
-            .padding(.bottom)
             
             HStack {
                 
-                Spacer()
-                
-                Image(systemName: locationManager.trackRecording ? "pause.circle" : "play.circle")
-                    .font(.largeTitle)
-                    .onTapGesture() {
-                        locationManager.trackRecording.toggle()
-                    }
-                
-                if locationManager.currentTrack.points.count > 0 && !locationManager.trackRecording {
+                VStack{
                     
-                    Image(systemName: "trash.circle")
+                    HStack {
+                        
+                        Image(systemName: "folder")
+                            .font(.largeTitle)
+                            .onTapGesture() {
+                                
+                            }
+                        
+                        Spacer()
+                        
+                        Text(locationManager.currentTrack.totalDistanceString(maxAccuracy: 10))
+                            .font(.largeTitle)
+                            .padding()
+                        
+                        Spacer()
+                        
+                        Image(systemName: locationManager.trackRecording ? "pause.circle" : "play.circle")
+                            .font(.largeTitle)
+                            .imageScale(.large)
+                            .onTapGesture() {
+                                locationManager.trackRecording.toggle()
+                            }
+                        
+                    }
+                    
+                    HStack {
+                        Image(systemName: "hare")
+                        Text("\(locationManager.currentTrack.lastSpeed().doubleKmH().string2s()) (max \(locationManager.currentTrack.maxSpeed().doubleKmH().string2s()) ) km/h")
+                    }
+                    .padding(.bottom)
+                    
+                }
+                
+            }
+            
+            if locationManager.currentTrack.points.count > 0 && !locationManager.trackRecording {
+                
+                HStack {
+                    
+                    Spacer()
+                    
+                    Image(systemName: "trash")
                         .font(.largeTitle)
                         .onTapGesture() {
                             locationManager.trackRecording = false
@@ -48,20 +77,23 @@ struct TrackControlsView: View {
                             recordingMode = .stop
                         }
                     
+                    Spacer()
+                    
                     Image(systemName: "square.and.arrow.down")
                         .font(.largeTitle)
                         .onTapGesture() {
                             
                         }
                     
+                    Spacer()
+                    
+                    
                 }
                 
-                Spacer()
-                
             }
-                
+            
         }
-    
+            
     }
 }
 

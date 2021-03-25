@@ -72,6 +72,7 @@
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				52D3A93825E68310001A50C1 /* MapView.swift */,
 				521A0CB325FB4D61001FA9A7 /* Controls */,
@@ -91,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				52D3A93C25E6A96D001A50C1 /* LocationManager.swift */,
-				5226028B25F4C83500703DCE /* Modifiers.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";

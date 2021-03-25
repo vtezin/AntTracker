@@ -30,6 +30,8 @@ struct ContentView: View {
         
         ZStack {
             
+            
+            //first layer - map
             VStack {
                 
                 if followCL {
@@ -53,7 +55,34 @@ struct ContentView: View {
                 
             })
             
+            // layer 2 - info
             
+            VStack{
+                
+                // panel
+                
+                if showRecordTrackControls {
+                    
+                    HStack {
+                        TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
+                            .modifier(MapControl())
+                    }
+                    
+                }
+                
+                Spacer()
+                
+                //HStack {
+                    gpsAccuracyInfo()
+                        .padding()
+                //}
+                
+                
+            }
+            
+            
+            
+            // layer 3 - controls
             HStack{
                 
                 //left - additional controls
@@ -78,6 +107,10 @@ struct ContentView: View {
                         Image(systemName: "mappin.and.ellipse")
                             .modifier(MapButton())
                         
+                        
+                    }
+                    
+                    if showTrackButton{
                         Image(systemName: "arrow.triangle.swap")
                             .modifier(MapButton())
                             .onTapGesture()
@@ -88,12 +121,12 @@ struct ContentView: View {
                                 }
                             }
                             .overlay(
-                                    Circle()
-                                        .stroke(Color(UIColor.systemBackground),
-                                                lineWidth: showRecordTrackControls ? 2 : 0)
-                                )
-                        
+                                Circle()
+                                    .stroke(Color.primary,
+                                            lineWidth: showRecordTrackControls ? 2 : 0)
+                            )
                     }
+                                        
                     
                     Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
                         .modifier(MapButton())
@@ -117,13 +150,8 @@ struct ContentView: View {
                             
                             Spacer()
                             
-                            VStack{
+                            VStack(alignment: .trailing){
                                 
-                                Text(" +/- \(Int(clManager.location.horizontalAccuracy)) m")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .padding(5)
-                                    .background(Color(UIColor.systemBackground).opacity(0.5).clipShape(RoundedRectangle(cornerRadius: 5)))
                                 
                                 Spacer()
                                 Spacer()
@@ -143,7 +171,7 @@ struct ContentView: View {
                                                     lineWidth: followCL ? 2 : 0)
                                     )
                                 
-                                Spacer()
+                                //Spacer()
 
                                 
                             }
@@ -152,18 +180,7 @@ struct ContentView: View {
                         
                     }
                     
-                    // panel
-                    
-                    if showRecordTrackControls {
-                        
-                        HStack {
-                            TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
-                                .modifier(MapControl())
-                        }
-                        
-                    } else {
-                        Spacer()
-                    }
+                  
                     
                 }
                 .padding()
@@ -174,6 +191,32 @@ struct ContentView: View {
         }
         
         
+    }
+    
+    var showTrackButton: Bool {
+        return showAdditionalControls || showRecordTrackControls || trackRecordingMode == .record
+    }
+    
+    func gpsAccuracyInfo() -> some View {
+        
+        let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
+        
+        var colorAccuracy = Color.red
+        
+        switch gpsAccuracy {
+        case ..<20:
+            colorAccuracy = Color.green
+        case 20..<100:
+            colorAccuracy = Color.yellow
+        default:
+            colorAccuracy = Color.red
+        }
+        
+        return Text("gps +/- \(gpsAccuracy) m")
+            .font(.caption)
+            .foregroundColor(.primary)
+            .padding(5)
+            .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
     }
     
     var buttonZoomIn: some View {
@@ -201,28 +244,22 @@ struct ContentView: View {
         Image(systemName: "minus")
             .modifier(MapButton())
             .font(.largeTitle)
-//            .onTapGesture(count: 2) {
-//                span = MKCoordinateSpan(latitudeDelta: maxSpan / 2,
-//                                        longitudeDelta: maxSpan / 2)
-//                center = clManager.region.center
-//                needChangeMapView = true
-//            }
             .onTapGesture(count: 1) {
-                
+
                 let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
-                
+
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
-                
+
                 needChangeMapView = true
-                
+
             }
         
     }
     
     var buttonCurLocation: some View {
         
-        Image(systemName: mapShowsCurrentLocation() ? "location" : "location")
+        Image(systemName: "location.north")
             
             .onTapGesture(count: 2) {
                 followCL.toggle()
@@ -235,9 +272,6 @@ struct ContentView: View {
  
     }
     
-    func mapShowsCurrentLocation() -> Bool {
-        return true
-    }
     
     func zoomMultiplikator() -> Double {
         

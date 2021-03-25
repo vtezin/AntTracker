@@ -62,10 +62,12 @@ struct MapView: UIViewRepresentable {
             view.removeOverlays(overlays)
         }
         
-        if currentTrack.points.count - 1 > view.overlays.count {
+        let trackPoints = currentTrack.accuracyPoints(maxAccuracy: 10)
+        
+        if trackPoints.count - 1 > view.overlays.count {
 
-            let oldCoordinates = currentTrack.points[currentTrack.points.count - 2].coordinate
-            let newCoordinates = currentTrack.points[currentTrack.points.count - 1].coordinate
+            let oldCoordinates = trackPoints[trackPoints.count - 2].coordinate
+            let newCoordinates = trackPoints[trackPoints.count - 1].coordinate
             var area = [oldCoordinates, newCoordinates]
             let polyline = MKPolyline(coordinates: &area, count: area.count)
             view.addOverlay(polyline)
