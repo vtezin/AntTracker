@@ -22,8 +22,14 @@ struct MapButton: ViewModifier {
         .imageScale(.small)
         .padding(15)
         .modifier(MapControlColors())
-        .font(.title)
+        //.font(.title)
+        .font(Font.title.weight(.light))
         .clipShape(Circle())
+        .overlay(
+            Circle()
+                .stroke(Color.systemBackground.opacity(0.8),
+                        lineWidth: 1)
+        )
         
     }
 }

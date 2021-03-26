@@ -153,13 +153,6 @@ struct ContentView: View {
                                 Spacer()
                                 
                                 buttonCurLocation
-                                    .modifier(MapButton())
-                                    .font(.title)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(Color(UIColor.systemBackground),
-                                                    lineWidth: followCL ? 2 : 0)
-                                    )
                                 
                                 //Spacer()
 
@@ -222,7 +215,7 @@ struct ContentView: View {
             }
             .overlay(
                 Circle()
-                    .stroke(clManager.trackRecording ? Color.blue : Color.secondary,
+                    .stroke(Color.systemBackground,
                             lineWidth: clManager.trackRecording ? 3 : 0)
             )
         
@@ -278,6 +271,12 @@ struct ContentView: View {
     var buttonCurLocation: some View {
         
         Image(systemName: "location.north")
+            .modifier(MapButton())
+            .overlay(
+                Circle()
+                    .stroke(Color.systemBackground,
+                            lineWidth: followCL ? 3 : 0)
+            )
             
             .onTapGesture(count: 2) {
                 followCL.toggle()

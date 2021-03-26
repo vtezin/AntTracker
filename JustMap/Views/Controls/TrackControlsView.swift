@@ -31,7 +31,8 @@ struct TrackControlsView: View {
                     HStack {
                         
                         Image(systemName: "folder")
-                            .font(.largeTitle)
+                            .font(Font.title.weight(.light))
+                            //.imageScale(.medium)
                             .onTapGesture() {
                                 
                             }
@@ -45,8 +46,8 @@ struct TrackControlsView: View {
                         Spacer()
                         
                         Image(systemName: locationManager.trackRecording ? "pause.circle" : "play.circle")
-                            .font(.largeTitle)
-                            .imageScale(.large)
+                            .font(Font.largeTitle.weight(.light))
+                            //.imageScale(.large)
                             .onTapGesture() {
                                 locationManager.trackRecording.toggle()
                             }
@@ -70,7 +71,7 @@ struct TrackControlsView: View {
                     Spacer()
                     
                     Image(systemName: "trash")
-                        .font(.largeTitle)
+                        .font(Font.title.weight(.light))
                         .onTapGesture() {
                             locationManager.trackRecording = false
                             locationManager.currentTrack.reset()
@@ -80,7 +81,7 @@ struct TrackControlsView: View {
                     Spacer()
                     
                     Image(systemName: "square.and.arrow.down")
-                        .font(.largeTitle)
+                        .font(Font.title.weight(.light))
                         .onTapGesture() {
                             
                         }
