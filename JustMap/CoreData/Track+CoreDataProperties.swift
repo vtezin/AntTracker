@@ -20,7 +20,7 @@ extension Track {
     @NSManaged public var finishDate: Date
     @NSManaged public var id: UUID?
     @NSManaged public var info: String
-    @NSManaged public var name: String
+    @NSManaged public var title: String
     @NSManaged public var showOnMap: Bool
     @NSManaged public var startDate: Date
     @NSManaged public var totalDistance: Int64

@@ -18,6 +18,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var trackRecording: Bool {
         didSet {
             manager.allowsBackgroundLocationUpdates = trackRecording
+            UIApplication.shared.isIdleTimerDisabled = trackRecording
         }
     }
     @Published var currentTrack : CurrentTrack
@@ -44,10 +45,16 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             region = MKCoordinateRegion(center: center, span: span)
             
             if trackRecording && Int(location.horizontalAccuracy) <= 10 {
+                
                 //print("\($0.coordinate)")
+//                if currentTrack.points.count > 0 {
+//                    print("\($0.distance(from: currentTrack.points.last!))")
+//                }
+                
                 currentTrack.points.append($0)
+                
+                
             }
-            
             
         }
         

@@ -21,7 +21,6 @@ struct MapView: UIViewRepresentable {
     
     //track visualisation
     @Binding var currentTrack: CurrentTrack
-        
     @Binding var mapChangedByButton: Bool
     @Binding var followCL: Bool
     
@@ -64,13 +63,38 @@ struct MapView: UIViewRepresentable {
         
         let trackPoints = currentTrack.accuracyPoints(maxAccuracy: 10)
         
-        if trackPoints.count - 1 > view.overlays.count {
+        
+        if trackPoints.count > 1
+            && trackPoints.count - 1 > view.overlays.count
+        {
 
-            let oldCoordinates = trackPoints[trackPoints.count - 2].coordinate
-            let newCoordinates = trackPoints[trackPoints.count - 1].coordinate
-            var area = [oldCoordinates, newCoordinates]
-            let polyline = MKPolyline(coordinates: &area, count: area.count)
-            view.addOverlay(polyline)
+//            let oldCoordinates = trackPoints[trackPoints.count - 2].coordinate
+//            let newCoordinates = trackPoints[trackPoints.count - 1].coordinate
+//            var area = [oldCoordinates, newCoordinates]
+//            let polyline = MKPolyline(coordinates: &area, count: area.count)
+//            view.addOverlay(polyline)
+            
+//            var overlays = [MKPolyline]()
+//
+//            for pointIndex in 1...trackPoints.count - 1 {
+//
+//                let area = [trackPoints[pointIndex-1].coordinate, trackPoints[pointIndex].coordinate]
+//                let polyline = MKPolyline(coordinates: area, count: area.count)
+//                overlays.append(polyline)
+//
+//            }
+//            view.removeOverlays(view.overlays)
+//            view.addOverlays(overlays)
+            
+            
+            var coordinates = [CLLocationCoordinate2D]()
+            for point in trackPoints {
+                coordinates.append(point.coordinate)
+            }
+            
+            let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
+            view.removeOverlays(view.overlays)
+            view.addOverlays([polyline])
             
         }
         
@@ -103,9 +127,6 @@ struct MapView: UIViewRepresentable {
                 parent.center = mapView.region.center
                 parent.span = mapView.region.span
             }
-            
-            
-            
             
             if parent.mapChangedByButton {
                 parent.mapChangedByButton = false

@@ -26,153 +26,162 @@ struct ContentView: View {
     @State private var showAdditionalControls = false
     @State private var followCL = false
     
+    @State var isNavigationBarHidden: Bool = true
+        
     var body: some View {
         
-        ZStack {
+        NavigationView{
             
-            
-            //first layer - map
-            VStack {
+            ZStack {
                 
-                if followCL {
-                    MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                //first layer - map
+                VStack {
                     
-                } else {
+                    if followCL {
+                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                        
+                    } else {
+                        
+                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                    }
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
-                }
-                
                     //.edgesIgnoringSafeArea(.top)
-                
-            }
-            .onAppear(perform: {
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    center = clManager.region.center
-                    needChangeMapView = true
-                    //print("\(clManager.region.center)")
-                }
-                
-            })
-            .onTapGesture() {
-                withAnimation {
-                    //showAdditionalControls = false
-                    showAdditionalControls.toggle()
-                }
-            }
-            
-            // layer 2 - info
-            
-            VStack{
-                
-                // panel
-                
-                if showRecordTrackControls || clManager.trackRecording {
-                    
-                    TrackControlsView(recordingMode: $trackRecordingMode, locationManager: clManager)
-                        .modifier(MapControl())
                     
                 }
+                .onAppear(perform: {
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        center = clManager.region.center
+                        needChangeMapView = true
+                        //print("\(clManager.region.center)")
+                    }
+                    
+                })
+                .onTapGesture() {
+                    withAnimation {
+                        //showAdditionalControls = false
+                        showAdditionalControls.toggle()
+                    }
+                }
                 
-                Spacer()
+                // layer 2 - info
                 
-                    gpsAccuracyInfo()
-                        .padding()
-                
-                
-            }
-            
-            
-            
-            // layer 3 - controls
-            HStack{
-                
-                //left - additional controls
                 VStack{
+                    
+                    // panel
+                    
+                    if showRecordTrackControls || clManager.trackRecording {
+                        
+                        TrackControlsView(isNavigationBarHidden: $isNavigationBarHidden, recordingMode: $trackRecordingMode, locationManager: clManager)
+                            .modifier(MapControl())
+                        
+                    }
                     
                     Spacer()
                     
-                    if showAdditionalControls {
-                        
-                        Image(systemName: "gear")
-                            .modifier(MapButton())
-                        
-                        Image(systemName: mapType == .standard ? "globe" : "map")
-                            .modifier(MapButton())
-                            .onTapGesture(count: 1) {
-                                                                
-                                mapType = mapType == .standard ? .hybrid : .standard
-                                needChangeMapView = true
-                                
-                            }
-                        
-                        Image(systemName: "mappin.and.ellipse")
-                            .modifier(MapButton())
-                        
-                        
-                    }
+                    gpsAccuracyInfo()
+                        .padding()
                     
-                    if showTrackRecordingButton{
-                        buttonTrackRecording
-                    }
-                                        
-//                    if !showAdditionalControls {
-//
-//                    Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
-//                        .modifier(MapButton())
-//                        .onTapGesture(count: 1) {
-//                            withAnimation {
-//                                showAdditionalControls.toggle()
-//                            }
-//                        }
-//                    }
                     
                 }
-                .padding()
                 
-                //right
-                VStack{
+                
+                
+                // layer 3 - controls
+                HStack{
                     
-                    // zoom/loc
+                    //left - additional controls
                     VStack{
                         
-                        HStack{
+                        Spacer()
+                        
+                        if showAdditionalControls {
                             
-                            Spacer()
+                            Image(systemName: "gear")
+                                .modifier(MapButton())
                             
-                            VStack(alignment: .trailing){
-                                
+                            Image(systemName: mapType == .standard ? "globe" : "map")
+                                .modifier(MapButton())
+                                .onTapGesture(count: 1) {
+                                    
+                                    mapType = mapType == .standard ? .hybrid : .standard
+                                    needChangeMapView = true
+                                    
+                                }
+                            
+                            Image(systemName: "mappin.and.ellipse")
+                                .modifier(MapButton())
+                            
+                            
+                        }
+                        
+                        if showTrackRecordingButton{
+                            buttonTrackRecording
+                        }
+                        
+                        //                    if !showAdditionalControls {
+                        //
+                        //                    Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
+                        //                        .modifier(MapButton())
+                        //                        .onTapGesture(count: 1) {
+                        //                            withAnimation {
+                        //                                showAdditionalControls.toggle()
+                        //                            }
+                        //                        }
+                        //                    }
+                        
+                    }
+                    .padding()
+                    
+                    //right
+                    VStack{
+                        
+                        // zoom/loc
+                        VStack{
+                            
+                            HStack{
                                 
                                 Spacer()
-                                Spacer()
                                 
-                                buttonZoomIn
-                                buttonZoomOut
-                                    .padding(.top)
-                                
-                                Spacer()
-                                
-                                buttonCurLocation
-                                
-                                //Spacer()
-
+                                VStack(alignment: .trailing){
+                                    
+                                    
+                                    Spacer()
+                                    Spacer()
+                                    
+                                    buttonZoomIn
+                                    buttonZoomOut
+                                        .padding(.top)
+                                    
+                                    Spacer()
+                                    
+                                    buttonCurLocation
+                                    
+                                    //Spacer()
+                                    
+                                    
+                                }
                                 
                             }
                             
                         }
                         
+                        
+                        
                     }
-                    
-                  
+                    .padding()
                     
                 }
-                .padding()
+                
                 
             }
-            
+            .navigationBarTitle("Map", displayMode: .inline)
+            .navigationBarHidden(isNavigationBarHidden)
+            .onAppear {
+                isNavigationBarHidden = true
+            }
             
         }
-        
         
     }
     
@@ -225,14 +234,7 @@ struct ContentView: View {
         
         Image(systemName: "plus")
             .modifier(MapButton())
-            .onTapGesture(count: 2) {
-                span = MKCoordinateSpan(latitudeDelta: minSpan * 4,
-                                        longitudeDelta: minSpan * 4)
-                center = clManager.region.center
-                showAdditionalControls = false
-                needChangeMapView = true
-            }
-            .onTapGesture(count: 1) {
+            .onTapGesture() {
                 let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
@@ -247,23 +249,15 @@ struct ContentView: View {
         Image(systemName: "minus")
             .modifier(MapButton())
             
-            .onTapGesture(count: 2) {
-                span = MKCoordinateSpan(latitudeDelta: maxSpan / 500,
-                                        longitudeDelta: maxSpan / 500)
-                center = clManager.region.center
-                showAdditionalControls = false
-                needChangeMapView = true
-            }
-            
-            .onTapGesture(count: 1) {
-
+            .onTapGesture() {
+                
                 let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
-
+                
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
                 showAdditionalControls = false
                 needChangeMapView = true
-
+                
             }
         
     }
@@ -278,17 +272,25 @@ struct ContentView: View {
                             lineWidth: followCL ? 3 : 0)
             )
             
-            .onTapGesture(count: 2) {
-                followCL.toggle()
-                needChangeMapView = true
-                showAdditionalControls = false
-            }
-            .onTapGesture(count: 1) {
+//            .onTapGesture(count: 2) {
+//                followCL.toggle()
+//                needChangeMapView = true
+//                showAdditionalControls = false
+//            }
+            
+            .onTapGesture() {
                 center = clManager.region.center
                 needChangeMapView = true
                 showAdditionalControls = false
             }
- 
+        
+            .onLongPressGesture {
+                followCL.toggle()
+                center = clManager.region.center
+                needChangeMapView = true
+                showAdditionalControls = false
+            }
+        
     }
     
     

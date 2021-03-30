@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct JustMapApp: App {
+    
+    let persistenceController = PersistenceController.shared
+    @Environment(\.scenePhase) var scenePhase
     
     @StateObject var clManager = LocationManager()
     
@@ -16,6 +20,10 @@ struct JustMapApp: App {
         WindowGroup {
             ContentView()
             .environmentObject(clManager)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        }
+        .onChange(of: scenePhase) { _ in
+            persistenceController.save()
         }
     }
 }
