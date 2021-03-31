@@ -22,7 +22,6 @@ struct ContentView: View {
     @EnvironmentObject var clManager: LocationManager // environment object
     
     @State private var showRecordTrackControls = false
-    @State private var trackRecordingMode = TrackRecordingModes.stop
     @State private var showAdditionalControls = false
     @State private var followCL = false
     
@@ -74,7 +73,8 @@ struct ContentView: View {
                     
                     if showRecordTrackControls || clManager.trackRecording {
                         
-                        TrackControlsView(isNavigationBarHidden: $isNavigationBarHidden, recordingMode: $trackRecordingMode, locationManager: clManager)
+                        TrackControlsView(isNavigationBarHidden: $isNavigationBarHidden,
+                                          locationManager: clManager)
                             .modifier(MapControl())
                         
                     }
@@ -120,17 +120,6 @@ struct ContentView: View {
                         //if showTrackRecordingButton{
                             buttonTrackRecording
                         //}
-                        
-                        //                    if !showAdditionalControls {
-                        //
-                        //                    Image(systemName: showAdditionalControls ? "chevron.down" : "chevron.up")
-                        //                        .modifier(MapButton())
-                        //                        .onTapGesture(count: 1) {
-                        //                            withAnimation {
-                        //                                showAdditionalControls.toggle()
-                        //                            }
-                        //                        }
-                        //                    }
                         
                     }
                     .padding()

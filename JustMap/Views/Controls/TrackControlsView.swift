@@ -7,18 +7,10 @@
 
 import SwiftUI
 
-enum TrackRecordingModes {
-    
-    case record
-    case stop
-    
-}
-
 struct TrackControlsView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Binding var isNavigationBarHidden: Bool
-    @Binding var recordingMode: TrackRecordingModes
     @ObservedObject var locationManager: LocationManager
     
     var body: some View {
@@ -76,7 +68,6 @@ struct TrackControlsView: View {
                             .onTapGesture() {
                                 locationManager.trackRecording = false
                                 locationManager.currentTrack.reset()
-                                recordingMode = .stop
                             }
                         
                         Spacer()
