@@ -21,6 +21,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             UIApplication.shared.isIdleTimerDisabled = trackRecording
         }
     }
+    
     @Published var currentTrack : CurrentTrack
     
     override init() {

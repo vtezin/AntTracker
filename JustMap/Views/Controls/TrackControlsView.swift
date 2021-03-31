@@ -62,8 +62,6 @@ struct TrackControlsView: View {
                         }
                         .padding(.bottom)
                         
-                        Text("\(locationManager.currentTrack.points.count) points")
-                        
                     }
                     
                 }
@@ -83,8 +81,13 @@ struct TrackControlsView: View {
                         
                         Spacer()
                         
+                        Text("\(locationManager.currentTrack.points.count) points")
+                            .font(.caption)
+                        
                         if locationManager.currentTrack.trackCoreData == nil
                             || locationManager.currentTrack.points.count != locationManager.currentTrack.trackCoreData!.trackPointsArray.count {
+                            
+                            Spacer()
                             
                             Image(systemName: "square.and.arrow.down")
                                 .font(Font.title.weight(.light))

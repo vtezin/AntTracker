@@ -27,6 +27,8 @@ struct ContentView: View {
     @State private var followCL = false
     
     @State var isNavigationBarHidden: Bool = true
+    
+    @State private var showFullCLInfo = false
         
     var body: some View {
         
@@ -38,11 +40,11 @@ struct ContentView: View {
                 VStack {
                     
                     if followCL {
-                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL)
                         
                     } else {
                         
-                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, currentTrack: $clManager.currentTrack, mapChangedByButton: $needChangeMapView, followCL: $followCL)
+                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL)
                     }
                     
                     //.edgesIgnoringSafeArea(.top)
@@ -115,9 +117,9 @@ struct ContentView: View {
                             
                         }
                         
-                        if showTrackRecordingButton{
+                        //if showTrackRecordingButton{
                             buttonTrackRecording
-                        }
+                        //}
                         
                         //                    if !showAdditionalControls {
                         //
@@ -179,7 +181,9 @@ struct ContentView: View {
             .navigationBarHidden(isNavigationBarHidden)
             .onAppear {
                 isNavigationBarHidden = true
+                print("on appear")
             }
+            .ignoresSafeArea(.all)
             
         }
         
@@ -204,11 +208,40 @@ struct ContentView: View {
             colorAccuracy = Color.red
         }
         
-        return Text("gps +/- \(gpsAccuracy) m")
-            .font(.caption)
+        return
+            
+            HStack {
+                
+                VStack{
+                    Text("gps +/- \(gpsAccuracy) m")
+                    if showFullCLInfo {
+                        Text("\(clManager.location.latitude)")
+                        Text("\(clManager.location.longitude)")
+                        Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
+                    }
+                    
+                }
+                .font(.caption)
+                
+                if showFullCLInfo {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(Font.title.weight(.light))
+                        .padding(5)
+                        .onTapGesture()
+                        {
+                            print("share position")
+                        }
+                }
+                
+            }
             .foregroundColor(.primary)
             .padding(5)
             .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
+            .onTapGesture()
+            {
+                showFullCLInfo.toggle()
+            }
+        
     }
     
     var buttonTrackRecording: some View {

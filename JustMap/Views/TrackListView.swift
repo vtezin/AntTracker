@@ -25,7 +25,7 @@ struct TrackListView: View {
                     
                     ForEach(tracks, id: \.self) { track in
                         
-                        NavigationLink(destination: TrackView(isNavigationBarHidden: $isNavigationBarHidden, track: track)) {
+                        NavigationLink(destination: TrackView(track: track)) {
                             Text(track.title)
                         }
                         

@@ -20,10 +20,17 @@ struct MapView: UIViewRepresentable {
     @Binding var currentLocation: CLLocation
     
     //track visualisation
-    @Binding var currentTrack: CurrentTrack
     @Binding var mapChangedByButton: Bool
-    @Binding var followCL: Bool
+    @Binding var followingCurLocation: Bool
     
+    @EnvironmentObject var clManager: LocationManager
+    
+//    @Environment(\.managedObjectContext) var moc
+//    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks:FetchedResults<Track>
+    
+    func showSavedTracks() {
+        
+    }
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -51,50 +58,34 @@ struct MapView: UIViewRepresentable {
             //var span = view.region.span
             //current span = view.region.span
         
-        if mapChangedByButton || followCL {
+        if mapChangedByButton || followingCurLocation {
             let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: true)
         }
 
-        if currentTrack.points.count == 0 && view.overlays.count > 0 {
+        if clManager.currentTrack.points.count == 0 && view.overlays.count > 0 {
             let overlays = view.overlays
             view.removeOverlays(overlays)
         }
         
-        let trackPoints = currentTrack.accuracyPoints(maxAccuracy: 10)
+        let trackPoints = clManager.currentTrack.accuracyPoints(maxAccuracy: 10)
         
-        
-        if trackPoints.count > 1
+        if clManager.trackRecording &&
+            trackPoints.count > 1
             && trackPoints.count - 1 > view.overlays.count
         {
 
-//            let oldCoordinates = trackPoints[trackPoints.count - 2].coordinate
-//            let newCoordinates = trackPoints[trackPoints.count - 1].coordinate
-//            var area = [oldCoordinates, newCoordinates]
-//            let polyline = MKPolyline(coordinates: &area, count: area.count)
-//            view.addOverlay(polyline)
-            
-//            var overlays = [MKPolyline]()
-//
-//            for pointIndex in 1...trackPoints.count - 1 {
-//
-//                let area = [trackPoints[pointIndex-1].coordinate, trackPoints[pointIndex].coordinate]
-//                let polyline = MKPolyline(coordinates: area, count: area.count)
-//                overlays.append(polyline)
-//
-//            }
-//            view.removeOverlays(view.overlays)
-//            view.addOverlays(overlays)
-            
-            
             var coordinates = [CLLocationCoordinate2D]()
             for point in trackPoints {
                 coordinates.append(point.coordinate)
             }
             
             let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
+            polyline.title = "current track"
             view.removeOverlays(view.overlays)
             view.addOverlays([polyline])
+            
+            //print("track refreshed \(Date())")
             
         }
         
@@ -123,7 +114,7 @@ struct MapView: UIViewRepresentable {
 //
 //            }
             
-            if !parent.followCL {
+            if !parent.followingCurLocation {
                 parent.center = mapView.region.center
                 parent.span = mapView.region.span
             }
@@ -140,8 +131,19 @@ struct MapView: UIViewRepresentable {
             if (overlay is MKPolyline) {
                 
                 let pr = MKPolylineRenderer(overlay: overlay)
-                pr.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                pr.lineWidth = 3
+                
+                var color = UIColor(Color.getColorFromName(colorName: "orange"))
+                
+                if overlay.title == "current track" {
+                    pr.lineWidth = 4
+                } else {
+                    //saved track
+                    color = UIColor(Color.getColorFromName(colorName: (overlay.subtitle ?? "orange") ?? "orange")).withAlphaComponent(0.5)
+                    pr.lineWidth = 3
+                }
+                
+                pr.strokeColor = color
+                
                 return pr
             }
             

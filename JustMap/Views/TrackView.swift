@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TrackView: View {
     
-    @Binding var isNavigationBarHidden: Bool
+    //@Binding var isNavigationBarHidden: Bool
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
@@ -53,7 +53,7 @@ struct TrackView: View {
             }
             .onAppear{
                 
-                isNavigationBarHidden = false
+                //isNavigationBarHidden = false
                 
                 title = track.title
                 info = track.info
