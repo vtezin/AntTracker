@@ -19,7 +19,7 @@ struct TrackListView: View {
     
     var body: some View {
         
-        NavigationView {
+        //NavigationView {
                 
                 List{
                     
@@ -51,7 +51,7 @@ struct TrackListView: View {
                     }, secondaryButton: .cancel())
                 }
             
-        }
+        //}
         
     }
 }

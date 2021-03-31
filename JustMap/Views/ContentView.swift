@@ -81,7 +81,7 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    gpsAccuracyInfo()
+                    currentLocationInfo()
                         .padding()
                     
                     
@@ -182,7 +182,7 @@ struct ContentView: View {
         return showAdditionalControls || showRecordTrackControls || clManager.trackRecording
     }
     
-    func gpsAccuracyInfo() -> some View {
+    func currentLocationInfo() -> some View {
         
         let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
         
@@ -207,6 +207,7 @@ struct ContentView: View {
                         Text("\(clManager.location.latitude)")
                         Text("\(clManager.location.longitude)")
                         Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
+                        Text("speed: " + clManager.location.speedKmH + " km/h")
                     }
                     
                 }
@@ -216,10 +217,6 @@ struct ContentView: View {
                     Image(systemName: "square.and.arrow.up")
                         .font(Font.title.weight(.light))
                         .padding(5)
-                        .onTapGesture()
-                        {
-                            print("share position")
-                        }
                 }
                 
             }
@@ -228,7 +225,9 @@ struct ContentView: View {
             .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
             .onTapGesture()
             {
-                showFullCLInfo.toggle()
+                withAnimation {
+                    showFullCLInfo.toggle()
+                }
             }
         
     }

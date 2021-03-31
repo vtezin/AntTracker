@@ -34,6 +34,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
+        manager.startUpdatingHeading()
         
     }
     
@@ -64,31 +65,4 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
 }
 
-extension CLLocation {
-    
-    func speedKmH() -> String {
-        
-        let doubleSpeed = Double(self.speed)
-        //convert to km/h
-        let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
-        return String(format: "%.2f", doubleSpeedKmH)
-        
-    }
-    
-}
 
-extension CLLocationSpeed {
-    
-    func doubleKmH() -> Double {
-        return self/1000 * 60 * 60
-    }
-    
-}
-
-extension Double {
-    
-    func string2s() -> String {
-        return String(format: "%.2f", self)
-    }
-    
-}

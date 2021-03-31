@@ -49,7 +49,7 @@ struct TrackControlsView: View {
                         
                         HStack {
                             Image(systemName: "hare")
-                            Text("\(locationManager.currentTrack.lastSpeed().doubleKmH().string2s()) (max \(locationManager.currentTrack.maxSpeed().doubleKmH().string2s()) ) km/h")
+                            Text("\(locationManager.currentTrack.lastSpeed().doubleKmH.string2s) (max \(locationManager.currentTrack.maxSpeed().doubleKmH.string2s) ) km/h")
                             
                         }
                         .padding(.bottom)

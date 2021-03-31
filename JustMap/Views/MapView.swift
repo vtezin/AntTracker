@@ -47,7 +47,7 @@ struct MapView: UIViewRepresentable {
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true
-    
+        
         return mapView
     }
 

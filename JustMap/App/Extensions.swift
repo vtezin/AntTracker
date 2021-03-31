@@ -79,3 +79,32 @@ extension CLLocation {
         return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "E" : "W")
     }
 }
+
+extension CLLocationSpeed {
+    
+    var doubleKmH: Double {
+        return self/1000 * 60 * 60
+    }
+    
+}
+
+extension Double {
+    
+    var string2s: String {
+        return String(format: "%.2f", self)
+    }
+    
+}
+
+extension CLLocation {
+    
+    var speedKmH: String {
+        
+        let doubleSpeed = Double(self.speed)
+        //convert to km/h
+        let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
+        return String(format: "%.2f", doubleSpeedKmH)
+        
+    }
+    
+}

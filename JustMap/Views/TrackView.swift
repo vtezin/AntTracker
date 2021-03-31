@@ -23,7 +23,7 @@ struct TrackView: View {
     
     var body: some View {
         
-        NavigationView{
+        //NavigationView{
             
             Form{
                 
@@ -73,7 +73,7 @@ struct TrackView: View {
             }) {
                 Text("Save")
             })
-        }
+        //}
         
     }
     
