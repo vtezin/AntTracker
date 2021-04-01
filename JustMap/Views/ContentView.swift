@@ -71,11 +71,12 @@ struct ContentView: View {
                     
                     // panel
                     
-                    if showRecordTrackControls || clManager.trackRecording {
+                    if showRecordTrackControls {
                         
                         TrackControlsView(isNavigationBarHidden: $isNavigationBarHidden,
                                           locationManager: clManager)
                             .modifier(MapControl())
+                            .transition(.move(edge: .top))
                         
                     }
                     
@@ -99,20 +100,24 @@ struct ContentView: View {
                         
                         if showAdditionalControls {
                             
-                            Image(systemName: "gear")
-                                .modifier(MapButton())
-                            
-                            Image(systemName: mapType == .standard ? "globe" : "map")
-                                .modifier(MapButton())
-                                .onTapGesture(count: 1) {
-                                    
-                                    mapType = mapType == .standard ? .hybrid : .standard
-                                    needChangeMapView = true
-                                    
-                                }
-                            
-                            Image(systemName: "mappin.and.ellipse")
-                                .modifier(MapButton())
+                            VStack{
+                                
+                                Image(systemName: "gear")
+                                    .modifier(MapButton())
+                                
+                                Image(systemName: mapType == .standard ? "globe" : "map")
+                                    .modifier(MapButton())
+                                    .onTapGesture(count: 1) {
+                                        
+                                        mapType = mapType == .standard ? .hybrid : .standard
+                                        needChangeMapView = true
+                                        
+                                    }
+                                
+                                Image(systemName: "mappin.and.ellipse")
+                                    .modifier(MapButton())
+                            }
+                            .transition(.move(edge: .leading))
                             
                             
                         }
@@ -203,14 +208,17 @@ struct ContentView: View {
                 
                 VStack{
                     Text(clManager.location.speedKmH + " km/h")
-                        .font(.callout)
+                        .font(.body)
                     if gpsAccuracy > 10 || showFullCLInfo {
                         Text("gps +/- \(gpsAccuracy) m")
                     }
                     if showFullCLInfo {
-                        Text("\(clManager.location.latitude)")
-                        Text("\(clManager.location.longitude)")
-                        Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
+                        VStack{
+                            Text("\(clManager.location.latitude)")
+                            Text("\(clManager.location.longitude)")
+                            Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
+                        }
+                        .transition(.move(edge: .bottom))
                     }
                     
                 }
@@ -240,12 +248,17 @@ struct ContentView: View {
         //Image(systemName: "arrow.triangle.swap")
         Image(systemName: "ant")
             .modifier(MapButton())
+            .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
+            //.scaleEffect(clManager.trackRecording ? 1.2 : 1)
+            .animation(.easeInOut)
             .onTapGesture()
             {
+                
                 withAnimation {
                     showRecordTrackControls.toggle()
                     showAdditionalControls = false
                 }
+                
             }
             .overlay(
                 Circle()

@@ -40,9 +40,10 @@ struct TrackControlsView: View {
                             
                             Image(systemName: locationManager.trackRecording ? "pause.circle" : "play.circle")
                                 .font(Font.largeTitle.weight(.light))
-                                //.imageScale(.large)
                                 .onTapGesture() {
+                                    withAnimation{
                                     locationManager.trackRecording.toggle()
+                                    }
                                 }
                             
                         }
@@ -62,12 +63,11 @@ struct TrackControlsView: View {
                     
                     HStack {
                         
-                            
                         Image(systemName: "trash")
                             .font(Font.title.weight(.light))
                             .onTapGesture() {
-                                locationManager.trackRecording = false
-                                locationManager.currentTrack.reset()
+                                    locationManager.trackRecording = false
+                                    locationManager.currentTrack.reset()
                             }
                         
                         Spacer()
