@@ -100,10 +100,14 @@ extension CLLocation {
     
     var speedKmH: String {
         
-        let doubleSpeed = Double(self.speed)
+        if speed <= 0 {
+            return "0"
+        }
+        
+        let doubleSpeed = Double(speed)
         //convert to km/h
         let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
-        return String(format: "%.2f", doubleSpeedKmH)
+        return String(format: "%.1f", doubleSpeedKmH)
         
     }
     

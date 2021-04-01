@@ -190,7 +190,7 @@ struct ContentView: View {
         
         switch gpsAccuracy {
         case ..<20:
-            colorAccuracy = Color.green
+            colorAccuracy = Color.systemBackground
         case 20..<100:
             colorAccuracy = Color.yellow
         default:
@@ -202,12 +202,15 @@ struct ContentView: View {
             HStack {
                 
                 VStack{
-                    Text("gps +/- \(gpsAccuracy) m")
+                    Text(clManager.location.speedKmH + " km/h")
+                        .font(.callout)
+                    if gpsAccuracy > 10 || showFullCLInfo {
+                        Text("gps +/- \(gpsAccuracy) m")
+                    }
                     if showFullCLInfo {
                         Text("\(clManager.location.latitude)")
                         Text("\(clManager.location.longitude)")
                         Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
-                        Text("speed: " + clManager.location.speedKmH + " km/h")
                     }
                     
                 }
@@ -222,7 +225,7 @@ struct ContentView: View {
             }
             .foregroundColor(.primary)
             .padding(5)
-            .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
+            .background(colorAccuracy.opacity(0.5).clipShape(RoundedRectangle(cornerRadius: 5)))
             .onTapGesture()
             {
                 withAnimation {
@@ -234,7 +237,8 @@ struct ContentView: View {
     
     var buttonTrackRecording: some View {
         
-        Image(systemName: "arrow.triangle.swap")
+        //Image(systemName: "arrow.triangle.swap")
+        Image(systemName: "ant")
             .modifier(MapButton())
             .onTapGesture()
             {

@@ -33,6 +33,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
+        manager.activityType = .fitness
+        manager.showsBackgroundLocationIndicator = true
         manager.startUpdatingLocation()
         manager.startUpdatingHeading()
         
