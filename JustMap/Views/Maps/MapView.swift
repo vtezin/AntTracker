@@ -54,9 +54,6 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<MapView>) {
         
         view.mapType = mapType
-
-            //var span = view.region.span
-            //current span = view.region.span
         
         if mapChangedByButton || followingCurLocation {
             let region = MKCoordinateRegion(center: center, span: span)
@@ -70,26 +67,12 @@ struct MapView: UIViewRepresentable {
         
         let trackPoints = clManager.currentTrack.accuracyPoints(maxAccuracy: 10)
         
-        if clManager.trackRecording &&
-            trackPoints.count > 1
-            && trackPoints.count - 1 > view.overlays.count
+        if clManager.trackRecording
         {
-
-            var coordinates = [CLLocationCoordinate2D]()
-            for point in trackPoints {
-                coordinates.append(point.coordinate)
-            }
             
-            let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
-            polyline.title = "current track"
-            view.removeOverlays(view.overlays)
-            view.addOverlays([polyline])
-            
-            //print("track refreshed \(Date())")
+            view.addTrackLine(trackPoints: trackPoints, title: "current track")
             
         }
-        
-        //print("track: \(currentTrack.points.count), overlays: \(view.overlays.count)")
         
     }
     
@@ -102,17 +85,6 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-            
-            //print(#function)
-            
-//            if parent.fixCenterMapAtCL {
-//                let clCenter = CLLocationCoordinate2D(latitude: parent.currentLocation.coordinate.latitude,
-//                                                      longitude: parent.currentLocation.coordinate.longitude)
-//
-//                parent.center = clCenter
-//                parent.needChangeMapView = true
-//
-//            }
             
             if !parent.followingCurLocation {
                 parent.center = mapView.region.center

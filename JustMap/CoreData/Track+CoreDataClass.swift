@@ -29,4 +29,20 @@ public class Track: NSManagedObject {
         
     }
     
+    func geoPoints() -> [CLLocation] {
+        
+        return trackPointsArray.map {
+            CLLocation(coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude),
+                       altitude: $0.altitude,
+                       horizontalAccuracy: $0.horizontalAccuracy,
+                       verticalAccuracy: $0.verticalAccuracy,
+                       course: $0.course,
+                       courseAccuracy: 0,
+                       speed: $0.speed,
+                       speedAccuracy: 0,
+                       timestamp: $0.timestamp)
+        }
+        
+    }
+
 }

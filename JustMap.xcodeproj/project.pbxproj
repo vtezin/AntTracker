@@ -29,6 +29,7 @@
 		52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */; };
 		52DD9544260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD9540260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift */; };
 		52DD9545260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD9541260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift */; };
+		52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F672619A30B00C261C0 /* TrackMapView.swift */; };
 		52F3367A25F7DDCE002C0B1E /* CurrentTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F3367925F7DDCE002C0B1E /* CurrentTrack.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52DD9540260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackAnnotationPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52DD9541260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackAnnotationPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		52F04F672619A30B00C261C0 /* TrackMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMapView.swift; sourceTree = "<group>"; };
 		52F3367925F7DDCE002C0B1E /* CurrentTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,11 +100,10 @@
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				52DB5176260DD13000427149 /* TrackListView.swift */,
-				52DD9532260D08C500F4E700 /* TrackView.swift */,
-				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
-				52D3A93825E68310001A50C1 /* MapView.swift */,
+				5226028B25F4C83500703DCE /* Modifiers.swift */,
+				52F04F632619A16300C261C0 /* Tracks */,
+				52F04F652619A18700C261C0 /* Maps */,
 				521A0CB325FB4D61001FA9A7 /* Controls */,
 			);
 			path = Views;
@@ -119,6 +120,7 @@
 		529B5C4225F9E8AE00BACDA8 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				52D3A92825E682D4001A50C1 /* JustMapApp.swift */,
 				52D3A93C25E6A96D001A50C1 /* LocationManager.swift */,
 				52DD953A260D14EB00F4E700 /* Extensions.swift */,
 			);
@@ -148,7 +150,6 @@
 				521345B22601D2C000F7A43C /* CoreData */,
 				529B5C3E25F9E84A00BACDA8 /* Views */,
 				529B5C4125F9E87600BACDA8 /* Model */,
-				52D3A92825E682D4001A50C1 /* JustMapApp.swift */,
 				52D3A92C25E682D7001A50C1 /* Assets.xcassets */,
 				52D3A93125E682D7001A50C1 /* Info.plist */,
 				52D3A92E25E682D7001A50C1 /* Preview Content */,
@@ -164,6 +165,24 @@
 				52D3A92F25E682D7001A50C1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		52F04F632619A16300C261C0 /* Tracks */ = {
+			isa = PBXGroup;
+			children = (
+				52DB5176260DD13000427149 /* TrackListView.swift */,
+				52DD9532260D08C500F4E700 /* TrackView.swift */,
+			);
+			path = Tracks;
+			sourceTree = "<group>";
+		};
+		52F04F652619A18700C261C0 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				52D3A93825E68310001A50C1 /* MapView.swift */,
+				52F04F672619A30B00C261C0 /* TrackMapView.swift */,
+			);
+			path = Maps;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +268,7 @@
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
 				52DD9544260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
+				52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */,
 				52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */,
 				52DB5177260DD13000427149 /* TrackListView.swift in Sources */,
 				52DD9542260D19C400F4E700 /* TrackPoint+CoreDataClass.swift in Sources */,

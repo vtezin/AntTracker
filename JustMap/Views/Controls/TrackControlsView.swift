@@ -34,9 +34,21 @@ struct TrackControlsView: View {
                             
                             Spacer()
                             
-                            Text(locationManager.currentTrack.totalDistanceString(maxAccuracy: 10))
-                                .font(.largeTitle)
-                                .padding()
+                            HStack{
+                                
+                                Text(locationManager.currentTrack.totalDistanceString(maxAccuracy: 10))
+                                    .font(.largeTitle)
+                                    .padding()
+                                
+                                Image(systemName: showFullInfo ? "chevron.up" : "chevron.down")
+                                    .onTapGesture() {
+                                        withAnimation{
+                                            showFullInfo.toggle()
+                                        }
+                                    }
+                                
+                            }
+                            
                             
                             Spacer()
                             

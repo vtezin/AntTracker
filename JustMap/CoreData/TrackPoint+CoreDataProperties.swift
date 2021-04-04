@@ -21,6 +21,8 @@ extension TrackPoint {
     @NSManaged public var id: UUID
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
+    @NSManaged public var speed: Double
+    @NSManaged public var course: Double
     @NSManaged public var timestamp: Date
     @NSManaged public var verticalAccuracy: Double
     @NSManaged public var track: Track

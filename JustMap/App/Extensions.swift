@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import CoreData
+import MapKit
 
 extension Date {
     
@@ -69,6 +70,7 @@ extension BinaryFloatingPoint {
 }
 
 extension CLLocation {
+    
     var dms: String { latitude + " " + longitude }
     var latitude: String {
         let (degrees, minutes, seconds) = coordinate.latitude.dms
@@ -78,6 +80,20 @@ extension CLLocation {
         let (degrees, minutes, seconds) = coordinate.longitude.dms
         return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "E" : "W")
     }
+    
+    var speedKmH: String {
+        
+        if speed <= 0 {
+            return "0"
+        }
+        
+        let doubleSpeed = Double(speed)
+        //convert to km/h
+        let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
+        return String(format: "%.1f", doubleSpeedKmH)
+        
+    }
+    
 }
 
 extension CLLocationSpeed {
@@ -96,18 +112,31 @@ extension Double {
     
 }
 
-extension CLLocation {
+extension MKMapView {
     
-    var speedKmH: String {
+    func addTrackLine(trackPoints: [CLLocation], title: String) {
         
-        if speed <= 0 {
-            return "0"
+        if trackPoints.isEmpty {
+            return
         }
         
-        let doubleSpeed = Double(speed)
-        //convert to km/h
-        let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
-        return String(format: "%.1f", doubleSpeedKmH)
+        var coordinates = [CLLocationCoordinate2D]()
+        for point in trackPoints {
+            coordinates.append(point.coordinate)
+        }
+        
+        let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
+        polyline.title = title
+        
+        //removing old overlay
+        
+        for overlay in overlays {
+            if overlay.title == title {
+                removeOverlays([overlay])
+            }
+        }
+        
+        addOverlays([polyline])
         
     }
     
