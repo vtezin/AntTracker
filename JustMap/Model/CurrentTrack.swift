@@ -75,7 +75,7 @@ class CurrentTrack: ObservableObject {
         
     }
     
-    func maxSpeed() -> CLLocationSpeed {
+    var maxSpeed: CLLocationSpeed {
         
         if let maxSpeedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.speed < b.speed}) {
             return maxSpeedPoint.speed
@@ -85,7 +85,7 @@ class CurrentTrack: ObservableObject {
                 
     }
     
-    func lastSpeed() -> CLLocationSpeed {
+    var lastSpeed: CLLocationSpeed {
         
         let points = accuracyPoints(maxAccuracy: 10)
         
@@ -94,6 +94,39 @@ class CurrentTrack: ObservableObject {
         }
         
         return 0
+        
+    }
+    
+    var maxAltitude: Int {
+        
+        if let maxAltPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.altitude < b.altitude}) {
+            return Int(maxAltPoint.altitude)
+        }
+        
+        return 0
+                
+    }
+    
+    var minAltitude: Int {
+        
+        if let minAltPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.altitude < b.altitude}) {
+            return Int(minAltPoint.altitude)
+        }
+        
+        return 0
+                
+    }
+    
+    var durationString: String {
+        
+        if points.count == 0 {
+            return "-"
+        }
+        
+        let dateComponentsFormatter = DateComponentsFormatter()
+        dateComponentsFormatter.allowedUnits = [.second, .minute, .hour, .day]
+        dateComponentsFormatter.unitsStyle = .abbreviated
+        return dateComponentsFormatter.string(from: startDate, to: finishDate) ?? "-"
         
     }
     

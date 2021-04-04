@@ -13,6 +13,8 @@ struct TrackControlsView: View {
     @Binding var isNavigationBarHidden: Bool
     @ObservedObject var locationManager: LocationManager
     
+    @State private var showFullInfo = false
+    
     var body: some View {
                 
             VStack {
@@ -47,13 +49,32 @@ struct TrackControlsView: View {
                                 }
                             
                         }
+                        .onTapGesture() {
+                            withAnimation{
+                                showFullInfo.toggle()
+                            }
+                        }
                         
-                        HStack {
-                            Image(systemName: "hare")
-                            Text("\(locationManager.currentTrack.lastSpeed().doubleKmH.string2s) (max \(locationManager.currentTrack.maxSpeed().doubleKmH.string2s) ) km/h")
+                        if showFullInfo {
+                            VStack{
+                                HStack {
+                                    Image(systemName: "timer")
+                                    Text(locationManager.currentTrack.durationString)
+                                }
+                                HStack {
+                                    Image(systemName: "hare")
+                                    Text(" max \(locationManager.currentTrack.maxSpeed.doubleKmH.string2s) km/h")
+                                }
+                                HStack {
+                                    //Image(systemName: "arrow.down")
+                                    Text("\(locationManager.currentTrack.minAltitude)")
+                                    Image(systemName: "arrow.up.right")
+                                    Text("\(locationManager.currentTrack.maxAltitude) m")
+                                }
+                            }
                             
                         }
-                        .padding(.bottom)
+                        
                         
                     }
                     

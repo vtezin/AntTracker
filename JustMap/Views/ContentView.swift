@@ -175,7 +175,6 @@ struct ContentView: View {
             .navigationBarHidden(isNavigationBarHidden)
             .onAppear {
                 isNavigationBarHidden = true
-                print("on appear")
             }
             .ignoresSafeArea(.all)
             
@@ -218,7 +217,6 @@ struct ContentView: View {
                             Text("\(clManager.location.longitude)")
                             Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
                         }
-                        .transition(.move(edge: .bottom))
                     }
                     
                 }

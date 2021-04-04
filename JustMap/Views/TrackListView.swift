@@ -19,39 +19,36 @@ struct TrackListView: View {
     
     var body: some View {
         
-        //NavigationView {
-                
-                List{
-                    
-                    ForEach(tracks, id: \.self) { track in
-                        
-                        NavigationLink(destination: TrackView(track: track)) {
-                            Text(track.title)
-                        }
-                        
-                    }
-                    .onDelete(perform: { indexSet in
-                        showingQuestionBeforDelete = true
-                        indexSetToDelete = indexSet
-                    })
-                }
-
-                
-            .navigationBarTitle("Tracks", displayMode: .inline)
-            .onAppear {
-                isNavigationBarHidden = false
-            }
-                .alert(isPresented:$showingQuestionBeforDelete) {
-                    Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                        
-                        for offset in indexSetToDelete! {
-                            Track.deleteTrack(track: tracks[offset], moc: moc)
-                        }
-                        
-                    }, secondaryButton: .cancel())
-                }
+        
+        List{
             
-        //}
+            ForEach(tracks, id: \.self) { track in
+                
+                NavigationLink(destination: TrackView(track: track)) {
+                    Text(track.title)
+                }
+                
+            }
+            .onDelete(perform: { indexSet in
+                showingQuestionBeforDelete = true
+                indexSetToDelete = indexSet
+            })
+        }
+        
+        
+        .navigationBarTitle("Tracks", displayMode: .inline)
+        .onAppear {
+            isNavigationBarHidden = false
+        }
+        .alert(isPresented:$showingQuestionBeforDelete) {
+            Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                
+                for offset in indexSetToDelete! {
+                    Track.deleteTrack(track: tracks[offset], moc: moc)
+                }
+                
+            }, secondaryButton: .cancel())
+        }
         
     }
 }

@@ -22,8 +22,6 @@ struct TrackView: View {
     @State var color: Color = .primary
     
     var body: some View {
-        
-        //NavigationView{
             
             Form{
                 
@@ -53,8 +51,6 @@ struct TrackView: View {
             }
             .onAppear{
                 
-                //isNavigationBarHidden = false
-                
                 title = track.title
                 info = track.info
                 region = track.region
@@ -73,7 +69,6 @@ struct TrackView: View {
             }) {
                 Text("Save")
             })
-        //}
         
     }
     
