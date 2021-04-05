@@ -38,7 +38,7 @@ struct TrackMapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
-        mapView.addTrackLine(trackPoints: geoTrack.points, title: track.title)
+        mapView.addTrackLine(trackPoints: geoTrack.points, title: track.title, subtitle: track.color, showStartFinish: true)
         
         return mapView
     }
@@ -61,17 +61,9 @@ struct TrackMapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
                         
             if (overlay is MKPolyline) {
-                
-                let pr = MKPolylineRenderer(overlay: overlay)
-                
-                var color = UIColor(Color.getColorFromName(colorName: "orange"))
-                
-                color = UIColor(Color.getColorFromName(colorName: (overlay.subtitle ?? "orange") ?? "orange")).withAlphaComponent(1)
-                pr.lineWidth = 4
-                
-                pr.strokeColor = color
-                
-                return pr
+                if let trackPolilyne = overlay as? MKPolyline{
+                    return setTrackOverlayRenderer(trackPolilyne: trackPolilyne)
+                }
             }
             
             return MKOverlayRenderer()

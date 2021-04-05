@@ -47,6 +47,7 @@ class GeoTrack: ObservableObject {
                        speedAccuracy: 0,
                        timestamp: $0.timestamp)
         }
+
         
     }
     
@@ -236,6 +237,8 @@ class GeoTrack: ObservableObject {
             pointCoreData.verticalAccuracy = point.verticalAccuracy
             pointCoreData.horizontalAccuracy = point.horizontalAccuracy
             pointCoreData.timestamp = point.timestamp
+            pointCoreData.speed = point.speed
+            pointCoreData.course = Double(point.course)
             
         }
         

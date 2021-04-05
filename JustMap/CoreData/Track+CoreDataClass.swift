@@ -20,6 +20,7 @@ public class Track: NSManagedObject {
         
     }
     
+    
     func deleteAllPoints(moc: NSManagedObjectContext) {
         
         for point in trackPointsArray {
@@ -27,6 +28,10 @@ public class Track: NSManagedObject {
         }
         try? moc.save()
         
+    }
+    
+    func convertToGeoTrack() -> GeoTrack {
+        return GeoTrack(track: self)        
     }
     
     func geoPoints() -> [CLLocation] {

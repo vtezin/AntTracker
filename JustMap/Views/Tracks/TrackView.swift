@@ -19,7 +19,7 @@ struct TrackView: View {
     @State var info = ""
     @State var region = ""
     @State var showOnMap = false
-    @State var color: Color = .primary
+    @State var color: Color = .orange
     
     @State private var mapType: MKMapType = .hybrid
     
@@ -33,21 +33,40 @@ struct TrackView: View {
     var body: some View {
         
         TabView(selection: $currentTab) {
-            TrackMapView(track: track, mapType: $mapType)
-                .tabItem {
-                    Label("Map", systemImage: "map")
+            
+            ZStack{
+                
+                TrackMapView(track: track, mapType: $mapType)
+                
+                
+                VStack {
+                    
+                    TrackInfo(geoTrack: track.convertToGeoTrack())
+                        .modifier(MapControl())
+                    
+                    Spacer()
+                    
                 }
-                .tag(Tab.map)
-
+                
+            }
+            .tabItem {
+                Label("Map", systemImage: "map")
+            }
+            .tag(Tab.map)
+            
             Form{
                 
                 Section(header: Text("Title")) {
                     TextField("", text: $title)
+                    HStack{
+                        ColorSelectorView(selectedColor: $color)
+                    }
                 }
                 
                 Section(header: Text("Description")) {
                     TextField("", text: $info)
                 }
+                
                 
                 Section(header: Text("Region")) {
                     TextField("", text: $region)
@@ -59,33 +78,47 @@ struct TrackView: View {
                         Text("finish:" + " "  + track.finishDate.dateString())
                         Text("distance:" + " "  + String(track.totalDistance))
                         Text("points:" + " "  + String(track.trackPointsArray.count))
+                        
                     }
                     .font(.footnote)
                     .foregroundColor(.secondary)
                 }
                 
+//                Section(header: Text("Points")) {
+//
+//                    List{
+//
+//                        ForEach(track.geoPoints(), id: \.self) { point in
+//                            Text(point.speed)
+//                        }
+//                    }
+//
+//                }
+                
+                
             }
-                .tabItem {
-                    Label("Properties", systemImage: "list.bullet")
-                }
-                .tag(Tab.properties)
+            .tabItem {
+                Label("Properties", systemImage: "list.bullet")
+            }
+            .tag(Tab.properties)
+            
+
+            
         }
         
+        
+        .onAppear{
             
-            .onAppear{
-                
-                title = track.title
-                info = track.info
-                region = track.region
-                showOnMap = track.showOnMap
-                
-            }
-            .navigationBarTitle(Text(track.title), displayMode: .inline)
-            .navigationBarItems(leading: Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Cancel")
-            },
+            title = track.title
+            info = track.info
+            region = track.region
+            showOnMap = track.showOnMap
+            color = Color.getColorFromName(colorName: track.color)
+            
+        }
+        .navigationBarTitle(Text(track.title), displayMode: .inline)
+        
+        .navigationBarItems(
             trailing: Button(action: {
                 save()
                 presentationMode.wrappedValue.dismiss()

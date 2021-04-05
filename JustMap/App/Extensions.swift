@@ -59,7 +59,7 @@ extension Color {
         case "purple":
             return Color.purple
         default:
-            return Color.primary
+            return Color.orange
         }
         
     }
@@ -124,7 +124,7 @@ extension Double {
 
 extension MKMapView {
     
-    func addTrackLine(trackPoints: [CLLocation], title: String) {
+    func addTrackLine(trackPoints: [CLLocation], title: String, subtitle: String, showStartFinish: Bool) {
         
         if trackPoints.isEmpty {
             return
@@ -137,6 +137,8 @@ extension MKMapView {
         
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         polyline.title = title
+        polyline.subtitle = subtitle
+
         
         //removing old overlay
         
@@ -148,26 +150,30 @@ extension MKMapView {
         
         addOverlays([polyline])
         
-        //adding start point
+        if showStartFinish {
             
-        let startPoint = trackPoints.first!
-        
-        let startAnnotation = MKPointAnnotation()
-        
-        startAnnotation.title = startPoint.timestamp.dateString()
-        startAnnotation.subtitle = "Start"
-        startAnnotation.coordinate = startPoint.coordinate
-        
-        let finishPoint = trackPoints.last!
-        
-        let finishAnnotation = MKPointAnnotation()
-        
-        finishAnnotation.title = finishPoint.timestamp.timeString()
-        finishAnnotation.subtitle = "Finish"
-        finishAnnotation.coordinate = finishPoint.coordinate
-        
-        //removeAnnotations(annotations)
-        addAnnotations([startAnnotation, finishAnnotation])
+            //adding start point
+                
+            let startPoint = trackPoints.first!
+            
+            let startAnnotation = MKPointAnnotation()
+            
+            startAnnotation.title = startPoint.timestamp.dateString()
+            startAnnotation.subtitle = "Start"
+            startAnnotation.coordinate = startPoint.coordinate
+            
+            let finishPoint = trackPoints.last!
+            
+            let finishAnnotation = MKPointAnnotation()
+            
+            finishAnnotation.title = finishPoint.timestamp.timeString()
+            finishAnnotation.subtitle = "Finish"
+            finishAnnotation.coordinate = finishPoint.coordinate
+            
+            //removeAnnotations(annotations)
+            addAnnotations([startAnnotation, finishAnnotation])
+            
+        }
     
     }
     
@@ -192,4 +198,19 @@ func setAnnotationView(annotation:MKAnnotation, showFinish: Bool) -> MKAnnotatio
     }
     
     return nil
+}
+
+func setTrackOverlayRenderer(trackPolilyne: MKPolyline) -> MKOverlayRenderer {
+    
+    let pr = MKPolylineRenderer(overlay: trackPolilyne)
+    
+    let color = UIColor(Color.getColorFromName(colorName: (trackPolilyne.subtitle ?? "orange") )).withAlphaComponent(1)
+    
+    pr.lineWidth = 4
+    
+    pr.strokeColor = color
+    
+    return pr
+    
+    
 }

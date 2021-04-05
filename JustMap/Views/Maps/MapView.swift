@@ -38,7 +38,6 @@ struct MapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        //let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         let region = MKCoordinateRegion(center: center, span: span)
         mapView.setRegion(region, animated: false)
         
@@ -70,7 +69,7 @@ struct MapView: UIViewRepresentable {
         if clManager.trackRecording
         {
             
-            view.addTrackLine(trackPoints: trackPoints, title: "current track")
+            view.addTrackLine(trackPoints: trackPoints, title: "current track", subtitle: "orange", showStartFinish: false)
             
         }
         
@@ -101,22 +100,9 @@ struct MapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
                         
             if (overlay is MKPolyline) {
-                
-                let pr = MKPolylineRenderer(overlay: overlay)
-                
-                var color = UIColor(Color.getColorFromName(colorName: "orange"))
-                
-                if overlay.title == "current track" {
-                    pr.lineWidth = 4
-                } else {
-                    //saved track
-                    color = UIColor(Color.getColorFromName(colorName: (overlay.subtitle ?? "orange") ?? "orange")).withAlphaComponent(0.5)
-                    pr.lineWidth = 3
+                if let trackPolilyne = overlay as? MKPolyline{
+                    return setTrackOverlayRenderer(trackPolilyne: trackPolilyne)
                 }
-                
-                pr.strokeColor = color
-                
-                return pr
             }
             
             return MKOverlayRenderer()

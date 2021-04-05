@@ -68,6 +68,7 @@ struct TrackControlsView: View {
                         }
                         
                         if showFullInfo {
+                            
                             VStack{
                                 HStack {
                                     Image(systemName: "timer")
@@ -78,7 +79,6 @@ struct TrackControlsView: View {
                                     Text(" max \(locationManager.currentTrack.maxSpeed.doubleKmH.string2s) km/h")
                                 }
                                 HStack {
-                                    //Image(systemName: "arrow.down")
                                     Text("\(locationManager.currentTrack.minAltitude)")
                                     Image(systemName: "arrow.up.right")
                                     Text("\(locationManager.currentTrack.maxAltitude) m")

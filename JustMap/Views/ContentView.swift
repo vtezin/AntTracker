@@ -152,10 +152,7 @@ struct ContentView: View {
                                     Spacer()
                                     
                                     buttonCurLocation
-                                    
-                                    //Spacer()
-                                    
-                                    
+                                      
                                 }
                                 
                             }
@@ -175,7 +172,6 @@ struct ContentView: View {
             .navigationBarHidden(isNavigationBarHidden)
             .onAppear {
                 isNavigationBarHidden = true
-                print("zstack on appear")
             }
             .ignoresSafeArea(.all)
             
