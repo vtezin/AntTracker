@@ -175,6 +175,7 @@ struct ContentView: View {
             .navigationBarHidden(isNavigationBarHidden)
             .onAppear {
                 isNavigationBarHidden = true
+                print("zstack on appear")
             }
             .ignoresSafeArea(.all)
             

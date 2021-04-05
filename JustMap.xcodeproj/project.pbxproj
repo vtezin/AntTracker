@@ -30,7 +30,7 @@
 		52DD9544260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD9540260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift */; };
 		52DD9545260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD9541260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift */; };
 		52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F672619A30B00C261C0 /* TrackMapView.swift */; };
-		52F3367A25F7DDCE002C0B1E /* CurrentTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F3367925F7DDCE002C0B1E /* CurrentTrack.swift */; };
+		52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F3367925F7DDCE002C0B1E /* GeoTrack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +59,7 @@
 		52DD9540260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackAnnotationPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52DD9541260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackAnnotationPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52F04F672619A30B00C261C0 /* TrackMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMapView.swift; sourceTree = "<group>"; };
-		52F3367925F7DDCE002C0B1E /* CurrentTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrack.swift; sourceTree = "<group>"; };
+		52F3367925F7DDCE002C0B1E /* GeoTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoTrack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +112,7 @@
 		529B5C4125F9E87600BACDA8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				52F3367925F7DDCE002C0B1E /* CurrentTrack.swift */,
+				52F3367925F7DDCE002C0B1E /* GeoTrack.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,7 +264,7 @@
 				52D3A92925E682D4001A50C1 /* JustMapApp.swift in Sources */,
 				52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
-				52F3367A25F7DDCE002C0B1E /* CurrentTrack.swift in Sources */,
+				52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */,
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
 				52DD9544260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,

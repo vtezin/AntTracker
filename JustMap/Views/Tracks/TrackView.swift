@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct TrackView: View {
     
-    //@Binding var isNavigationBarHidden: Bool
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
@@ -21,8 +21,24 @@ struct TrackView: View {
     @State var showOnMap = false
     @State var color: Color = .primary
     
+    @State private var mapType: MKMapType = .hybrid
+    
+    enum Tab {
+        case map
+        case properties
+    }
+    
+    @State private var currentTab: Tab = .map
+    
     var body: some View {
-            
+        
+        TabView(selection: $currentTab) {
+            TrackMapView(track: track, mapType: $mapType)
+                .tabItem {
+                    Label("Map", systemImage: "map")
+                }
+                .tag(Tab.map)
+
             Form{
                 
                 Section(header: Text("Title")) {
@@ -49,6 +65,13 @@ struct TrackView: View {
                 }
                 
             }
+                .tabItem {
+                    Label("Properties", systemImage: "list.bullet")
+                }
+                .tag(Tab.properties)
+        }
+        
+            
             .onAppear{
                 
                 title = track.title
@@ -59,7 +82,7 @@ struct TrackView: View {
             }
             .navigationBarTitle(Text(track.title), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
+                presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Cancel")
             },

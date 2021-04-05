@@ -29,6 +29,16 @@ extension Date {
         
     }
     
+    func timeString() -> String {
+        
+        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        formatter.timeStyle = .short
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: self)
+        
+    }
+    
 }
 
 extension Color {
@@ -138,6 +148,48 @@ extension MKMapView {
         
         addOverlays([polyline])
         
+        //adding start point
+            
+        let startPoint = trackPoints.first!
+        
+        let startAnnotation = MKPointAnnotation()
+        
+        startAnnotation.title = startPoint.timestamp.dateString()
+        startAnnotation.subtitle = "Start"
+        startAnnotation.coordinate = startPoint.coordinate
+        
+        let finishPoint = trackPoints.last!
+        
+        let finishAnnotation = MKPointAnnotation()
+        
+        finishAnnotation.title = finishPoint.timestamp.timeString()
+        finishAnnotation.subtitle = "Finish"
+        finishAnnotation.coordinate = finishPoint.coordinate
+        
+        //removeAnnotations(annotations)
+        addAnnotations([startAnnotation, finishAnnotation])
+    
     }
     
+}
+
+func setAnnotationView(annotation:MKAnnotation, showFinish: Bool) -> MKAnnotationView? {
+    
+    if annotation.subtitle == "Start" {
+        
+        let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
+
+        annotationView.markerTintColor = UIColor(red: (69.0/255), green: (95.0/255), blue: (170.0/255), alpha: 1.0)
+        
+        return annotationView
+        
+    } else if showFinish && annotation.subtitle == "Finish" {
+      
+        let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
+        annotationView.markerTintColor = UIColor(red: (146.0/255), green: (187.0/255), blue: (217.0/255), alpha: 1.0)
+        return annotationView
+        
+    }
+    
+    return nil
 }

@@ -22,11 +22,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    @Published var currentTrack : CurrentTrack
+    @Published var currentTrack : GeoTrack
     
     override init() {
         
-        self.currentTrack = CurrentTrack()
+        self.currentTrack = GeoTrack()
         self.trackRecording = false
         
         super.init()

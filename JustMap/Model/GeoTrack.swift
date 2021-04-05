@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import CoreData
 
-class CurrentTrack: ObservableObject {
+class GeoTrack: ObservableObject {
     
     var points: [CLLocation]
     var trackCoreData: Track?
@@ -32,6 +32,22 @@ class CurrentTrack: ObservableObject {
     
     init() {
         points = [CLLocation]()
+    }
+    
+    init(track: Track) {
+        
+        points = track.trackPointsArray.map {
+            CLLocation(coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude),
+                       altitude: $0.altitude,
+                       horizontalAccuracy: $0.horizontalAccuracy,
+                       verticalAccuracy: $0.verticalAccuracy,
+                       course: $0.course,
+                       courseAccuracy: 0,
+                       speed: $0.speed,
+                       speedAccuracy: 0,
+                       timestamp: $0.timestamp)
+        }
+        
     }
     
     func reset() {
@@ -129,6 +145,62 @@ class CurrentTrack: ObservableObject {
         return dateComponentsFormatter.string(from: startDate, to: finishDate) ?? "-"
         
     }
+    
+    var northPoint: CLLocation? {
+        
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.latitude < b.latitude}) {
+            return foundedPoint
+        }
+        
+        return nil
+        
+    }
+    
+    
+    var southPoint: CLLocation? {
+        
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.latitude < b.latitude}) {
+            return foundedPoint
+        }
+        
+        return nil
+        
+    }
+    
+    var westPoint: CLLocation? {
+        
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.longitude < b.longitude}) {
+            return foundedPoint
+        }
+        
+        return nil
+        
+    }
+    
+    var eastPoint: CLLocation? {
+        
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.longitude < b.longitude}) {
+            return foundedPoint
+        }
+        
+        return nil
+        
+    }
+    
+    var centerPoint: CLLocationCoordinate2D? {
+        
+        guard let _northPoint = northPoint else { return nil }
+        guard let _southPoint = southPoint else { return nil }
+        guard let _westPoint = westPoint else { return nil }
+        guard let _eastPoint = eastPoint else { return nil }
+        
+        let latitude = _southPoint.coordinate.latitude + (_northPoint.coordinate.latitude - _southPoint.coordinate.latitude)/2
+        let longitude = _westPoint.coordinate.longitude + (_eastPoint.coordinate.longitude - _westPoint.coordinate.longitude)/2
+        
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+    }
+    
     
     func saveToDB(moc: NSManagedObjectContext) {
         

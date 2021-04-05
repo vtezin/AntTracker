@@ -40,6 +40,9 @@ struct TrackListView: View {
         .onAppear {
             isNavigationBarHidden = false
         }
+        .onDisappear{
+            isNavigationBarHidden = true
+        }
         .alert(isPresented:$showingQuestionBeforDelete) {
             Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
                 

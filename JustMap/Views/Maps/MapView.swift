@@ -122,6 +122,10 @@ struct MapView: UIViewRepresentable {
             return MKOverlayRenderer()
         }
         
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            return setAnnotationView(annotation: annotation, showFinish: false)
+        }
+        
     }
     
     func makeCoordinator() -> Coordinator {

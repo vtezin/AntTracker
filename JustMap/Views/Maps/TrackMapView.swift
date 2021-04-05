@@ -10,16 +10,8 @@ import MapKit
 
 struct TrackMapView: UIViewRepresentable {
     
+    var track: Track
     @Binding var mapType: MKMapType
-    
-    //center & span
-    @Binding var center: CLLocationCoordinate2D
-    @Binding var span: MKCoordinateSpan
-    
-    //track visualisation
-    @Binding var mapChangedByButton: Bool
-    
-    var Track: Track
     
     func makeUIView(context: UIViewRepresentableContext<TrackMapView>) -> MKMapView {
        
@@ -27,8 +19,17 @@ struct TrackMapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        //let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
-        let region = MKCoordinateRegion(center: center, span: span)
+        let geoTrack = GeoTrack(track: track)
+        let center = geoTrack.centerPoint!
+        let distFromWestToEast = geoTrack.westPoint!.distance(from: geoTrack.eastPoint!)
+        let distFromNorthToSouth = geoTrack.northPoint!.distance(from: geoTrack.southPoint!)
+        
+        let maxDist = max(distFromWestToEast, distFromNorthToSouth)
+        
+        let region = MKCoordinateRegion(center: center,
+                                        latitudinalMeters: maxDist * 1.1,
+                                        longitudinalMeters: maxDist * 1.1)
+        
         mapView.setRegion(region, animated: false)
         
         mapView.userTrackingMode = .none
@@ -37,7 +38,7 @@ struct TrackMapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
-        mapView.addTrackLine(trackPoints: Track.geoPoints(), title: Track.title)
+        mapView.addTrackLine(trackPoints: geoTrack.points, title: track.title)
         
         return mapView
     }
@@ -56,14 +57,6 @@ struct TrackMapView: UIViewRepresentable {
             self.parent = parent
         }
         
-        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-            
-            if parent.mapChangedByButton {
-                parent.mapChangedByButton = false
-            }
-            
-        }
-        
         //rendering track
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
                         
@@ -73,13 +66,8 @@ struct TrackMapView: UIViewRepresentable {
                 
                 var color = UIColor(Color.getColorFromName(colorName: "orange"))
                 
-                if overlay.title == "current track" {
-                    pr.lineWidth = 4
-                } else {
-                    //saved track
-                    color = UIColor(Color.getColorFromName(colorName: (overlay.subtitle ?? "orange") ?? "orange")).withAlphaComponent(0.5)
-                    pr.lineWidth = 3
-                }
+                color = UIColor(Color.getColorFromName(colorName: (overlay.subtitle ?? "orange") ?? "orange")).withAlphaComponent(1)
+                pr.lineWidth = 4
                 
                 pr.strokeColor = color
                 
@@ -87,6 +75,10 @@ struct TrackMapView: UIViewRepresentable {
             }
             
             return MKOverlayRenderer()
+        }
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            return setAnnotationView(annotation: annotation, showFinish: true)
         }
         
     }
