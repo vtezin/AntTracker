@@ -29,6 +29,7 @@
 		52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */; };
 		52DD9544260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD9540260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift */; };
 		52DD9545260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD9541260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift */; };
+		52E62907261BADF300A21665 /* AppIconGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62906261BADF300A21665 /* AppIconGenerate.swift */; };
 		52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F672619A30B00C261C0 /* TrackMapView.swift */; };
 		52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */; };
 		52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F70261B06B200C261C0 /* TrackInfo.swift */; };
@@ -42,7 +43,7 @@
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
 		529B5C4325F9E92A00BACDA8 /* TrackControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackControlsView.swift; sourceTree = "<group>"; };
-		52D3A92525E682D4001A50C1 /* JustMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D3A92825E682D4001A50C1 /* JustMapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustMapApp.swift; sourceTree = "<group>"; };
 		52D3A92A25E682D4001A50C1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		52D3A92C25E682D7001A50C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +61,7 @@
 		52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52DD9540260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackAnnotationPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52DD9541260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackAnnotationPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		52E62906261BADF300A21665 /* AppIconGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconGenerate.swift; sourceTree = "<group>"; };
 		52F04F672619A30B00C261C0 /* TrackMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMapView.swift; sourceTree = "<group>"; };
 		52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorView.swift; sourceTree = "<group>"; };
 		52F04F70261B06B200C261C0 /* TrackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfo.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
+				52E62906261BADF300A21665 /* AppIconGenerate.swift */,
 				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				52F04F632619A16300C261C0 /* Tracks */,
 				52F04F652619A18700C261C0 /* Maps */,
@@ -136,7 +139,7 @@
 		52D3A91C25E682D4001A50C1 = {
 			isa = PBXGroup;
 			children = (
-				52D3A92725E682D4001A50C1 /* JustMap */,
+				52D3A92725E682D4001A50C1 /* AntTracker */,
 				52D3A92625E682D4001A50C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -144,12 +147,12 @@
 		52D3A92625E682D4001A50C1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				52D3A92525E682D4001A50C1 /* JustMap.app */,
+				52D3A92525E682D4001A50C1 /* AntTracker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		52D3A92725E682D4001A50C1 /* JustMap */ = {
+		52D3A92725E682D4001A50C1 /* AntTracker */ = {
 			isa = PBXGroup;
 			children = (
 				529B5C4225F9E8AE00BACDA8 /* App */,
@@ -162,7 +165,7 @@
 				521345682601C95500F7A43C /* Model.xcdatamodeld */,
 				52D903F52614BFB200425085 /* Notes.rtf */,
 			);
-			path = JustMap;
+			path = AntTracker;
 			sourceTree = "<group>";
 		};
 		52D3A92E25E682D7001A50C1 /* Preview Content */ = {
@@ -194,9 +197,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		52D3A92425E682D4001A50C1 /* JustMap */ = {
+		52D3A92425E682D4001A50C1 /* AntTracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52D3A93425E682D7001A50C1 /* Build configuration list for PBXNativeTarget "JustMap" */;
+			buildConfigurationList = 52D3A93425E682D7001A50C1 /* Build configuration list for PBXNativeTarget "AntTracker" */;
 			buildPhases = (
 				52D3A92125E682D4001A50C1 /* Sources */,
 				52D3A92225E682D4001A50C1 /* Frameworks */,
@@ -206,9 +209,9 @@
 			);
 			dependencies = (
 			);
-			name = JustMap;
+			name = AntTracker;
 			productName = JustMap;
-			productReference = 52D3A92525E682D4001A50C1 /* JustMap.app */;
+			productReference = 52D3A92525E682D4001A50C1 /* AntTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -225,7 +228,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 52D3A92025E682D4001A50C1 /* Build configuration list for PBXProject "JustMap" */;
+			buildConfigurationList = 52D3A92025E682D4001A50C1 /* Build configuration list for PBXProject "AntTracker" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -238,7 +241,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				52D3A92425E682D4001A50C1 /* JustMap */,
+				52D3A92425E682D4001A50C1 /* AntTracker */,
 			);
 		};
 /* End PBXProject section */
@@ -274,6 +277,7 @@
 				52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */,
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
 				52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */,
+				52E62907261BADF300A21665 /* AppIconGenerate.swift in Sources */,
 				52DD9544260D19C400F4E700 /* TrackAnnotationPoint+CoreDataClass.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
 				52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */,
@@ -412,16 +416,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"JustMap/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = JustMap/Info.plist;
+				INFOPLIST_FILE = AntTracker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.JustMap;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -434,16 +438,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"JustMap/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = JustMap/Info.plist;
+				INFOPLIST_FILE = AntTracker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.JustMap;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -453,7 +457,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		52D3A92025E682D4001A50C1 /* Build configuration list for PBXProject "JustMap" */ = {
+		52D3A92025E682D4001A50C1 /* Build configuration list for PBXProject "AntTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52D3A93225E682D7001A50C1 /* Debug */,
@@ -462,7 +466,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		52D3A93425E682D7001A50C1 /* Build configuration list for PBXNativeTarget "JustMap" */ = {
+		52D3A93425E682D7001A50C1 /* Build configuration list for PBXNativeTarget "AntTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52D3A93525E682D7001A50C1 /* Debug */,
