@@ -203,14 +203,14 @@ class GeoTrack: ObservableObject {
     }
     
     
-    func saveToDB(moc: NSManagedObjectContext) {
+    func saveToDB(moc: NSManagedObjectContext, title: String) {
         
         var trackCoreDataForSave: Track
         
         if trackCoreData == nil {
             trackCoreDataForSave = Track(context: moc)
             trackCoreDataForSave.id = UUID()
-            trackCoreDataForSave.title = Date().dateString()
+            trackCoreDataForSave.title = title
             trackCoreDataForSave.info = ""
             trackCoreDataForSave.region = ""
             trackCoreDataForSave.color = "blue"

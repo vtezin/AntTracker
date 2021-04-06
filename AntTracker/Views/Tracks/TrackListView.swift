@@ -25,7 +25,18 @@ struct TrackListView: View {
             ForEach(tracks, id: \.self) { track in
                 
                 NavigationLink(destination: TrackView(track: track)) {
-                    Text(track.title)
+                    VStack(alignment: .leading){
+                        Text(track.title)
+                        HStack{
+                            Text(track.startDate.dateString())
+                            Spacer()
+                            Text("\(track.totalDistance) m")
+                        }
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                    }
+                    
+                    
                 }
                 
             }

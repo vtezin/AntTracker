@@ -31,29 +31,48 @@ struct TrackInfo: View {
                     showFullInfo.toggle()
                 }
             }
+            .padding(5)
             
             if showFullInfo {
                 
+                Divider()
+                
                 VStack{
+                    
                     HStack {
-                        Image(systemName: "timer")
-                        Text(geoTrack.durationString)
+                        
+                        HStack {
+                            Image(systemName: "timer")
+                            Text(geoTrack.durationString)
+                        }
+                        
+                        Spacer()
+                        
+                        HStack {
+                            Image(systemName: "hare")
+                            Text(" max \(geoTrack.maxSpeed.doubleKmH.string2s) km/h")
+                        }
+                        
                     }
+                    
+ 
                     HStack {
-                        Image(systemName: "hare")
-                        Text(" max \(geoTrack.maxSpeed.doubleKmH.string2s) km/h")
+                        
+                        Spacer()
+                        
+                        HStack {
+                            Text("\(geoTrack.minAltitude)")
+                            Image(systemName: "arrow.up.right")
+                            Text("\(geoTrack.maxAltitude) m")
+                        }
+                        
                     }
-                    HStack {
-                        Text("\(geoTrack.minAltitude)")
-                        Image(systemName: "arrow.up.right")
-                        Text("\(geoTrack.maxAltitude) m")
-                    }
+                    
                 }
                 
             }
             
         }
-        
         
     }
 }

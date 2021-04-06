@@ -27,8 +27,8 @@ struct TrackMapView: UIViewRepresentable {
         let maxDist = max(distFromWestToEast, distFromNorthToSouth)
         
         let region = MKCoordinateRegion(center: center,
-                                        latitudinalMeters: maxDist * 1.1,
-                                        longitudinalMeters: maxDist * 1.1)
+                                        latitudinalMeters: maxDist * 1.5,
+                                        longitudinalMeters: maxDist * 1.5)
         
         mapView.setRegion(region, animated: false)
         

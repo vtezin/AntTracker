@@ -14,6 +14,7 @@ struct TrackControlsView: View {
     @ObservedObject var locationManager: LocationManager
     
     @State private var showFullInfo = false
+    @State private var showAlertForTrackTittle = false
     
     var body: some View {
                 
@@ -24,15 +25,6 @@ struct TrackControlsView: View {
                     VStack{
                         
                         HStack {
-                            
-                            NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
-                                
-                                Image(systemName: "folder")
-                                    .font(Font.title.weight(.light))
-                                
-                            }
-                            
-                            Spacer()
                             
                             HStack{
                                 
@@ -96,7 +88,7 @@ struct TrackControlsView: View {
                     
                     HStack {
                         
-                        Image(systemName: "trash")
+                        Image(systemName: "xmark.circle")
                             .font(Font.title.weight(.light))
                             .onTapGesture() {
                                     locationManager.trackRecording = false
@@ -105,8 +97,6 @@ struct TrackControlsView: View {
                         
                         Spacer()
                         
-                        Text("\(locationManager.currentTrack.points.count) points")
-                            .font(.caption)
                         
                         if locationManager.currentTrack.trackCoreData == nil
                             || locationManager.currentTrack.points.count != locationManager.currentTrack.trackCoreData!.trackPointsArray.count {
@@ -127,12 +117,12 @@ struct TrackControlsView: View {
                 }
                 
             }
+        
         }
+    
         
     func saveTrack() {
-        
-        locationManager.currentTrack.saveToDB(moc: moc)
-        
+        locationManager.currentTrack.saveToDB(moc: moc, title: Date().dateString())
     }
     
 }

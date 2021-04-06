@@ -43,8 +43,24 @@ struct TrackView: View {
                     
                     TrackInfo(geoTrack: track.convertToGeoTrack())
                         .modifier(MapControl())
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding(5)
                     
                     Spacer()
+                    
+                    HStack{
+                        Image(systemName: mapType == .standard ? "globe" : "map")
+                            .modifier(MapButton())
+                            .onTapGesture(count: 1) {
+                                
+                                mapType = mapType == .standard ? .hybrid : .standard
+                                //needChangeMapView = true
+                                
+                            }
+                        
+                        Spacer()
+                    }
+                    .padding()
                     
                 }
                 
