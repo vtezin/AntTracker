@@ -27,6 +27,9 @@ struct TrackListView: View {
                 NavigationLink(destination: TrackView(track: track)) {
                     VStack(alignment: .leading){
                         Text(track.title)
+                        Text(track.info)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
                         HStack{
                             Text(track.startDate.dateString())
                             Spacer()

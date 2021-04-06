@@ -105,7 +105,7 @@ struct ContentView: View {
                                 
                                 Image(systemName: "gear")
                                     .modifier(MapButton())
-                                    .onTapGesture(count: 1) {
+                                    .onTapGesture {
                                         
                                        showAlertForTrackTittle = true
                                         
@@ -113,32 +113,32 @@ struct ContentView: View {
                                 
                                 Image(systemName: mapType == .standard ? "globe" : "map")
                                     .modifier(MapButton())
-                                    .onTapGesture(count: 1) {
-                                        
+                                    .onTapGesture {
                                         mapType = mapType == .standard ? .hybrid : .standard
                                         needChangeMapView = true
-                                        
                                     }
                                 
-                                NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
-                                    
-                                    Image(systemName: "folder")
-                                        .font(Font.title.weight(.light))
-                                        .modifier(MapButton())
-                                    
-                                }
                                 
 //                                Image(systemName: "mappin.and.ellipse")
 //                                    .modifier(MapButton())
                             }
                             .transition(.move(edge: .leading))
                             
+                        }
+                        
+                        if showRecordTrackControls {
+                            
+                            NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
+                                
+                                Image(systemName: "tray.full")
+                                    .font(Font.title.weight(.light))
+                                    .modifier(MapButton())
+                                
+                            }
                             
                         }
                         
-                        //if showTrackRecordingButton{
                             buttonTrackRecording
-                        //}
                         
                     }
                     .padding()
@@ -204,9 +204,6 @@ struct ContentView: View {
         
     }
     
-    var showTrackRecordingButton: Bool {
-        return showAdditionalControls || showRecordTrackControls || clManager.trackRecording
-    }
     
     func currentLocationInfo() -> some View {
         
@@ -283,7 +280,7 @@ struct ContentView: View {
             .overlay(
                 Circle()
                     .stroke(Color.systemBackground,
-                            lineWidth: clManager.trackRecording ? 3 : 0)
+                            lineWidth: showRecordTrackControls ? 3 : 0)
             )
         
     }

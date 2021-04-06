@@ -80,36 +80,15 @@ struct TrackView: View {
                 }
                 
                 Section(header: Text("Description")) {
-                    TextField("", text: $info)
-                }
-                
-                
-                Section(header: Text("Region")) {
-                    TextField("", text: $region)
-                }
-                
-                Section(header: Text("Info")) {
-                    VStack(alignment: .leading){
-                        Text("start:" + " " + track.startDate.dateString())
-                        Text("finish:" + " "  + track.finishDate.dateString())
-                        Text("distance:" + " "  + String(track.totalDistance))
-                        Text("points:" + " "  + String(track.trackPointsArray.count))
-                        
+                    
+                    //TextField("", text: $info)
+                    
+                    ZStack {
+                        TextEditor(text: $info)
+                        Text(info).opacity(0).padding(.all, 8)
                     }
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
+                    
                 }
-                
-//                Section(header: Text("Points")) {
-//
-//                    List{
-//
-//                        ForEach(track.geoPoints(), id: \.self) { point in
-//                            Text(point.speed)
-//                        }
-//                    }
-//
-//                }
                 
                 
             }
