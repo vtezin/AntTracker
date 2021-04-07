@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  AntTracker
+
+  Created by test on 07.04.2021.
+  
+*/
+
+"Tracks" = "Треки";
+"km/h" = "км/ч";
+"m" = "м";
+"km" = "км";
+"max" = "макс.";
+"avg" = "сред.";
+"Title" = "Заголовок";
+"Description" = "Описание";
+"Map" = "Карта";
+"Properties" = "Свойства";
+"Save" = "Сохранить";
+"Cancel" = "Отмена";
+"alt." = "выс.";

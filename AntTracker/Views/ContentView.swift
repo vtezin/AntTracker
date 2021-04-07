@@ -225,7 +225,7 @@ struct ContentView: View {
             HStack {
                 
                 VStack{
-                    Text(clManager.location.speedKmH + " km/h")
+                    Text(clManager.location.speedKmH + " " + "km/h")
                         .font(.body)
                     if gpsAccuracy > 10 || showFullCLInfo {
                         Text("gps +/- \(gpsAccuracy) m")
@@ -234,7 +234,7 @@ struct ContentView: View {
                         VStack{
                             Text("\(clManager.location.latitude)")
                             Text("\(clManager.location.longitude)")
-                            Text("alt." + String(format: "%.0f", clManager.location.altitude) + " m")
+                            Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
                         }
                     }
                     

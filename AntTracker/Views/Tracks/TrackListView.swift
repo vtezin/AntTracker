@@ -25,18 +25,25 @@ struct TrackListView: View {
             ForEach(tracks, id: \.self) { track in
                 
                 NavigationLink(destination: TrackView(track: track)) {
-                    VStack(alignment: .leading){
+                    
+                    VStack(alignment: .leading) {
+                        
                         Text(track.title)
-                        Text(track.info)
+                        HStack{
+                            VStack(alignment: .leading){
+                                Text(track.info)
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing){
+                                Text(track.startDate.dateString())
+                                Text("\(track.totalDistance)" + " " + "m")
+                            }
                             .font(.footnote)
                             .foregroundColor(.secondary)
-                        HStack{
-                            Text(track.startDate.dateString())
-                            Spacer()
-                            Text("\(track.totalDistance) m")
                         }
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
+                        
                     }
                     
                     

@@ -50,7 +50,7 @@ struct TrackInfo: View {
                         
                         HStack {
                             Image(systemName: "hare")
-                            Text(" max \(geoTrack.maxSpeed.doubleKmH.string2s) km/h")
+                            Text("max" + " \(geoTrack.maxSpeed.doubleKmH.string2s) " + "km/h")
                         }
                         
                     }
@@ -63,7 +63,7 @@ struct TrackInfo: View {
                         HStack {
                             Text("\(geoTrack.minAltitude)")
                             Image(systemName: "arrow.up.right")
-                            Text("\(geoTrack.maxAltitude) m")
+                            Text("\(geoTrack.maxAltitude) " + "m")
                         }
                         
                     }
