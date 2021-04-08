@@ -12,8 +12,8 @@ struct MapButton: ViewModifier {
         
         ZStack {
             
+            //for standart sizes
             Image(systemName: "plus")
-                
                 .opacity(0.0)
             
             content
@@ -22,7 +22,6 @@ struct MapButton: ViewModifier {
         .imageScale(.small)
         .padding(15)
         .modifier(MapControlColors())
-        //.font(.title)
         .font(Font.title.weight(.light))
         .clipShape(Circle())
         .overlay(
@@ -30,6 +29,12 @@ struct MapButton: ViewModifier {
                 .stroke(Color.systemBackground.opacity(0.8),
                         lineWidth: 1)
         )
+        
+//        .overlay(
+//            Circle()
+//                .stroke(Color.gray,
+//                        lineWidth: 1)
+//        )
         
     }
 }
@@ -45,7 +50,7 @@ struct MapControl: ViewModifier {
 struct MapControlColors: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(Color(UIColor.systemBackground).opacity(0.5))
+            .background(Color(UIColor.systemBackground).opacity(0.7))
             .foregroundColor(.primary)
     }
 }

@@ -11,8 +11,10 @@ import CoreData
 
 class GeoTrack: ObservableObject {
     
-    var points: [GeoTrackPoint]
+    @Published var points: [GeoTrackPoint]
     var trackCoreData: Track?
+    
+    static let shared = GeoTrack()
     
     struct GeoTrackPoint {
         let location: CLLocation
@@ -62,6 +64,12 @@ class GeoTrack: ObservableObject {
         
     }
     
+    func pushNewLocation(location: CLLocation) {
+        if Int(location.horizontalAccuracy) <= 10 {
+            points.append(GeoTrackPoint(location: location, type: ""))
+        }
+    }
+    
     func reset() {
         points.removeAll()
         trackCoreData = nil
@@ -91,10 +99,12 @@ class GeoTrack: ObservableObject {
     
     func totalDistanceString(maxAccuracy: Int) -> String {
         
-        let formatter = MKDistanceFormatter()
+        //let formatter = MKDistanceFormatter()
+        //return formatter.string(fromDistance: totalDistance(maxAccuracy: maxAccuracy))
         
-        return formatter.string(fromDistance: totalDistance(maxAccuracy: maxAccuracy))
-        
+        let intMeters = Int(totalDistance(maxAccuracy: maxAccuracy))
+    
+        return String(intMeters) + " " + "m"
     }
     
     func accuracyPoints(maxAccuracy: Int) -> [GeoTrackPoint] {
@@ -113,6 +123,16 @@ class GeoTrack: ObservableObject {
         
         return 0
                 
+    }
+    
+    var maxSpeedPoint: GeoTrackPoint? {
+        
+        if let maxSpeedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.speed < b.location.speed}) {
+            return maxSpeedPoint
+        }
+        
+        return nil
+        
     }
     
     var lastSpeed: CLLocationSpeed {
@@ -217,34 +237,21 @@ class GeoTrack: ObservableObject {
         
     }
     
-    
-    func saveToDB(moc: NSManagedObjectContext, title: String) {
+    func setTrackCoreDataProperties(trackCD: Track, moc: NSManagedObjectContext) {
         
-        var trackCoreDataForSave: Track
-        
-        if trackCoreData == nil {
-            trackCoreDataForSave = Track(context: moc)
-            trackCoreDataForSave.id = UUID()
-            trackCoreDataForSave.title = title
-            trackCoreDataForSave.info = ""
-            trackCoreDataForSave.region = ""
-            trackCoreDataForSave.color = "blue"
-        } else {
-            trackCoreDataForSave = trackCoreData!
-            trackCoreDataForSave.deleteAllPoints(moc: moc)
-        }
-        
-        trackCoreDataForSave.totalDistance = Int64(totalDistance(maxAccuracy: 10))
-        trackCoreDataForSave.startDate = startDate
-        trackCoreDataForSave.finishDate = finishDate
-        trackCoreDataForSave.showOnMap = true
+        trackCD.totalDistance = Int64(totalDistance(maxAccuracy: 10))
+        trackCD.startDate = startDate
+        trackCD.finishDate = finishDate
+        trackCD.showOnMap = true
         
         //saving points
+        trackCD.deleteAllPoints(moc: moc)
+        
         for point in points {
             let pointCoreData = TrackPoint(context: moc)
             
             pointCoreData.id = UUID()
-            pointCoreData.track = trackCoreDataForSave
+            pointCoreData.track = trackCD
             
             pointCoreData.latitude = Double(point.location.coordinate.latitude)
             pointCoreData.longitude = Double(point.location.coordinate.longitude)
@@ -258,9 +265,30 @@ class GeoTrack: ObservableObject {
             
         }
         
-        try? moc.save()
+    }
+    
+    func saveNewTrackToDB(title: String, moc: NSManagedObjectContext) {
         
-        trackCoreData = trackCoreDataForSave
+        let trackCD = Track(context: moc)
+        trackCD.id = UUID()
+        trackCD.title = title
+        trackCD.info = ""
+        trackCD.region = ""
+        trackCD.color = "blue"
+        
+        setTrackCoreDataProperties(trackCD: trackCD, moc: moc)
+        
+        try? moc.save()
+        trackCoreData = trackCD
+        
+    }
+    
+    func updateTrackInDB(moc: NSManagedObjectContext) {
+        
+        if let trckCD = trackCoreData {
+            setTrackCoreDataProperties(trackCD: trckCD, moc: moc)
+            try? moc.save()
+        }
         
     }
         

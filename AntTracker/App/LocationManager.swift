@@ -26,7 +26,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     override init() {
         
-        self.currentTrack = GeoTrack()
+        self.currentTrack = GeoTrack.shared
         self.trackRecording = false
         
         super.init()
@@ -40,6 +40,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
     }
     
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locations.last.map {
             let center = CLLocationCoordinate2D(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)
@@ -48,18 +49,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             location = $0
             region = MKCoordinateRegion(center: center, span: span)
             
-            if trackRecording && Int(location.horizontalAccuracy) <= 10 {
-                
-                //print("\($0.coordinate)")
-//                if currentTrack.points.count > 0 {
-//                    print("\($0.distance(from: currentTrack.points.last!))")
-//                }
-                
-                let geoTrackPoint = GeoTrack.GeoTrackPoint(location: $0, type: "")
-                
-                currentTrack.points.append(geoTrackPoint)
-                
-                
+            if trackRecording {
+                currentTrack.pushNewLocation(location: $0)
             }
             
         }

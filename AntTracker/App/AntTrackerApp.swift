@@ -12,6 +12,7 @@ import CoreData
 struct AntTrackerApp: App {
     
     let persistenceController = PersistenceController.shared
+    let currentTrack = GeoTrack.shared
     @Environment(\.scenePhase) var scenePhase
     
     @StateObject var clManager = LocationManager()
@@ -20,6 +21,7 @@ struct AntTrackerApp: App {
         WindowGroup {
             ContentView()
             .environmentObject(clManager)
+            .environmentObject(currentTrack)
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
         .onChange(of: scenePhase) { _ in
@@ -27,3 +29,4 @@ struct AntTrackerApp: App {
         }
     }
 }
+

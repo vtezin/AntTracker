@@ -19,7 +19,9 @@ struct ContentView: View {
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
     
-    @EnvironmentObject var clManager: LocationManager // environment object
+    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var clManager: LocationManager
+    @EnvironmentObject var currentTrack: GeoTrack
     
     @State private var showRecordTrackControls = false
     @State private var showAdditionalControls = false
@@ -67,7 +69,7 @@ struct ContentView: View {
                     }
                 }
                 
-                // layer 2 - info
+                // layer 2 - track info
                 
                 VStack{
                     
@@ -75,10 +77,64 @@ struct ContentView: View {
                     
                     if showRecordTrackControls {
                         
-                        TrackControlsView(isNavigationBarHidden: $isNavigationBarHidden,
-                                          locationManager: clManager)
-                            .modifier(MapControl())
-                            .transition(.move(edge: .top))
+                        VStack {
+                            
+                            HStack{
+                                TrackInfo(geoTrack: currentTrack)
+                            }
+                            
+                            HStack {
+                                
+                                NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
+                                    
+                                    Image(systemName: "tray.full")
+                                        .font(Font.title.weight(.light))
+                                    
+                                }
+                                
+                                Spacer()
+                                
+                                if currentTrack.points.count > 0 && !clManager.trackRecording {
+                                    
+                                    if currentTrack.trackCoreData == nil
+                                        || currentTrack.points.count != currentTrack.trackCoreData!.trackPointsArray.count {
+                                        
+                                        buttonTrackSave
+                                        Spacer()
+                                        
+                                    } else {
+                                        
+                                        if currentTrack.trackCoreData != nil {
+                                        
+                                            HStack{
+                                                Text(currentTrack.trackCoreData!.title)
+                                                Text("saved")
+                                            }
+                                            Spacer()
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                    
+                                    buttonTrackReset
+                                    Spacer()
+                                    
+                                }
+                                else {
+                                    Spacer()
+                                }
+                                
+                                
+                                buttonTrackPlayPause
+                                
+                                
+                            }
+
+                        }
+                        
+                        .modifier(MapControl())
+                        .transition(.move(edge: .top))
                         
                     }
                     
@@ -126,17 +182,6 @@ struct ContentView: View {
                             
                         }
                         
-                        if showRecordTrackControls {
-                            
-                            NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
-                                
-                                Image(systemName: "tray.full")
-                                    .font(Font.title.weight(.light))
-                                    .modifier(MapButton())
-                                
-                            }
-                            
-                        }
                         
                             buttonTrackRecording
                         
@@ -194,9 +239,9 @@ struct ContentView: View {
                              message: "",
                              keyboardType: .default) { result in
                     if let text = result {
-                        print(text)
+                        currentTrack.saveNewTrackToDB(title: text, moc: moc)
                     } else {
-                        // The dialog was cancelled
+                        
                     }
                    })
             
@@ -284,6 +329,51 @@ struct ContentView: View {
             )
         
     }
+    
+    
+    var buttonTrackPlayPause: some View {
+        
+        Image(systemName: clManager.trackRecording ? "pause.circle" : "play.circle")
+            .font(Font.largeTitle.weight(.light))
+            .onTapGesture() {
+                withAnimation{
+                    clManager.trackRecording.toggle()
+                }
+            }
+        
+    }
+    
+    var buttonTrackReset: some View {
+        
+        Image(systemName: "xmark.circle")
+            .font(Font.title.weight(.light))
+            .onTapGesture() {
+                clManager.trackRecording = false
+                currentTrack.reset()
+            }
+        
+    }
+    
+    var buttonTrackSave: some View {
+        
+        Image(systemName: "square.and.arrow.down")
+            .font(Font.title.weight(.light))
+            .onTapGesture() {
+                
+                if currentTrack.trackCoreData == nil {
+                   
+                    //save new track
+                    showAlertForTrackTittle = true
+                    
+                } else {
+                    //update current track
+                    currentTrack.updateTrackInDB(moc: moc)
+                }
+                
+            }
+        
+    }
+    
     
     var buttonZoomIn: some View {
         

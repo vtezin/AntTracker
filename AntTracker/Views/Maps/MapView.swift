@@ -24,6 +24,7 @@ struct MapView: UIViewRepresentable {
     @Binding var followingCurLocation: Bool
     
     @EnvironmentObject var clManager: LocationManager
+    @EnvironmentObject var currentTrack: GeoTrack
     
 //    @Environment(\.managedObjectContext) var moc
 //    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks:FetchedResults<Track>
@@ -59,12 +60,12 @@ struct MapView: UIViewRepresentable {
             view.setRegion(region, animated: true)
         }
 
-        if clManager.currentTrack.points.count == 0 && view.overlays.count > 0 {
+        if currentTrack.points.count == 0 && view.overlays.count > 0 {
             let overlays = view.overlays
             view.removeOverlays(overlays)
         }
         
-        let trackPoints = clManager.currentTrack.accuracyPoints(maxAccuracy: 10)
+        let trackPoints = currentTrack.accuracyPoints(maxAccuracy: 10)
         
         if clManager.trackRecording
         {

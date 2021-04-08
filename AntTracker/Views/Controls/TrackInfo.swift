@@ -9,14 +9,13 @@ import SwiftUI
 
 struct TrackInfo: View {
     
-    var geoTrack: GeoTrack
-    
+    @StateObject var geoTrack: GeoTrack
     @State private var showFullInfo = false
     
     var body: some View {
         
         VStack {
-    
+            
             HStack{
                 
                 Text(geoTrack.totalDistanceString(maxAccuracy: 10))
@@ -50,7 +49,7 @@ struct TrackInfo: View {
                         
                         HStack {
                             Image(systemName: "hare")
-                            Text("max" + " \(geoTrack.maxSpeed.doubleKmH.string2s) " + "km/h")
+                            Text("max" + " \(geoTrack.maxSpeedPoint?.location.speed.doubleKmH.string2s ?? "??") " + "km/h")
                         }
                         
                     }
