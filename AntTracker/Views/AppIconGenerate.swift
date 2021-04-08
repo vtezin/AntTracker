@@ -12,7 +12,7 @@ struct AppIconGenerate: View {
         
         ZStack{
             
-            LinearGradient(gradient: Gradient(colors: [.white, .black]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .top, endPoint: .bottom)
             
             VStack{
                 Spacer()
