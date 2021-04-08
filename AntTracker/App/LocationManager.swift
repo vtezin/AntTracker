@@ -55,7 +55,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 //                    print("\($0.distance(from: currentTrack.points.last!))")
 //                }
                 
-                currentTrack.points.append($0)
+                let geoTrackPoint = GeoTrack.GeoTrackPoint(location: $0, type: "")
+                
+                currentTrack.points.append(geoTrackPoint)
                 
                 
             }

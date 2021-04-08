@@ -124,7 +124,7 @@ extension Double {
 
 extension MKMapView {
     
-    func addTrackLine(trackPoints: [CLLocation], title: String, subtitle: String, showStartFinish: Bool) {
+    func addTrackLine(trackPoints: [GeoTrack.GeoTrackPoint], title: String, subtitle: String, showStartFinish: Bool) {
         
         if trackPoints.isEmpty {
             return
@@ -132,7 +132,7 @@ extension MKMapView {
         
         var coordinates = [CLLocationCoordinate2D]()
         for point in trackPoints {
-            coordinates.append(point.coordinate)
+            coordinates.append(point.location.coordinate)
         }
         
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
@@ -158,17 +158,17 @@ extension MKMapView {
             
             let startAnnotation = MKPointAnnotation()
             
-            startAnnotation.title = startPoint.timestamp.dateString()
+            startAnnotation.title = startPoint.location.timestamp.dateString()
             startAnnotation.subtitle = "Start"
-            startAnnotation.coordinate = startPoint.coordinate
+            startAnnotation.coordinate = startPoint.location.coordinate
             
             let finishPoint = trackPoints.last!
             
             let finishAnnotation = MKPointAnnotation()
             
-            finishAnnotation.title = finishPoint.timestamp.timeString()
+            finishAnnotation.title = finishPoint.location.timestamp.timeString()
             finishAnnotation.subtitle = "Finish"
-            finishAnnotation.coordinate = finishPoint.coordinate
+            finishAnnotation.coordinate = finishPoint.location.coordinate
             
             //removeAnnotations(annotations)
             addAnnotations([startAnnotation, finishAnnotation])

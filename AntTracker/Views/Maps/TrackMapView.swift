@@ -21,8 +21,8 @@ struct TrackMapView: UIViewRepresentable {
         
         let geoTrack = GeoTrack(track: track)
         let center = geoTrack.centerPoint!
-        let distFromWestToEast = geoTrack.westPoint!.distance(from: geoTrack.eastPoint!)
-        let distFromNorthToSouth = geoTrack.northPoint!.distance(from: geoTrack.southPoint!)
+        let distFromWestToEast = geoTrack.westPoint!.location.distance(from: geoTrack.eastPoint!.location)
+        let distFromNorthToSouth = geoTrack.northPoint!.location.distance(from: geoTrack.southPoint!.location)
         
         let maxDist = max(distFromWestToEast, distFromNorthToSouth)
         

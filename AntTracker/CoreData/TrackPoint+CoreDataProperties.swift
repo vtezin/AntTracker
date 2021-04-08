@@ -25,6 +25,7 @@ extension TrackPoint {
     @NSManaged public var course: Double
     @NSManaged public var timestamp: Date
     @NSManaged public var verticalAccuracy: Double
+    @NSManaged public var type: String
     @NSManaged public var track: Track
 
 }
