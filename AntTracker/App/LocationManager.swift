@@ -18,7 +18,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var trackRecording: Bool {
         didSet {
             manager.allowsBackgroundLocationUpdates = trackRecording
-            UIApplication.shared.isIdleTimerDisabled = trackRecording
+            
+            if UserDefaults.standard.bool(forKey: "disableAutolockScreenWhenTrackRecording") {
+                UIApplication.shared.isIdleTimerDisabled = trackRecording
+            }
         }
     }
     

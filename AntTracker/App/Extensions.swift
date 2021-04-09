@@ -124,7 +124,9 @@ extension Double {
 
 extension MKMapView {
     
-    func addTrackLine(trackPoints: [GeoTrack.GeoTrackPoint], title: String, subtitle: String, showStartFinish: Bool) {
+    func addTrackLine(geoTrack: GeoTrack, title: String, subtitle: String, showStartFinish: Bool) {
+        
+        let trackPoints = geoTrack.points
         
         if trackPoints.isEmpty {
             return

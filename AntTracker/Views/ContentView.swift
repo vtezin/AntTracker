@@ -33,6 +33,8 @@ struct ContentView: View {
         
     @State private var showAlertForTrackTittle = false
     
+    @State private var showAppSettings = false
+    
     var body: some View {
         
         NavigationView{
@@ -159,11 +161,11 @@ struct ContentView: View {
                             
                             VStack{
                                 
-                                Image(systemName: "gear")
+                                Image(systemName: "gearshape")
                                     .modifier(MapButton())
                                     .onTapGesture {
                                         
-                                       showAlertForTrackTittle = true
+                                       showAppSettings = true
                                         
                                     }
                                 
@@ -233,6 +235,9 @@ struct ContentView: View {
                 isNavigationBarHidden = true
             }
             .ignoresSafeArea(.all)
+            .sheet(isPresented: $showAppSettings) {
+                AppSettings()
+            }
             
             .alert(isPresented: $showAlertForTrackTittle,
                    TextAlert(title: "Track title",

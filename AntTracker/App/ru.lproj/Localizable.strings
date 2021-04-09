@@ -20,3 +20,8 @@
 "Cancel" = "Отмена";
 "alt." = "выс.";
 "saved" = "записан";
+
+"Settings" = "Настройки";
+"Color of current track" = "Цвет текущего трека";
+"Disable auto-lock screen when recording a track" = "Отключать автоблокировку экрана при записи трека";
+

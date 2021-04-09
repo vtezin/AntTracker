@@ -11,6 +11,7 @@
 		521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */; };
 		521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
+		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52779A7F25FA64B000CE50EE /* POIControlsView.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
@@ -42,6 +43,7 @@
 		521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceController.swift; sourceTree = "<group>"; };
 		521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLInfoView.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
+				526D9D06261FFD03002A606D /* AppSettings.swift */,
 				52E62906261BADF300A21665 /* AppIconGenerate.swift */,
 				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				52F04F632619A16300C261C0 /* Tracks */,
@@ -292,6 +295,7 @@
 				52DD9533260D08C500F4E700 /* TrackView.swift in Sources */,
 				52DD9545260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift in Sources */,
 				52DD9537260D138400F4E700 /* Track+CoreDataClass.swift in Sources */,
+				526D9D07261FFD03002A606D /* AppSettings.swift in Sources */,
 				521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

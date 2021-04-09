@@ -26,6 +26,8 @@ struct MapView: UIViewRepresentable {
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
     
+    @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
+    
 //    @Environment(\.managedObjectContext) var moc
 //    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks:FetchedResults<Track>
     
@@ -64,13 +66,12 @@ struct MapView: UIViewRepresentable {
             let overlays = view.overlays
             view.removeOverlays(overlays)
         }
-        
-        let trackPoints = currentTrack.accuracyPoints(maxAccuracy: 10)
-        
+
         if clManager.trackRecording
         {
             
-            view.addTrackLine(trackPoints: trackPoints, title: "current track", subtitle: "orange", showStartFinish: false)
+            
+            view.addTrackLine(geoTrack: currentTrack,  title: "current track", subtitle: currentTrackColor, showStartFinish: false)
             
         }
         
