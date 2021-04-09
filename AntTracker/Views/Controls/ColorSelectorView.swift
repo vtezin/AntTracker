@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ColorSelectorView: View {
+    
     @Binding var selectedColor: Color
+    var showPrimaryColor = false
     
     let colors = [
     Color.primary,
@@ -16,6 +18,7 @@ struct ColorSelectorView: View {
     Color.green,
     Color.red,
     Color.orange,
+    Color.yellow,
     Color.purple]
     
     var body: some View {
@@ -23,7 +26,7 @@ struct ColorSelectorView: View {
         HStack(spacing: 10){
             
             ForEach(colors, id: \.self) { color in
-
+                
                 self.image(for: color)
                     .onTapGesture {
                         selectedColor = color
@@ -40,15 +43,22 @@ struct ColorSelectorView: View {
     func image(for color: Color) -> some View {
         
         switch color {
+        
         case Color.primary:
-            return Image(systemName: "circle.lefthalf.fill")
-                .foregroundColor(color)
+            
+            if showPrimaryColor {
+                return AnyView(Image(systemName: "circle.lefthalf.fill")
+                    .foregroundColor(color))
+            } else {
+                return AnyView(EmptyView())
+            }
+            
         case selectedColor:
-            return Image(systemName: "circle.fill")
-                .foregroundColor(color)
+            return AnyView(Image(systemName: "circle.fill")
+                .foregroundColor(color))
         default:
-            return Image(systemName: "circle")
-                .foregroundColor(color)
+            return AnyView(Image(systemName: "circle")
+                .foregroundColor(color))
         }
         
         

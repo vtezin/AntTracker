@@ -56,6 +56,8 @@ extension Color {
             return Color.gray
         case "orange":
             return Color.orange
+        case "yellow":
+            return Color.yellow
         case "purple":
             return Color.purple
         default:
