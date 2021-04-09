@@ -11,6 +11,8 @@ import MapKit
 struct ContentView: View {
     
     @State private var mapType: MKMapType = .hybrid
+    @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
+    
     @State private var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     
     @State private var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -63,6 +65,8 @@ struct ContentView: View {
                         //print("\(clManager.region.center)")
                     }
                     
+                    mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+                    
                 })
                 .onTapGesture() {
                     withAnimation {
@@ -108,9 +112,11 @@ struct ContentView: View {
                                         
                                         if currentTrack.trackCoreData != nil {
                                         
-                                            HStack{
-                                                Text(currentTrack.trackCoreData!.title)
+                                            VStack{
+                                                Text(currentTrack.title)
                                                 Text("saved")
+                                                    .font(.footnote)
+                                                    .foregroundColor(.secondary)
                                             }
                                             Spacer()
                                             
@@ -173,6 +179,7 @@ struct ContentView: View {
                                     .modifier(MapButton())
                                     .onTapGesture {
                                         mapType = mapType == .standard ? .hybrid : .standard
+                                        lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
                                         needChangeMapView = true
                                     }
                                 
@@ -449,9 +456,9 @@ struct ContentView: View {
         //print("\(span.latitudeDelta)")
         
         if span.latitudeDelta < 0.05 {
-            return 3
+            return 2
         } else {
-            return 6
+            return 4
         }
         
     }

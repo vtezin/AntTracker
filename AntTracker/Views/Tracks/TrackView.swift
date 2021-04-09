@@ -12,6 +12,7 @@ struct TrackView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
     
     let track: Track
     
@@ -22,6 +23,8 @@ struct TrackView: View {
     @State var color: Color = .orange
     
     @State private var mapType: MKMapType = .hybrid
+    @State private var showSettings = false
+    @State private var mapSettingsChanged = false
     
     enum Tab {
         case map
@@ -32,75 +35,47 @@ struct TrackView: View {
     
     var body: some View {
         
-        TabView(selection: $currentTab) {
+        ZStack{
             
-            ZStack{
-                
+            //hint for redraw map when settings changed
+            if mapSettingsChanged {
                 TrackMapView(track: track, mapType: $mapType)
+            } else {
+                TrackMapView(track: track, mapType: $mapType)
+            }
+            
+            VStack {
                 
+                TrackInfo(geoTrack: track.convertToGeoTrack())
+                    .modifier(MapControl())
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .padding(5)
                 
-                VStack {
-                    
-                    TrackInfo(geoTrack: track.convertToGeoTrack())
-                        .modifier(MapControl())
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .padding(5)
+                Spacer()
+                
+                HStack{
+                    Image(systemName: mapType == .standard ? "globe" : "map")
+                        .modifier(MapButton())
+                        .onTapGesture(count: 1) {
+                            
+                            mapType = mapType == .standard ? .hybrid : .standard
+                            
+                        }
                     
                     Spacer()
                     
-                    HStack{
-                        Image(systemName: mapType == .standard ? "globe" : "map")
-                            .modifier(MapButton())
-                            .onTapGesture(count: 1) {
-                                
-                                mapType = mapType == .standard ? .hybrid : .standard
-                                //needChangeMapView = true
-                                
-                            }
-                        
-                        Spacer()
-                    }
-                    .padding()
+                    Image(systemName: "gearshape")
+                        .modifier(MapButton())
+                        .onTapGesture {
+                           showSettings = true
+                        }
                     
                 }
+                .padding()
                 
             }
-            .tabItem {
-                Label("Map", systemImage: "map")
-            }
-            .tag(Tab.map)
-            
-            Form{
-                
-                Section(header: Text("Title")) {
-                    TextField("", text: $title)
-                    HStack{
-                        ColorSelectorView(selectedColor: $color)
-                    }
-                }
-                
-                Section(header: Text("Description")) {
-                    
-                    //TextField("", text: $info)
-                    
-                    ZStack {
-                        TextEditor(text: $info)
-                        Text(info).opacity(0).padding(.all, 8)
-                    }
-                    
-                }
-                
-                
-            }
-            .tabItem {
-                Label("Properties", systemImage: "list.bullet")
-            }
-            .tag(Tab.properties)
-            
-
             
         }
-        
         
         .onAppear{
             
@@ -110,9 +85,15 @@ struct TrackView: View {
             showOnMap = track.showOnMap
             color = Color.getColorFromName(colorName: track.color)
             
+            mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+            
         }
-        .navigationBarTitle(Text(track.title), displayMode: .inline)
         
+        .sheet(isPresented: $showSettings) {
+            trackSettings
+        }
+        
+        .navigationBarTitle(Text(title), displayMode: .inline)
         .navigationBarItems(
             trailing: Button(action: {
                 save()
@@ -132,6 +113,45 @@ struct TrackView: View {
         track.color = color.description
         
         try? self.moc.save()
+        
+    }
+    
+    
+    var trackSettings: some View {
+        
+        NavigationView {
+            
+            Form{
+                
+                Section(header: Text("Title")) {
+                    TextField("", text: $title)
+                }
+                
+                Section(header: Text("Color")) {
+                    ColorSelectorView(selectedColor: $color)
+                }
+                
+                Section(header: Text("Description")) {
+                    
+                    ZStack {
+                        TextEditor(text: $info)
+                        Text(info).opacity(0).padding(.all, 8)
+                    }
+                    
+                }
+                
+            }
+            .navigationBarTitle(Text("Settings"), displayMode: .inline)
+            .navigationBarItems(
+                trailing: Button(action: {
+                    save()
+                    showSettings = false
+                    mapSettingsChanged.toggle()
+                }) {
+                    Text("Save")
+                })
+            
+        }
         
     }
     

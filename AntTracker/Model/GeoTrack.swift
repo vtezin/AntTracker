@@ -12,6 +12,8 @@ import CoreData
 class GeoTrack: ObservableObject {
     
     @Published var points: [GeoTrackPoint]
+    @Published var title = ""
+    
     var trackCoreData: Track?
     
     static let shared = GeoTrack()
@@ -42,6 +44,8 @@ class GeoTrack: ObservableObject {
     }
     
     init(track: Track) {
+        
+        title = track.title
         
         points = track.trackPointsArray.map {
             
@@ -239,6 +243,7 @@ class GeoTrack: ObservableObject {
     
     func setTrackCoreDataProperties(trackCD: Track, moc: NSManagedObjectContext) {
         
+        trackCD.title = title
         trackCD.totalDistance = Int64(totalDistance(maxAccuracy: 10))
         trackCD.startDate = startDate
         trackCD.finishDate = finishDate
@@ -269,9 +274,10 @@ class GeoTrack: ObservableObject {
     
     func saveNewTrackToDB(title: String, moc: NSManagedObjectContext) {
         
+        self.title = title
+        
         let trackCD = Track(context: moc)
         trackCD.id = UUID()
-        trackCD.title = title
         trackCD.info = ""
         trackCD.region = ""
         trackCD.color = "blue"
