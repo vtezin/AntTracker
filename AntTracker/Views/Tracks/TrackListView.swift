@@ -12,13 +12,12 @@ struct TrackListView: View {
     @Binding var isNavigationBarHidden: Bool
     
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: true)]) var tracks:FetchedResults<Track>
+    @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
     @State private var indexSetToDelete: IndexSet?
     @State private var showingQuestionBeforDelete = false
     
     var body: some View {
-        
         
         List{
             

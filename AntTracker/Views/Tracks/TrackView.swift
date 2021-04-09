@@ -94,13 +94,6 @@ struct TrackView: View {
         }
         
         .navigationBarTitle(Text(title), displayMode: .inline)
-        .navigationBarItems(
-            trailing: Button(action: {
-                save()
-                presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Save")
-            })
         
     }
     

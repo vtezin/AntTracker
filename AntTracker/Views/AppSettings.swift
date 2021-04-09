@@ -11,6 +11,7 @@ struct AppSettings: View {
     
     @AppStorage("disableAutolockScreenWhenTrackRecording") var disableAutolockScreenWhenTrackRecording: Bool = false
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
+    @Environment(\.presentationMode) var presentationMode
     
     @State var color: Color = .orange
     
@@ -41,6 +42,12 @@ struct AppSettings: View {
             }
             
             .navigationBarTitle("Settings", displayMode: .inline)
+            .navigationBarItems(
+                trailing: Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                })
             
         }
         
