@@ -37,6 +37,8 @@ struct ContentView: View {
     
     @State private var showAppSettings = false
     
+    @State private var showQuestionBeforeResetTrack = false
+    
     var body: some View {
         
         NavigationView{
@@ -133,9 +135,7 @@ struct ContentView: View {
                                     Spacer()
                                 }
                                 
-                                
                                 buttonTrackPlayPause
-                                
                                 
                             }
 
@@ -252,10 +252,20 @@ struct ContentView: View {
                              keyboardType: .default) { result in
                     if let text = result {
                         currentTrack.saveNewTrackToDB(title: text, moc: moc)
-                    } else {
-                        
                     }
                    })
+            
+            .alert(isPresented:$showQuestionBeforeResetTrack) {
+                Alert(title: Text("Reset current track?"),
+                      message: Text(currentTrack.trackCoreData == nil ? "" : "(the saved track will remain in the database)"),
+                      primaryButton: .destructive(Text("Reset")) {
+                    
+                    clManager.trackRecording = false
+                    currentTrack.reset()
+                    
+                }, secondaryButton: .cancel())
+            }
+            
             
         }
         
@@ -360,15 +370,14 @@ struct ContentView: View {
         Image(systemName: "xmark.circle")
             .font(Font.title.weight(.light))
             .onTapGesture() {
-                clManager.trackRecording = false
-                currentTrack.reset()
+                showQuestionBeforeResetTrack = true
             }
         
     }
     
     var buttonTrackSave: some View {
         
-        Image(systemName: "square.and.arrow.down")
+        Image(systemName: "tray.and.arrow.down")
             .font(Font.title.weight(.light))
             .onTapGesture() {
                 
