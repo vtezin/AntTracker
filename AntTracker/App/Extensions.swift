@@ -101,7 +101,8 @@ extension CLLocationSpeed {
     var localeSpeedString: String {
         
         let formatter = MeasurementFormatter()
-        let speedInMSec = Measurement(value: self, unit: UnitSpeed.metersPerSecond)
+        let valueForOutput = max(0, self) //speed is positive
+        let speedInMSec = Measurement(value: valueForOutput, unit: UnitSpeed.metersPerSecond)
         formatter.unitStyle = MeasurementFormatter.UnitStyle.medium
         formatter.unitOptions = .naturalScale
         return formatter.string(from: speedInMSec)

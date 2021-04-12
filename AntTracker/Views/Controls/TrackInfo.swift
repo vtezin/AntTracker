@@ -41,7 +41,6 @@ struct TrackInfo: View {
                 
                 VStack{
                     
-                    
                     HStack {
                         Image(systemName: "hare")
                         Text("max" + " \(geoTrack.maxSpeedPoint?.location.speed.localeSpeedString ?? "0")")
