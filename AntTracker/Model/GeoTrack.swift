@@ -106,9 +106,16 @@ class GeoTrack: ObservableObject {
         //let formatter = MKDistanceFormatter()
         //return formatter.string(fromDistance: totalDistance(maxAccuracy: maxAccuracy))
         
-        let intMeters = Int(totalDistance(maxAccuracy: maxAccuracy))
-    
-        return String(intMeters) + " " + "m"
+        //let intMeters = Int(totalDistance(maxAccuracy: maxAccuracy))
+        //return String(intMeters) + " " + "m"
+        
+//        let formatter = MeasurementFormatter()
+//        let distanceInMeters = Measurement(value: totalDistance(maxAccuracy: maxAccuracy), unit: UnitLength.meters)
+//        formatter.unitStyle = MeasurementFormatter.UnitStyle.medium
+//        return formatter.string(from: distanceInMeters)
+        
+        return localeDistanceString(distanceMeters: totalDistance(maxAccuracy: maxAccuracy))
+        
     }
     
     func accuracyPoints(maxAccuracy: Int) -> [GeoTrackPoint] {
@@ -161,7 +168,7 @@ class GeoTrack: ObservableObject {
                 
     }
     
-    var minAltitude: Int {
+    var minAltitude: Int{
         
         if let maxAltPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.altitude < b.location.altitude}) {
             return Int(maxAltPoint.location.altitude)

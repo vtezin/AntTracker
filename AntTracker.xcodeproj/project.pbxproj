@@ -11,6 +11,7 @@
 		521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */; };
 		521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
+		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52779A7F25FA64B000CE50EE /* POIControlsView.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
@@ -43,6 +44,7 @@
 		521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceController.swift; sourceTree = "<group>"; };
 		521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLInfoView.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				52D3A93825E68310001A50C1 /* MapView.swift */,
 				52F04F672619A30B00C261C0 /* TrackMapView.swift */,
+				526B5D3E2624B90600A48AFC /* MapDrawing.swift */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				52F91140261C723500309F63 /* AlertWithTextField.swift in Sources */,
 				52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */,
 				52D3A93D25E6A96D001A50C1 /* LocationManager.swift in Sources */,
+				526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */,
 				52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */,
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,

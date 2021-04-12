@@ -37,7 +37,7 @@ struct TrackListView: View {
                             Spacer()
                             VStack(alignment: .trailing){
                                 Text(track.startDate.dateString())
-                                Text("\(track.totalDistance)" + " " + "m")
+                                Text(localeDistanceString(distanceMeters: Double(track.totalDistance)))
                             }
                             .modifier(SecondaryInfo())
                         }

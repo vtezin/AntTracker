@@ -44,7 +44,7 @@ struct TrackInfo: View {
                     
                     HStack {
                         Image(systemName: "hare")
-                        Text("max" + " \(geoTrack.maxSpeedPoint?.location.speed.doubleKmH.string2s ?? "0") " + "km/h")
+                        Text("max" + " \(geoTrack.maxSpeedPoint?.location.speed.localeSpeedString ?? "0")")
                     }
                     
                     

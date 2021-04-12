@@ -290,7 +290,7 @@ struct ContentView: View {
             HStack {
                 
                 VStack{
-                    Text(clManager.location.speedKmH + " " + "km/h")
+                    Text(clManager.location.speed.localeSpeedString)
                         .font(.body)
                     if gpsAccuracy > 10 || showFullCLInfo {
                         Text("gps +/- \(gpsAccuracy) m")
@@ -440,19 +440,13 @@ struct ContentView: View {
     
     var buttonCurLocation: some View {
         
-        Image(systemName: "location.north")
+        Image(systemName: followCL ? "plus.viewfinder" : "location.north")
             .modifier(MapButton())
             .overlay(
                 Circle()
                     .stroke(Color.systemBackground,
                             lineWidth: followCL ? 3 : 0)
             )
-            
-//            .onTapGesture(count: 2) {
-//                followCL.toggle()
-//                needChangeMapView = true
-//                showAdditionalControls = false
-//            }
             
             .onTapGesture() {
                 center = clManager.region.center

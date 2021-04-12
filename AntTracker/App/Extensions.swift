@@ -84,6 +84,7 @@ extension BinaryFloatingPoint {
 extension CLLocation {
     
     var dms: String { latitude + " " + longitude }
+    
     var latitude: String {
         let (degrees, minutes, seconds) = coordinate.latitude.dms
         return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "N" : "S")
@@ -93,25 +94,18 @@ extension CLLocation {
         return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "E" : "W")
     }
     
-    var speedKmH: String {
-        
-        if speed <= 0 {
-            return "0"
-        }
-        
-        let doubleSpeed = Double(speed)
-        //convert to km/h
-        let doubleSpeedKmH = doubleSpeed/1000 * 60 * 60
-        return String(format: "%.1f", doubleSpeedKmH)
-        
-    }
-    
 }
 
 extension CLLocationSpeed {
     
-    var doubleKmH: Double {
-        return self/1000 * 60 * 60
+    var localeSpeedString: String {
+        
+        let formatter = MeasurementFormatter()
+        let speedInMSec = Measurement(value: self, unit: UnitSpeed.metersPerSecond)
+        formatter.unitStyle = MeasurementFormatter.UnitStyle.medium
+        formatter.unitOptions = .naturalScale
+        return formatter.string(from: speedInMSec)
+        
     }
     
 }
@@ -124,96 +118,18 @@ extension Double {
     
 }
 
-extension MKMapView {
+func localeDistanceString(distanceMeters: Double) -> String {
     
-    func addTrackLine(geoTrack: GeoTrack, title: String, subtitle: String, showStartFinish: Bool) {
+    if distanceMeters < 1 {
+        return "0"
+    } else {
+        let formatter = MeasurementFormatter()
+        let distanceInMeters = Measurement(value: Double(Int(distanceMeters)), unit: UnitLength.meters)
+        formatter.unitStyle = MeasurementFormatter.UnitStyle.short
+        formatter.unitOptions = .naturalScale
         
-        let trackPoints = geoTrack.points
-        
-        if trackPoints.isEmpty {
-            return
-        }
-        
-        var coordinates = [CLLocationCoordinate2D]()
-        for point in trackPoints {
-            coordinates.append(point.location.coordinate)
-        }
-        
-        let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
-        polyline.title = title
-        polyline.subtitle = subtitle
-
-        
-        //removing old overlay
-        
-        for overlay in overlays {
-            if overlay.title == title {
-                removeOverlays([overlay])
-            }
-        }
-        
-        addOverlays([polyline])
-        
-        if showStartFinish {
-            
-            //adding start point
-                
-            let startPoint = trackPoints.first!
-            
-            let startAnnotation = MKPointAnnotation()
-            
-            startAnnotation.title = startPoint.location.timestamp.dateString()
-            startAnnotation.subtitle = "Start"
-            startAnnotation.coordinate = startPoint.location.coordinate
-            
-            let finishPoint = trackPoints.last!
-            
-            let finishAnnotation = MKPointAnnotation()
-            
-            finishAnnotation.title = finishPoint.location.timestamp.timeString()
-            finishAnnotation.subtitle = "Finish"
-            finishAnnotation.coordinate = finishPoint.location.coordinate
-            
-            //removeAnnotations(annotations)
-            addAnnotations([startAnnotation, finishAnnotation])
-            
-        }
-    
+        return formatter.string(from: distanceInMeters)
     }
     
 }
 
-func setAnnotationView(annotation:MKAnnotation, showFinish: Bool) -> MKAnnotationView? {
-    
-    if annotation.subtitle == "Start" {
-        
-        let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
-
-        annotationView.markerTintColor = UIColor(red: (69.0/255), green: (95.0/255), blue: (170.0/255), alpha: 1.0)
-        
-        return annotationView
-        
-    } else if showFinish && annotation.subtitle == "Finish" {
-      
-        let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
-        annotationView.markerTintColor = UIColor(red: (146.0/255), green: (187.0/255), blue: (217.0/255), alpha: 1.0)
-        return annotationView
-        
-    }
-    
-    return nil
-}
-
-func setTrackOverlayRenderer(trackPolilyne: MKPolyline) -> MKOverlayRenderer {
-    
-    let pr = MKPolylineRenderer(overlay: trackPolilyne)
-    
-    let color = UIColor(Color.getColorFromName(colorName: (trackPolilyne.subtitle ?? "orange") )).withAlphaComponent(1)
-    
-    pr.lineWidth = 4
-    
-    pr.strokeColor = color
-    
-    return pr
-    
-}
