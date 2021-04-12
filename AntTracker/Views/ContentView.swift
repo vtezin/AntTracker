@@ -59,6 +59,7 @@ struct ContentView: View {
                     //.edgesIgnoringSafeArea(.top)
                     
                 }
+                .zIndex(0)
                 .onAppear(perform: {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -86,10 +87,6 @@ struct ContentView: View {
                     if showRecordTrackControls {
                         
                         VStack {
-                            
-                            HStack{
-                                TrackInfo(geoTrack: currentTrack)
-                            }
                             
                             HStack {
                                 
@@ -138,11 +135,22 @@ struct ContentView: View {
                                 buttonTrackPlayPause
                                 
                             }
+                            
+                            HStack{
+                                TrackInfo(geoTrack: currentTrack)
+                            }
 
                         }
-                        
                         .modifier(MapControl())
                         .transition(.move(edge: .top))
+                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                            .onEnded({ value in
+                                                if value.translation.height < 0 {
+                                                    withAnimation {
+                                                        showRecordTrackControls = false
+                                                    }
+                                                }
+                                            }))
                         
                     }
                     
@@ -152,7 +160,7 @@ struct ContentView: View {
                         .padding()
                     
                 }
-                
+                .zIndex(1)
                 
                 
                 // layer 3 - controls
@@ -233,7 +241,7 @@ struct ContentView: View {
                     .padding()
                     
                 }
-                
+                .zIndex(2)
                 
             }
             .navigationBarTitle("Map", displayMode: .inline)
