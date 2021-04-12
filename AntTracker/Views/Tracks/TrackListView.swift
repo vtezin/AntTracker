@@ -39,8 +39,7 @@ struct TrackListView: View {
                                 Text(track.startDate.dateString())
                                 Text("\(track.totalDistance)" + " " + "m")
                             }
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
+                            .modifier(SecondaryInfo())
                         }
                         
                     }

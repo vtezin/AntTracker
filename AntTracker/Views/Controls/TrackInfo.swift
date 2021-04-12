@@ -11,6 +11,7 @@ struct TrackInfo: View {
     
     @StateObject var geoTrack: GeoTrack
     @State private var showFullInfo = false
+    var showStartFinishDates = true
     
     var body: some View {
         
@@ -31,7 +32,6 @@ struct TrackInfo: View {
                 }
             }
             HStack {
-                Image(systemName: "timer")
                 Text(geoTrack.durationString)
             }
             
@@ -40,6 +40,7 @@ struct TrackInfo: View {
                 Divider()
                 
                 VStack{
+                    
                     
                     HStack {
                         Image(systemName: "hare")
@@ -53,6 +54,14 @@ struct TrackInfo: View {
                         Text("\(geoTrack.maxAltitude) " + "m")
                     }
  
+                    if showStartFinishDates {
+                        Divider()
+                        VStack{
+                            Text(geoTrack.startDate.dateString())
+                            Text(geoTrack.finishDate.dateString())
+                        }
+                        .modifier(SecondaryInfo())
+                    }
                     
                 }
                 

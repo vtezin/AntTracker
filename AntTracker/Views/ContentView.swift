@@ -73,31 +73,28 @@ struct ContentView: View {
                 })
                 .onTapGesture() {
                     withAnimation {
-                        //showAdditionalControls = false
                         showAdditionalControls.toggle()
                     }
                 }
                 
-                // layer 2 - track info
+                // layer 2 - track controls + cur.location info
                 
                 VStack{
                     
-                    // panel
-                    
+                    // track controls
                     if showRecordTrackControls {
                         
                         VStack {
                             
-                            HStack {
-                                
-                                NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
-                                    
-                                    Image(systemName: "tray.full")
-                                        .font(Font.title.weight(.light))
-                                    
-                                }
-                                
+                            HStack{
+                                buttonTrackList
                                 Spacer()
+                                TrackInfo(geoTrack: currentTrack, showStartFinishDates: false)
+                                Spacer()
+                                buttonTrackPlayPause
+                            }
+                            
+                            HStack {
                                 
                                 if currentTrack.points.count > 0 && !clManager.trackRecording {
                                     
@@ -111,7 +108,7 @@ struct ContentView: View {
                                         
                                         if currentTrack.trackCoreData != nil {
                                         
-                                            VStack{
+                                            HStack{
                                                 Text(currentTrack.title)
                                                 Text("saved")
                                                     .font(.footnote)
@@ -123,22 +120,15 @@ struct ContentView: View {
                                         
                                     }
                                     
-                                    
                                     buttonTrackReset
-                                    Spacer()
                                     
                                 }
                                 else {
                                     Spacer()
                                 }
                                 
-                                buttonTrackPlayPause
-                                
                             }
-                            
-                            HStack{
-                                TrackInfo(geoTrack: currentTrack)
-                            }
+
 
                         }
                         .modifier(MapControl())
@@ -335,9 +325,62 @@ struct ContentView: View {
         
     }
     
+    
+    var buttonTrackList: some View {
+        
+        NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
+            
+            Image(systemName: "tray.full")
+                .modifier(TrackControlButton())
+            
+        }
+        
+    }
+    
+    var buttonTrackPlayPause: some View {
+        
+        Image(systemName: clManager.trackRecording ? "pause.circle" : "play.circle")
+            .modifier(TrackControlButton())
+            .onTapGesture() {
+                withAnimation{
+                    clManager.trackRecording.toggle()
+                }
+            }
+        
+    }
+    
+    var buttonTrackReset: some View {
+        
+        Image(systemName: "xmark.circle")
+            .modifier(TrackControlButton())
+            .onTapGesture() {
+                showQuestionBeforeResetTrack = true
+            }
+        
+    }
+    
+    var buttonTrackSave: some View {
+        
+        Image(systemName: "tray.and.arrow.down")
+            
+            .modifier(TrackControlButton())
+            
+            .onTapGesture() {
+                
+                if currentTrack.trackCoreData == nil {
+                    //save new track
+                    showAlertForTrackTittle = true
+                } else {
+                    //update current track
+                    currentTrack.updateTrackInDB(moc: moc)
+                }
+                
+            }
+        
+    }
+    
     var buttonTrackRecording: some View {
         
-        //Image(systemName: "arrow.triangle.swap")
         Image(systemName: "ant")
             .modifier(MapButton())
             .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
@@ -361,47 +404,6 @@ struct ContentView: View {
     }
     
     
-    var buttonTrackPlayPause: some View {
-        
-        Image(systemName: clManager.trackRecording ? "pause.circle" : "play.circle")
-            .font(Font.largeTitle.weight(.light))
-            .onTapGesture() {
-                withAnimation{
-                    clManager.trackRecording.toggle()
-                }
-            }
-        
-    }
-    
-    var buttonTrackReset: some View {
-        
-        Image(systemName: "xmark.circle")
-            .font(Font.title.weight(.light))
-            .onTapGesture() {
-                showQuestionBeforeResetTrack = true
-            }
-        
-    }
-    
-    var buttonTrackSave: some View {
-        
-        Image(systemName: "tray.and.arrow.down")
-            .font(Font.title.weight(.light))
-            .onTapGesture() {
-                
-                if currentTrack.trackCoreData == nil {
-                   
-                    //save new track
-                    showAlertForTrackTittle = true
-                    
-                } else {
-                    //update current track
-                    currentTrack.updateTrackInDB(moc: moc)
-                }
-                
-            }
-        
-    }
     
     
     var buttonZoomIn: some View {

@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct MapButton: ViewModifier {
+    
     func body(content: Content) -> some View {
         
         ZStack {
             
-            //for standart sizes
+            //for same sizes all buttons
             Image(systemName: "plus")
                 .opacity(0.0)
             
@@ -44,6 +45,21 @@ struct MapControl: ViewModifier {
         content
             .padding()
             .modifier(MapControlColors())
+    }
+}
+
+struct TrackControlButton: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(Font.largeTitle.weight(.light))
+    }
+}
+
+struct SecondaryInfo: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.footnote)
+            .foregroundColor(.secondary)
     }
 }
 
