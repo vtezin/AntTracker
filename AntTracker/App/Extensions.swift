@@ -101,11 +101,19 @@ extension CLLocationSpeed {
     var localeSpeedString: String {
         
         let formatter = MeasurementFormatter()
-        let valueForOutput = max(0, self) //speed is positive
+        let valueForOutput = max(0, self.roundedForKmH()) //speed is positive
         let speedInMSec = Measurement(value: valueForOutput, unit: UnitSpeed.metersPerSecond)
         formatter.unitStyle = MeasurementFormatter.UnitStyle.medium
         formatter.unitOptions = .naturalScale
         return formatter.string(from: speedInMSec)
+        
+    }
+    
+    func roundedForKmH() -> Double {
+        
+        let speedKmH = self/1000 * 3600
+    
+        return speedKmH.rounded(toPlaces: 1) / 3600 * 1000
         
     }
     
@@ -115,6 +123,12 @@ extension Double {
     
     var string2s: String {
         return String(format: "%.2f", self)
+    }
+    
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
     
 }
