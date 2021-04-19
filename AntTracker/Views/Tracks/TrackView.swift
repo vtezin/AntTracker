@@ -94,6 +94,16 @@ struct TrackView: View {
         }
         
         .navigationBarTitle(Text(title), displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack{
+                Image(systemName: "chevron.left")
+                Text("     ")
+                //Image(systemName: "list.dash")
+            }
+        })
         
     }
     
@@ -117,7 +127,7 @@ struct TrackView: View {
             Form{
                 
                 Section(header: Text("Title")) {
-                    TextField("", text: $title)
+                    TextField("", text: $title).modifier(ClearButton(text: $title))
                 }
                 
                 Section(header: Text("Color")) {

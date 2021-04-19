@@ -49,7 +49,9 @@ struct TrackInfo: View {
                     
                     HStack {
                         Text("\(geoTrack.minAltitude)")
+                        //Text("112 m")
                         Image(systemName: "arrow.up.right")
+                        //Text("119 m")
                         Text("\(geoTrack.maxAltitude) " + "m")
                     }
  

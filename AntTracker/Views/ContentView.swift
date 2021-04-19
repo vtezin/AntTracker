@@ -247,6 +247,7 @@ struct ContentView: View {
             .alert(isPresented: $showAlertForTrackTittle,
                    TextAlert(title: "Track title",
                              message: "",
+                             text: Date().dateString(),
                              keyboardType: .default) { result in
                     if let text = result {
                         currentTrack.saveNewTrackToDB(title: text, moc: moc)
@@ -398,7 +399,7 @@ struct ContentView: View {
             .overlay(
                 Circle()
                     .stroke(Color.systemBackground,
-                            lineWidth: showRecordTrackControls ? 3 : 0)
+                            lineWidth: showRecordTrackControls ? 5 : 0)
             )
         
     }
@@ -440,12 +441,13 @@ struct ContentView: View {
     
     var buttonCurLocation: some View {
         
-        Image(systemName: followCL ? "plus.viewfinder" : "location.north")
+        //Image(systemName: followCL ? "location.viewfinder" : "location")
+        Image(systemName: "location")
             .modifier(MapButton())
             .overlay(
                 Circle()
                     .stroke(Color.systemBackground,
-                            lineWidth: followCL ? 3 : 0)
+                            lineWidth: followCL ? 5 : 0)
             )
             
             .onTapGesture() {

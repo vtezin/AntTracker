@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H512" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AnnotationPoint" representedClassName="AnnotationPoint" syncable="YES">
+        <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="subtittle" optional="YES" attributeType="String"/>
+        <attribute name="tittle" optional="YES" attributeType="String"/>
+        <relationship name="track" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Track" inverseName="trackAnnotationPoint" inverseEntity="Track"/>
+    </entity>
     <entity name="Track" representedClassName="Track" syncable="YES">
         <attribute name="color" optional="YES" attributeType="String"/>
         <attribute name="finishDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -10,18 +20,8 @@
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="totalDistance" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="trackAnnotationPoint" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackAnnotationPoint" inverseName="track" inverseEntity="TrackAnnotationPoint"/>
+        <relationship name="trackAnnotationPoint" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AnnotationPoint" inverseName="track" inverseEntity="AnnotationPoint"/>
         <relationship name="trackPoint" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackPoint" inverseName="track" inverseEntity="TrackPoint"/>
-    </entity>
-    <entity name="TrackAnnotationPoint" representedClassName="TrackAnnotationPoint" syncable="YES">
-        <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="color" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="subtittle" optional="YES" attributeType="String"/>
-        <attribute name="tittle" optional="YES" attributeType="String"/>
-        <relationship name="track" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Track" inverseName="trackAnnotationPoint" inverseEntity="Track"/>
     </entity>
     <entity name="TrackPoint" representedClassName="TrackPoint" syncable="YES">
         <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -38,7 +38,7 @@
     </entity>
     <elements>
         <element name="Track" positionX="-54" positionY="36" width="128" height="208"/>
-        <element name="TrackAnnotationPoint" positionX="-45" positionY="99" width="128" height="163"/>
+        <element name="AnnotationPoint" positionX="-45" positionY="99" width="128" height="163"/>
         <element name="TrackPoint" positionX="-63" positionY="-18" width="128" height="208"/>
     </elements>
 </model>

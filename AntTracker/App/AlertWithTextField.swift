@@ -9,23 +9,26 @@ import SwiftUI
 import UIKit
 
 public struct TextAlert {
-  public var title: String // Title of the dialog
-  public var message: String // Dialog message
-  public var placeholder: String = "" // Placeholder text for the TextField
-  public var accept: String = "OK" // The left-most button label
-  public var cancel: String? = "Cancel" // The optional cancel (right-most) button label
-  public var secondaryActionTitle: String? = nil // The optional center button label
-  public var keyboardType: UIKeyboardType = .default // Keyboard tzpe of the TextField
-  public var action: (String?) -> Void // Triggers when either of the two buttons closes the dialog
-  public var secondaryAction: (() -> Void)? = nil // Triggers when the optional center button is tapped
+    public var title: String // Title of the dialog
+    public var message: String // Dialog message
+    public var placeholder: String = "" // Placeholder text for the TextField
+    public var text: String = "" // Placeholder text for the TextField
+    public var accept: String = "OK" // The left-most button label
+    public var cancel: String? = "Cancel" // The optional cancel (right-most) button label
+    public var secondaryActionTitle: String? = nil // The optional center button label
+    public var keyboardType: UIKeyboardType = .default // Keyboard tzpe of the TextField
+    public var action: (String?) -> Void // Triggers when either of the two buttons closes the dialog
+    public var secondaryAction: (() -> Void)? = nil // Triggers when the optional center button is tapped
 }
 
 extension UIAlertController {
   convenience init(alert: TextAlert) {
     self.init(title: alert.title, message: alert.message, preferredStyle: .alert)
     addTextField {
-       $0.placeholder = alert.placeholder
-       $0.keyboardType = alert.keyboardType
+        $0.placeholder = alert.placeholder
+        $0.keyboardType = alert.keyboardType
+        $0.clearButtonMode = .whileEditing
+        $0.text = alert.text
     }
     if let cancel = alert.cancel {
       addAction(UIAlertAction(title: cancel, style: .cancel) { _ in

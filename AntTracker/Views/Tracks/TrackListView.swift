@@ -11,6 +11,7 @@ struct TrackListView: View {
     
     @Binding var isNavigationBarHidden: Bool
     
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
@@ -54,8 +55,18 @@ struct TrackListView: View {
             })
         }
         
-        
         .navigationBarTitle("Tracks", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack{
+                Image(systemName: "chevron.left")
+                Text("     ")
+                //Image(systemName: "ant")
+            }
+        })
+        
         .onAppear {
             isNavigationBarHidden = false
         }
