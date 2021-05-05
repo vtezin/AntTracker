@@ -52,7 +52,8 @@ struct TrackInfo: View {
                         //Text("112 m")
                         Image(systemName: "arrow.up.right")
                         //Text("119 m")
-                        Text("\(geoTrack.maxAltitude) " + "m")
+                        Text("\(geoTrack.maxAltitude)")
+                        Text("(\(geoTrack.maxAltitude - geoTrack.minAltitude)) " + "m")
                     }
  
                     if showStartFinishDates {

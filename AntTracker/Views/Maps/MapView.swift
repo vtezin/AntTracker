@@ -67,12 +67,9 @@ struct MapView: UIViewRepresentable {
             view.removeOverlays(overlays)
         }
 
-        if clManager.trackRecording
+        if clManager.trackRecording || mapChangedByButton
         {
-            
-            
-            view.addTrackLine(geoTrack: currentTrack,  title: "current track", subtitle: currentTrackColor, showStartFinish: false)
-            
+            view.addTrackLine(geoTrack: currentTrack,  title: "current track", subtitle: currentTrackColor, showFinish: false)
         }
         
     }

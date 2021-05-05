@@ -11,7 +11,7 @@ import SwiftUI
 
 extension MKMapView {
     
-    func addTrackLine(geoTrack: GeoTrack, title: String, subtitle: String, showStartFinish: Bool) {
+    func addTrackLine(geoTrack: GeoTrack, title: String, subtitle: String, showFinish: Bool) {
         
         let trackPoints = geoTrack.points
         
@@ -39,17 +39,21 @@ extension MKMapView {
         
         addOverlays([polyline])
         
-        if showStartFinish {
+        //adding start point
             
-            //adding start point
-                
-            let startPoint = trackPoints.first!
-            
-            let startAnnotation = MKPointAnnotation()
-            
-            startAnnotation.title = startPoint.location.timestamp.dateString()
-            startAnnotation.subtitle = "Start"
-            startAnnotation.coordinate = startPoint.location.coordinate
+        var annotations = [MKPointAnnotation]()
+        
+        let startPoint = trackPoints.first!
+        
+        let startAnnotation = MKPointAnnotation()
+        
+        startAnnotation.title = startPoint.location.timestamp.dateString()
+        startAnnotation.subtitle = "Start"
+        startAnnotation.coordinate = startPoint.location.coordinate
+        
+        annotations.append(startAnnotation)
+        
+        if showFinish {
             
             let finishPoint = trackPoints.last!
             
@@ -59,10 +63,12 @@ extension MKMapView {
             finishAnnotation.subtitle = "Finish"
             finishAnnotation.coordinate = finishPoint.location.coordinate
             
-            //removeAnnotations(annotations)
-            addAnnotations([startAnnotation, finishAnnotation])
+            annotations.append(finishAnnotation)
             
         }
+        
+        //removeAnnotations(annotations)
+        addAnnotations(annotations)
     
     }
     

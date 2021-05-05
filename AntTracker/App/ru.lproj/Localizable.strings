@@ -30,3 +30,5 @@
 "(the saved track will remain in the database)" = "(сохраненный трек останется в базе данных)";
 "Reset current track?" = "Очистить текущий трек?";
 "Reset" = "Очистить";
+
+"Information about your location is necessary for displaying it on the map and recording your routes." = "Информация о Вашем местоположении необходима для отображения его на карте и записи Ваших маршрутов.";

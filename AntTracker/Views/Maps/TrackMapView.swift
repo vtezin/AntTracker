@@ -38,7 +38,7 @@ struct TrackMapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
-        mapView.addTrackLine(geoTrack: geoTrack, title: track.title, subtitle: track.color, showStartFinish: true)
+        mapView.addTrackLine(geoTrack: geoTrack, title: track.title, subtitle: track.color, showFinish: true)
         
         return mapView
     }
