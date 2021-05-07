@@ -56,16 +56,16 @@ struct TrackListView: View {
         }
         
         .navigationBarTitle("Tracks", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-        }) {
-            HStack{
-                Image(systemName: "chevron.left")
-                Text("     ")
-                //Image(systemName: "ant")
-            }
-        })
+//        .navigationBarBackButtonHidden(true)
+//        .navigationBarItems(leading: Button(action: {
+//            self.presentationMode.wrappedValue.dismiss()
+//        }) {
+//            HStack{
+//                Image(systemName: "chevron.left")
+//                Text("     ")
+//                //Image(systemName: "ant")
+//            }
+//        })
         
         .onAppear {
             isNavigationBarHidden = false

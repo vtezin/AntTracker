@@ -12,6 +12,7 @@ struct AppSettings: View {
     @AppStorage("disableAutolockScreenWhenTrackRecording") var disableAutolockScreenWhenTrackRecording: Bool = false
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var clManager: LocationManager
     
     @State var color: Color = .orange
     
@@ -39,6 +40,9 @@ struct AppSettings: View {
             
             .onDisappear{
                 currentTrackColor = color.description
+                if disableAutolockScreenWhenTrackRecording {
+                    UIApplication.shared.isIdleTimerDisabled = clManager.trackRecording
+                }
             }
             
             .navigationBarTitle("Settings", displayMode: .inline)

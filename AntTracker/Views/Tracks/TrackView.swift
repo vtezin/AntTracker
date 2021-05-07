@@ -54,21 +54,22 @@ struct TrackView: View {
                 Spacer()
                 
                 HStack{
-                    Image(systemName: mapType == .standard ? "globe" : "map")
-                        .modifier(MapButton())
-                        .onTapGesture(count: 1) {
-                            
-                            mapType = mapType == .standard ? .hybrid : .standard
-                            
-                        }
+                    
+                    Button(action: {
+                        mapType = mapType == .standard ? .hybrid : .standard
+                    }) {
+                        Image(systemName: mapType == .standard ? "globe" : "map")
+                            .modifier(MapButton())
+                    }
                     
                     Spacer()
                     
-                    Image(systemName: "gearshape")
-                        .modifier(MapButton())
-                        .onTapGesture {
-                           showSettings = true
-                        }
+                    Button(action: {
+                        showSettings = true
+                    }) {
+                        Image(systemName: "gearshape")
+                            .modifier(MapButton())
+                    }
                     
                 }
                 .padding()
@@ -94,16 +95,16 @@ struct TrackView: View {
         }
         
         .navigationBarTitle(Text(title), displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-        }) {
-            HStack{
-                Image(systemName: "chevron.left")
-                Text("     ")
-                //Image(systemName: "list.dash")
-            }
-        })
+//        .navigationBarBackButtonHidden(true)
+//        .navigationBarItems(leading: Button(action: {
+//            self.presentationMode.wrappedValue.dismiss()
+//        }) {
+//            HStack{
+//                Image(systemName: "chevron.left")
+//                Text("     ")
+//                //Image(systemName: "list.dash")
+//            }
+//        })
         
     }
     

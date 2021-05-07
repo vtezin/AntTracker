@@ -73,25 +73,48 @@ extension Color {
 }
 
 extension BinaryFloatingPoint {
+    
     var dms: (degrees: Int, minutes: Int, seconds: Int) {
         var seconds = Int(self * 3600)
         let degrees = seconds / 3600
         seconds = abs(seconds % 3600)
         return (degrees, seconds / 60, seconds % 60)
     }
+    
 }
 
 extension CLLocation {
     
-    var dms: String { latitude + " " + longitude }
+    var coordinateDMS: String { latitudeDMS + " " + longitudeDMS }
+    var coordinateDegrees: String {"\(coordinate.latitude) \(coordinate.longitude)"}
     
-    var latitude: String {
+    var coordinateStrings: [String] {
+        
+        var stringsArray = [String]()
+        
+        stringsArray.append(latitudeDMS + ", " + longitudeDMS)
+        stringsArray.append(String(format: "%.5f", coordinate.latitude) + " "
+                                + String(format: "%.5f",coordinate.longitude))
+        stringsArray.append(latitudeDegrees + ", " + longitudeDegrees)
+        
+        return stringsArray
+    }
+    
+    var latitudeDMS: String {
         let (degrees, minutes, seconds) = coordinate.latitude.dms
         return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "N" : "S")
     }
-    var longitude: String {
+    var longitudeDMS: String {
         let (degrees, minutes, seconds) = coordinate.longitude.dms
         return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "E" : "W")
+    }
+    
+    var latitudeDegrees: String {
+        return String(format: "%.5f", abs(coordinate.latitude)) + "° " + (coordinate.latitude >= 0 ? "N" : "S")
+    }
+    
+    var longitudeDegrees: String {
+        return String(format: "%.5f", abs(coordinate.longitude)) + "° " + (coordinate.longitude >= 0 ? "E" : "W")
     }
     
 }

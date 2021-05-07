@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 521345682601C95500F7A43C /* Model.xcdatamodeld */; };
 		521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */; };
-		521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		52779A8025FA64B000CE50EE /* POIControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52779A7F25FA64B000CE50EE /* POIControlsView.swift */; };
+		529C63042642C40A00A49993 /* CLSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CLSharing.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
 		52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92A25E682D4001A50C1 /* ContentView.swift */; };
@@ -42,11 +42,11 @@
 /* Begin PBXFileReference section */
 		521345692601C95500F7A43C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceController.swift; sourceTree = "<group>"; };
-		521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLInfoView.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		52779A7F25FA64B000CE50EE /* POIControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIControlsView.swift; sourceTree = "<group>"; };
+		529C63032642C40A00A49993 /* CLSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLSharing.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AntTrackerApp.swift; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 			children = (
 				52F04F70261B06B200C261C0 /* TrackInfo.swift */,
 				52779A7F25FA64B000CE50EE /* POIControlsView.swift */,
-				521A0CB425FB4E84001FA9A7 /* CLInfoView.swift */,
 				52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */,
+				529C63032642C40A00A49993 /* CLSharing.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -285,6 +285,7 @@
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,
 				52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */,
+				529C63042642C40A00A49993 /* CLSharing.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */,
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
@@ -300,7 +301,6 @@
 				52DD9545260D19C400F4E700 /* TrackAnnotationPoint+CoreDataProperties.swift in Sources */,
 				52DD9537260D138400F4E700 /* Track+CoreDataClass.swift in Sources */,
 				526D9D07261FFD03002A606D /* AppSettings.swift in Sources */,
-				521A0CB525FB4E84001FA9A7 /* CLInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

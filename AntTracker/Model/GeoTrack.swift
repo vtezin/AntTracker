@@ -195,7 +195,7 @@ class GeoTrack: ObservableObject {
     
     var northPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.latitude < b.location.latitude}) {
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
             return foundedPoint
         }
         
@@ -206,7 +206,7 @@ class GeoTrack: ObservableObject {
     
     var southPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.latitude < b.location.latitude}) {
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
             return foundedPoint
         }
         
@@ -216,7 +216,7 @@ class GeoTrack: ObservableObject {
     
     var westPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.longitude < b.location.longitude}) {
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
             return foundedPoint
         }
         
@@ -226,7 +226,7 @@ class GeoTrack: ObservableObject {
     
     var eastPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.longitude < b.location.longitude}) {
+        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
             return foundedPoint
         }
         

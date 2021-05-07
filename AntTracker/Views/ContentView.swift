@@ -35,9 +35,18 @@ struct ContentView: View {
         
     @State private var showAlertForTrackTittle = false
     
-    @State private var showAppSettings = false
-    
     @State private var showQuestionBeforeResetTrack = false
+        
+    enum ActiveSheet: Identifiable {
+        case appSettings, clSharing
+        
+        var id: Int {
+            hashValue
+        }
+    }
+    @State var activeSheet: ActiveSheet?
+    @State private var rotateCount: Double = 0
+
     
     var body: some View {
         
@@ -164,23 +173,22 @@ struct ContentView: View {
                         if showAdditionalControls {
                             
                             VStack{
+                                                                
+                                Button(action: {
+                                    activeSheet = .appSettings
+                                }) {
+                                    Image(systemName: "gearshape")
+                                        .modifier(MapButton())
+                                }
                                 
-                                Image(systemName: "gearshape")
-                                    .modifier(MapButton())
-                                    .onTapGesture {
-                                        
-                                       showAppSettings = true
-                                        
-                                    }
-                                
-                                Image(systemName: mapType == .standard ? "globe" : "map")
-                                    .modifier(MapButton())
-                                    .onTapGesture {
-                                        mapType = mapType == .standard ? .hybrid : .standard
-                                        lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-                                        needChangeMapView = true
-                                    }
-                                
+                                Button(action: {
+                                    mapType = mapType == .standard ? .hybrid : .standard
+                                    lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+                                    needChangeMapView = true
+                                }) {
+                                    Image(systemName: mapType == .standard ? "globe" : "map")
+                                        .modifier(MapButton())
+                                }
                                 
 //                                Image(systemName: "mappin.and.ellipse")
 //                                    .modifier(MapButton())
@@ -240,8 +248,16 @@ struct ContentView: View {
                 isNavigationBarHidden = true
             }
             .ignoresSafeArea(.all)
-            .sheet(isPresented: $showAppSettings) {
-                AppSettings()
+            
+            .sheet(item: $activeSheet) { item in
+                switch item {
+                case .appSettings:
+                    AppSettings()
+                    .environmentObject(clManager)
+                case .clSharing:
+                    AppSettings()
+                    .environmentObject(clManager)
+                }
             }
             
             .alert(isPresented: $showAlertForTrackTittle,
@@ -254,7 +270,7 @@ struct ContentView: View {
                     }
                    })
             
-            .alert(isPresented:$showQuestionBeforeResetTrack) {
+            .alert(isPresented: $showQuestionBeforeResetTrack) {
                 Alert(title: Text("Reset current track?"),
                       message: Text(currentTrack.trackCoreData == nil ? "" : "(the saved track will remain in the database)"),
                       primaryButton: .destructive(Text("Reset")) {
@@ -298,8 +314,9 @@ struct ContentView: View {
                     }
                     if showFullCLInfo {
                         VStack{
-                            Text("\(clManager.location.latitude)")
-                            Text("\(clManager.location.longitude)")
+                            Text("\(clManager.location.latitudeDMS)")
+                            //Text("\(clManager.location.coordinate.longitude)")
+                            Text("\(clManager.location.longitudeDMS)")
                             Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
                         }
                     }
@@ -307,11 +324,19 @@ struct ContentView: View {
                 }
                 .font(.caption)
                 
-//                if showFullCLInfo {
-//                    Image(systemName: "square.and.arrow.up")
-//                        .font(Font.title.weight(.light))
-//                        .padding(5)
-//                }
+                
+                if showFullCLInfo {
+                    
+                    NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, location: clManager.location)) {
+                        
+                        Image(systemName: "square.and.arrow.up")
+                            .font(Font.title.weight(.light))
+                            .padding(5)
+                        
+                    }
+                    
+                    
+                }
                 
             }
             .foregroundColor(.primary)
@@ -340,67 +365,70 @@ struct ContentView: View {
     
     var buttonTrackPlayPause: some View {
         
-        Image(systemName: clManager.trackRecording ? "pause.circle" : "play.circle")
-            .modifier(TrackControlButton())
-            .onTapGesture() {
-                withAnimation{
-                    clManager.trackRecording.toggle()
-                }
+        Button(action: {
+            withAnimation{
+                clManager.trackRecording.toggle()
             }
+        }) {
+            Image(systemName: clManager.trackRecording ? "pause.circle" : "play.circle")
+                .modifier(TrackControlButton())
+        }
         
     }
     
     var buttonTrackReset: some View {
         
-        Image(systemName: "xmark.circle")
-            .modifier(TrackControlButton())
-            .onTapGesture() {
-                showQuestionBeforeResetTrack = true
-            }
+        Button(action: {
+            showQuestionBeforeResetTrack = true
+        }) {
+            Image(systemName: "xmark.circle")
+                .modifier(TrackControlButton())
+        }
         
     }
     
     var buttonTrackSave: some View {
         
-        Image(systemName: "tray.and.arrow.down")
+        Button(action: {
             
-            .modifier(TrackControlButton())
-            
-            .onTapGesture() {
-                
-                if currentTrack.trackCoreData == nil {
-                    //save new track
-                    showAlertForTrackTittle = true
-                } else {
-                    //update current track
-                    currentTrack.updateTrackInDB(moc: moc)
-                }
-                
+            if currentTrack.trackCoreData == nil {
+                //save new track
+                showAlertForTrackTittle = true
+            } else {
+                //update current track
+                currentTrack.updateTrackInDB(moc: moc)
             }
+
+            
+        }) {
+            Image(systemName: "tray.and.arrow.down")
+                .modifier(TrackControlButton())
+        }
+        
         
     }
     
     var buttonTrackRecording: some View {
         
-        Image(systemName: "ant")
-            .modifier(MapButton())
-            .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
-            //.scaleEffect(clManager.trackRecording ? 1.2 : 1)
-            .animation(.easeInOut)
-            .onTapGesture()
-            {
-                
-                withAnimation {
-                    showRecordTrackControls.toggle()
-                    showAdditionalControls = false
-                }
-                
+        Button(action: {
+            withAnimation {
+                showRecordTrackControls.toggle()
+                showAdditionalControls = false
             }
-            .overlay(
-                Circle()
-                    .stroke(Color.systemBackground,
-                            lineWidth: showRecordTrackControls ? 5 : 0)
-            )
+            
+        }) {
+            Image(systemName: "ant")
+                .modifier(MapButton())
+                .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
+                //.scaleEffect(clManager.trackRecording ? 1.2 : 1)
+                //.animation(.easeInOut)
+                .overlay(
+                    Circle()
+                        .stroke(Color.systemBackground,
+                                lineWidth: showRecordTrackControls ? 5 : 0)
+                )
+        }
+        
         
     }
     
@@ -409,33 +437,37 @@ struct ContentView: View {
     
     var buttonZoomIn: some View {
         
-        Image(systemName: "plus")
-            .modifier(MapButton())
-            .onTapGesture() {
-                let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
-                span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                        longitudeDelta: newDelta)
-                showAdditionalControls = false
-                needChangeMapView = true
-            }
+        Button(action: {
+            let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
+            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                    longitudeDelta: newDelta)
+            showAdditionalControls = false
+            needChangeMapView = true
+            
+        }) {
+            Image(systemName: "plus")
+                .modifier(MapButton())
+        }
+        .disabled(span.latitudeDelta == minSpan)
         
     }
     
     var buttonZoomOut: some View {
         
-        Image(systemName: "minus")
-            .modifier(MapButton())
+        Button(action: {
+            let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
             
-            .onTapGesture() {
-                
-                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
-                
-                span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                        longitudeDelta: newDelta)
-                showAdditionalControls = false
-                needChangeMapView = true
-                
-            }
+            span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                    longitudeDelta: newDelta)
+            showAdditionalControls = false
+            needChangeMapView = true
+            
+        }) {
+            Image(systemName: "minus")
+                .modifier(MapButton())
+                .disabled(span.latitudeDelta == minSpan)
+        }
+        .disabled(span.latitudeDelta == maxSpan)
         
     }
     
@@ -449,11 +481,14 @@ struct ContentView: View {
                     .stroke(Color.systemBackground,
                             lineWidth: followCL ? 5 : 0)
             )
+            .rotationEffect(.radians(2 * Double.pi * rotateCount))
+            .animation(.easeOut)
             
             .onTapGesture() {
                 center = clManager.region.center
                 needChangeMapView = true
                 showAdditionalControls = false
+                rotateCount += 1
             }
         
             .onLongPressGesture {

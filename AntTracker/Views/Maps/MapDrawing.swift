@@ -27,9 +27,8 @@ extension MKMapView {
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         polyline.title = title
         polyline.subtitle = subtitle
-
         
-        //removing old overlay
+        //removing old track overlay
         
         for overlay in overlays {
             if overlay.title == title {
@@ -38,8 +37,8 @@ extension MKMapView {
         }
         
         addOverlays([polyline])
-        
-        //adding start point
+                
+        //start point
             
         var annotations = [MKPointAnnotation]()
         
@@ -47,11 +46,13 @@ extension MKMapView {
         
         let startAnnotation = MKPointAnnotation()
         
-        startAnnotation.title = startPoint.location.timestamp.dateString()
+        startAnnotation.title =  startPoint.location.timestamp.timeString() + " ->"
         startAnnotation.subtitle = "Start"
         startAnnotation.coordinate = startPoint.location.coordinate
         
         annotations.append(startAnnotation)
+        
+        //finish point
         
         if showFinish {
             

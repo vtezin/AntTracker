@@ -63,8 +63,19 @@ struct MapView: UIViewRepresentable {
         }
 
         if currentTrack.points.count == 0 && view.overlays.count > 0 {
+            
             let overlays = view.overlays
             view.removeOverlays(overlays)
+            
+            //removing old annotations
+            var removingAnnotations = [MKAnnotation]()
+            for annotation in view.annotations {
+                if annotation.subtitle == "Start" || annotation.subtitle == "Finish" {
+                    removingAnnotations.append(annotation)
+                }
+            }
+            view.removeAnnotations(removingAnnotations)
+
         }
 
         if clManager.trackRecording || mapChangedByButton
