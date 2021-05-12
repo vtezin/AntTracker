@@ -11,9 +11,21 @@ import SwiftUI
 
 extension MKMapView {
     
-    func addTrackLine(geoTrack: GeoTrack, title: String, subtitle: String, currentTrackDrawing: Bool) {
+    func addTrackLine(track: Track?, geoTrack: GeoTrack?) {
         
-        let trackPoints = geoTrack.points
+        //print(#function)
+        
+        var geotrackToDraw: GeoTrack
+        
+        if let track = track {
+            geotrackToDraw = track.convertToGeoTrack()
+        } else {
+            geotrackToDraw = geoTrack!
+        }
+        
+        let drawingCurrentTrack = track == nil
+        
+        let trackPoints = geotrackToDraw.points
         
         if trackPoints.isEmpty {
             return
@@ -25,75 +37,73 @@ extension MKMapView {
         }
         
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
-        polyline.title = title
-        polyline.subtitle = subtitle
         
-        //removing old track overlay
+        if drawingCurrentTrack {
+            polyline.title = "current track"
+            polyline.subtitle = currentTrackColorName()
+        } else {
+            polyline.title = track!.title
+            polyline.subtitle = track!.color
+        }
         
-        for overlay in overlays {
-            if overlay.title == title {
-                removeOverlays([overlay])
+        //drawing track line
+        if drawingCurrentTrack {
+            //redrawing
+            for overlay in overlays {
+                if overlay.title == "current track" {
+                    removeOverlays([overlay])
+                }
             }
         }
         
         addOverlays([polyline])
-                
+        
+        //ANNOTATIONS
+        
         //start point
             
-        var annotations = [MKPointAnnotation]()
-        
         let startPoint = trackPoints.first!
         
-        let startAnnotation = MKPointAnnotation()
-        
-        startAnnotation.title = currentTrackDrawing ? startPoint.location.timestamp.timeString() : startPoint.location.timestamp.dateString() + " ->"
-        startAnnotation.subtitle = currentTrackDrawing ? "currentTrackStart" : "trackStart"
-        startAnnotation.coordinate = startPoint.location.coordinate
-        
-        annotations.append(startAnnotation)
+        let startPointAnnotation = TrackPointAnnotation(track: track, coordinate: startPoint.location.coordinate)
+        startPointAnnotation.title = drawingCurrentTrack ? startPoint.location.timestamp.timeString() : startPoint.location.timestamp.dateString() + " ->"
+        addTrackPointAnnotation(trackPointAnnotation: startPointAnnotation)
         
         //finish point
         
-        if !currentTrackDrawing {
-            
+        if !drawingCurrentTrack {
             let finishPoint = trackPoints.last!
-            
-            let finishAnnotation = MKPointAnnotation()
-            
-            finishAnnotation.title = finishPoint.location.timestamp.timeString()
-            finishAnnotation.subtitle = currentTrackDrawing ? "currentTrackFinish" : "trackFinish"
-            finishAnnotation.coordinate = finishPoint.location.coordinate
-            
-            annotations.append(finishAnnotation)
-            
+            let finishPointAnnotation = TrackPointAnnotation(track: track, coordinate: finishPoint.location.coordinate)
+            finishPointAnnotation.title = finishPoint.location.timestamp.timeString()
+            addTrackPointAnnotation(trackPointAnnotation: finishPointAnnotation)
+        }
+    
+    }
+    
+    func addTrackPointAnnotation(trackPointAnnotation: TrackPointAnnotation) {
+        
+        for annotation in annotations {
+            if let annotation = annotation as? TrackPointAnnotation{
+                if annotation.track == trackPointAnnotation.track && annotation.title == trackPointAnnotation.title {
+                    //trackPointAnnotation alredy exist
+                    return
+                }
+            }
         }
         
-        //removeAnnotations(annotations)
-        addAnnotations(annotations)
-    
+        addAnnotation(trackPointAnnotation)
+        
     }
-    
+
 }
 
-func setAnnotationView(annotation:MKAnnotation, showFinish: Bool) -> MKAnnotationView? {
+func setAnnotationView(annotation:MKAnnotation) -> MKAnnotationView? {
     
-    if annotation.subtitle == "currentTrackStart" || annotation.subtitle == "trackStart" {
-        
-        let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
+    let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
 
-        annotationView.markerTintColor = UIColor(red: (69.0/255), green: (95.0/255), blue: (170.0/255), alpha: 1.0)
-        
-        return annotationView
-        
-    } else if showFinish && (annotation.subtitle == "currentTrackFinish" || annotation.subtitle == "trackFinish") {
-      
-        let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
-        annotationView.markerTintColor = UIColor(red: (146.0/255), green: (187.0/255), blue: (217.0/255), alpha: 1.0)
-        return annotationView
-        
-    }
+    annotationView.markerTintColor = UIColor(red: (69.0/255), green: (95.0/255), blue: (170.0/255), alpha: 1.0)
     
-    return nil
+    return annotationView
+    
 }
 
 func setTrackOverlayRenderer(trackPolilyne: MKPolyline) -> MKOverlayRenderer {
@@ -107,5 +117,78 @@ func setTrackOverlayRenderer(trackPolilyne: MKPolyline) -> MKOverlayRenderer {
     pr.strokeColor = color
     
     return pr
+    
+}
+
+class TrackPointAnnotation: NSObject, MKAnnotation {
+    
+    var coordinate: CLLocationCoordinate2D
+    
+    let track: Track?
+    let colorName: String
+    var title: String? = ""
+    var subtitle: String? = ""
+    
+    init(track: Track?, coordinate: CLLocationCoordinate2D) {
+        
+        self.track = track
+        
+        var trackColor = ""
+        
+        if let track = track {
+            trackColor = track.color
+        } else {
+            trackColor = currentTrackColorName()
+        }
+        
+        self.colorName = trackColor
+        self.coordinate = coordinate
+        
+    }
+    
+}
+
+class TrackPolyline: MKPolyline {
+    
+    //TODO Make reusable polylines similar reusable trackpoints
+    
+    let track: Track?
+    
+    init(track: Track?) {
+        self.track = track
+    }
+    
+}
+
+func setupTrackPointAnnotationView(for annotation: TrackPointAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+    
+    //print(#function)
+    
+//    let reuseIdentifier = NSStringFromClass(TrackPointAnnotation.self)
+//    let flagAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier, for: annotation)
+    
+//    flagAnnotationView.canShowCallout = true
+//    
+//    // Provide the annotation view's image.
+//    let image = #imageLiteral(resourceName: "flag")
+//    flagAnnotationView.image = image
+//    
+//    // Provide the left image icon for the annotation.
+//    flagAnnotationView.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "sf_icon"))
+//    
+//    // Offset the flag annotation so that the flag pole rests on the map coordinate.
+//    let offset = CGPoint(x: image.size.width / 2, y: -(image.size.height / 2) )
+//    flagAnnotationView.centerOffset = offset
+    
+//    let color = UIColor(Color.getColorFromName(colorName: (annotation.colorName) )).withAlphaComponent(1)
+//    flagAnnotationView.backgroundColor = color
+//
+//    return flagAnnotationView
+    
+    let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "trackPoint")
+
+    annotationView.markerTintColor = UIColor(Color.getColorFromName(colorName: (annotation.colorName) )).withAlphaComponent(1)
+    
+    return annotationView
     
 }

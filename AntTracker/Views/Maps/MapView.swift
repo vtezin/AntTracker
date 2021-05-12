@@ -27,8 +27,6 @@ struct MapView: UIViewRepresentable {
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
     
-    @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
-    
     @Environment(\.managedObjectContext) var moc
 //    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks: FetchedResults<Track>
     @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
@@ -36,7 +34,7 @@ struct MapView: UIViewRepresentable {
     func showSavedTracks(view: MKMapView) {
         
         for track in tracks {
-            view.addTrackLine(geoTrack: track.convertToGeoTrack(),  title: track.title, subtitle: track.color, currentTrackDrawing: false)
+            view.addTrackLine(track:track, geoTrack: nil)
         }
         
     }
@@ -55,6 +53,8 @@ struct MapView: UIViewRepresentable {
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true
+        
+        //mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
         if showSavedTracks {
             showSavedTracks(view: mapView)
@@ -98,10 +98,18 @@ struct MapView: UIViewRepresentable {
 
         if clManager.trackRecording || mapChangedByButton
         {
-            view.addTrackLine(geoTrack: currentTrack,  title: "current track", subtitle: currentTrackColor, currentTrackDrawing: true)
+//            print(#function, Date())
+//            print("clManager.trackRecording", clManager.trackRecording)
+//            print("mapChangedByButton", mapChangedByButton)
+            view.addTrackLine(track: nil, geoTrack: currentTrack)
         }
         
+        //mapChangedByButton = false
+        //print(view.annotations.count)
+        
     }
+    
+    
     
     class Coordinator: NSObject, MKMapViewDelegate {
         
@@ -137,8 +145,25 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            return setAnnotationView(annotation: annotation, showFinish: false)
+            
+            guard !annotation.isKind(of: MKUserLocation.self) else {
+                // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+                return nil
+            }
+            
+            var annotationView: MKAnnotationView?
+            
+            if let annotation = annotation as? TrackPointAnnotation{
+                annotationView = setupTrackPointAnnotationView(for: annotation, on: mapView)
+            } else {
+                annotationView = setAnnotationView(annotation: annotation)
+            }
+            
+            return annotationView
+            
         }
+        
+
         
     }
     

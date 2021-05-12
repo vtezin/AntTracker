@@ -38,7 +38,9 @@ struct TrackMapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
-        mapView.addTrackLine(geoTrack: geoTrack, title: track.title, subtitle: track.color, currentTrackDrawing: false)
+        mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
+        
+        mapView.addTrackLine(track: track, geoTrack: nil)
         
         return mapView
     }
@@ -70,7 +72,24 @@ struct TrackMapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            return setAnnotationView(annotation: annotation, showFinish: true)
+            
+            //TODO similar function in MapView
+            
+            guard !annotation.isKind(of: MKUserLocation.self) else {
+                    // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+                    return nil
+                }
+            
+            var annotationView: MKAnnotationView?
+            
+            if let annotation = annotation as? TrackPointAnnotation{
+                annotationView = setupTrackPointAnnotationView(for: annotation, on: mapView)
+            } else {
+                annotationView = setAnnotationView(annotation: annotation)
+            }
+            
+            return annotationView
+            
         }
         
     }

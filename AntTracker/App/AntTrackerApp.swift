@@ -30,3 +30,10 @@ struct AntTrackerApp: App {
     }
 }
 
+func currentTrackColorName() -> String {
+    
+    let defaults = UserDefaults.standard
+    return defaults.string(forKey: "currentTrackColor") ?? "orange"
+    
+}
+
