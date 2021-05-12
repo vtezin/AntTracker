@@ -281,18 +281,26 @@ class GeoTrack: ObservableObject {
     
     func saveNewTrackToDB(title: String, moc: NSManagedObjectContext) {
         
+        let defaults = UserDefaults.standard
+        
+        let lastUsedTrackColor = defaults.string(forKey: "lastUsedTrackColor")
+        
+        //print(lastUsedTrackColor ?? "hz")
+        
         self.title = title
         
         let trackCD = Track(context: moc)
         trackCD.id = UUID()
         trackCD.info = ""
         trackCD.region = ""
-        trackCD.color = "blue"
+        trackCD.color = Colors.nextColor(fromColorWhithName: lastUsedTrackColor).description
         
         setTrackCoreDataProperties(trackCD: trackCD, moc: moc)
         
         try? moc.save()
         trackCoreData = trackCD
+        
+        defaults.set(trackCD.color, forKey: "lastUsedTrackColor")
         
     }
     

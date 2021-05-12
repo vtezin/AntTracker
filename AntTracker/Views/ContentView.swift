@@ -28,6 +28,7 @@ struct ContentView: View {
     @State private var showRecordTrackControls = false
     @State private var showAdditionalControls = false
     @State private var followCL = false
+    @State private var showSavedTracks = false
     
     @State var isNavigationBarHidden: Bool = true
     
@@ -46,23 +47,32 @@ struct ContentView: View {
     }
     @State var activeSheet: ActiveSheet?
     @State private var rotateCount: Double = 0
-
     
     var body: some View {
         
         NavigationView{
             
             ZStack {
-                
                 //first layer - map
                 VStack {
                     
                     if followCL {
-                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL)
+                        
+                        if showSavedTracks {
+                            MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
+                        } else {
+                            MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
+                        }
+                        
                         
                     } else {
                         
-                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL)
+                        if showSavedTracks {
+                            MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
+                        } else {
+                            MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
+                        }
+                        
                     }
                     
                     //.edgesIgnoringSafeArea(.top)
@@ -138,18 +148,17 @@ struct ContentView: View {
                                 
                             }
 
-
                         }
                         .modifier(MapControl())
                         .transition(.move(edge: .top))
-                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                                            .onEnded({ value in
-                                                if value.translation.height < 0 {
-                                                    withAnimation {
-                                                        showRecordTrackControls = false
-                                                    }
-                                                }
-                                            }))
+//                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+//                                            .onEnded({ value in
+//                                                if value.translation.height < 0 {
+//                                                    withAnimation {
+//                                                        showRecordTrackControls = false
+//                                                    }
+//                                                }
+//                                            }))
                         
                     }
                     
@@ -354,7 +363,7 @@ struct ContentView: View {
     
     var buttonTrackList: some View {
         
-        NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
+        NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden, showSavedTracks: $showSavedTracks)) {
             
             Image(systemName: "tray.full")
                 .modifier(TrackControlButton())
@@ -517,8 +526,8 @@ struct ContentView: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

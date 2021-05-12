@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 521345682601C95500F7A43C /* Model.xcdatamodeld */; };
 		521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */; };
+		5213A774264B22790009223D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5213A773264B22790009223D /* Colors.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		521345692601C95500F7A43C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceController.swift; sourceTree = "<group>"; };
+		5213A773264B22790009223D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				52F3367925F7DDCE002C0B1E /* GeoTrack.swift */,
+				5213A773264B22790009223D /* Colors.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,
 				52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */,
+				5213A774264B22790009223D /* Colors.swift in Sources */,
 				529C63042642C40A00A49993 /* CLSharing.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */,
@@ -450,7 +454,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -474,7 +478,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

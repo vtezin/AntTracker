@@ -10,6 +10,7 @@ import SwiftUI
 struct TrackListView: View {
     
     @Binding var isNavigationBarHidden: Bool
+    @Binding var showSavedTracks: Bool
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
@@ -20,67 +21,72 @@ struct TrackListView: View {
     
     var body: some View {
         
-        List{
+        VStack{
             
-            ForEach(tracks, id: \.self) { track in
+            List{
                 
-                NavigationLink(destination: TrackView(track: track)) {
+                ForEach(tracks, id: \.self) { track in
                     
-                    VStack(alignment: .leading) {
+                    NavigationLink(destination: TrackView(track: track)) {
                         
-                        Text(track.title)
-                        HStack{
-                            VStack(alignment: .leading){
-                                Text(track.info)
-                                    .font(.footnote)
-                                    .foregroundColor(.secondary)
+                        VStack(alignment: .leading) {
+                            
+                            Text(track.title)
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text(track.info)
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                VStack(alignment: .trailing){
+                                    Text(track.startDate.dateString())
+                                    Text(localeDistanceString(distanceMeters: Double(track.totalDistance)))
+                                }
+                                .modifier(SecondaryInfo())
                             }
-                            Spacer()
-                            VStack(alignment: .trailing){
-                                Text(track.startDate.dateString())
-                                Text(localeDistanceString(distanceMeters: Double(track.totalDistance)))
-                            }
-                            .modifier(SecondaryInfo())
+                            
                         }
+                        
                         
                     }
                     
-                    
                 }
-                
+                .onDelete(perform: { indexSet in
+                    showingQuestionBeforDelete = true
+                    indexSetToDelete = indexSet
+                })
             }
-            .onDelete(perform: { indexSet in
-                showingQuestionBeforDelete = true
-                indexSetToDelete = indexSet
-            })
+            .alert(isPresented:$showingQuestionBeforDelete) {
+                Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                    
+                    for offset in indexSetToDelete! {
+                        Track.deleteTrack(track: tracks[offset], moc: moc)
+                    }
+                    
+                }, secondaryButton: .cancel())
+            }
+            
+            Toggle("Show saved tracks the map", isOn: $showSavedTracks)
+                .padding()
         }
-        
         .navigationBarTitle("Tracks", displayMode: .inline)
-//        .navigationBarBackButtonHidden(true)
-//        .navigationBarItems(leading: Button(action: {
-//            self.presentationMode.wrappedValue.dismiss()
-//        }) {
-//            HStack{
-//                Image(systemName: "chevron.left")
-//                Text("     ")
-//                //Image(systemName: "ant")
-//            }
-//        })
+        //        .navigationBarBackButtonHidden(true)
+        //        .navigationBarItems(leading: Button(action: {
+        //            self.presentationMode.wrappedValue.dismiss()
+        //        }) {
+        //            HStack{
+        //                Image(systemName: "chevron.left")
+        //                Text("     ")
+        //                //Image(systemName: "ant")
+        //            }
+        //        })
         
         .onAppear {
             isNavigationBarHidden = false
         }
         .onDisappear{
             isNavigationBarHidden = true
-        }
-        .alert(isPresented:$showingQuestionBeforDelete) {
-            Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                
-                for offset in indexSetToDelete! {
-                    Track.deleteTrack(track: tracks[offset], moc: moc)
-                }
-                
-            }, secondaryButton: .cancel())
         }
         
     }

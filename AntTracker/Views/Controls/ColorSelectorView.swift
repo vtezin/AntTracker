@@ -12,20 +12,11 @@ struct ColorSelectorView: View {
     @Binding var selectedColor: Color
     var showPrimaryColor = false
     
-    let colors = [
-    Color.primary,
-    Color.blue,
-    Color.green,
-    Color.red,
-    Color.orange,
-    Color.yellow,
-    Color.purple]
-    
     var body: some View {
         
         HStack(spacing: 10){
             
-            ForEach(colors, id: \.self) { color in
+            ForEach(Colors.colors, id: \.self) { color in
                 
                 self.image(for: color)
                     .onTapGesture {

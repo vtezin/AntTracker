@@ -22,16 +22,22 @@ struct MapView: UIViewRepresentable {
     //track visualisation
     @Binding var mapChangedByButton: Bool
     @Binding var followingCurLocation: Bool
+    @Binding var showSavedTracks: Bool
     
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
     
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     
-//    @Environment(\.managedObjectContext) var moc
-//    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks:FetchedResults<Track>
+    @Environment(\.managedObjectContext) var moc
+//    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks: FetchedResults<Track>
+    @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
-    func showSavedTracks() {
+    func showSavedTracks(view: MKMapView) {
+        
+        for track in tracks {
+            view.addTrackLine(geoTrack: track.convertToGeoTrack(),  title: track.title, subtitle: track.color, currentTrackDrawing: false)
+        }
         
     }
     
@@ -50,7 +56,12 @@ struct MapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
+        if showSavedTracks {
+            showSavedTracks(view: mapView)
+        }
+        
         return mapView
+        
     }
 
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<MapView>) {
@@ -64,13 +75,20 @@ struct MapView: UIViewRepresentable {
 
         if currentTrack.points.count == 0 && view.overlays.count > 0 {
             
-            let overlays = view.overlays
-            view.removeOverlays(overlays)
+            //removing current track overlay
+//            let overlays = view.overlays
+//            view.removeOverlays(overlays)
+            
+            for overlay in view.overlays {
+                if overlay.title == "current track" {
+                    view.removeOverlays([overlay])
+                }
+            }
             
             //removing old annotations
             var removingAnnotations = [MKAnnotation]()
             for annotation in view.annotations {
-                if annotation.subtitle == "Start" || annotation.subtitle == "Finish" {
+                if annotation.subtitle == "currentTrackStart" || annotation.subtitle == "currentTrackFinish" {
                     removingAnnotations.append(annotation)
                 }
             }
@@ -80,7 +98,7 @@ struct MapView: UIViewRepresentable {
 
         if clManager.trackRecording || mapChangedByButton
         {
-            view.addTrackLine(geoTrack: currentTrack,  title: "current track", subtitle: currentTrackColor, showFinish: false)
+            view.addTrackLine(geoTrack: currentTrack,  title: "current track", subtitle: currentTrackColor, currentTrackDrawing: true)
         }
         
     }
