@@ -54,7 +54,7 @@ struct MapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
-        //mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
+        //mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: "trackPoint")
         
         if showSavedTracks {
             showSavedTracks(view: mapView)
@@ -71,40 +71,21 @@ struct MapView: UIViewRepresentable {
         if mapChangedByButton || followingCurLocation {
             let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: true)
+            mapChangedByButton = false
         }
 
-        if currentTrack.points.count == 0 && view.overlays.count > 0 {
+        if currentTrack.points.count == 0 {
+            removeCurrentTrackFromMapView(mapView: view)
+        } else {
             
-            //removing current track overlay
-//            let overlays = view.overlays
-//            view.removeOverlays(overlays)
             
-            for overlay in view.overlays {
-                if overlay.title == "current track" {
-                    view.removeOverlays([overlay])
-                }
-            }
-            
-            //removing old annotations
-            var removingAnnotations = [MKAnnotation]()
-            for annotation in view.annotations {
-                if annotation.subtitle == "currentTrackStart" || annotation.subtitle == "currentTrackFinish" {
-                    removingAnnotations.append(annotation)
-                }
-            }
-            view.removeAnnotations(removingAnnotations)
-
         }
 
-        if clManager.trackRecording || mapChangedByButton
+        if clManager.trackRecording || (view.overlays.count == 0 && currentTrack.points.count > 0 )
         {
-//            print(#function, Date())
-//            print("clManager.trackRecording", clManager.trackRecording)
-//            print("mapChangedByButton", mapChangedByButton)
             view.addTrackLine(track: nil, geoTrack: currentTrack)
         }
         
-        //mapChangedByButton = false
         //print(view.annotations.count)
         
     }

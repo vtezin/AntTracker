@@ -324,7 +324,6 @@ struct ContentView: View {
                     if showFullCLInfo {
                         VStack{
                             Text("\(clManager.location.latitudeDMS)")
-                            //Text("\(clManager.location.coordinate.longitude)")
                             Text("\(clManager.location.longitudeDMS)")
                             Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
                         }
@@ -333,8 +332,9 @@ struct ContentView: View {
                 }
                 .font(.caption)
                 
-                
                 if showFullCLInfo {
+                    
+                    //TODO may be change to .contextMenu modifier using
                     
                     NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, location: clManager.location)) {
                         

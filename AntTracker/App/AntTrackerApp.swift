@@ -37,3 +37,12 @@ func currentTrackColorName() -> String {
     
 }
 
+func printTest(_ stringToPrint: String) {
+    if globalParameters.printTestData {
+        print(Date(), stringToPrint)
+    }
+}
+
+enum globalParameters {
+    static var printTestData = false
+}

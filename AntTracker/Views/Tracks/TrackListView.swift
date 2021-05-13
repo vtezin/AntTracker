@@ -67,8 +67,9 @@ struct TrackListView: View {
                 }, secondaryButton: .cancel())
             }
             
-            Toggle("Show saved tracks the map", isOn: $showSavedTracks)
-                .padding()
+            //TODO remove?
+            //Toggle("Show saved tracks the map", isOn: $showSavedTracks)
+            //    .padding()
         }
         .navigationBarTitle("Tracks", displayMode: .inline)
         //        .navigationBarBackButtonHidden(true)

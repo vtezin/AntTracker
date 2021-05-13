@@ -13,8 +13,6 @@ extension MKMapView {
     
     func addTrackLine(track: Track?, geoTrack: GeoTrack?) {
         
-        //print(#function)
-        
         var geotrackToDraw: GeoTrack
         
         if let track = track {
@@ -22,6 +20,8 @@ extension MKMapView {
         } else {
             geotrackToDraw = geoTrack!
         }
+        
+        printTest(#function)
         
         let drawingCurrentTrack = track == nil
         
@@ -50,13 +50,22 @@ extension MKMapView {
         if drawingCurrentTrack {
             //redrawing
             for overlay in overlays {
-                if overlay.title == "current track" {
-                    removeOverlays([overlay])
+                
+                if let trackPolyline = overlay as? MKPolyline {
+                    
+                    if trackPolyline.title == "current track" {
+                        removeOverlays([trackPolyline])
+                    }
+                    
                 }
+                
             }
+            addOverlays([polyline])
+            
+        } else {
+         //just drawing
+            addOverlays([polyline])
         }
-        
-        addOverlays([polyline])
         
         //ANNOTATIONS
         
@@ -64,15 +73,15 @@ extension MKMapView {
             
         let startPoint = trackPoints.first!
         
-        let startPointAnnotation = TrackPointAnnotation(track: track, coordinate: startPoint.location.coordinate)
-        startPointAnnotation.title = drawingCurrentTrack ? startPoint.location.timestamp.timeString() : startPoint.location.timestamp.dateString() + " ->"
+        let startPointAnnotation = TrackPointAnnotation(track: track, coordinate: startPoint.location.coordinate, pointType: .start)
+        startPointAnnotation.title = drawingCurrentTrack ? startPoint.location.timestamp.timeString() : startPoint.location.timestamp.dateString()
         addTrackPointAnnotation(trackPointAnnotation: startPointAnnotation)
         
         //finish point
         
         if !drawingCurrentTrack {
             let finishPoint = trackPoints.last!
-            let finishPointAnnotation = TrackPointAnnotation(track: track, coordinate: finishPoint.location.coordinate)
+            let finishPointAnnotation = TrackPointAnnotation(track: track, coordinate: finishPoint.location.coordinate, pointType: .finish)
             finishPointAnnotation.title = finishPoint.location.timestamp.timeString()
             addTrackPointAnnotation(trackPointAnnotation: finishPointAnnotation)
         }
@@ -126,10 +135,11 @@ class TrackPointAnnotation: NSObject, MKAnnotation {
     
     let track: Track?
     let colorName: String
+    let pointType: TrackPointType
     var title: String? = ""
     var subtitle: String? = ""
     
-    init(track: Track?, coordinate: CLLocationCoordinate2D) {
+    init(track: Track?, coordinate: CLLocationCoordinate2D, pointType: TrackPointType) {
         
         self.track = track
         
@@ -143,7 +153,13 @@ class TrackPointAnnotation: NSObject, MKAnnotation {
         
         self.colorName = trackColor
         self.coordinate = coordinate
+        self.pointType = pointType
         
+    }
+    
+    enum TrackPointType {
+        case start
+        case finish
     }
     
 }
@@ -161,34 +177,55 @@ class TrackPolyline: MKPolyline {
 }
 
 func setupTrackPointAnnotationView(for annotation: TrackPointAnnotation, on mapView: MKMapView) -> MKAnnotationView {
-    
-    //print(#function)
-    
-//    let reuseIdentifier = NSStringFromClass(TrackPointAnnotation.self)
-//    let flagAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier, for: annotation)
-    
-//    flagAnnotationView.canShowCallout = true
-//    
-//    // Provide the annotation view's image.
-//    let image = #imageLiteral(resourceName: "flag")
-//    flagAnnotationView.image = image
-//    
-//    // Provide the left image icon for the annotation.
-//    flagAnnotationView.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "sf_icon"))
-//    
-//    // Offset the flag annotation so that the flag pole rests on the map coordinate.
-//    let offset = CGPoint(x: image.size.width / 2, y: -(image.size.height / 2) )
-//    flagAnnotationView.centerOffset = offset
-    
-//    let color = UIColor(Color.getColorFromName(colorName: (annotation.colorName) )).withAlphaComponent(1)
-//    flagAnnotationView.backgroundColor = color
-//
-//    return flagAnnotationView
-    
-    let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "trackPoint")
 
-    annotationView.markerTintColor = UIColor(Color.getColorFromName(colorName: (annotation.colorName) )).withAlphaComponent(1)
+    printTest(#function)
     
-    return annotationView
+    let identifier = "trackPoint"
+    var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+
+    if annotationView == nil {
+        annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        annotationView!.canShowCallout = false
+    } else {
+        annotationView!.annotation = annotation
+        printTest("reuse annotation")
+    }
     
+    let pointColor = UIColor(Color.getColorFromName(colorName: (annotation.colorName) )).withAlphaComponent(1)
+    
+    annotationView!.markerTintColor = pointColor
+    
+    if annotation.pointType == .start {
+        annotationView!.glyphImage = UIImage(systemName: "ant")
+    } else {
+        annotationView!.glyphImage = UIImage(systemName: "checkmark.circle")
+    }
+    
+    return annotationView!
+    
+}
+
+func removeCurrentTrackFromMapView(mapView: MKMapView) {
+    //removing current track overlay
+    
+    for overlay in mapView.overlays {
+        if overlay.title == "current track" {
+            mapView.removeOverlays([overlay])
+        }
+    }
+    
+    //removing current track annotations
+    var removingAnnotations = [MKAnnotation]()
+    
+    for annotation in mapView.annotations {
+        
+        if let annotation = annotation as? TrackPointAnnotation{
+            if annotation.track == nil {
+                removingAnnotations.append(annotation)
+            }
+        }
+        
+    }
+    
+    mapView.removeAnnotations(removingAnnotations)
 }
