@@ -13,16 +13,15 @@ struct CLSharing: View {
     @Environment(\.presentationMode) var presentationMode
     
     @Binding var isNavigationBarHidden: Bool    
-    @State var location: CLLocation
+    @State var coordinate: CLLocationCoordinate2D
     
     var body: some View {
-        
-        
+                
         Form{
             
             Section(header: Text("Coordinate format")) {
                 
-                ForEach(location.coordinateStrings, id: \.self) { coordinateString in
+                ForEach(coordinate.coordinateStrings, id: \.self) { coordinateString in
                     
                     Section {
                         

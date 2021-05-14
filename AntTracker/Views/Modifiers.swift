@@ -30,12 +30,7 @@ struct MapButton: ViewModifier {
                 .stroke(Color.systemBackground.opacity(0.8),
                         lineWidth: 1)
         )
-        
-//        .overlay(
-//            Circle()
-//                .stroke(Color.gray,
-//                        lineWidth: 1)
-//        )
+
         
     }
 }

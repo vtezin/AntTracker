@@ -28,7 +28,6 @@ struct MapView: UIViewRepresentable {
     @EnvironmentObject var currentTrack: GeoTrack
     
     @Environment(\.managedObjectContext) var moc
-//    @FetchRequest(entity: Track.entity(), sortDescriptors: [], predicate: NSPredicate(format: "showOnMap == %@", true)) var tracks: FetchedResults<Track>
     @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
     func showSavedTracks(view: MKMapView) {
@@ -54,8 +53,6 @@ struct MapView: UIViewRepresentable {
         mapView.showsCompass = true
         mapView.showsBuildings = true
         
-        //mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: "trackPoint")
-        
         if showSavedTracks {
             showSavedTracks(view: mapView)
         }
@@ -74,11 +71,8 @@ struct MapView: UIViewRepresentable {
             mapChangedByButton = false
         }
 
-        if currentTrack.points.count == 0 {
+        if view.overlays.count > 0 && currentTrack.points.count == 0 {
             removeCurrentTrackFromMapView(mapView: view)
-        } else {
-            
-            
         }
 
         if clManager.trackRecording || (view.overlays.count == 0 && currentTrack.points.count > 0 )
@@ -86,11 +80,10 @@ struct MapView: UIViewRepresentable {
             view.addTrackLine(track: nil, geoTrack: currentTrack)
         }
         
-        //print(view.annotations.count)
+        printTest("overlays: \(view.overlays.count)")
+        printTest("annotations: \(view.annotations.count)")
         
     }
-    
-    
     
     class Coordinator: NSObject, MKMapViewDelegate {
         
@@ -136,6 +129,8 @@ struct MapView: UIViewRepresentable {
             
             if let annotation = annotation as? TrackPointAnnotation{
                 annotationView = setupTrackPointAnnotationView(for: annotation, on: mapView)
+            } else if let annotation = annotation as? PointAnnotation {
+                annotationView = setupPointAnnotationView(for: annotation, on: mapView)
             } else {
                 annotationView = setAnnotationView(annotation: annotation)
             }
@@ -143,8 +138,6 @@ struct MapView: UIViewRepresentable {
             return annotationView
             
         }
-        
-
         
     }
     

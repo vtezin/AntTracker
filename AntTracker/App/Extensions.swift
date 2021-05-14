@@ -83,6 +83,40 @@ extension BinaryFloatingPoint {
     
 }
 
+extension CLLocationCoordinate2D {
+    
+    var coordinateStrings: [String] {
+        
+        var stringsArray = [String]()
+        
+        stringsArray.append(latitudeDMS + ", " + longitudeDMS)
+        stringsArray.append(String(format: "%.5f", latitude) + " "
+                                + String(format: "%.5f", longitude))
+        stringsArray.append(latitudeDegrees + ", " + longitudeDegrees)
+        
+        return stringsArray
+    }
+    
+    var latitudeDMS: String {
+        let (degrees, minutes, seconds) = latitude.dms
+        return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "N" : "S")
+    }
+    var longitudeDMS: String {
+        let (degrees, minutes, seconds) = longitude.dms
+        return String(format: "%d°%d'%d\"%@", abs(degrees), minutes, seconds, degrees >= 0 ? "E" : "W")
+    }
+    
+    var latitudeDegrees: String {
+        return String(format: "%.5f", abs(latitude)) + "° " + (latitude >= 0 ? "N" : "S")
+    }
+    
+    var longitudeDegrees: String {
+        return String(format: "%.5f", abs(longitude)) + "° " + (longitude >= 0 ? "E" : "W")
+    }
+    
+    
+}
+
 extension CLLocation {
     
     var coordinateDMS: String { latitudeDMS + " " + longitudeDMS }

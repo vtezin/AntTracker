@@ -129,6 +129,18 @@ func setTrackOverlayRenderer(trackPolilyne: MKPolyline) -> MKOverlayRenderer {
     
 }
 
+class TrackPolyline: MKPolyline {
+    
+    //TODO Make reusable polylines similar reusable trackpoints
+    
+    let track: Track?
+    
+    init(track: Track?) {
+        self.track = track
+    }
+    
+}
+
 class TrackPointAnnotation: NSObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
@@ -164,18 +176,6 @@ class TrackPointAnnotation: NSObject, MKAnnotation {
     
 }
 
-class TrackPolyline: MKPolyline {
-    
-    //TODO Make reusable polylines similar reusable trackpoints
-    
-    let track: Track?
-    
-    init(track: Track?) {
-        self.track = track
-    }
-    
-}
-
 func setupTrackPointAnnotationView(for annotation: TrackPointAnnotation, on mapView: MKMapView) -> MKAnnotationView {
 
     printTest(#function)
@@ -205,27 +205,72 @@ func setupTrackPointAnnotationView(for annotation: TrackPointAnnotation, on mapV
     
 }
 
+class PointAnnotation: NSObject, MKAnnotation {
+    
+    let point: Point
+    
+    var coordinate: CLLocationCoordinate2D
+    var title: String? = ""
+    var subtitle: String? = ""
+    
+    init(point: Point, coordinate: CLLocationCoordinate2D) {
+        
+        self.point = point
+        self.coordinate = coordinate
+        
+    }
+    
+}
+
+func setupPointAnnotationView(for annotation: PointAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+
+    printTest(#function)
+    
+    let identifier = "Point"
+    var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+
+    if annotationView == nil {
+        annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        annotationView!.canShowCallout = false
+    } else {
+        annotationView!.annotation = annotation
+        printTest("reuse annotation")
+    }
+    
+    let pointColor = UIColor(Color.getColorFromName(colorName: (annotation.point.color) )).withAlphaComponent(1)
+    
+    annotationView!.markerTintColor = pointColor
+    
+    return annotationView!
+    
+}
+
 func removeCurrentTrackFromMapView(mapView: MKMapView) {
     //removing current track overlay
     
-    for overlay in mapView.overlays {
-        if overlay.title == "current track" {
-            mapView.removeOverlays([overlay])
-        }
+    printTest(#function)
+    
+    let currentTracks = mapView.overlays.filter { $0.title == "current track" }
+    
+    if currentTracks.count == 0 {
+        //nothing to remove
+        return
     }
+    
+    mapView.removeOverlays([currentTracks[0]])
     
     //removing current track annotations
-    var removingAnnotations = [MKAnnotation]()
     
-    for annotation in mapView.annotations {
+    let annotationsCurrentTrack = mapView.annotations.filter {
         
-        if let annotation = annotation as? TrackPointAnnotation{
+        if let annotation = $0 as? TrackPointAnnotation{
             if annotation.track == nil {
-                removingAnnotations.append(annotation)
+                return true
             }
         }
-        
+        return false
     }
     
-    mapView.removeAnnotations(removingAnnotations)
+    mapView.removeAnnotations(annotationsCurrentTrack)
+    
 }

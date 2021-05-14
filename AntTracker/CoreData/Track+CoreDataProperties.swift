@@ -35,13 +35,6 @@ extension Track {
         }
     }
     
-    public var trackAnnotationPointsArray: [TrackAnnotationPoint] {
-        let set = trackAnnotationPoint as? Set<TrackAnnotationPoint> ?? []
-        return set.sorted {
-            $0.tittle < $1.tittle
-        }
-    }
-        
 }
 
 extension Track : Identifiable {
