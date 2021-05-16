@@ -13,6 +13,7 @@ struct TrackView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
+    @State private var showQuestionBeforDelete = false
     
     let track: Track
     
@@ -93,18 +94,26 @@ struct TrackView: View {
         .sheet(isPresented: $showSettings) {
             trackSettings
         }
+        .alert(isPresented:$showQuestionBeforDelete) {
+            Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                
+                delete()
+                self.presentationMode.wrappedValue.dismiss()
+                
+            }, secondaryButton: .cancel())
+        }
         
         .navigationBarTitle(Text(title), displayMode: .inline)
-//        .navigationBarBackButtonHidden(true)
-//        .navigationBarItems(leading: Button(action: {
-//            self.presentationMode.wrappedValue.dismiss()
-//        }) {
-//            HStack{
-//                Image(systemName: "chevron.left")
-//                Text("     ")
-//                //Image(systemName: "list.dash")
-//            }
-//        })
+        .navigationBarItems(trailing: Button(action: {
+            
+           showQuestionBeforDelete = true
+            
+        }) {
+            HStack{
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+            }
+        })
         
     }
     
@@ -116,7 +125,13 @@ struct TrackView: View {
         track.showOnMap = showOnMap
         track.color = color.description
         
-        try? self.moc.save()
+        try? moc.save()
+        
+    }
+    
+    func delete() {
+        
+        Track.deleteTrack(track: track, moc: moc)
         
     }
     

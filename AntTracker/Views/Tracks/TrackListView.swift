@@ -17,7 +17,7 @@ struct TrackListView: View {
     @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
     @State private var indexSetToDelete: IndexSet?
-    @State private var showingQuestionBeforDelete = false
+    @State private var showQuestionBeforDelete = false
     
     var body: some View {
         
@@ -53,11 +53,11 @@ struct TrackListView: View {
                     
                 }
                 .onDelete(perform: { indexSet in
-                    showingQuestionBeforDelete = true
+                    showQuestionBeforDelete = true
                     indexSetToDelete = indexSet
                 })
             }
-            .alert(isPresented:$showingQuestionBeforDelete) {
+            .alert(isPresented:$showQuestionBeforDelete) {
                 Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
                     
                     for offset in indexSetToDelete! {
