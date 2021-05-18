@@ -22,7 +22,8 @@ extension Point {
     @NSManaged public var longitude: Double
     @NSManaged public var title: String
     @NSManaged public var dateAdded: Date
-
+    
+    
 }
 
 extension Point : Identifiable {

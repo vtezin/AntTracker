@@ -209,14 +209,14 @@ class PointAnnotation: NSObject, MKAnnotation {
     
     let point: Point
     
-    var coordinate: CLLocationCoordinate2D
+    var coordinate = CLLocationCoordinate2D()
     var title: String? = ""
     var subtitle: String? = ""
     
-    init(point: Point, coordinate: CLLocationCoordinate2D) {
+    init(point: Point) {
         
         self.point = point
-        self.coordinate = coordinate
+        self.coordinate = CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude)
         
     }
     

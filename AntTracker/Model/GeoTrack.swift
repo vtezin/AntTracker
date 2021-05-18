@@ -193,6 +193,17 @@ class GeoTrack: ObservableObject {
         
     }
     
+    var durationSeconds: Int {
+        
+        if points.count == 0 {
+            return 0
+        } else {
+            return Calendar.current.dateComponents([.second], from: startDate, to: finishDate).second ?? 0
+        }
+        
+    }
+    
+    
     var northPoint: GeoTrackPoint? {
         
         if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {

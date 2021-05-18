@@ -19,24 +19,13 @@ struct MapView: UIViewRepresentable {
     //current location
     @Binding var currentLocation: CLLocation
     
-    //track visualisation
     @Binding var mapChangedByButton: Bool
     @Binding var followingCurLocation: Bool
-    @Binding var showSavedTracks: Bool
+    
+    var points: FetchedResults<Point>
     
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
-    
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
-    
-    func showSavedTracks(view: MKMapView) {
-        
-        for track in tracks {
-            view.addTrackLine(track:track, geoTrack: nil)
-        }
-        
-    }
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -52,10 +41,6 @@ struct MapView: UIViewRepresentable {
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true
-        
-        if showSavedTracks {
-            showSavedTracks(view: mapView)
-        }
         
         return mapView
         
@@ -80,10 +65,47 @@ struct MapView: UIViewRepresentable {
             view.addTrackLine(track: nil, geoTrack: currentTrack)
         }
         
+        
+        
+        //adding points
+        addPointsAnnotationsToMapView(view)
+        
         printTest("overlays: \(view.overlays.count)")
         printTest("annotations: \(view.annotations.count)")
         
     }
+    
+    func addPointsAnnotationsToMapView(_ view: MKMapView) {
+        
+        let foundedAnnotations = view.annotations.filter{
+            
+            if $0 is PointAnnotation{
+                return true
+            }
+            return false
+        }
+        
+        guard points.count != foundedAnnotations.count else {return}
+        
+        var pointsAnnotationsOnMap = [PointAnnotation]()
+        
+        for foundedAnnotation in foundedAnnotations{
+            pointsAnnotationsOnMap.append(foundedAnnotation as! PointAnnotation)
+        }
+        
+        var annotationsForAdd = [PointAnnotation]()
+        
+        for point in points {
+            if !pointsAnnotationsOnMap.contains(where: {$0.point == point}) {
+                let annotation = PointAnnotation(point: point)
+                annotationsForAdd.append(annotation)
+            }
+        }
+        
+        view.addAnnotations(annotationsForAdd)
+        
+    }
+    
     
     class Coordinator: NSObject, MKMapViewDelegate {
         

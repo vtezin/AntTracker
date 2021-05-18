@@ -22,6 +22,8 @@ struct ContentView: View {
     let maxSpan: Double = 108
     
     @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: Point.entity(), sortDescriptors: []) var points: FetchedResults<Point>
+    
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
     
@@ -56,26 +58,21 @@ struct ContentView: View {
         
         NavigationView{
             
+            VStack{
+            
             ZStack {
+                
                 //first layer - map
+                
                 VStack {
                     
                     if followCL {
                         
-                        if showSavedTracks {
-                            MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
-                        } else {
-                            MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
-                        }
-                        
+                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points)
                         
                     } else {
                         
-                        if showSavedTracks {
-                            MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
-                        } else {
-                            MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, showSavedTracks: $showSavedTracks)
-                        }
+                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points)
                         
                     }
                     
@@ -106,13 +103,12 @@ struct ContentView: View {
                 }
                 
                 if showPointsManagment {
-                    
+
                     Image(systemName: "mappin.and.ellipse")
-                        //.opacity(0.7)
                         .imageScale(.large)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.orange)
                         .font(Font.title.weight(.light))
-                    
+
                 }
                 
                 // layer 2 - track controls + cur.location info
@@ -182,101 +178,109 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    if !showPointsManagment {
-                        currentLocationInfo()
-                            .padding()
-                    } else {
-                        pointsManagmentPane()
-                            .padding()
-                    }
-                    
                 }
                 .zIndex(1)
                 
                 // layer 3 - controls
                 
-                VStack{
+                HStack{
                     
-                    HStack{
+                    //left - additional controls
+                    VStack{
                         
-                        //left - additional controls
-                        VStack{
-                            
-                            Spacer()
-                            
-                            if showAdditionalControls {
-                                
-                                VStack{
-                                    
-                                    Button(action: {
-                                        activeSheet = .appSettings
-                                    }) {
-                                        Image(systemName: "gearshape")
-                                            .modifier(MapButton())
-                                    }
-                                    
-                                    Button(action: {
-                                        mapType = mapType == .standard ? .hybrid : .standard
-                                        lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-                                        needChangeMapView = true
-                                    }) {
-                                        Image(systemName: mapType == .standard ? "globe" : "map")
-                                            .modifier(MapButton())
-                                    }
-                                    
-                                }
-                                .transition(.move(edge: .leading))
-                                
-                            }
-                            
-                            buttonTrackRecording
-                            buttonPointsManagement
-                            
-                        }
-                        .padding()
+                        Spacer()
                         
-                        //right
-                        VStack{
-                            
-                            // zoom/loc
+                        if showAdditionalControls {
+
                             VStack{
+
+                                Button(action: {
+                                    activeSheet = .appSettings
+                                }) {
+                                    Image(systemName: "gearshape")
+                                }
+                                .modifier(MapButton())
+
+                                Button(action: {
+                                    mapType = mapType == .standard ? .hybrid : .standard
+                                    lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+                                    needChangeMapView = true
+                                }) {
+                                    Image(systemName: mapType == .standard ? "globe" : "map")
+                                }
+                                .modifier(MapButton())
+
+                            }
+                            .transition(.move(edge: .leading))
+//
+                        }
+//
+//                        buttonTrackRecording
+                        //buttonPointsManagement
+                        
+                    }
+                    .padding()
+                    
+                    //right
+                    VStack{
+                        
+                        // zoom/loc
+                        VStack{
+                            
+                            HStack{
                                 
-                                HStack{
+                                Spacer()
+                                
+                                VStack(alignment: .trailing){
+                                    
+                                    
+                                    Spacer()
+                                    Spacer()
+                                    
+                                    buttonZoomIn
+                                    buttonZoomOut
+                                        .padding(.top)
                                     
                                     Spacer()
                                     
-                                    VStack(alignment: .trailing){
-                                        
-                                        
-                                        Spacer()
-                                        Spacer()
-                                        
-                                        buttonZoomIn
-                                        buttonZoomOut
-                                            .padding(.top)
-                                        
-                                        Spacer()
-                                        
-                                        buttonCurLocation
-                                        
-                                    }
+                                    buttonCurLocation
                                     
                                 }
                                 
                             }
                             
-                            
-                            
                         }
-                        .padding()
+                        
+                        
                         
                     }
+                    .padding()
                     
                 }
-                
                 .zIndex(2)
                 
             }
+                
+                HStack {
+                    
+                    buttonTrackRecording
+                    
+                    Spacer()
+                    
+                    if !showPointsManagment {
+                        currentLocationInfo()
+                    } else {
+                        pointsManagmentPane()
+                    }
+                    
+                    Spacer()
+                    
+                    buttonPointsManagement
+                    
+                }
+            
+            }
+
             .navigationBarTitle("Map", displayMode: .inline)
             .navigationBarHidden(isNavigationBarHidden)
             .onAppear {
@@ -318,6 +322,7 @@ struct ContentView: View {
             
             
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
     
@@ -325,15 +330,14 @@ struct ContentView: View {
     func pointsManagmentPane() -> some View {
         
         return
-            
+
             HStack{
                 
                 Button(action: {
                     activeSheet = .pointEdit
                 }) {
                     Image(systemName: "plus")
-                    .font(Font.title.weight(.light))
-                    .padding(5)
+                        .modifier(MapButton())
                 }
                 
                 VStack{
@@ -341,20 +345,17 @@ struct ContentView: View {
                     Text("\(center.longitudeDMS)")
                 }
                 .font(.caption)
-                //.padding()
                 
-
                 NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: center)) {
                     
                     Image(systemName: "square.and.arrow.up")
-                        .font(Font.title.weight(.light))
-                        .padding(5)
-                
+                        .modifier(MapButton())
+                    
                 }
                 
             }
-            .background(Color.systemBackground.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
-            .foregroundColor(.blue)
+//            .background(Color.systemBackground.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
+//            .foregroundColor(.blue)
         
     }
     
@@ -376,40 +377,41 @@ struct ContentView: View {
         return
             
             HStack {
-                
-                VStack{
-                    Text(clManager.location.speed.localeSpeedString)
-                        .font(.body)
-                    if gpsAccuracy > 10 || showFullCLInfo {
-                        Text("gps +/- \(gpsAccuracy) m")
-                    }
+                    
                     if showFullCLInfo {
-                        VStack{
-                            Text("\(clManager.location.latitudeDMS)")
-                            Text("\(clManager.location.longitudeDMS)")
-                            Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
+                        
+                        HStack {
+                            
+                            VStack{
+                                Text("\(clManager.location.latitudeDMS)")
+                                Text("\(clManager.location.longitudeDMS)")
+                                Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
+                            }
+                            
+                            NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: clManager.location.coordinate)) {
+                                
+                                Image(systemName: "square.and.arrow.up")
+                                    .font(Font.title.weight(.light))
+                            }
+                            
                         }
-                    }
-                    
-                }
-                .font(.caption)
-                
-                if showFullCLInfo {
-                    
-                    //TODO may be change to .contextMenu modifier using
-                    
-                    NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: clManager.location.coordinate)) {
                         
-                        Image(systemName: "square.and.arrow.up")
-                            .font(Font.title.weight(.light))
-                            .padding(5)
+                    } else {
+                        
+                        VStack{
+                            
+                            Text(clManager.location.speed.localeSpeedString)
+                                .font(.body)
+                            if gpsAccuracy > 10 || showFullCLInfo {
+                                Text("gps +/- \(gpsAccuracy) m")
+                            }
+                            
+                        }
                         
                     }
-                    
-                    
-                }
                 
             }
+            .font(.caption)
             .foregroundColor(.primary)
             .padding(5)
             .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
@@ -502,6 +504,8 @@ struct ContentView: View {
         
     }
     
+    let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
+    
     var buttonPointsManagement: some View {
         
         Button(action: {
@@ -513,11 +517,11 @@ struct ContentView: View {
         }) {
             Image(systemName: "mappin.and.ellipse")
                 .modifier(MapButton())
-                .overlay(
-                    Circle()
-                        .stroke(Color.blue,
-                                lineWidth: showPointsManagment ? 4 : 0)
-                )
+//                .overlay(
+//                    Circle()
+//                        .stroke(Color.blue,
+//                                lineWidth: showPointsManagment ? 4 : 0)
+//                )
         }
         
     }

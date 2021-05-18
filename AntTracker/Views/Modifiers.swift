@@ -61,9 +61,9 @@ struct SecondaryInfo: ViewModifier {
 struct MapControlColors: ViewModifier {
     func body(content: Content) -> some View {
         content
+            //.background(Color(UIColor.systemBackground))
             .background(Color(UIColor.systemBackground).opacity(0.7))
             .accentColor(.primary)
-            //.foregroundColor(.primary)
     }
 }
 
