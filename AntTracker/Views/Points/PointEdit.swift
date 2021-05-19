@@ -16,12 +16,17 @@ struct PointEdit: View {
     
     let point: Point?
     
+    @State var dateAdded = Date()
+    
     @State var latitude: Double
     @State var longitude: Double
     
     @State private var title = "New point"
     @State private var color = Color.orange
     
+    @State private var showQuestionBeforeDelete = false
+    
+    @Binding var pointsWasChanged: Bool
     
     var body: some View {
         
@@ -40,10 +45,10 @@ struct PointEdit: View {
             }
             .navigationBarTitle(Text(point == nil ? "New point" : title), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Cancel")
-            },
+                    presentationMode.wrappedValue.dismiss()
+             }) {
+                    Text("Cancel")
+             },
             trailing: Button(action: {
                 save()
                 presentationMode.wrappedValue.dismiss()
@@ -54,12 +59,24 @@ struct PointEdit: View {
             .toolbar {
                 
                 ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        if point != nil {
+                            showQuestionBeforeDelete = true
+                        } else {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }) {
+                        Image(systemName: "trash")
+                    }
+                }
+                
+                ToolbarItem(placement: .bottomBar) {
                     Spacer()
                 }
                 
                 ToolbarItem(placement: .bottomBar) {
                     
-                    Text(dateAddedString)
+                    Text(dateAdded.dateString())
                         .font(.footnote)
                         .foregroundColor(.secondary)
                     
@@ -68,31 +85,40 @@ struct PointEdit: View {
                 ToolbarItem(placement: .bottomBar) {
                     Spacer()
                 }
+               
                 
+            }
+            .alert(isPresented:$showQuestionBeforeDelete) {
+                Alert(title: Text("Delete this point?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                    
+                    delete()
+                    presentationMode.wrappedValue.dismiss()
+                    
+                }, secondaryButton: .cancel())
             }
             
             .onAppear{
                 if point != nil {
                     title = point!.title
                     color = Color.getColorFromName(colorName: point!.color)
-                    latitude = point!.latitude
-                    longitude = point!.longitude
+                    dateAdded = point!.dateAdded
                 }
             }
             
         }
         
+        
     }
     
-    var dateAddedString: String {
+    func delete() {
         
-        if point == nil {
-            return ""
-        } else {
-            return "created:" + point!.dateAdded.dateString()
-        }
+        moc.delete(point!)
+        try? moc.save()
+        
+        pointsWasChanged = true
         
     }
+    
     
     func save() {
         
@@ -114,6 +140,7 @@ struct PointEdit: View {
         
         try? moc.save()
         
+        pointsWasChanged = true
         
     }
     

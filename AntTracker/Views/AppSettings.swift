@@ -14,11 +14,11 @@ struct AppSettings: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var clManager: LocationManager
     
+    @Binding var isNavigationBarHidden: Bool
+    
     @State var color: Color = .orange
     
     var body: some View {
-        
-        NavigationView {
             
             Form{
                 
@@ -36,6 +36,7 @@ struct AppSettings: View {
             
             .onAppear{
                 color = Color.getColorFromName(colorName: currentTrackColor)
+                isNavigationBarHidden = false
             }
             
             .onDisappear{
@@ -43,6 +44,7 @@ struct AppSettings: View {
                 if disableAutolockScreenWhenTrackRecording {
                     UIApplication.shared.isIdleTimerDisabled = clManager.trackRecording
                 }
+                isNavigationBarHidden = true
             }
             
             .navigationBarTitle("Settings", displayMode: .inline)
@@ -54,13 +56,11 @@ struct AppSettings: View {
                 })
             
         }
-        
-    }
 
 }
 
-struct AppSettings_Previews: PreviewProvider {
-    static var previews: some View {
-        AppSettings()
-    }
-}
+//struct AppSettings_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AppSettings()
+//    }
+//}

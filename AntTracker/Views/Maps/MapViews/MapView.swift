@@ -24,6 +24,12 @@ struct MapView: UIViewRepresentable {
     
     var points: FetchedResults<Point>
     
+    //working with point selection
+    @Binding var selectedPoint: Point?
+    @Binding var showingPointDetails: Bool
+    
+    @Binding var pointsWasChanged: Bool
+    
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
     
@@ -76,6 +82,11 @@ struct MapView: UIViewRepresentable {
     
     func addPointsAnnotationsToMapView(_ view: MKMapView) {
         
+        if pointsWasChanged {
+            removePointAnnotationsFromMapView(view)
+            pointsWasChanged = false
+        }
+        
         //TODO use .flatMap for filtering points annotations
         
         let foundedAnnotations = view.annotations.filter{
@@ -105,6 +116,21 @@ struct MapView: UIViewRepresentable {
         }
         
         view.addAnnotations(annotationsForAdd)
+        
+    }
+    
+    func removePointAnnotationsFromMapView(_ view: MKMapView) {
+        
+        let foundedAnnotations = view.annotations.filter{
+            
+            if $0 is PointAnnotation{
+                return true
+            }
+            return false
+        }
+        
+        
+        view.removeAnnotations(foundedAnnotations)
         
     }
     
@@ -161,6 +187,14 @@ struct MapView: UIViewRepresentable {
             
             return annotationView
             
+        }
+        
+        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+            
+            guard let placemark = view.annotation as? PointAnnotation else { return }
+            
+            parent.selectedPoint = placemark.point
+            parent.showingPointDetails = true
         }
         
     }

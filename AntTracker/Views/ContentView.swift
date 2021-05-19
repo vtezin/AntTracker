@@ -28,12 +28,13 @@ struct ContentView: View {
     @EnvironmentObject var currentTrack: GeoTrack
     
     @State private var showRecordTrackControls = false
-    @State private var showAdditionalControls = false
     @State private var followCL = false
     @State private var showSavedTracks = false
     
     @State private var showPointsManagment = false
     @State var selectedPoint: Point?
+    @State private var showPointEdit = false
+    @State private var pointsWasChanged = false
     
     @State var isNavigationBarHidden: Bool = true
     
@@ -43,14 +44,6 @@ struct ContentView: View {
     
     @State private var showQuestionBeforeResetTrack = false
     @State private var firstAppearDone = false
-        
-    enum ActiveSheet: Identifiable {
-        case appSettings, pointEdit
-        var id: Int {
-            hashValue
-        }
-    }
-    @State var activeSheet: ActiveSheet?
     
     @State private var rotateCount: Double = 0
     
@@ -68,11 +61,11 @@ struct ContentView: View {
                     
                     if followCL {
                         
-                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points)
+                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
                         
                     } else {
                         
-                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points)
+                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
                         
                     }
                     
@@ -96,15 +89,10 @@ struct ContentView: View {
                     }
                     
                 }
-                .onTapGesture() {
-                    withAnimation {
-                        showAdditionalControls.toggle()
-                    }
-                }
                 
                 if showPointsManagment {
 
-                    Image(systemName: "mappin.and.ellipse")
+                    Image(systemName: "plus")
                         .imageScale(.large)
                         .foregroundColor(.orange)
                         .font(Font.title.weight(.light))
@@ -190,30 +178,25 @@ struct ContentView: View {
                         
                         Spacer()
                         
-                        if showAdditionalControls {
 
-                            VStack{
-
-                                Button(action: {
-                                    activeSheet = .appSettings
-                                }) {
-                                    Image(systemName: "gearshape")
-                                }
-                                .modifier(MapButton())
-
-                                Button(action: {
-                                    mapType = mapType == .standard ? .hybrid : .standard
-                                    lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-                                    needChangeMapView = true
-                                }) {
-                                    Image(systemName: mapType == .standard ? "globe" : "map")
-                                }
-                                .modifier(MapButton())
-
+                        VStack{
+                            
+                            NavigationLink(destination: AppSettings(isNavigationBarHidden: $isNavigationBarHidden)) {
+                                Image(systemName: "gearshape")
+                                    .modifier(MapButton())
                             }
-                            .transition(.move(edge: .leading))
-//
+                            
+                            Button(action: {
+                                mapType = mapType == .standard ? .hybrid : .standard
+                                lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+                                needChangeMapView = true
+                            }) {
+                                Image(systemName: mapType == .standard ? "globe" : "map")
+                            }
+                            .modifier(MapButton())
+                            
                         }
+
 //
 //                        buttonTrackRecording
                         //buttonPointsManagement
@@ -288,15 +271,11 @@ struct ContentView: View {
             }
             .ignoresSafeArea(.all)
             
-            .sheet(item: $activeSheet) { item in
-                switch item {
-                case .appSettings:
-                    AppSettings()
+            .sheet(isPresented: $showPointEdit) {
+                
+                PointEdit(point: selectedPoint, latitude: center.latitude, longitude: center.longitude, pointsWasChanged: $pointsWasChanged)
                     .environmentObject(clManager)
-                case .pointEdit:
-                    PointEdit(point: selectedPoint, latitude: center.latitude, longitude: center.longitude)
-                    .environmentObject(clManager)
-                }
+                
             }
             
             .alert(isPresented: $showAlertForTrackTittle,
@@ -334,9 +313,13 @@ struct ContentView: View {
             HStack{
                 
                 Button(action: {
-                    activeSheet = .pointEdit
+                    
+                    selectedPoint = nil
+                    showPointEdit = true
+                    showPointsManagment = false
+                    
                 }) {
-                    Image(systemName: "plus")
+                    Image(systemName: "star")
                         .modifier(MapButton())
                 }
                 
@@ -486,7 +469,6 @@ struct ContentView: View {
         Button(action: {
             withAnimation {
                 showRecordTrackControls.toggle()
-                showAdditionalControls = false
             }
             
         }) {
@@ -511,7 +493,6 @@ struct ContentView: View {
         Button(action: {
             withAnimation {
                 showPointsManagment.toggle()
-                showAdditionalControls = false
             }
             
         }) {
@@ -533,7 +514,6 @@ struct ContentView: View {
             let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
             span = MKCoordinateSpan(latitudeDelta: newDelta,
                                     longitudeDelta: newDelta)
-            showAdditionalControls = false
             needChangeMapView = true
             
         }) {
@@ -551,7 +531,6 @@ struct ContentView: View {
             
             span = MKCoordinateSpan(latitudeDelta: newDelta,
                                     longitudeDelta: newDelta)
-            showAdditionalControls = false
             needChangeMapView = true
             
         }) {
@@ -579,7 +558,6 @@ struct ContentView: View {
             .onTapGesture() {
                 center = clManager.region.center
                 needChangeMapView = true
-                showAdditionalControls = false
                 rotateCount += 1
             }
         
@@ -587,7 +565,6 @@ struct ContentView: View {
                 followCL.toggle()
                 center = clManager.region.center
                 needChangeMapView = true
-                showAdditionalControls = false
             }
         
     }
