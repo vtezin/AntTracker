@@ -66,7 +66,6 @@ struct MapView: UIViewRepresentable {
         }
         
         
-        
         //adding points
         addPointsAnnotationsToMapView(view)
         
@@ -76,6 +75,8 @@ struct MapView: UIViewRepresentable {
     }
     
     func addPointsAnnotationsToMapView(_ view: MKMapView) {
+        
+        //TODO use .flatMap for filtering points annotations
         
         let foundedAnnotations = view.annotations.filter{
             
@@ -98,6 +99,7 @@ struct MapView: UIViewRepresentable {
         for point in points {
             if !pointsAnnotationsOnMap.contains(where: {$0.point == point}) {
                 let annotation = PointAnnotation(point: point)
+                annotation.title = point.title
                 annotationsForAdd.append(annotation)
             }
         }
@@ -105,7 +107,6 @@ struct MapView: UIViewRepresentable {
         view.addAnnotations(annotationsForAdd)
         
     }
-    
     
     class Coordinator: NSObject, MKMapViewDelegate {
         
@@ -135,6 +136,7 @@ struct MapView: UIViewRepresentable {
                 if let trackPolilyne = overlay as? MKPolyline{
                     return setTrackOverlayRenderer(trackPolilyne: trackPolilyne)
                 }
+                
             }
             
             return MKOverlayRenderer()
@@ -150,9 +152,9 @@ struct MapView: UIViewRepresentable {
             var annotationView: MKAnnotationView?
             
             if let annotation = annotation as? TrackPointAnnotation{
-                annotationView = setupTrackPointAnnotationView(for: annotation, on: mapView)
+                annotationView = annotation.setAnnotationView(on: mapView)
             } else if let annotation = annotation as? PointAnnotation {
-                annotationView = setupPointAnnotationView(for: annotation, on: mapView)
+                annotationView = annotation.setAnnotationView(on: mapView)
             } else {
                 annotationView = setAnnotationView(annotation: annotation)
             }

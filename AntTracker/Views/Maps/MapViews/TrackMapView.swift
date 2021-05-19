@@ -83,7 +83,7 @@ struct TrackMapView: UIViewRepresentable {
             var annotationView: MKAnnotationView?
             
             if let annotation = annotation as? TrackPointAnnotation{
-                annotationView = setupTrackPointAnnotationView(for: annotation, on: mapView)
+                annotationView = annotation.setAnnotationView(on: mapView)
             } else {
                 annotationView = setAnnotationView(annotation: annotation)
             }
