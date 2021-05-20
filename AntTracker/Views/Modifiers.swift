@@ -11,29 +11,23 @@ struct MapButton: ViewModifier {
     
     func body(content: Content) -> some View {
         
-        ZStack {
+        content
             
-            //for same sizes all buttons
-            Image(systemName: "plus")
-                .opacity(0.0)
-            
-            content
-
-        }
-        .imageScale(.small)
-        .padding(15)
-        .modifier(MapControlColors())
-        .font(Font.title.weight(.light))
-        .clipShape(Circle())
-        .overlay(
-            Circle()
-                .stroke(Color.systemBackground.opacity(0.8),
-                        lineWidth: 1)
-        )
-
+            .imageScale(.small)
+            .font(Font.title.weight(.light))
+            .padding(15)
+            .modifier(MapControlColors())
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(Color.systemBackground.opacity(0.8),
+                            lineWidth: 1)
+            )
         
     }
 }
+
+
 
 struct MapControl: ViewModifier {
     func body(content: Content) -> some View {
@@ -43,10 +37,12 @@ struct MapControl: ViewModifier {
     }
 }
 
-struct TrackControlButton: ViewModifier {
+struct ControlButton: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(Font.largeTitle.weight(.light))
+            .imageScale(.small)
+            .font(Font.title.weight(.light))
+            //.font(Font.largeTitle.weight(.light))
     }
 }
 
@@ -61,7 +57,6 @@ struct SecondaryInfo: ViewModifier {
 struct MapControlColors: ViewModifier {
     func body(content: Content) -> some View {
         content
-            //.background(Color(UIColor.systemBackground))
             .background(Color(UIColor.systemBackground).opacity(0.7))
             .accentColor(.primary)
     }

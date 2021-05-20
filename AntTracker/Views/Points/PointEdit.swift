@@ -36,6 +36,7 @@ struct PointEdit: View {
                 
                 Section(header: Text("Title")) {
                     TextField("title", text: $title)
+                        .modifier(ClearButton(text: $title))
                 }
                 
                 Section(header: Text("Color ")) {
@@ -89,7 +90,7 @@ struct PointEdit: View {
                 
             }
             .alert(isPresented:$showQuestionBeforeDelete) {
-                Alert(title: Text("Delete this point?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                Alert(title: Text("Delete this point?"), message: Text(""), primaryButton: .destructive(Text("Delete")) {
                     
                     delete()
                     presentationMode.wrappedValue.dismiss()

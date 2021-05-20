@@ -96,6 +96,7 @@ struct ContentView: View {
                         .imageScale(.large)
                         .foregroundColor(.orange)
                         .font(Font.title.weight(.light))
+                        .zIndex(1)
 
                 }
                 
@@ -109,10 +110,12 @@ struct ContentView: View {
                             
                             HStack{
                                 buttonTrackList
+                                    .padding(.leading)
                                 Spacer()
                                 TrackInfo(geoTrack: currentTrack, showStartFinishDates: false)
                                 Spacer()
                                 buttonTrackPlayPause
+                                    .padding(.trailing)
                             }
                             
                             HStack {
@@ -123,6 +126,7 @@ struct ContentView: View {
                                         || currentTrack.points.count != currentTrack.trackCoreData!.trackPointsArray.count {
                                         
                                         buttonTrackSave
+                                            .padding(.leading)
                                         Spacer()
                                         
                                     } else {
@@ -142,6 +146,7 @@ struct ContentView: View {
                                     }
                                     
                                     buttonTrackReset
+                                        .padding(.trailing)
                                     
                                 }
                                 else {
@@ -151,23 +156,23 @@ struct ContentView: View {
                             }
 
                         }
-                        .modifier(MapControl())
+                        .modifier(MapControlColors())
                         .transition(.move(edge: .top))
-//                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-//                                            .onEnded({ value in
-//                                                if value.translation.height < 0 {
-//                                                    withAnimation {
-//                                                        showRecordTrackControls = false
-//                                                    }
-//                                                }
-//                                            }))
+                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                            .onEnded({ value in
+                                                if value.translation.height < 0 {
+                                                    withAnimation {
+                                                        showRecordTrackControls = false
+                                                    }
+                                                }
+                                            }))
                         
                     }
                     
                     Spacer()
                     
                 }
-                .zIndex(1)
+                .zIndex(2)
                 
                 // layer 3 - controls
                 
@@ -178,7 +183,6 @@ struct ContentView: View {
                         
                         Spacer()
                         
-
                         VStack{
                             
                             NavigationLink(destination: AppSettings(isNavigationBarHidden: $isNavigationBarHidden)) {
@@ -196,51 +200,33 @@ struct ContentView: View {
                             .modifier(MapButton())
                             
                         }
-
-//
-//                        buttonTrackRecording
-                        //buttonPointsManagement
                         
                     }
                     .padding()
+                    
+                    Spacer()
                     
                     //right
                     VStack{
                         
                         // zoom/loc
-                        VStack{
-                            
-                            HStack{
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .trailing){
-                                    
-                                    
-                                    Spacer()
-                                    Spacer()
-                                    
-                                    buttonZoomIn
-                                    buttonZoomOut
-                                        .padding(.top)
-                                    
-                                    Spacer()
-                                    
-                                    buttonCurLocation
-                                    
-                                }
-                                
-                            }
-                            
-                        }
                         
+                        Spacer()
+                        Spacer()
                         
+                        buttonZoomIn
+                        buttonZoomOut
+                            .padding(.top)
+
+                        Spacer()
+
+                        buttonCurLocation
                         
                     }
                     .padding()
                     
                 }
-                .zIndex(2)
+                .zIndex(3)
                 
             }
                 
@@ -320,7 +306,7 @@ struct ContentView: View {
                     
                 }) {
                     Image(systemName: "star")
-                        .modifier(MapButton())
+                       .modifier(ControlButton())
                 }
                 
                 VStack{
@@ -332,13 +318,11 @@ struct ContentView: View {
                 NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: center)) {
                     
                     Image(systemName: "square.and.arrow.up")
-                        .modifier(MapButton())
+                        .modifier(ControlButton())
                     
                 }
                 
             }
-//            .background(Color.systemBackground.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
-//            .foregroundColor(.blue)
         
     }
     
@@ -413,7 +397,7 @@ struct ContentView: View {
         NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden, showSavedTracks: $showSavedTracks)) {
             
             Image(systemName: "tray.full")
-                .modifier(TrackControlButton())
+                .modifier(ControlButton())
             
         }
         
@@ -426,8 +410,8 @@ struct ContentView: View {
                 clManager.trackRecording.toggle()
             }
         }) {
-            Image(systemName: clManager.trackRecording ? "pause.circle" : "play.circle")
-                .modifier(TrackControlButton())
+            Image(systemName: clManager.trackRecording ? "pause" : "play")
+                .modifier(ControlButton())
         }
         
     }
@@ -437,8 +421,8 @@ struct ContentView: View {
         Button(action: {
             showQuestionBeforeResetTrack = true
         }) {
-            Image(systemName: "xmark.circle")
-                .modifier(TrackControlButton())
+            Image(systemName: "xmark")
+                .modifier(ControlButton())
         }
         
     }
@@ -458,7 +442,7 @@ struct ContentView: View {
             
         }) {
             Image(systemName: "tray.and.arrow.down")
-                .modifier(TrackControlButton())
+                .modifier(ControlButton())
         }
         
         
@@ -534,9 +518,18 @@ struct ContentView: View {
             needChangeMapView = true
             
         }) {
-            Image(systemName: "minus")
-                .modifier(MapButton())
-                .disabled(span.latitudeDelta == minSpan)
+            
+            ZStack {
+                
+                //for same sizes all buttons
+                Image(systemName: "plus")
+                    .opacity(0.0)
+
+                Image(systemName: "minus")
+
+            }
+            .modifier(MapButton())
+
         }
         .disabled(span.latitudeDelta == maxSpan)
         
@@ -571,8 +564,6 @@ struct ContentView: View {
     
     
     func zoomMultiplikator() -> Double {
-        
-        //print("\(span.latitudeDelta)")
         
         if span.latitudeDelta < 0.05 {
             return 2
