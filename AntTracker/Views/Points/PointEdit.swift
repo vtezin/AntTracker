@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct PointEdit: View {
     
@@ -18,8 +19,7 @@ struct PointEdit: View {
     
     @State var dateAdded = Date()
     
-    @State var latitude: Double
-    @State var longitude: Double
+    @State var coordinate: CLLocationCoordinate2D
     
     @State private var title = "New point"
     @State private var color = Color.orange
@@ -39,7 +39,7 @@ struct PointEdit: View {
                         .modifier(ClearButton(text: $title))
                 }
                 
-                Section(header: Text("Color ")) {
+                Section(header: Text("Color")) {
                     ColorSelectorView(selectedColor: $color)
                 }
                 
@@ -77,9 +77,16 @@ struct PointEdit: View {
                 
                 ToolbarItem(placement: .bottomBar) {
                     
-                    Text(dateAdded.dateString())
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
+                    VStack{
+                        HStack{
+                            Text("\(coordinate.latitudeDMS)")
+                            Text("\(coordinate.longitudeDMS)")
+                        }
+                        Text(dateAdded.dateString())
+                    }
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    
                     
                 }
                 
@@ -102,6 +109,7 @@ struct PointEdit: View {
                 if point != nil {
                     title = point!.title
                     color = Color.getColorFromName(colorName: point!.color)
+                    coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
                     dateAdded = point!.dateAdded
                 }
             }
@@ -129,8 +137,8 @@ struct PointEdit: View {
             pointForSave = Point(context: self.moc)
             pointForSave.id = UUID()
             pointForSave.dateAdded = Date()
-            pointForSave.latitude = latitude
-            pointForSave.longitude = longitude
+            pointForSave.latitude = coordinate.latitude
+            pointForSave.longitude = coordinate.longitude
         } else {
             pointForSave = point!
             lastUsedPointColor = color.description

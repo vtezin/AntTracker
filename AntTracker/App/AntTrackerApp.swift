@@ -31,10 +31,8 @@ struct AntTrackerApp: App {
 }
 
 func currentTrackColorName() -> String {
-    
     let defaults = UserDefaults.standard
     return defaults.string(forKey: "currentTrackColor") ?? "orange"
-    
 }
 
 func printTest(_ stringToPrint: String) {
@@ -45,4 +43,5 @@ func printTest(_ stringToPrint: String) {
 
 enum globalParameters {
     static var printTestData = false
+    static var pointControlsColor = Color.orange
 }

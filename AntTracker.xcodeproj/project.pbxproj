@@ -22,7 +22,7 @@
 		523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F533E26550A0900B0DF4A /* TrackPolyline.swift */; };
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
-		529C63042642C40A00A49993 /* CLSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CLSharing.swift */; };
+		529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CoordinatesSharing.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
 		52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92A25E682D4001A50C1 /* ContentView.swift */; };
@@ -62,7 +62,7 @@
 		523F533E26550A0900B0DF4A /* TrackPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPolyline.swift; sourceTree = "<group>"; };
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		529C63032642C40A00A49993 /* CLSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLSharing.swift; sourceTree = "<group>"; };
+		529C63032642C40A00A49993 /* CoordinatesSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesSharing.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AntTrackerApp.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 			children = (
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				526D9D06261FFD03002A606D /* AppSettings.swift */,
-				529C63032642C40A00A49993 /* CLSharing.swift */,
+				529C63032642C40A00A49993 /* CoordinatesSharing.swift */,
 				5213A7942651A3340009223D /* Points */,
 				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				521A0CB325FB4D61001FA9A7 /* Controls */,
@@ -337,7 +337,7 @@
 				52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */,
 				5213A781264D544B0009223D /* PointGroup+CoreDataClass.swift in Sources */,
 				5213A774264B22790009223D /* Colors.swift in Sources */,
-				529C63042642C40A00A49993 /* CLSharing.swift in Sources */,
+				529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */,
 				523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */,
@@ -502,7 +502,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -526,7 +526,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

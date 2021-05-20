@@ -84,9 +84,28 @@ struct ContentView: View {
 
                     Image(systemName: "plus")
                         .imageScale(.large)
-                        .foregroundColor(.orange)
+                        .foregroundColor(globalParameters.pointControlsColor)
                         .font(Font.title.weight(.light))
                         .zIndex(1)
+                    
+                    VStack{
+                        
+                        //placeholder
+                        Image(systemName: "plus")
+                            .opacity(0.0)
+                            .imageScale(.large)
+                            .font(Font.title.weight(.light))
+                            .padding(5)
+                        
+                        HStack{
+                            Image(systemName: "arrow.right")
+                            Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: center.latitude, longitude: center.longitude))))
+                        }
+                        
+                    }
+                    .font(.caption)
+                    .opacity(0.8)
+                    .foregroundColor(globalParameters.pointControlsColor)
 
                 }
                 
@@ -249,7 +268,7 @@ struct ContentView: View {
             
             .sheet(isPresented: $showPointEdit) {
                 
-                PointEdit(point: selectedPoint, latitude: center.latitude, longitude: center.longitude, pointsWasChanged: $pointsWasChanged)
+                PointEdit(point: selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
                     .environmentObject(clManager)
                 
             }
@@ -305,7 +324,7 @@ struct ContentView: View {
                 }
                 .font(.caption)
                 
-                NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: center)) {
+                NavigationLink(destination: CoordinatesSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: center)) {
                     
                     Image(systemName: "square.and.arrow.up")
                         .modifier(ControlButton())
@@ -313,6 +332,7 @@ struct ContentView: View {
                 }
                 
             }
+            .foregroundColor(globalParameters.pointControlsColor)
         
     }
     
@@ -345,7 +365,7 @@ struct ContentView: View {
                                 Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
                             }
                             
-                            NavigationLink(destination: CLSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: clManager.location.coordinate)) {
+                            NavigationLink(destination: CoordinatesSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: clManager.location.coordinate)) {
                                 
                                 Image(systemName: "square.and.arrow.up")
                                     .font(Font.title.weight(.light))
@@ -472,11 +492,8 @@ struct ContentView: View {
         }) {
             Image(systemName: "mappin.and.ellipse")
                 .modifier(MapButton())
-//                .overlay(
-//                    Circle()
-//                        .stroke(Color.blue,
-//                                lineWidth: showPointsManagment ? 4 : 0)
-//                )
+                .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
+            
         }
         
     }

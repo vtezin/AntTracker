@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreLocation
 
-struct CLSharing: View {
+struct CoordinatesSharing: View {
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -61,6 +61,6 @@ struct CLSharing: View {
 
 //struct CLSharing_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CLSharing()
+//        CoordinatesSharing()
 //    }
 //}
