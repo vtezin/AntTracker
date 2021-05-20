@@ -58,18 +58,8 @@ struct ContentView: View {
                 //first layer - map
                 
                 VStack {
-                    
-                    if followCL {
-                        
-                        MapView(mapType: $mapType, center: $clManager.region.center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
-                        
-                    } else {
-                        
-                        MapView(mapType: $mapType, center: $center, span: $span, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
-                        
-                    }
-                    
-                    //.edgesIgnoringSafeArea(.top)
+
+                    MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
                     
                 }
                 .zIndex(0)

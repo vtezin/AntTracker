@@ -15,6 +15,7 @@ struct MapView: UIViewRepresentable {
     //center & span
     @Binding var center: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
+    @Binding var followCL: Bool
     
     //current location
     @Binding var currentLocation: CLLocation
@@ -57,7 +58,10 @@ struct MapView: UIViewRepresentable {
         view.mapType = mapType
         
         if mapChangedByButton || followingCurLocation {
-            let region = MKCoordinateRegion(center: center, span: span)
+            
+            let centerForMap = followCL ? clManager.region.center : center
+            
+            let region = MKCoordinateRegion(center: centerForMap, span: span)
             view.setRegion(region, animated: true)
             mapChangedByButton = false
         }
