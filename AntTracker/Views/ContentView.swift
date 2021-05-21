@@ -32,7 +32,7 @@ struct ContentView: View {
     @State private var showSavedTracks = false
     
     @State private var showPointsManagment = false
-    @State var selectedPoint: Point?
+    @State private var selectedPoint: Point?
     @State private var showPointEdit = false
     @State private var pointsWasChanged = false
     
@@ -53,146 +53,106 @@ struct ContentView: View {
             
             VStack{
             
-            ZStack {
-                
-                //first layer - map
-                
-                VStack {
-
+                ZStack {
+                    
+                    //first layer - map
+                    
                     MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
                     
-                }
-                .zIndex(0)
-                .onAppear{
                     
-                    if !firstAppearDone {
+                    if showPointsManagment {
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            center = clManager.region.center
-                            needChangeMapView = true
-                        }
-                        
-                        mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
-                        
-                        firstAppearDone = true
+                        Image(systemName: "plus")
+                            .imageScale(.large)
+                            .foregroundColor(globalParameters.pointControlsColor)
+                            .font(Font.title.weight(.light))
                         
                     }
                     
-                }
-                
-                if showPointsManagment {
-
-                    Image(systemName: "plus")
-                        .imageScale(.large)
-                        .foregroundColor(globalParameters.pointControlsColor)
-                        .font(Font.title.weight(.light))
-                        .zIndex(1)
-                    
+                    // layer 2 - track controls + cur.location info
                     VStack{
                         
-                        //placeholder
-                        Image(systemName: "plus")
-                            .opacity(0.0)
-                            .imageScale(.large)
-                            .font(Font.title.weight(.light))
-                            .padding(5)
-                        
-                        HStack{
-                            Image(systemName: "arrow.right")
-                            Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: center.latitude, longitude: center.longitude))))
-                        }
-                        
-                    }
-                    .font(.caption)
-                    .opacity(0.8)
-                    .foregroundColor(globalParameters.pointControlsColor)
-
-                }
-                
-                // layer 2 - track controls + cur.location info
-                VStack{
-                    
-                    // track controls
-                    if showRecordTrackControls {
-                        
-                        VStack {
+                        // track controls
+                        if showRecordTrackControls {
                             
-                            HStack{
-                                buttonTrackList
-                                    .padding(.leading)
-                                Spacer()
-                                TrackInfo(geoTrack: currentTrack, showStartFinishDates: false)
-                                Spacer()
-                                buttonTrackPlayPause
-                                    .padding(.trailing)
-                            }
-                            
-                            HStack {
+                            VStack {
                                 
-                                if currentTrack.points.count > 0 && !clManager.trackRecording {
+                                HStack{
+                                    buttonTrackList
+                                        .padding(.leading)
+                                    Spacer()
+                                    TrackInfo(geoTrack: currentTrack, showStartFinishDates: false)
+                                    Spacer()
+                                    buttonTrackPlayPause
+                                        .padding(.trailing)
+                                }
+                                .padding(.top)
+                                
+                                HStack {
                                     
-                                    if currentTrack.trackCoreData == nil
-                                        || currentTrack.points.count != currentTrack.trackCoreData!.trackPointsArray.count {
+                                    if currentTrack.points.count > 0 && !clManager.trackRecording {
                                         
-                                        buttonTrackSave
-                                            .padding(.leading)
-                                        Spacer()
-                                        
-                                    } else {
-                                        
-                                        if currentTrack.trackCoreData != nil {
-                                        
-                                            HStack{
-                                                Text(currentTrack.title)
-                                                Text("saved")
-                                                    .font(.footnote)
-                                                    .foregroundColor(.secondary)
-                                            }
+                                        if currentTrack.trackCoreData == nil
+                                            || currentTrack.points.count != currentTrack.trackCoreData!.trackPointsArray.count {
+                                            
+                                            buttonTrackSave
                                             Spacer()
+                                            
+                                        } else {
+                                            
+                                            if currentTrack.trackCoreData != nil {
+                                                
+                                                HStack{
+                                                    Text(currentTrack.title)
+                                                    Text("saved")
+                                                        .font(.footnote)
+                                                        .foregroundColor(.secondary)
+                                                }
+                                                Spacer()
+                                                
+                                            }
                                             
                                         }
                                         
+                                        buttonTrackReset
+                                        
+                                        
+                                    }
+                                    else {
+                                        Spacer()
                                     }
                                     
-                                    buttonTrackReset
-                                        .padding(.trailing)
-                                    
                                 }
-                                else {
-                                    Spacer()
-                                }
+                                .padding(.trailing)
+                                .padding(.leading)
+                                .padding(.bottom)
                                 
                             }
-
-                        }
-                        .modifier(MapControlColors())
-                        .transition(.move(edge: .top))
-                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                                            .onEnded({ value in
-                                                if value.translation.height < 0 {
-                                                    withAnimation {
-                                                        showRecordTrackControls = false
-                                                    }
+                            .modifier(MapControlColors())
+                            .transition(.move(edge: .top))
+                            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                        .onEnded({ value in
+                                            if value.translation.height < 0 {
+                                                withAnimation {
+                                                    showRecordTrackControls = false
                                                 }
-                                            }))
-                        
-                    }
-                    
-                    Spacer()
-                    
-                }
-                .zIndex(2)
-                
-                // layer 3 - controls
-                
-                HStack{
-                    
-                    //left - additional controls
-                    VStack{
+                                            }
+                                        }))
+                            
+                        }
                         
                         Spacer()
                         
+                    }
+                    
+                    // layer 3 - controls
+                    
+                    HStack{
+                        
+                        //left - additional controls
                         VStack{
+                            
+                            Spacer()
                             
                             NavigationLink(destination: AppSettings(isNavigationBarHidden: $isNavigationBarHidden)) {
                                 Image(systemName: "gearshape")
@@ -209,36 +169,35 @@ struct ContentView: View {
                             .modifier(MapButton())
                             
                         }
+                        .padding()
+                        
+                        Spacer()
+                        
+                        //right
+                        VStack{
+                            
+                            // zoom/loc
+                            
+                            Spacer()
+                            Spacer()
+                            
+                            buttonZoomIn
+                            buttonZoomOut
+                                .padding(.top)
+                            
+                            Spacer()
+                            
+                            buttonCurLocation
+                            
+                        }
+                        .padding()
                         
                     }
-                    .padding()
-                    
-                    Spacer()
-                    
-                    //right
-                    VStack{
-                        
-                        // zoom/loc
-                        
-                        Spacer()
-                        Spacer()
-                        
-                        buttonZoomIn
-                        buttonZoomOut
-                            .padding(.top)
-
-                        Spacer()
-
-                        buttonCurLocation
-                        
-                    }
-                    .padding()
                     
                 }
-                .zIndex(3)
                 
-            }
                 
+                //bottom pane
                 HStack {
                     
                     buttonTrackRecording
@@ -262,9 +221,23 @@ struct ContentView: View {
             .navigationBarTitle("Map", displayMode: .inline)
             .navigationBarHidden(isNavigationBarHidden)
             .onAppear {
+                
                 isNavigationBarHidden = true
+                
+                if !firstAppearDone {
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        center = clManager.region.center
+                        needChangeMapView = true
+                    }
+                    
+                    mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+                    
+                    firstAppearDone = true
+                    
+                }
+                
             }
-            .ignoresSafeArea(.all)
             
             .sheet(isPresented: $showPointEdit) {
                 
@@ -318,18 +291,18 @@ struct ContentView: View {
                        .modifier(ControlButton())
                 }
                 
-                VStack{
-                    Text("\(center.latitudeDMS)")
-                    Text("\(center.longitudeDMS)")
-                }
-                .font(.caption)
+//                HStack{
+//                    Image(systemName: "arrow.right.to.line.alt")
+//                    Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: center.latitude, longitude: center.longitude))))
+//                }
+//                .font(.caption)
                 
-                NavigationLink(destination: CoordinatesSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: center)) {
-                    
-                    Image(systemName: "square.and.arrow.up")
-                        .modifier(ControlButton())
-                    
-                }
+//                NavigationLink(destination: CoordinatesSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: center)) {
+//
+//                    Image(systemName: "square.and.arrow.up")
+//                        .modifier(ControlButton())
+//
+//                }
                 
             }
             .foregroundColor(globalParameters.pointControlsColor)
@@ -511,7 +484,7 @@ struct ContentView: View {
             Image(systemName: "plus")
                 .modifier(MapButton())
         }
-        .disabled(span.latitudeDelta == minSpan)
+        //.disabled(span.latitudeDelta == minSpan)
         
     }
     
@@ -527,7 +500,7 @@ struct ContentView: View {
         }) {
             
             ZStack {
-                
+
                 //for same sizes all buttons
                 Image(systemName: "plus")
                     .opacity(0.0)
@@ -538,7 +511,7 @@ struct ContentView: View {
             .modifier(MapButton())
 
         }
-        .disabled(span.latitudeDelta == maxSpan)
+        //.disabled(span.latitudeDelta == maxSpan)
         
     }
     

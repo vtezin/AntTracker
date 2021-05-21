@@ -24,6 +24,7 @@
 "saved" = "записан";
 "created:" = "создано:";
 "Share location" = "Поделиться позицией";
+"Coordinate" = "Координаты";
 "Coordinate format" = "Формат координат";
 "Show saved tracks the map" = "Показать сохраненные треки на карте";
 
@@ -39,3 +40,5 @@
 "Delete this point?" = "Удалить точку?";
 
 "Information about your location is necessary for displaying it on the map and recording your routes." = "Информация о Вашем местоположении необходима для отображения его на карте и записи Ваших маршрутов.";
+
+"Distance from here" = "Расстояние отсюда";

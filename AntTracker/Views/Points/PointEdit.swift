@@ -12,6 +12,7 @@ struct PointEdit: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var clManager: LocationManager
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     
@@ -35,12 +36,36 @@ struct PointEdit: View {
             Form{
                 
                 Section(header: Text("Title")) {
-                    TextField("title", text: $title)
+                    TextField("", text: $title)
                         .modifier(ClearButton(text: $title))
                 }
                 
                 Section(header: Text("Color")) {
                     ColorSelectorView(selectedColor: $color)
+                }
+                
+                Section(header: Text("Coordinate")) {
+                    
+                    HStack{
+                        
+                        Text(coordinate.coordinateStrings[0])
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            
+                            let pasteBoard = UIPasteboard.general
+                            pasteBoard.string = coordinate.coordinateStrings[0]
+                            
+                        }) {
+                            Image(systemName: "doc.on.clipboard")
+                        }
+                        
+                    }
+                }
+                
+                Section(header: Text("Distance from here")) {
+                    Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
                 }
                 
             }
@@ -78,15 +103,10 @@ struct PointEdit: View {
                 ToolbarItem(placement: .bottomBar) {
                     
                     VStack{
-                        HStack{
-                            Text("\(coordinate.latitudeDMS)")
-                            Text("\(coordinate.longitudeDMS)")
-                        }
                         Text(dateAdded.dateString())
                     }
                     .font(.footnote)
                     .foregroundColor(.secondary)
-                    
                     
                 }
                 

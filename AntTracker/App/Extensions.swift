@@ -89,10 +89,10 @@ extension CLLocationCoordinate2D {
         
         var stringsArray = [String]()
         
+        stringsArray.append(latitudeDegrees + ", " + longitudeDegrees)
         stringsArray.append(latitudeDMS + ", " + longitudeDMS)
         stringsArray.append(String(format: "%.5f", latitude) + " "
                                 + String(format: "%.5f", longitude))
-        stringsArray.append(latitudeDegrees + ", " + longitudeDegrees)
         
         return stringsArray
     }

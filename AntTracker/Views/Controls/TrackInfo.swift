@@ -20,7 +20,10 @@ struct TrackInfo: View {
             HStack{
                 
                 Text(geoTrack.totalDistanceString(maxAccuracy: 10))
-                    .font(.title)
+                    .font(.headline)
+                Text(geoTrack.durationString)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
                 
                 Image(systemName: showFullInfo ? "chevron.up" : "chevron.down")
                     
@@ -30,9 +33,6 @@ struct TrackInfo: View {
                 withAnimation{
                     showFullInfo.toggle()
                 }
-            }
-            HStack {
-                Text(geoTrack.durationString)
             }
             
             if showFullInfo {
@@ -49,9 +49,7 @@ struct TrackInfo: View {
                     
                     HStack {
                         Text("\(geoTrack.minAltitude)")
-                        //Text("112 m")
                         Image(systemName: "arrow.up.right")
-                        //Text("119 m")
                         Text("\(geoTrack.maxAltitude)")
                         Text("(\(geoTrack.maxAltitude - geoTrack.minAltitude)) " + "m")
                     }
@@ -71,7 +69,6 @@ struct TrackInfo: View {
             
         }
         .padding(5)
-        
     }
 }
 

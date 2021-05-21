@@ -111,7 +111,6 @@ struct TrackView: View {
         }) {
             HStack{
                 Image(systemName: "trash")
-                    .foregroundColor(.red)
             }
         })
         

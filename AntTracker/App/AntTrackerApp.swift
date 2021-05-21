@@ -15,7 +15,7 @@ struct AntTrackerApp: App {
     let currentTrack = GeoTrack.shared
     @Environment(\.scenePhase) var scenePhase
     
-    @StateObject var clManager = LocationManager()
+    let clManager = LocationManager()
     
     var body: some Scene {
         WindowGroup {

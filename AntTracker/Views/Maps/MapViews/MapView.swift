@@ -199,6 +199,7 @@ struct MapView: UIViewRepresentable {
             
             parent.selectedPoint = placemark.point
             parent.showingPointDetails = true
+            
         }
         
     }
