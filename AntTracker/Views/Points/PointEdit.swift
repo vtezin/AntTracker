@@ -16,7 +16,7 @@ struct PointEdit: View {
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     
-    let point: Point?
+    @Binding var point: Point?
     
     @State var dateAdded = Date()
     

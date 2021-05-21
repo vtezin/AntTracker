@@ -153,14 +153,30 @@
 			path = MapViews;
 			sourceTree = "<group>";
 		};
+		52512C8626584E76000619F6 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				52512C8726584E86000619F6 /* Controls */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		52512C8726584E86000619F6 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52512C8626584E76000619F6 /* ContentView */,
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				526D9D06261FFD03002A606D /* AppSettings.swift */,
 				529C63032642C40A00A49993 /* CoordinatesSharing.swift */,
-				5213A7942651A3340009223D /* Points */,
 				5226028B25F4C83500703DCE /* Modifiers.swift */,
+				5213A7942651A3340009223D /* Points */,
 				521A0CB325FB4D61001FA9A7 /* Controls */,
 				52F04F632619A16300C261C0 /* Tracks */,
 				52F04F652619A18700C261C0 /* Maps */,

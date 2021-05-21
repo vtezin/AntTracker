@@ -154,19 +154,9 @@ struct ContentView: View {
                             
                             Spacer()
                             
-                            NavigationLink(destination: AppSettings(isNavigationBarHidden: $isNavigationBarHidden)) {
-                                Image(systemName: "gearshape")
-                                    .modifier(MapButton())
-                            }
+                            buttonAppSettings
                             
-                            Button(action: {
-                                mapType = mapType == .standard ? .hybrid : .standard
-                                lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-                                needChangeMapView = true
-                            }) {
-                                Image(systemName: mapType == .standard ? "globe" : "map")
-                            }
-                            .modifier(MapButton())
+                            buttonMapType
                             
                         }
                         .padding()
@@ -241,7 +231,7 @@ struct ContentView: View {
             
             .sheet(isPresented: $showPointEdit) {
                 
-                PointEdit(point: selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
+                PointEdit(point: $selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
                     .environmentObject(clManager)
                 
             }
@@ -374,7 +364,6 @@ struct ContentView: View {
         
     }
     
-    
     var buttonTrackList: some View {
         
         NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden, showSavedTracks: $showSavedTracks)) {
@@ -471,7 +460,6 @@ struct ContentView: View {
         
     }
     
-    
     var buttonZoomIn: some View {
         
         Button(action: {
@@ -542,6 +530,27 @@ struct ContentView: View {
         
     }
     
+    var buttonMapType: some View {
+        
+        Button(action: {
+            mapType = mapType == .standard ? .hybrid : .standard
+            lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+            needChangeMapView = true
+        }) {
+            Image(systemName: mapType == .standard ? "globe" : "map")
+        }
+        .modifier(MapButton())
+        
+    }
+    
+    var buttonAppSettings: some View {
+        
+        NavigationLink(destination: AppSettings(isNavigationBarHidden: $isNavigationBarHidden)) {
+            Image(systemName: "gearshape")
+                .modifier(MapButton())
+        }
+        
+    }
     
     func zoomMultiplikator() -> Double {
         
