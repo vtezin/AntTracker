@@ -28,7 +28,6 @@ struct MapButton: ViewModifier {
 }
 
 
-
 struct MapControl: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -42,7 +41,7 @@ struct ControlButton: ViewModifier {
         content
             .imageScale(.small)
             .font(Font.title.weight(.light))
-            //.font(Font.largeTitle.weight(.light))
+            .accentColor(.primary)
     }
 }
 

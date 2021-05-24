@@ -10,7 +10,6 @@ import SwiftUI
 struct TrackListView: View {
     
     @Binding var isNavigationBarHidden: Bool
-    @Binding var showSavedTracks: Bool
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
@@ -67,21 +66,8 @@ struct TrackListView: View {
                 }, secondaryButton: .cancel())
             }
             
-            //TODO remove?
-            //Toggle("Show saved tracks the map", isOn: $showSavedTracks)
-            //    .padding()
         }
         .navigationBarTitle("Tracks", displayMode: .inline)
-        //        .navigationBarBackButtonHidden(true)
-        //        .navigationBarItems(leading: Button(action: {
-        //            self.presentationMode.wrappedValue.dismiss()
-        //        }) {
-        //            HStack{
-        //                Image(systemName: "chevron.left")
-        //                Text("     ")
-        //                //Image(systemName: "ant")
-        //            }
-        //        })
         
         .onAppear {
             isNavigationBarHidden = false

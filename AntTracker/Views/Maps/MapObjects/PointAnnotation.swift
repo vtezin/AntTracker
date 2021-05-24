@@ -44,10 +44,10 @@ class PointAnnotation: NSObject, MKAnnotation {
         annotationView!.markerTintColor = pointColor
         
         // allow this to show pop up information
-        annotationView?.canShowCallout = true
+        annotationView?.canShowCallout = false
 
         // attach an information button to the view
-        annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        //annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         
         return annotationView!
         
