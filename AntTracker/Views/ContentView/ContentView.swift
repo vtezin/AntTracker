@@ -103,6 +103,14 @@ struct ContentView: View {
                             .foregroundColor(.orange)
                     }
                     
+                    if followCL {
+                        Image(systemName: "escape")
+                            .imageScale(.large)
+                            .font(Font.title.weight(.light))
+                            .foregroundColor(.blue)
+                            .rotationEffect(.degrees((clManager.heading ?? 0) + 45))
+                    }
+                    
                 }
                 
                 //info
@@ -152,163 +160,6 @@ struct ContentView: View {
                 .padding()
                 
             }
-            
-//            VStack{
-//
-//                ZStack {
-//
-//                    //first layer - map
-//
-//                    MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
-//
-//
-//                    if showPointsManagment {
-//
-//                        Image(systemName: "plus")
-//                            .imageScale(.large)
-//                            .foregroundColor(globalParameters.pointControlsColor)
-//                            .font(Font.title.weight(.light))
-//
-//                    }
-//
-//                    // layer 2 - track controls + cur.location info
-//                    VStack{
-//
-//                        // track controls
-//                        if showRecordTrackControls {
-//
-//                            VStack {
-//
-//                                HStack{
-//                                    buttonTrackList
-//                                        .padding(.leading)
-//                                    Spacer()
-//                                    TrackInfo(geoTrack: currentTrack, showingSavedTrack: false)
-//                                    Spacer()
-//                                    buttonTrackPlayPause
-//                                        .padding(.trailing)
-//                                }
-//                                .padding(.top)
-//
-//                                HStack {
-//
-//                                    if currentTrack.points.count > 0 && !clManager.trackRecording {
-//
-//                                        if currentTrack.trackCoreData == nil
-//                                            || currentTrack.points.count != currentTrack.trackCoreData!.trackPointsArray.count {
-//
-//                                            buttonTrackSave
-//                                            Spacer()
-//
-//                                        } else {
-//
-//                                            if currentTrack.trackCoreData != nil {
-//
-//                                                HStack{
-//                                                    Text(currentTrack.title)
-//                                                    Text("saved")
-//                                                        .font(.footnote)
-//                                                        .foregroundColor(.secondary)
-//                                                }
-//                                                Spacer()
-//
-//                                            }
-//
-//                                        }
-//
-//                                        buttonTrackReset
-//
-//
-//                                    }
-//                                    else {
-//                                        Spacer()
-//                                    }
-//
-//                                }
-//                                .padding(.trailing)
-//                                .padding(.leading)
-//                                .padding(.bottom)
-//
-//                            }
-//                            .modifier(MapControlColors())
-//                            .transition(.move(edge: .top))
-//                            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-//                                        .onEnded({ value in
-//                                            if value.translation.height < 0 {
-//                                                withAnimation {
-//                                                    showRecordTrackControls = false
-//                                                }
-//                                            }
-//                                        }))
-//
-//                        }
-//
-//                        Spacer()
-//
-//                    }
-//
-//                    // layer 3 - controls
-//
-//                    HStack{
-//
-//                        //left - additional controls
-//                        VStack{
-//
-//                            Spacer()
-//
-//                            buttonAppSettings
-//
-//                            buttonMapType
-//
-//                        }
-//                        .padding()
-//
-//                        Spacer()
-//
-//                        //right
-//                        VStack{
-//
-//                            // zoom/loc
-//
-//                            Spacer()
-//                            Spacer()
-//
-//                            buttonZoomIn
-//                            buttonZoomOut
-//                                .padding(.top)
-//
-//                            Spacer()
-//
-//                            buttonCurLocation
-//
-//                        }
-//                        .padding()
-//
-//                    }
-//
-//                }
-//
-//
-//                //bottom pane
-//                HStack {
-//
-//                    buttonTrackRecording
-//
-//                    Spacer()
-//
-//                    if !showPointsManagment {
-//                        currentLocationInfo()
-//                    } else {
-//                        //pointsManagmentPane()
-//                    }
-//
-//                    Spacer()
-//
-//                    buttonPointsManagement
-//
-//                }
-//
-//            }
 
             .navigationBarTitle("Map", displayMode: .inline)
             .navigationBarHidden(isNavigationBarHidden)
@@ -375,7 +226,7 @@ struct ContentView: View {
         
     }
     
-    let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
+    //let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
     
     func currentLocationInfo() -> some View {
         
@@ -435,9 +286,9 @@ struct ContentView: View {
             .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
             .onTapGesture()
             {
-                withAnimation {
+                //withAnimation {
                     showFullCLInfo.toggle()
-                }
+                //}
             }
         
     }

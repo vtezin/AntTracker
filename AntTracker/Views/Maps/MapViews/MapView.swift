@@ -204,10 +204,16 @@ struct MapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
             
-            guard let placemark = view.annotation as? PointAnnotation else { return }
-            
-            parent.selectedPoint = placemark.point
-            parent.showingPointDetails = true
+            if let placemark = view.annotation as? PointAnnotation {
+                parent.selectedPoint = placemark.point
+                parent.showingPointDetails = true
+                mapView.deselectAnnotation(placemark, animated: true)
+                
+            }  else if ((view.annotation?.isKind(of: MKUserLocation.self)) != nil) {
+                
+                mapView.deselectAnnotation(view.annotation, animated: true)
+                
+            }
             
         }
         

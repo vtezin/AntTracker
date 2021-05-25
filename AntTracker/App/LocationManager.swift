@@ -12,6 +12,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion()
     @Published var location = CLLocation()
+    @Published var heading: CLLocationDirection?
     
     private let manager = CLLocationManager()
     
@@ -57,6 +58,14 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
             
         }
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        if newHeading.headingAccuracy < 0 { return }
+        
+        let heading = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading
+        self.heading = heading
         
     }
     

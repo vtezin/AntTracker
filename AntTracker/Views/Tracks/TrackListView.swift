@@ -15,6 +15,8 @@ struct TrackListView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
+    @FetchRequest(entity: TrackGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.positionInList, ascending: false)]) var trackGroups:FetchedResults<TrackGroup>
+    
     @State private var indexSetToDelete: IndexSet?
     @State private var showQuestionBeforDelete = false
     

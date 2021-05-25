@@ -12,10 +12,10 @@ extension ContentView {
     var buttonBackToMainControls: some View {
         
         Button(action: {
-            withAnimation {
+            //withAnimation {
                 showRecordTrackControls = false
                 showPointsManagment = false
-            }
+            //}
             
         }) {
             Image(systemName: "arrow.backward")
@@ -47,9 +47,9 @@ extension ContentView {
     var buttonTrackRecording: some View {
         
         Button(action: {
-            withAnimation {
+            //withAnimation {
                 showRecordTrackControls.toggle()
-            }
+            //}
             
         }) {
             Image(systemName: "ant")
@@ -69,9 +69,9 @@ extension ContentView {
     var buttonPointsManagement: some View {
         
         Button(action: {
-            withAnimation {
+            //withAnimation {
                 showPointsManagment.toggle()
-            }
+            //}
             
         }) {
             Image(systemName: "mappin.and.ellipse")

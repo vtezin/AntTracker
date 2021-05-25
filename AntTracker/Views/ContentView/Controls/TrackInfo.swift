@@ -31,9 +31,9 @@ struct TrackInfo: View {
             }
             
             .onTapGesture() {
-                withAnimation{
+                //withAnimation{
                     showFullInfo.toggle()
-                }
+                //}
             }
             
             if showFullInfo {

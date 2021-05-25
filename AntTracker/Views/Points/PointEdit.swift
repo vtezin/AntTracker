@@ -35,14 +35,14 @@ struct PointEdit: View {
             
             Form{
                 
-                Section(header: Text("Title")) {
+                Section() {
                     TextField("", text: $title)
+                        .font(.title2)
                         .modifier(ClearButton(text: $title))
+                    ColorSelectorView(selectedColor: $color)
+                    
                 }
                 
-                Section(header: Text("Color")) {
-                    ColorSelectorView(selectedColor: $color)
-                }
                 
                 Section(header: Text("Coordinate")) {
                     
@@ -62,6 +62,7 @@ struct PointEdit: View {
                         }
                         
                     }
+                    
                 }
                 
                 Section(header: Text("Distance from here")) {
@@ -69,7 +70,8 @@ struct PointEdit: View {
                 }
                 
             }
-            .navigationBarTitle(Text(point == nil ? "New point" : title), displayMode: .inline)
+            //.navigationBarTitle(Text(point == nil ? "New point" : title), displayMode: .inline)
+            .navigationBarTitle(Text(point == nil ? "New point" : ""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()
              }) {

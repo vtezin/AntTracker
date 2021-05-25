@@ -59,16 +59,18 @@ extension ContentView {
             .modifier(MapButton())
             .overlay(
                 Circle()
-                    .stroke(Color.systemBackground,
-                            lineWidth: followCL ? 5 : 0)
+                    .stroke(Color.blue,
+                            lineWidth: followCL ? 3 : 0)
             )
             .rotationEffect(.radians(2 * Double.pi * rotateCount))
-            .animation(.easeOut)
+            //.animation(.easeOut)
             
             .onTapGesture() {
                 center = clManager.region.center
                 needChangeMapView = true
-                rotateCount += 1
+                withAnimation(.easeOut){
+                    rotateCount += 1
+                }
             }
         
             .onLongPressGesture {

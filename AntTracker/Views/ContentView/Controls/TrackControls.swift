@@ -12,9 +12,9 @@ extension ContentView {
     var buttonTrackPlayPause: some View {
         
         Button(action: {
-            withAnimation{
+            //withAnimation{
                 clManager.trackRecording.toggle()
-            }
+            //}
         }) {
             Image(systemName: clManager.trackRecording ? "pause" : "play")
                 .modifier(ControlButton())
