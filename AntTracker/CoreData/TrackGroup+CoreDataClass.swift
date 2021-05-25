@@ -12,4 +12,13 @@ import CoreData
 @objc(TrackGroup)
 public class TrackGroup: NSManagedObject {
 
+    func prepareForDelete(moc: NSManagedObjectContext) {
+        
+        for track in tracksArray {
+            track.trackGroup = nil
+        }
+        try? moc.save()
+        
+    }
 }
+

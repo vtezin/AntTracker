@@ -22,6 +22,7 @@ struct TrackView: View {
     @State var region = ""
     @State var showOnMap = false
     @State var color: Color = .orange
+    @State var trackGroup: TrackGroup?
     
     @State private var mapType: MKMapType = .hybrid
     @State private var showSettings = false
@@ -86,6 +87,7 @@ struct TrackView: View {
             region = track.region
             showOnMap = track.showOnMap
             color = Color.getColorFromName(colorName: track.color)
+            trackGroup = track.trackGroup
             
             mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
             
@@ -123,6 +125,7 @@ struct TrackView: View {
         track.region = region
         track.showOnMap = showOnMap
         track.color = color.description
+        track.trackGroup = trackGroup
         
         try? moc.save()
         
@@ -156,6 +159,16 @@ struct TrackView: View {
                         Text(info).opacity(0).padding(.all, 8)
                     }
                     
+                }
+                
+                Section(header: Text("Track group")) {
+                    NavigationLink(destination: TrackGroupsView(selectedGroup: $trackGroup)) {
+                        HStack {
+                            Text(trackGroup?.title ?? "")
+                            //Spacer()
+                            //Image(systemName: "")
+                        }
+                    }
                 }
                 
             }

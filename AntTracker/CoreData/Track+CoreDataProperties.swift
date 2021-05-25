@@ -27,6 +27,7 @@ extension Track {
     @NSManaged public var region: String
     @NSManaged public var trackAnnotationPoint: NSSet?
     @NSManaged public var trackPoint: NSSet?
+    @NSManaged public var trackGroup: TrackGroup?
     
     public var trackPointsArray: [TrackPoint] {
         let set = trackPoint as? Set<TrackPoint> ?? []

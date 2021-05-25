@@ -51,6 +51,14 @@ struct ContentView: View {
     @State var isNavigationBarHidden: Bool = true
     @State private var showFullCLInfo = false //TODO remove in future
     
+    enum sheetModes {
+        case editPoint
+        case saveTrack
+    }
+    @State var sheetMode: sheetModes?
+    @State var showSheet = false
+    
+    
     var body: some View {
         
         NavigationView{
