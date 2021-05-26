@@ -12,7 +12,6 @@ struct CoordinatesSharing: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @Binding var isNavigationBarHidden: Bool    
     @State var coordinate: CLLocationCoordinate2D
     
     var body: some View {
@@ -47,13 +46,6 @@ struct CoordinatesSharing: View {
         
         
         .navigationBarTitle("Share location", displayMode: .inline)
-        
-        .onAppear {
-            isNavigationBarHidden = false
-        }
-        .onDisappear{
-            isNavigationBarHidden = true
-        }
         
     }
     

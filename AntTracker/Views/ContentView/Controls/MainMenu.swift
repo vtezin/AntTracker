@@ -26,7 +26,10 @@ extension ContentView {
     
     var buttonAppSettings: some View {
         
-        NavigationLink(destination: AppSettings(isNavigationBarHidden: $isNavigationBarHidden)) {
+        Button(action: {
+            activePage = .appSettings
+            
+        }) {
             Image(systemName: "gearshape")
                 .modifier(ControlButton())
         }
@@ -35,15 +38,12 @@ extension ContentView {
     
     var buttonTrackList: some View {
         
-        NavigationLink(destination:
-                        //TrackListView(isNavigationBarHidden: $isNavigationBarHidden)
-                       TrackListView()
-                        .environment(\.managedObjectContext, moc)
-        ) {
+        Button(action: {
+            activePage = .tracks
             
+        }) {
             Image(systemName: "tray.full")
                 .modifier(ControlButton())
-            
         }
         
     }

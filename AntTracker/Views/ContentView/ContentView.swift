@@ -37,34 +37,42 @@ struct ContentView: View {
     //controls visibility
     @State var showRecordTrackControls = false
     @State var showPointsManagment = false
-      
+    
     //track
     @State var showQuestionBeforeResetTrack = false
- 
+    
     //animations
     @State var rotateCount: Double = 0
     
     //other
     @State private var firstAppearDone = false
-    @State var isNavigationBarHidden: Bool = true
     @State private var showFullCLInfo = false //TODO remove in future
     
+    //sheets support
     enum sheetModes: Identifiable {
         
-        var id: Int {
-            hashValue
-        }
+        var id: Int {hashValue}
         
         case editPoint
         case saveTrack
         
     }
-    
     @State var sheetMode: sheetModes?
+    
+    //pages support
+    enum pages: Identifiable {
+        var id: Int {hashValue}
+        case map
+        case tracks
+        case appSettings
+    }
+    @State var activePage: pages = .map
     
     var body: some View {
         
-        NavigationView{
+        switch activePage {
+        
+        case .map:
             
             VStack{
                 
@@ -81,7 +89,7 @@ struct ContentView: View {
                 ZStack{
                     
                     MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, sheetMode: $sheetMode, pointsWasChanged: $pointsWasChanged)
-                        //.edgesIgnoringSafeArea(.all)
+                    //.edgesIgnoringSafeArea(.all)
                     
                     //map controls layer
                     HStack{
@@ -171,12 +179,8 @@ struct ContentView: View {
                 .padding()
                 
             }
-
-            .navigationBarTitle("Map", displayMode: .inline)
-            .navigationBarHidden(isNavigationBarHidden)
+            
             .onAppear {
-                
-                isNavigationBarHidden = true
                 
                 if !firstAppearDone {
                     
@@ -192,13 +196,6 @@ struct ContentView: View {
                 }
                 
             }
-            
-//            .sheet(isPresented: $showPointEdit) {
-//
-//                PointEdit(point: $selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
-//                    .environmentObject(clManager)
-//
-//            }
             
             .sheet(item: $sheetMode) { mode in
                 
@@ -217,98 +214,102 @@ struct ContentView: View {
                 Alert(title: Text("Reset current track?"),
                       message: Text(currentTrack.trackCoreData == nil ? "" : "(the saved track will remain in the database)"),
                       primaryButton: .destructive(Text("Reset")) {
-                    
-                    clManager.trackRecording = false
-                    currentTrack.reset()
-                    
-                }, secondaryButton: .cancel())
+                        
+                        clManager.trackRecording = false
+                        currentTrack.reset()
+                        
+                      }, secondaryButton: .cancel())
             }
             
+        case.tracks:
             
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
+            TrackListView(activePage: $activePage)
         
-    }
-    
-    func zoomMultiplikator() -> Double {
-        
-        if span.latitudeDelta < 0.05 {
-            return 3
-        } else {
-            return 5
+        case.appSettings:
+            
+            AppSettings(activePage: $activePage)            
+            
         }
         
     }
+
+
+func zoomMultiplikator() -> Double {
     
-    //let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
+    if span.latitudeDelta < 0.05 {
+        return 3
+    } else {
+        return 5
+    }
     
-    func currentLocationInfo() -> some View {
+}
+
+//let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
+
+func currentLocationInfo() -> some View {
+    
+    let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
+    
+    var colorAccuracy = Color.red
+    
+    switch gpsAccuracy {
+    case ..<20:
+        colorAccuracy = Color.systemBackground
+    case 20..<100:
+        colorAccuracy = Color.yellow
+    default:
+        colorAccuracy = Color.red
+    }
+    
+    return
         
-        let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
-        
-        var colorAccuracy = Color.red
-        
-        switch gpsAccuracy {
-        case ..<20:
-            colorAccuracy = Color.systemBackground
-        case 20..<100:
-            colorAccuracy = Color.yellow
-        default:
-            colorAccuracy = Color.red
-        }
-        
-        return
+        HStack {
             
-            HStack {
+            if showFullCLInfo {
+                
+                HStack {
                     
-                    if showFullCLInfo {
-                        
-                        HStack {
-                            
-                            VStack{
-                                Text("\(clManager.location.latitudeDMS)")
-                                Text("\(clManager.location.longitudeDMS)")
-                                Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
-                            }
-                            
-                            NavigationLink(destination: CoordinatesSharing(isNavigationBarHidden: $isNavigationBarHidden, coordinate: clManager.location.coordinate)) {
-                                
-                                Image(systemName: "square.and.arrow.up")
-                                    .font(Font.title.weight(.light))
-                            }
-                            
-                        }
-                        
-                    } else {
-                        
-                        VStack{
-                            
-                            Text(clManager.location.speed.localeSpeedString)
-                                .font(.body)
-                            if gpsAccuracy > 10 || showFullCLInfo {
-                                Text("gps +/- \(gpsAccuracy) m")
-                            }
-                            
-                        }
-                        
+                    VStack{
+                        Text("\(clManager.location.latitudeDMS)")
+                        Text("\(clManager.location.longitudeDMS)")
+                        Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
                     }
+                    
+                    NavigationLink(destination: CoordinatesSharing(coordinate: clManager.location.coordinate)) {
+                        
+                        Image(systemName: "square.and.arrow.up")
+                            .font(Font.title.weight(.light))
+                    }
+                    
+                }
+                
+            } else {
+                
+                VStack{
+                    
+                    Text(clManager.location.speed.localeSpeedString)
+                        .font(.body)
+                    if gpsAccuracy > 10 || showFullCLInfo {
+                        Text("gps +/- \(gpsAccuracy) m")
+                    }
+                    
+                }
                 
             }
-            .font(.caption)
-            .foregroundColor(.primary)
-            .padding(5)
-            .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
-            .onTapGesture()
-            {
-                //withAnimation {
-                    showFullCLInfo.toggle()
-                //}
-            }
-        
-    }
+            
+        }
+        .font(.caption)
+        .foregroundColor(.primary)
+        .padding(5)
+        .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
+        .onTapGesture()
+        {
+            //withAnimation {
+            showFullCLInfo.toggle()
+            //}
+        }
     
-    
-    
+}
 }
 
 

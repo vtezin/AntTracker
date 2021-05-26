@@ -16,6 +16,7 @@ struct TrackPropertiesView: View {
     
     let track: Track?
     let currentTrack: GeoTrack?
+    @State var viewInitedByExistingTrack = false
     
     @State var title = ""
     @State var info = ""
@@ -45,7 +46,7 @@ struct TrackPropertiesView: View {
                 }
                 
                 Section(header: Text("Track group")) {
-                    NavigationLink(destination: TrackGroupsView(selectedGroup: $trackGroup)) {
+                    NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
                             Text(trackGroup?.title ?? "")
                     }
                 }
@@ -63,13 +64,16 @@ struct TrackPropertiesView: View {
                     Text("Done")
                 })
             .onAppear{
-                
+
                 if let track = track {
                     
-                    title = track.title
-                    info = track.info
-                    color = Color.getColorFromName(colorName: track.color)
-                    trackGroup = track.trackGroup
+                    if !viewInitedByExistingTrack {
+                        title = track.title
+                        info = track.info
+                        color = Color.getColorFromName(colorName: track.color)
+                        trackGroup = track.trackGroup
+                        viewInitedByExistingTrack = true
+                    }
                     
                 } else {
                     //presets for new track
@@ -102,6 +106,10 @@ struct TrackPropertiesView: View {
         trackForSave.trackGroup = trackGroup
         
         try? moc.save()
+        
+//        if let trackGroup = trackGroup {
+//            trackGroup.updateDateOfLastChange(moc: moc)
+//        }
         
     }
     

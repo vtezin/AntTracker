@@ -20,5 +20,18 @@ public class TrackGroup: NSManagedObject {
         try? moc.save()
         
     }
+    
+    static func deleteGroup(group: TrackGroup, moc: NSManagedObjectContext) {
+        
+        group.prepareForDelete(moc: moc)
+        moc.delete(group)
+        try? moc.save()
+        
+    }
+    
+    func updateDateOfLastChange(moc: NSManagedObjectContext) {
+        dateOfLastChange = Date()
+    }
+    
 }
 

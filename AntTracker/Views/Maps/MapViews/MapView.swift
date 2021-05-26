@@ -103,6 +103,8 @@ struct MapView: UIViewRepresentable {
         
         guard points.count != foundedAnnotations.count else {return}
         
+        printTest("points added \(points.count) - \(foundedAnnotations.count)")
+        
         var pointsAnnotationsOnMap = [PointAnnotation]()
         
         for foundedAnnotation in foundedAnnotations{

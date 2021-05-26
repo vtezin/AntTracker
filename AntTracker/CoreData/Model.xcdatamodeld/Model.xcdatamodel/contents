@@ -28,8 +28,8 @@
         <relationship name="trackPoint" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackPoint" inverseName="track" inverseEntity="TrackPoint"/>
     </entity>
     <entity name="TrackGroup" representedClassName="TrackGroup" syncable="YES">
+        <attribute name="dateOfLastChange" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="positionInList" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="track" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="trackGroup" inverseEntity="Track"/>
     </entity>

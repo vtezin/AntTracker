@@ -80,7 +80,6 @@ struct TrackView: View {
         
         .sheet(isPresented: $showSettings) {
             TrackPropertiesView(track: track, currentTrack: nil, mapSettingsChanged: $mapSettingsChanged)
-                .environment(\.managedObjectContext, moc)
         }
         .alert(isPresented:$showQuestionBeforDelete) {
             Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
@@ -106,9 +105,7 @@ struct TrackView: View {
     
     
     func delete() {
-        
         Track.deleteTrack(track: track, moc: moc)
-        
     }
     
     

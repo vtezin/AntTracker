@@ -26,8 +26,10 @@
 		52512C9526585AD5000619F6 /* MapControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9426585AD4000619F6 /* MapControls.swift */; };
 		52512CA0265C236E000619F6 /* TrackGroup+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9E265C236E000619F6 /* TrackGroup+CoreDataClass.swift */; };
 		52512CA1265C236E000619F6 /* TrackGroup+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9F265C236E000619F6 /* TrackGroup+CoreDataProperties.swift */; };
-		52512CA9265CF860000619F6 /* TrackGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CA8265CF860000619F6 /* TrackGroupsView.swift */; };
+		52512CA9265CF860000619F6 /* TrackGroupSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */; };
 		52512CAD265D77B3000619F6 /* TrackPropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */; };
+		52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB2265E3280000619F6 /* TrackRawView.swift */; };
+		52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB7265E3568000619F6 /* TrackGroupView.swift */; };
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CoordinatesSharing.swift */; };
@@ -74,8 +76,10 @@
 		52512C9426585AD4000619F6 /* MapControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapControls.swift; sourceTree = "<group>"; };
 		52512C9E265C236E000619F6 /* TrackGroup+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackGroup+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52512C9F265C236E000619F6 /* TrackGroup+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackGroup+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		52512CA8265CF860000619F6 /* TrackGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupsView.swift; sourceTree = "<group>"; };
+		52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupSelectionView.swift; sourceTree = "<group>"; };
 		52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPropertiesView.swift; sourceTree = "<group>"; };
+		52512CB2265E3280000619F6 /* TrackRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRawView.swift; sourceTree = "<group>"; };
+		52512CB7265E3568000619F6 /* TrackGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupView.swift; sourceTree = "<group>"; };
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		529C63032642C40A00A49993 /* CoordinatesSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesSharing.swift; sourceTree = "<group>"; };
@@ -270,9 +274,11 @@
 		52F04F632619A16300C261C0 /* Tracks */ = {
 			isa = PBXGroup;
 			children = (
-				52DD9532260D08C500F4E700 /* TrackView.swift */,
 				52DB5176260DD13000427149 /* TrackListView.swift */,
-				52512CA8265CF860000619F6 /* TrackGroupsView.swift */,
+				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
+				52512CB2265E3280000619F6 /* TrackRawView.swift */,
+				52DD9532260D08C500F4E700 /* TrackView.swift */,
+				52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */,
 				52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */,
 			);
 			path = Tracks;
@@ -377,7 +383,8 @@
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,
 				52512CA1265C236E000619F6 /* TrackGroup+CoreDataProperties.swift in Sources */,
-				52512CA9265CF860000619F6 /* TrackGroupsView.swift in Sources */,
+				52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */,
+				52512CA9265CF860000619F6 /* TrackGroupSelectionView.swift in Sources */,
 				52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */,
 				5213A781264D544B0009223D /* PointGroup+CoreDataClass.swift in Sources */,
 				5213A774264B22790009223D /* Colors.swift in Sources */,
@@ -391,6 +398,7 @@
 				52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */,
 				52E62907261BADF300A21665 /* AppIconGenerate.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
+				52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */,
 				52512C8D2658528F000619F6 /* TrackControls.swift in Sources */,
 				52512C92265859CB000619F6 /* PointControls.swift in Sources */,
 				52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */,

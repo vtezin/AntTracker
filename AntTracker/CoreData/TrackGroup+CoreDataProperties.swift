@@ -17,10 +17,10 @@ extension TrackGroup {
     }
 
     @NSManaged public var title: String
-    @NSManaged public var id: UUID
+    @NSManaged public var id: UUID?
     @NSManaged public var track: NSSet?
-    @NSManaged public var positionInList: Int16
-
+    @NSManaged public var dateOfLastChange: Date
+    
     public var tracksArray: [Track] {
         let set = track as? Set<Track> ?? []
         return set.sorted {

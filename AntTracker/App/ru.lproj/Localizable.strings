@@ -48,3 +48,6 @@
 "Rename group" = "Переименовать группу";
 "Save track" = "Сохранить трек";
 "Edit track" = "Изменить трек";
+
+"Delete this group?" = "Удалить группу?";
+"all tracks are saved and become tracks outside the groups" = "все треки сохраняться и станут треками вне групп";

@@ -13,12 +13,14 @@ struct AppSettings: View {
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var clManager: LocationManager
-    
-    @Binding var isNavigationBarHidden: Bool
-    
+        
     @State var color: Color = .orange
     
+    @Binding var activePage: ContentView.pages
+    
     var body: some View {
+        
+        NavigationView{
             
             Form{
                 
@@ -36,7 +38,6 @@ struct AppSettings: View {
             
             .onAppear{
                 color = Color.getColorFromName(colorName: currentTrackColor)
-                isNavigationBarHidden = false
             }
             
             .onDisappear{
@@ -44,16 +45,21 @@ struct AppSettings: View {
                 if disableAutolockScreenWhenTrackRecording {
                     UIApplication.shared.isIdleTimerDisabled = clManager.trackRecording
                 }
-                isNavigationBarHidden = true
             }
             
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(
-                trailing: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                leading: Button(action: {
+                    activePage = .map
                 }) {
-                    Text("Save")
+                    HStack{
+                        Image(systemName: "chevron.backward")
+                        Text("Map")
+                    }
                 })
+            
+        }
+            
             
         }
 

@@ -26,7 +26,7 @@ class PointAnnotation: NSObject, MKAnnotation {
     
     func setAnnotationView(on mapView: MKMapView) -> MKAnnotationView {
         
-        printTest(#function)
+        //printTest("PointAnnotation" + #function)
         
         let identifier = "Point"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
@@ -36,7 +36,6 @@ class PointAnnotation: NSObject, MKAnnotation {
             annotationView!.canShowCallout = false
         } else {
             annotationView!.annotation = self
-            printTest("reuse annotation")
         }
         
         let pointColor = UIColor(Color.getColorFromName(colorName: (point.color) )).withAlphaComponent(1)

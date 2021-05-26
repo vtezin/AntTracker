@@ -23,6 +23,7 @@ struct AntTrackerApp: App {
             .environmentObject(clManager)
             .environmentObject(currentTrack)
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            
         }
         .onChange(of: scenePhase) { _ in
             persistenceController.save()
@@ -42,6 +43,6 @@ func printTest(_ stringToPrint: String) {
 }
 
 enum globalParameters {
-    static var printTestData = false
+    static var printTestData = true
     static var pointControlsColor = Color.orange
 }
