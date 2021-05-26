@@ -11,7 +11,7 @@ struct TrackGroupsView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: TrackGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.positionInList, ascending: false)]) var groups:FetchedResults<TrackGroup>
+    @FetchRequest(entity: TrackGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.positionInList, ascending: true)]) var groups:FetchedResults<TrackGroup>
     
     @Binding var selectedGroup: TrackGroup?
     
@@ -29,37 +29,27 @@ struct TrackGroupsView: View {
         
         List{
             
-            ForEach(groups, id: \.self) { group in
-                Text(group.title)
-                    .onTapGesture{
-                        selectedGroup = group
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    .onLongPressGesture{
-                        groupForRenaming = group
-                        showAlertForGroupRenaming = true
-                    }
+            ForEach(groups, id: \.id) { group in
+                HStack{
+                    Text(group.title)
+                    Spacer()
+                }
+                .onTapGesture{
+                    selectedGroup = group
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .onLongPressGesture{
+                    groupForRenaming = group
+                    showAlertForGroupRenaming = true
+                }
+
             }
             .onDelete(perform: { indexSet in
                 showQuestionBeforeDelete = true
                 indexSetToDelete = indexSet
             })
             .onMove(perform: moveGroup)
-            .alert(isPresented: $showQuestionBeforeDelete) {
-                Alert(title: Text("Delete this group?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                        deleteGroup(at: indexSetToDelete)
-                }, secondaryButton: .cancel())
-            }
-            .alert(isPresented: $showAlertForGroupRenaming,
-                   TextAlert(title: "Rename group",
-                             message: "",
-                             text: groupForRenaming?.title ?? "",
-                             keyboardType: .default) { result in
-                    if let text = result {
-                        renameGroup(newTitle: text)
-                    }
-                   })
-
+            
             
             HStack {
                 TextField("new group...   ", text: $titleForNewGroup, onEditingChanged: { (changed) in })
@@ -89,10 +79,23 @@ struct TrackGroupsView: View {
                 }
                 
             }
-            
+            .alert(isPresented: $showAlertForGroupRenaming,
+                   TextAlert(title: "Rename group",
+                             message: "",
+                             text: groupForRenaming?.title ?? "",
+                             keyboardType: .default) { result in
+                    if let text = result {
+                        renameGroup(newTitle: text)
+                    }
+                   })
         }
         .navigationBarTitle("Track groups", displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
+        .alert(isPresented: $showQuestionBeforeDelete) {
+            Alert(title: Text("Delete this group?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                    deleteGroup(at: indexSetToDelete)
+            }, secondaryButton: .cancel())
+        }
         
     }
     

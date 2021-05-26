@@ -10,7 +10,6 @@ import MapKit
 
 struct ContentView: View {
     
-    
     //map bindings
     @State var mapType: MKMapType = .hybrid
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
@@ -40,7 +39,6 @@ struct ContentView: View {
     @State var showPointsManagment = false
       
     //track
-    @State var showAlertForTrackTittle = false
     @State var showQuestionBeforeResetTrack = false
  
     //animations
@@ -51,13 +49,18 @@ struct ContentView: View {
     @State var isNavigationBarHidden: Bool = true
     @State private var showFullCLInfo = false //TODO remove in future
     
-    enum sheetModes {
+    enum sheetModes: Identifiable {
+        
+        var id: Int {
+            hashValue
+        }
+        
         case editPoint
         case saveTrack
+        
     }
-    @State var sheetMode: sheetModes?
-    @State var showSheet = false
     
+    @State var sheetMode: sheetModes?
     
     var body: some View {
         
@@ -77,7 +80,7 @@ struct ContentView: View {
                 
                 ZStack{
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, showingPointDetails: $showPointEdit, pointsWasChanged: $pointsWasChanged)
+                    MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, sheetMode: $sheetMode, pointsWasChanged: $pointsWasChanged)
                         //.edgesIgnoringSafeArea(.all)
                     
                     //map controls layer
@@ -134,9 +137,9 @@ struct ContentView: View {
                         Spacer()
                         
                         if !clManager.trackRecording && currentTrack.points.count > 0 {
-                            buttonTrackReset
-                            Spacer()
                             buttonTrackSave
+                            Spacer()
+                            buttonTrackReset
                         }
                         
                         
@@ -190,22 +193,25 @@ struct ContentView: View {
                 
             }
             
-            .sheet(isPresented: $showPointEdit) {
+//            .sheet(isPresented: $showPointEdit) {
+//
+//                PointEdit(point: $selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
+//                    .environmentObject(clManager)
+//
+//            }
+            
+            .sheet(item: $sheetMode) { mode in
                 
-                PointEdit(point: $selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
-                    .environmentObject(clManager)
+                switch mode {
+                case .editPoint:
+                    PointEdit(point: $selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
+                        .environmentObject(clManager)
+                case .saveTrack:
+                    TrackPropertiesView(track: nil, currentTrack: currentTrack, mapSettingsChanged: $needChangeMapView)
+                        .environment(\.managedObjectContext, moc)
+                }
                 
             }
-            
-            .alert(isPresented: $showAlertForTrackTittle,
-                   TextAlert(title: "Track title",
-                             message: "",
-                             text: Date().dateString(),
-                             keyboardType: .default) { result in
-                    if let text = result {
-                        currentTrack.saveNewTrackToDB(title: text, moc: moc)
-                    }
-                   })
             
             .alert(isPresented: $showQuestionBeforeResetTrack) {
                 Alert(title: Text("Reset current track?"),

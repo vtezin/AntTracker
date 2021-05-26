@@ -27,7 +27,7 @@ struct MapView: UIViewRepresentable {
     
     //working with point selection
     @Binding var selectedPoint: Point?
-    @Binding var showingPointDetails: Bool
+    @Binding var sheetMode: ContentView.sheetModes?
     
     @Binding var pointsWasChanged: Bool
     
@@ -198,7 +198,7 @@ struct MapView: UIViewRepresentable {
             guard let placemark = view.annotation as? PointAnnotation else { return }
             
             parent.selectedPoint = placemark.point
-            parent.showingPointDetails = true
+            parent.sheetMode = .editPoint
             
         }
         
@@ -206,7 +206,7 @@ struct MapView: UIViewRepresentable {
             
             if let placemark = view.annotation as? PointAnnotation {
                 parent.selectedPoint = placemark.point
-                parent.showingPointDetails = true
+                parent.sheetMode = .editPoint
                 mapView.deselectAnnotation(placemark, animated: true)
                 
             }  else if ((view.annotation?.isKind(of: MKUserLocation.self)) != nil) {

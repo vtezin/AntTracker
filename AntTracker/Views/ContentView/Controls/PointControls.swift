@@ -13,7 +13,7 @@ extension ContentView {
         
         Button(action: {
             selectedPoint = nil
-            showPointEdit = true
+            sheetMode = .editPoint
             showPointsManagment = false
         }) {
             Image(systemName: "star")

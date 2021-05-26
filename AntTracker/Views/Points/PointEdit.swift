@@ -70,7 +70,6 @@ struct PointEdit: View {
                 }
                 
             }
-            //.navigationBarTitle(Text(point == nil ? "New point" : title), displayMode: .inline)
             .navigationBarTitle(Text(point == nil ? "New point" : ""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()
@@ -81,7 +80,7 @@ struct PointEdit: View {
                 save()
                 presentationMode.wrappedValue.dismiss()
             }) {
-                Text("Save")
+                Text("Done")
             })
             
             .toolbar {

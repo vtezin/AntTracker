@@ -39,7 +39,7 @@ extension ContentView {
             
             if currentTrack.trackCoreData == nil {
                 //save new track
-                showAlertForTrackTittle = true
+                sheetMode = .saveTrack
             } else {
                 //update current track
                 currentTrack.updateTrackInDB(moc: moc)

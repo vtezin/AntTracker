@@ -35,7 +35,11 @@ extension ContentView {
     
     var buttonTrackList: some View {
         
-        NavigationLink(destination: TrackListView(isNavigationBarHidden: $isNavigationBarHidden)) {
+        NavigationLink(destination:
+                        //TrackListView(isNavigationBarHidden: $isNavigationBarHidden)
+                       TrackListView()
+                        .environment(\.managedObjectContext, moc)
+        ) {
             
             Image(systemName: "tray.full")
                 .modifier(ControlButton())

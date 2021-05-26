@@ -9,13 +9,14 @@ import SwiftUI
 
 struct TrackListView: View {
     
-    @Binding var isNavigationBarHidden: Bool
+    //@Binding var isNavigationBarHidden: Bool
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks:FetchedResults<Track>
     
-    @FetchRequest(entity: TrackGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.positionInList, ascending: false)]) var trackGroups:FetchedResults<TrackGroup>
+    @FetchRequest(entity: Track.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)]) var tracks: FetchedResults<Track>
+    
+//    @FetchRequest(entity: TrackGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.positionInList, ascending: false)]) var trackGroups:FetchedResults<TrackGroup>
     
     @State private var indexSetToDelete: IndexSet?
     @State private var showQuestionBeforDelete = false
@@ -26,9 +27,11 @@ struct TrackListView: View {
             
             List{
                 
-                ForEach(tracks, id: \.self) { track in
+                ForEach(tracks, id: \.id) { track in
                     
-                    NavigationLink(destination: TrackView(track: track)) {
+                    NavigationLink(destination:
+                                    TrackView(track: track)
+                                    .environment(\.managedObjectContext, moc)) {
                         
                         VStack(alignment: .leading) {
                             
@@ -49,7 +52,6 @@ struct TrackListView: View {
                             
                         }
                         
-                        
                     }
                     
                 }
@@ -60,25 +62,26 @@ struct TrackListView: View {
             }
             .alert(isPresented:$showQuestionBeforDelete) {
                 Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                    
+
                     for offset in indexSetToDelete! {
                         Track.deleteTrack(track: tracks[offset], moc: moc)
                     }
-                    
+
                 }, secondaryButton: .cancel())
             }
             
         }
         .navigationBarTitle("Tracks", displayMode: .inline)
         
-        .onAppear {
-            isNavigationBarHidden = false
-        }
-        .onDisappear{
-            isNavigationBarHidden = true
+//        .onAppear {
+//            isNavigationBarHidden = false
+//        }
+//        .onDisappear{
+//            isNavigationBarHidden = true
+//        }
+            
         }
         
-    }
 }
 
 //struct TrackListView_Previews: PreviewProvider {
