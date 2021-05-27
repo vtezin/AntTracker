@@ -17,11 +17,11 @@ struct ContentView: View {
     @State var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     @State var needChangeMapView = false
     @State var followCL = false
+    @State var followCLforTimer = false
     
     //work whith points
     @State var selectedPoint: Point?
     @State var showPointEdit = false
-    @State var pointsWasChanged = false
     
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
@@ -33,6 +33,8 @@ struct ContentView: View {
     //current location & track
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
+    //constants
+    @EnvironmentObject var constants: Constants
     
     //controls visibility
     @State var showRecordTrackControls = false
@@ -68,6 +70,8 @@ struct ContentView: View {
     }
     @State var activePage: pages = .map
     
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         
         switch activePage {
@@ -88,7 +92,13 @@ struct ContentView: View {
                 
                 ZStack{
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, followCL: $followCL, currentLocation: $clManager.location, mapChangedByButton: $needChangeMapView, followingCurLocation: $followCL, points: points, selectedPoint: $selectedPoint, sheetMode: $sheetMode, pointsWasChanged: $pointsWasChanged)
+                    MapView(mapType: $mapType, center: $center, span: $span, points: points, selectedPoint: $selectedPoint, sheetMode: $sheetMode)
+                        .onReceive(timer) { _ in
+                            if followCLforTimer {
+                                center = clManager.region.center
+                                constants.needChangeMapView = true
+                            }
+                        }
                     //.edgesIgnoringSafeArea(.all)
                     
                     //map controls layer
@@ -122,7 +132,7 @@ struct ContentView: View {
                             .foregroundColor(.orange)
                     }
                     
-                    if followCL {
+                    if followCLforTimer {
                         Image(systemName: "escape")
                             .imageScale(.large)
                             .font(Font.title.weight(.light))
@@ -186,7 +196,7 @@ struct ContentView: View {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         center = clManager.region.center
-                        needChangeMapView = true
+                        constants.needChangeMapView = true
                     }
                     
                     mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
@@ -201,7 +211,7 @@ struct ContentView: View {
                 
                 switch mode {
                 case .editPoint:
-                    PointEdit(point: $selectedPoint, coordinate: center, pointsWasChanged: $pointsWasChanged)
+                    PointEdit(point: $selectedPoint, coordinate: center)
                         .environmentObject(clManager)
                 case .saveTrack:
                     TrackPropertiesView(track: nil, currentTrack: currentTrack, mapSettingsChanged: $needChangeMapView)

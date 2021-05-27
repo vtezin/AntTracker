@@ -15,13 +15,6 @@ struct MapView: UIViewRepresentable {
     //center & span
     @Binding var center: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
-    @Binding var followCL: Bool
-    
-    //current location
-    @Binding var currentLocation: CLLocation
-    
-    @Binding var mapChangedByButton: Bool
-    @Binding var followingCurLocation: Bool
     
     var points: FetchedResults<Point>
     
@@ -29,10 +22,9 @@ struct MapView: UIViewRepresentable {
     @Binding var selectedPoint: Point?
     @Binding var sheetMode: ContentView.sheetModes?
     
-    @Binding var pointsWasChanged: Bool
-    
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
+    @EnvironmentObject var constants: Constants
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -57,15 +49,14 @@ struct MapView: UIViewRepresentable {
         
         view.mapType = mapType
         
-        if mapChangedByButton || followingCurLocation {
+        if constants.needChangeMapView {
             
-            let centerForMap = followCL ? clManager.region.center : center
-            
-            let region = MKCoordinateRegion(center: centerForMap, span: span)
+            let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: true)
-            mapChangedByButton = false
+            
+            constants.needChangeMapView = false
         }
-
+        
         if view.overlays.count > 0 && currentTrack.points.count == 0 {
             removeCurrentTrackFromMapView(mapView: view)
         }
@@ -86,9 +77,9 @@ struct MapView: UIViewRepresentable {
     
     func addPointsAnnotationsToMapView(_ view: MKMapView) {
         
-        if pointsWasChanged {
+        if constants.needRedrawPointsOnMap {
             removePointAnnotationsFromMapView(view)
-            pointsWasChanged = false
+            constants.needRedrawPointsOnMap = false
         }
         
         //TODO use .flatMap for filtering points annotations
@@ -150,13 +141,11 @@ struct MapView: UIViewRepresentable {
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
             
-            if !parent.followingCurLocation {
-                parent.center = mapView.region.center
-                parent.span = mapView.region.span
-            }
+            parent.center = mapView.region.center
+            parent.span = mapView.region.span
             
-            if parent.mapChangedByButton {
-                parent.mapChangedByButton = false
+            if parent.constants.needChangeMapView {
+                parent.constants.needChangeMapView = false
             }
             
         }

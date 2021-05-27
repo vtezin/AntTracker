@@ -13,6 +13,7 @@ struct PointEdit: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var clManager: LocationManager
+    @EnvironmentObject var constants: Constants
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     
@@ -27,7 +28,6 @@ struct PointEdit: View {
     
     @State private var showQuestionBeforeDelete = false
     
-    @Binding var pointsWasChanged: Bool
     
     var body: some View {
         
@@ -145,7 +145,7 @@ struct PointEdit: View {
         moc.delete(point!)
         try? moc.save()
         
-        pointsWasChanged = true
+        constants.needRedrawPointsOnMap = true
         
     }
     
@@ -170,7 +170,7 @@ struct PointEdit: View {
         
         try? moc.save()
         
-        pointsWasChanged = true
+        constants.needRedrawPointsOnMap = true
         
     }
     

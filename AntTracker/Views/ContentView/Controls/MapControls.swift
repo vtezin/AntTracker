@@ -16,7 +16,7 @@ extension ContentView {
             let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
             span = MKCoordinateSpan(latitudeDelta: newDelta,
                                     longitudeDelta: newDelta)
-            needChangeMapView = true
+            constants.needChangeMapView = true
             
         }) {
             Image(systemName: "plus")
@@ -33,7 +33,7 @@ extension ContentView {
             
             span = MKCoordinateSpan(latitudeDelta: newDelta,
                                     longitudeDelta: newDelta)
-            needChangeMapView = true
+            constants.needChangeMapView = true
             
         }) {
             
@@ -60,23 +60,23 @@ extension ContentView {
             .overlay(
                 Circle()
                     .stroke(Color.blue,
-                            lineWidth: followCL ? 3 : 0)
+                            lineWidth: followCLforTimer ? 3 : 0)
             )
             .rotationEffect(.radians(2 * Double.pi * rotateCount))
             //.animation(.easeOut)
             
             .onTapGesture() {
                 center = clManager.region.center
-                needChangeMapView = true
+                constants.needChangeMapView = true
                 withAnimation(.easeOut){
                     rotateCount += 1
                 }
             }
         
             .onLongPressGesture {
-                followCL.toggle()
+                followCLforTimer.toggle()
                 center = clManager.region.center
-                needChangeMapView = true
+                constants.needChangeMapView = true
             }
         
     }
@@ -86,7 +86,7 @@ extension ContentView {
         Button(action: {
             mapType = mapType == .standard ? .hybrid : .standard
             lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-            needChangeMapView = true
+            constants.needChangeMapView = true
         }) {
             Image(systemName: mapType == .standard ? "globe" : "map")
         }

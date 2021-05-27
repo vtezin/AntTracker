@@ -14,14 +14,16 @@ struct AntTrackerApp: App {
     let persistenceController = PersistenceController.shared
     let currentTrack = GeoTrack.shared
     @Environment(\.scenePhase) var scenePhase
-    
     let clManager = LocationManager()
+    
+    let constants = Constants()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
             .environmentObject(clManager)
             .environmentObject(currentTrack)
+            .environmentObject(constants)
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
         }
@@ -43,6 +45,11 @@ func printTest(_ stringToPrint: String) {
 }
 
 enum globalParameters {
-    static var printTestData = true
+    static var printTestData = false
     static var pointControlsColor = Color.orange
+}
+
+class Constants: ObservableObject {
+    @Published var needRedrawPointsOnMap = false
+    @Published var needChangeMapView = false
 }
