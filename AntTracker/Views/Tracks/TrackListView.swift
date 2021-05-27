@@ -71,7 +71,7 @@ struct TrackListView: View {
                     ForEach(tracks, id: \.id) { track in
                         
                         NavigationLink(destination:
-                                        TrackView(track: track)
+                                        TrackDetailsView(track: track)
                                         .environment(\.managedObjectContext, moc)) {
                             
                             TrackRawView(track: track)
