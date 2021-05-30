@@ -63,13 +63,14 @@ struct TrackDetailsView: View {
         }
         
         .navigationBarTitle(Text(track.title), displayMode: .inline)
-        .navigationBarItems(trailing: Button(action: {
-           showQuestionBeforeDelete = true
-        }) {
-            HStack{
-                Image(systemName: "trash")
-            }
-        })
+        .navigationBarItems(trailing:
+                                Button(action: {
+                                    save()
+                                    mapSettingsChanged = color.description != track.color
+                                    presentationMode.wrappedValue.dismiss()
+                                }) {
+                                    Text("Done")
+                                })
         
         
     }
@@ -119,7 +120,7 @@ struct TrackDetailsView: View {
         Form{
             
             Section() {
-                TextField("", text: $title).modifier(ClearButton(text: $title))
+                TextField("Title", text: $title).modifier(ClearButton(text: $title))
                 ColorSelectorView(selectedColor: $color)
             }
             
@@ -138,13 +139,14 @@ struct TrackDetailsView: View {
                 }
             }
             
+                
             Button(action: {
-                save()
-                mapSettingsChanged = color.description != track.color
-                presentationMode.wrappedValue.dismiss()
+                showQuestionBeforeDelete = true
             }) {
-                Text("Save changes")
+                Text("Delete track")
+                    .foregroundColor(.red)
             }
+            
             
         }
         

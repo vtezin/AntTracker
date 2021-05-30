@@ -12,18 +12,27 @@
 "km" = "км";
 "max" = "макс.";
 "avg" = "сред.";
-"Title" = "Заголовок";
-"Track title" = "Заголовок трека";
+"Title" = "Название";
+"Track title" = "Название трека";
 "Color" = "Цвет";
 "Description" = "Описание";
 "Map" = "Карта";
 "Properties" = "Свойства";
 "Save" = "Сохранить";
+//"Save changes" = "Сохранить изменения";
 "Done" = "Готово";
-"Cancel" = "Отмена";
+"Cancel" = "Отменить";
 "alt." = "выс.";
 "saved" = "записан";
 "created:" = "создано:";
+
+"Delete" = "Удалить";
+"Delete track" = "Удалить трек";
+"Delete this group?" = "Удалить группу?";
+"Delete this track?" = "Удалить трек?";
+"Delete this point?" = "Удалить точку?";
+"There is no undo" = "Это действие необратимо";
+
 "Share location" = "Поделиться позицией";
 "Coordinate" = "Координаты";
 "Coordinate format" = "Формат координат";
@@ -38,16 +47,15 @@
 "Reset" = "Очистить";
 
 "New point" = "Новая точка";
-"Delete this point?" = "Удалить точку?";
 
 "Information about your location is necessary for displaying it on the map and recording your routes." = "Информация о Вашем местоположении необходима для отображения его на карте и записи Ваших маршрутов.";
 
 "Distance from here" = "Расстояние отсюда";
 
 "Track group" = "Группа треков";
+"Group title" = "Название группы";
 "Rename group" = "Переименовать группу";
 "Save track" = "Сохранить трек";
 "Edit track" = "Изменить трек";
 
-"Delete this group?" = "Удалить группу?";
 "all tracks are saved and become tracks outside the groups" = "все треки сохраняться и станут треками вне групп";

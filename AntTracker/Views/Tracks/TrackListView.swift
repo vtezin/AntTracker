@@ -105,17 +105,6 @@ struct TrackListView: View {
                         }
                        })
                 
-                //bottom controls
-                HStack{
-                    Button(action: {
-                        showAlertForGroupName = true
-                    }) {
-                        Image(systemName: "folder.badge.plus")
-                    }
-                    .padding()
-                    Spacer()
-                }
-                
                 
             }
             .navigationBarTitle("Tracks", displayMode: .inline)
@@ -128,6 +117,12 @@ struct TrackListView: View {
                         Image(systemName: "chevron.backward")
                         Text("Map")
                     }
+                },
+                trailing: Button(action: {
+                    showAlertForGroupName = true
+                }) {
+                    Image(systemName: "folder.badge.plus")
+                        .imageScale(.large)
                 })
             
         }

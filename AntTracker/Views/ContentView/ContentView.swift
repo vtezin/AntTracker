@@ -33,6 +33,7 @@ struct ContentView: View {
     //current location & track
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: GeoTrack
+    @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     //constants
     @EnvironmentObject var constants: Constants
     
@@ -136,7 +137,7 @@ struct ContentView: View {
                         Image(systemName: "escape")
                             .imageScale(.large)
                             .font(Font.title.weight(.light))
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color.getColorFromName(colorName: currentTrackColor))
                             .rotationEffect(.degrees((clManager.heading ?? 0) + 45))
                     }
                     
@@ -168,7 +169,7 @@ struct ContentView: View {
                         Spacer()
                         buttonAddPoint
                         Spacer()
-                        buttonAddPointFromClipboard
+                        //buttonAddPointFromClipboard
                         
                         
                     }

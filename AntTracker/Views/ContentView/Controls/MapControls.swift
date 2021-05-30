@@ -13,14 +13,24 @@ extension ContentView {
     var buttonZoomIn: some View {
         
         Button(action: {
-            let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
-            span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                    longitudeDelta: newDelta)
-            constants.needChangeMapView = true
             
         }) {
             Image(systemName: "plus")
                 .modifier(MapButton())
+                
+                .onTapGesture() {
+                    let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
+                    span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                            longitudeDelta: newDelta)
+                    constants.needChangeMapView = true
+                }
+            
+                .onLongPressGesture {
+                    span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
+                                              longitudeDelta: minSpan * 2)
+                    constants.needChangeMapView = true
+                }
+            
         }
         //.disabled(span.latitudeDelta == minSpan)
         
@@ -29,11 +39,6 @@ extension ContentView {
     var buttonZoomOut: some View {
         
         Button(action: {
-            let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
-            
-            span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                    longitudeDelta: newDelta)
-            constants.needChangeMapView = true
             
         }) {
             
@@ -47,6 +52,20 @@ extension ContentView {
 
             }
             .modifier(MapButton())
+            
+            .onTapGesture() {
+                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
+                
+                span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                        longitudeDelta: newDelta)
+                constants.needChangeMapView = true
+            }
+        
+            .onLongPressGesture {
+                span = MKCoordinateSpan(latitudeDelta: minSpan * 20,
+                                          longitudeDelta: minSpan * 20)
+                constants.needChangeMapView = true
+            }
 
         }
         //.disabled(span.latitudeDelta == maxSpan)
@@ -59,7 +78,7 @@ extension ContentView {
             .modifier(MapButton())
             .overlay(
                 Circle()
-                    .stroke(Color.blue,
+                    .stroke(Color.getColorFromName(colorName: currentTrackColor),
                             lineWidth: followCLforTimer ? 3 : 0)
             )
             .rotationEffect(.radians(2 * Double.pi * rotateCount))

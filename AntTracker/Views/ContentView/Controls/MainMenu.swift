@@ -51,9 +51,6 @@ extension ContentView {
     var buttonTrackRecording: some View {
         
         Button(action: {
-            //withAnimation {
-                showRecordTrackControls.toggle()
-            //}
             
         }) {
             Image(systemName: "ant")
@@ -66,6 +63,20 @@ extension ContentView {
                         .stroke(Color.systemBackground,
                                 lineWidth: showRecordTrackControls ? 4 : 0)
                 )
+            
+                .onTapGesture {
+                    showRecordTrackControls.toggle()
+                 }
+                .onLongPressGesture {
+                    if !clManager.trackRecording {
+                        center = clManager.region.center
+                        constants.needChangeMapView = true
+                        showRecordTrackControls = true
+                        clManager.trackRecording = true
+                    }
+                }
+            
+            
         }
         
     }
@@ -73,16 +84,30 @@ extension ContentView {
     var buttonPointsManagement: some View {
         
         Button(action: {
-            //withAnimation {
-                showPointsManagment.toggle()
-            //}
             
         }) {
             Image(systemName: "mappin.and.ellipse")
                 .modifier(ControlButton())
                 .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
+                .onTapGesture {
+                    showPointsManagment.toggle()
+                 }
+                .onLongPressGesture {
+                    
+                    //fast adding new point
+                    Point.addUpdatePoint(point: nil,
+                                         moc: moc,
+                                         title: nil,
+                                         color: nil,
+                                         latitude: clManager.region.center.latitude,
+                                         longitude: clManager.region.center.longitude)
+                    
+                    constants.needRedrawPointsOnMap = true
+                    
+                }
             
         }
+
         
     }
     

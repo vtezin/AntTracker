@@ -107,9 +107,6 @@ struct TrackPropertiesView: View {
         
         try? moc.save()
         
-//        if let trackGroup = trackGroup {
-//            trackGroup.updateDateOfLastChange(moc: moc)
-//        }
         
     }
     

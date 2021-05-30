@@ -12,4 +12,6 @@ import CoreData
 @objc(PointGroup)
 public class PointGroup: NSManagedObject {
 
+    
 }
+

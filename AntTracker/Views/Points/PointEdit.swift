@@ -152,23 +152,12 @@ struct PointEdit: View {
     
     func save() {
         
-        var pointForSave: Point
-        
-        if point == nil {
-            pointForSave = Point(context: self.moc)
-            pointForSave.id = UUID()
-            pointForSave.dateAdded = Date()
-            pointForSave.latitude = coordinate.latitude
-            pointForSave.longitude = coordinate.longitude
-        } else {
-            pointForSave = point!
-            lastUsedPointColor = color.description
-        }
-        
-        pointForSave.title = title
-        pointForSave.color = color.description
-        
-        try? moc.save()
+        Point.addUpdatePoint(point: point,
+                             moc: moc,
+                             title: title,
+                             color: color.description,
+                             latitude: coordinate.latitude,
+                             longitude: coordinate.longitude)
         
         constants.needRedrawPointsOnMap = true
         
