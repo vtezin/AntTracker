@@ -85,8 +85,7 @@ extension ContentView {
             //.animation(.easeOut)
             
             .onTapGesture() {
-                center = clManager.region.center
-                constants.needChangeMapView = true
+                moveCenterMapToCurLocation()
                 withAnimation(.easeOut){
                     rotateCount += 1
                 }
@@ -94,8 +93,7 @@ extension ContentView {
         
             .onLongPressGesture {
                 followCLforTimer.toggle()
-                center = clManager.region.center
-                constants.needChangeMapView = true
+                moveCenterMapToCurLocation()
             }
         
     }

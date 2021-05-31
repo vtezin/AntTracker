@@ -69,8 +69,7 @@ extension ContentView {
                  }
                 .onLongPressGesture {
                     if !clManager.trackRecording {
-                        center = clManager.region.center
-                        constants.needChangeMapView = true
+                        moveCenterMapToCurLocation()
                         showRecordTrackControls = true
                         clManager.trackRecording = true
                     }

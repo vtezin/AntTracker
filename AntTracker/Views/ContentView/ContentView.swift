@@ -96,8 +96,7 @@ struct ContentView: View {
                     MapView(mapType: $mapType, center: $center, span: $span, points: points, selectedPoint: $selectedPoint, sheetMode: $sheetMode)
                         .onReceive(timer) { _ in
                             if followCLforTimer {
-                                center = clManager.region.center
-                                constants.needChangeMapView = true
+                                moveCenterMapToCurLocation()
                             }
                         }
                     //.edgesIgnoringSafeArea(.all)
@@ -196,8 +195,7 @@ struct ContentView: View {
                 if !firstAppearDone {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        center = clManager.region.center
-                        constants.needChangeMapView = true
+                        moveCenterMapToCurLocation()
                     }
                     
                     mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
@@ -226,6 +224,7 @@ struct ContentView: View {
                       message: Text(currentTrack.trackCoreData == nil ? "" : "(the saved track will remain in the database)"),
                       primaryButton: .destructive(Text("Reset")) {
                         
+                        moveCenterMapToCurLocation()
                         clManager.trackRecording = false
                         currentTrack.reset()
                         
@@ -244,16 +243,20 @@ struct ContentView: View {
         
     }
 
-
-func zoomMultiplikator() -> Double {
-    
-    if span.latitudeDelta < 0.05 {
-        return 3
-    } else {
-        return 5
+    func moveCenterMapToCurLocation() {
+        center = clManager.region.center
+        constants.needChangeMapView = true
     }
     
-}
+    func zoomMultiplikator() -> Double {
+        
+        if span.latitudeDelta < 0.05 {
+            return 3
+        } else {
+            return 5
+        }
+        
+    }
 
 //let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
 

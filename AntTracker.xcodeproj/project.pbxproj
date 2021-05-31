@@ -48,7 +48,6 @@
 		52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953A260D14EB00F4E700 /* Extensions.swift */; };
 		52DD9542260D19C400F4E700 /* TrackPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953E260D19C400F4E700 /* TrackPoint+CoreDataClass.swift */; };
 		52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */; };
-		52E62907261BADF300A21665 /* AppIconGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62906261BADF300A21665 /* AppIconGenerate.swift */; };
 		52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F672619A30B00C261C0 /* TrackMapView.swift */; };
 		52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */; };
 		52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F70261B06B200C261C0 /* TrackInfo.swift */; };
@@ -100,7 +99,6 @@
 		52DD953A260D14EB00F4E700 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		52DD953E260D19C400F4E700 /* TrackPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		52E62906261BADF300A21665 /* AppIconGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconGenerate.swift; sourceTree = "<group>"; };
 		52F04F672619A30B00C261C0 /* TrackMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMapView.swift; sourceTree = "<group>"; };
 		52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorView.swift; sourceTree = "<group>"; };
 		52F04F70261B06B200C261C0 /* TrackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfo.swift; sourceTree = "<group>"; };
@@ -188,7 +186,6 @@
 			children = (
 				52512C8826584F20000619F6 /* MainMenu.swift */,
 				52512C8C2658528F000619F6 /* TrackControls.swift */,
-				52F04F70261B06B200C261C0 /* TrackInfo.swift */,
 				52512C91265859CB000619F6 /* PointControls.swift */,
 				52512C9426585AD4000619F6 /* MapControls.swift */,
 			);
@@ -222,7 +219,6 @@
 		529B5C4225F9E8AE00BACDA8 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				52E62906261BADF300A21665 /* AppIconGenerate.swift */,
 				52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */,
 				52D3A93C25E6A96D001A50C1 /* LocationManager.swift */,
 				52DD953A260D14EB00F4E700 /* Extensions.swift */,
@@ -274,6 +270,7 @@
 		52F04F632619A16300C261C0 /* Tracks */ = {
 			isa = PBXGroup;
 			children = (
+				52F04F70261B06B200C261C0 /* TrackInfo.swift */,
 				52DB5176260DD13000427149 /* TrackListView.swift */,
 				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
@@ -397,7 +394,6 @@
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
 				523F53392655037300B0DF4A /* PointAnnotation.swift in Sources */,
 				52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */,
-				52E62907261BADF300A21665 /* AppIconGenerate.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
 				52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */,
 				52512C8D2658528F000619F6 /* TrackControls.swift in Sources */,
