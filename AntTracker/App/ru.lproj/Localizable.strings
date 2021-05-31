@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   AntTracker
 
@@ -19,7 +19,7 @@
 "Map" = "Карта";
 "Properties" = "Свойства";
 "Save" = "Сохранить";
-//"Save changes" = "Сохранить изменения";
+"Save changes" = "Сохранить изменения";
 "Done" = "Готово";
 "Cancel" = "Отменить";
 "alt." = "выс.";
