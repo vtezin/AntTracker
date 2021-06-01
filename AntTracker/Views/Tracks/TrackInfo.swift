@@ -79,9 +79,9 @@ struct TrackInfo: View {
                 if showingSavedTrack {
                     Divider()
                     VStack{
-                        Text(geoTrack.startDate.dateString())
-                        Text(geoTrack.finishDate.dateString())
+                        Text(periodDescription(start: geoTrack.startDate, end: geoTrack.finishDate))
                     }
+                    .modifier(SecondaryInfo())
                 }
                 
             }

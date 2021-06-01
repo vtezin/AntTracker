@@ -205,6 +205,18 @@ func localeDistanceString(distanceMeters: Double) -> String {
     
 }
 
+func periodDescription(start startDate: Date, end finishDate: Date) -> String {
+    
+    let dateInterval = DateInterval(start: startDate, end: finishDate)
+    let formatter = DateIntervalFormatter()
+    
+    formatter.dateStyle = .short
+    formatter.timeStyle = .short
+    
+    return formatter.string(from: dateInterval)!
+    
+}
+
 //hiding keyboard
 //https://www.hackingwithswift.com/quick-start/swiftui/how-to-dismiss-the-keyboard-for-a-textfield
 #if canImport(UIKit)
