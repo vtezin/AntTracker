@@ -22,9 +22,19 @@ struct TrackInfo: View {
             HStack{
                 Text(geoTrack.totalDistanceString(maxAccuracy: 10))
                     .font(.title)
+                
                 Spacer()
-                Text(geoTrack.durationString)
-                    .modifier(SecondaryInfo())
+                
+                VStack{
+                    if !showingSavedTrack
+                        && clManager.trackRecording
+                        && clManager.location.speed > 0 {
+                        Text(clManager.location.speed.localeSpeedString)
+                    }
+                    Text(geoTrack.durationString)
+                        .modifier(SecondaryInfo())
+                }
+                
                 Spacer()
                 Image(systemName: showFullInfo ? "chevron.up" : "chevron.down")
                 
@@ -43,9 +53,6 @@ struct TrackInfo: View {
                     VStack {
                         HStack{
                             Image(systemName: "hare")
-                            if !showingSavedTrack {
-                                Text(clManager.location.speed.localeSpeedString)
-                            }
                         }
                         Divider()
                         Text("max" + " \(geoTrack.maxSpeedPoint?.location.speed.localeSpeedString ?? "0")")

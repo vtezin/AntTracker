@@ -202,8 +202,18 @@ struct ContentView: View {
                     
                     firstAppearDone = true
                     
+                } else {
+                    if clManager.trackRecording {
+                        moveCenterMapToCurLocation()
+                    }
                 }
                 
+            }
+            
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                if clManager.trackRecording {
+                    moveCenterMapToCurLocation()
+                }
             }
             
             .sheet(item: $sheetMode) { mode in
