@@ -32,13 +32,14 @@ struct PointEdit: View {
     var body: some View {
         
         NavigationView{
-            
+
             Form{
                 
-                Section() {
+                Section(header: Text("Title")) {
                     TextField("", text: $title)
                         .font(.title2)
                         .modifier(ClearButton(text: $title))
+                        .foregroundColor(color)
                     ColorSelectorView(selectedColor: $color)
                     
                 }
@@ -70,6 +71,7 @@ struct PointEdit: View {
                 }
                 
             }
+            
             .navigationBarTitle(Text(point == nil ? "New point" : ""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()

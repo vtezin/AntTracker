@@ -30,9 +30,10 @@ struct TrackInfo: View {
                         && clManager.trackRecording
                         && clManager.location.speed > 0 {
                         Text(clManager.location.speed.localeSpeedString)
+                            //.padding(.bottom)
                     }
                     Text(geoTrack.durationString)
-                        .modifier(SecondaryInfo())
+                        .fontWeight(.thin)
                 }
                 
                 Spacer()
@@ -55,8 +56,21 @@ struct TrackInfo: View {
                             Image(systemName: "hare")
                         }
                         Divider()
-                        Text("max" + " \(geoTrack.maxSpeedPoint?.location.speed.localeSpeedString ?? "0")")
-                            .modifier(SecondaryInfo())
+                        
+                        HStack {
+                            Text("avg")
+                                .fontWeight(.thin)
+                            Text(" \(geoTrack.averageSpeed.localeSpeedString)")
+                                .fontWeight(.thin)
+                        }
+                        
+                        HStack {
+                            Text("max")
+                                .fontWeight(.thin)
+                            Text(" \(geoTrack.maxSpeed.localeSpeedString)")
+                                .fontWeight(.thin)
+                        }
+
                     }
                     
                     Spacer()
@@ -66,16 +80,22 @@ struct TrackInfo: View {
                             Image(systemName: "arrow.up")
                             if !showingSavedTrack {
                                 Text(String(format: "%.0f", clManager.location.altitude) + " " + "m")
+                                    .fontWeight(.thin)
                             }
                         }
                         Divider()
-                        HStack{
-                        Text("\(geoTrack.minAltitude)")
-                        Image(systemName: "arrow.up.right")
-                            Text("\(geoTrack.maxAltitude)")
+                        VStack {
+                            HStack{
+                                Text("\(geoTrack.minAltitude)")
+                                    .fontWeight(.thin)
+                                Image(systemName: "arrow.up.right")
+                                Text("\(geoTrack.maxAltitude)")
+                                    .fontWeight(.thin)
+                            }
                             Text("(\(geoTrack.maxAltitude - geoTrack.minAltitude)) " + "m")
+                                .fontWeight(.thin)
                         }
-                            .modifier(SecondaryInfo())
+    
                     }
                     
                     

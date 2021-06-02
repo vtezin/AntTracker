@@ -111,4 +111,40 @@ extension ContentView {
         
     }
     
+    func gpsAccuracyInfo() -> some View {
+        
+        let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
+        
+        var colorAccuracy = Color.red
+        
+        switch gpsAccuracy {
+        case ..<20:
+            colorAccuracy = Color.systemBackground
+        case 20..<100:
+            colorAccuracy = Color.yellow
+        default:
+            colorAccuracy = Color.red
+        }
+        
+        return
+            
+            HStack {
+                
+                //Spacer()
+                
+                if gpsAccuracy > 10 {
+                    Text("gps +/- \(gpsAccuracy) m")
+                }
+                
+                //Spacer()
+                
+            }
+            .font(.caption)
+            .foregroundColor(.primary)
+            .padding(5)
+            .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
+
+    }
+    
+    
 }

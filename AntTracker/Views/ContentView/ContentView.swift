@@ -114,6 +114,14 @@ struct ContentView: View {
                         
                         VStack{
                             Spacer()
+                            gpsAccuracyInfo()
+                                .padding()
+                        }
+                        
+                        Spacer()
+                        
+                        VStack{
+                            Spacer()
                             Spacer()
                             buttonZoomIn
                             buttonZoomOut
@@ -261,7 +269,7 @@ struct ContentView: View {
     func zoomMultiplikator() -> Double {
         
         if span.latitudeDelta < 0.05 {
-            return 3
+            return 2
         } else {
             return 5
         }

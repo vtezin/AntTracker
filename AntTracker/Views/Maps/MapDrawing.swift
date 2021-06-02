@@ -25,7 +25,7 @@ extension MKMapView {
         
         let drawingCurrentTrack = track == nil
         
-        let trackPoints = geotrackToDraw.points
+        let trackPoints = geotrackToDraw.accuracyPoints()
         
         if trackPoints.isEmpty {
             return

@@ -195,10 +195,10 @@
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				52512C8626584E76000619F6 /* ContentView */,
 				526D9D06261FFD03002A606D /* AppSettings.swift */,
 				529C63032642C40A00A49993 /* CoordinatesSharing.swift */,
-				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				5213A7942651A3340009223D /* Points */,
 				521A0CB325FB4D61001FA9A7 /* Controls */,
 				52F04F632619A16300C261C0 /* Tracks */,

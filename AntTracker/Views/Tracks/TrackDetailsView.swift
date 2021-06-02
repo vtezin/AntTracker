@@ -119,8 +119,10 @@ struct TrackDetailsView: View {
         
         Form{
             
-            Section() {
-                TextField("Title", text: $title).modifier(ClearButton(text: $title))
+            Section(header: Text("Title")) {
+                TextField("Title", text: $title)
+                    .modifier(ClearButton(text: $title))
+                    .foregroundColor(color)
                 ColorSelectorView(selectedColor: $color)
             }
             

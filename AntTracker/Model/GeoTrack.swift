@@ -69,7 +69,7 @@ class GeoTrack: ObservableObject {
     }
     
     func pushNewLocation(location: CLLocation) {
-        if Int(location.horizontalAccuracy) <= 10 {
+        if Int(location.horizontalAccuracy) <= 50 {
             points.append(GeoTrackPoint(location: location, type: ""))
         }
     }
@@ -86,7 +86,7 @@ class GeoTrack: ObservableObject {
         var totalDistance: CLLocationDistance = 0
         var prevPoint: GeoTrackPoint? = nil
         
-        let points = accuracyPoints(maxAccuracy: 10)
+        let points = accuracyPoints()
         
         for curPoint in points {
             
@@ -103,22 +103,13 @@ class GeoTrack: ObservableObject {
     
     func totalDistanceString(maxAccuracy: Int) -> String {
         
-        //let formatter = MKDistanceFormatter()
-        //return formatter.string(fromDistance: totalDistance(maxAccuracy: maxAccuracy))
-        
-        //let intMeters = Int(totalDistance(maxAccuracy: maxAccuracy))
-        //return String(intMeters) + " " + "m"
-        
-//        let formatter = MeasurementFormatter()
-//        let distanceInMeters = Measurement(value: totalDistance(maxAccuracy: maxAccuracy), unit: UnitLength.meters)
-//        formatter.unitStyle = MeasurementFormatter.UnitStyle.medium
-//        return formatter.string(from: distanceInMeters)
-        
         return localeDistanceString(distanceMeters: totalDistance(maxAccuracy: maxAccuracy))
         
     }
     
-    func accuracyPoints(maxAccuracy: Int) -> [GeoTrackPoint] {
+    func accuracyPoints() -> [GeoTrackPoint] {
+        
+        let maxAccuracy = 20
         
         return points.filter {
             Int($0.location.horizontalAccuracy) <= maxAccuracy
@@ -128,7 +119,7 @@ class GeoTrack: ObservableObject {
     
     var maxSpeed: CLLocationSpeed {
         
-        if let maxSpeedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.speed < b.location.speed}) {
+        if let maxSpeedPoint = accuracyPoints().max(by: { a, b in a.location.speed < b.location.speed}) {
             return maxSpeedPoint.location.speed
         }
         
@@ -136,9 +127,21 @@ class GeoTrack: ObservableObject {
                 
     }
     
+    var averageSpeed: CLLocationSpeed {
+        
+        let pointsSpeedArray = accuracyPoints().map{Double($0.location.speed)}
+        
+        if pointsSpeedArray.count == 0 {
+            return 0
+        }
+        
+        return pointsSpeedArray.reduce(0, +) / Double(pointsSpeedArray.count)
+        
+    }
+    
     var maxSpeedPoint: GeoTrackPoint? {
         
-        if let maxSpeedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.speed < b.location.speed}) {
+        if let maxSpeedPoint = accuracyPoints().max(by: { a, b in a.location.speed < b.location.speed}) {
             return maxSpeedPoint
         }
         
@@ -148,7 +151,7 @@ class GeoTrack: ObservableObject {
     
     var lastSpeed: CLLocationSpeed {
         
-        let points = accuracyPoints(maxAccuracy: 10)
+        let points = accuracyPoints()
         
         if points.count > 0 {
             return points.last!.location.speed
@@ -160,7 +163,7 @@ class GeoTrack: ObservableObject {
     
     var maxAltitude: Int {
         
-        if let maxAltPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.altitude < b.location.altitude}) {
+        if let maxAltPoint = accuracyPoints().max(by: { a, b in a.location.altitude < b.location.altitude}) {
             return Int(maxAltPoint.location.altitude)
         }
         
@@ -170,7 +173,7 @@ class GeoTrack: ObservableObject {
     
     var minAltitude: Int{
         
-        if let maxAltPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.altitude < b.location.altitude}) {
+        if let maxAltPoint = accuracyPoints().min(by: { a, b in a.location.altitude < b.location.altitude}) {
             return Int(maxAltPoint.location.altitude)
         }
         
@@ -206,7 +209,7 @@ class GeoTrack: ObservableObject {
     
     var northPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
+        if let foundedPoint = accuracyPoints().max(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
             return foundedPoint
         }
         
@@ -217,7 +220,7 @@ class GeoTrack: ObservableObject {
     
     var southPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
+        if let foundedPoint = accuracyPoints().min(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
             return foundedPoint
         }
         
@@ -227,7 +230,7 @@ class GeoTrack: ObservableObject {
     
     var westPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).min(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
+        if let foundedPoint = accuracyPoints().min(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
             return foundedPoint
         }
         
@@ -237,7 +240,7 @@ class GeoTrack: ObservableObject {
     
     var eastPoint: GeoTrackPoint? {
         
-        if let foundedPoint = accuracyPoints(maxAccuracy: 10).max(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
+        if let foundedPoint = accuracyPoints().max(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
             return foundedPoint
         }
         
