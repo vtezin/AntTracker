@@ -40,7 +40,9 @@ struct PointEdit: View {
                         .font(.title2)
                         .modifier(ClearButton(text: $title))
                         .foregroundColor(color)
-                    ColorSelectorView(selectedColor: $color)
+                    ColorSelectorView(selectedColor: $color,
+                                      imageForSelectedColor: "mappin.circle.fill",
+                                      imageForUnselectedColor: "mappin.circle")
                     
                 }
                 

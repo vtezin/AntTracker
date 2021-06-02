@@ -45,7 +45,7 @@ func printTest(_ stringToPrint: String) {
 }
 
 enum globalParameters {
-    static var printTestData = true
+    static var printTestData = false
     static var pointControlsColor = Color.orange
 }
 

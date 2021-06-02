@@ -33,7 +33,7 @@ struct TrackInfo: View {
                             //.padding(.bottom)
                     }
                     Text(geoTrack.durationString)
-                        .fontWeight(.thin)
+                        .fontWeight(.light)
                 }
                 
                 Spacer()
@@ -59,16 +59,16 @@ struct TrackInfo: View {
                         
                         HStack {
                             Text("avg")
-                                .fontWeight(.thin)
+                                .fontWeight(.light)
                             Text(" \(geoTrack.averageSpeed.localeSpeedString)")
-                                .fontWeight(.thin)
+                                .fontWeight(.light)
                         }
                         
                         HStack {
                             Text("max")
-                                .fontWeight(.thin)
+                                .fontWeight(.light)
                             Text(" \(geoTrack.maxSpeed.localeSpeedString)")
-                                .fontWeight(.thin)
+                                .fontWeight(.light)
                         }
 
                     }
@@ -80,20 +80,20 @@ struct TrackInfo: View {
                             Image(systemName: "arrow.up")
                             if !showingSavedTrack {
                                 Text(String(format: "%.0f", clManager.location.altitude) + " " + "m")
-                                    .fontWeight(.thin)
+                                    .fontWeight(.light)
                             }
                         }
                         Divider()
                         VStack {
                             HStack{
                                 Text("\(geoTrack.minAltitude)")
-                                    .fontWeight(.thin)
+                                    .fontWeight(.light)
                                 Image(systemName: "arrow.up.right")
                                 Text("\(geoTrack.maxAltitude)")
-                                    .fontWeight(.thin)
+                                    .fontWeight(.light)
                             }
                             Text("(\(geoTrack.maxAltitude - geoTrack.minAltitude)) " + "m")
-                                .fontWeight(.thin)
+                                .fontWeight(.light)
                         }
     
                     }

@@ -10,19 +10,24 @@ import SwiftUI
 struct ColorSelectorView: View {
     
     @Binding var selectedColor: Color
+    
+    var imageForSelectedColor: String = "circle.fill"
+    var imageForUnselectedColor: String = "circle"
+    
     var showPrimaryColor = false
     
     var body: some View {
         
-        HStack(spacing: 10){
+        HStack(){
             
             ForEach(Colors.colors, id: \.self) { color in
                 
-                self.image(for: color)
+                image(for: color)
                     .onTapGesture {
                         selectedColor = color
                 }
-                    .font(color == selectedColor ? .largeTitle : .title)
+                    .font(.largeTitle)
+                    .imageScale(color == selectedColor ? .large : .medium)
                 
             }
             
@@ -45,10 +50,10 @@ struct ColorSelectorView: View {
             }
             
         case selectedColor:
-            return AnyView(Image(systemName: "circle.fill")
+            return AnyView(Image(systemName: imageForSelectedColor)
                 .foregroundColor(color))
         default:
-            return AnyView(Image(systemName: "circle")
+            return AnyView(Image(systemName: imageForUnselectedColor)
                 .foregroundColor(color))
         }
         
