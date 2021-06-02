@@ -30,7 +30,6 @@ struct TrackInfo: View {
                         && clManager.trackRecording
                         && clManager.location.speed > 0 {
                         Text(clManager.location.speed.localeSpeedString)
-                            //.padding(.bottom)
                     }
                     Text(geoTrack.durationString)
                         .fontWeight(.light)
@@ -55,7 +54,7 @@ struct TrackInfo: View {
                         HStack{
                             Image(systemName: "hare")
                         }
-                        Divider()
+                        .padding(.bottom, 5)
                         
                         HStack {
                             Text("avg")
@@ -77,13 +76,15 @@ struct TrackInfo: View {
                     
                     VStack {
                         HStack{
-                            Image(systemName: "arrow.up")
+                            //Image(systemName: "arrow.up")
+                            Text("altitude")
                             if !showingSavedTrack {
                                 Text(String(format: "%.0f", clManager.location.altitude) + " " + "m")
                                     .fontWeight(.light)
                             }
                         }
-                        Divider()
+                        .padding(.bottom, 5)
+
                         VStack {
                             HStack{
                                 Text("\(geoTrack.minAltitude)")
@@ -107,8 +108,9 @@ struct TrackInfo: View {
                     Divider()
                     VStack{
                         Text(periodDescription(start: geoTrack.startDate, end: geoTrack.finishDate))
+                            .font(.caption)
+                            .fontWeight(.thin)
                     }
-                    .modifier(SecondaryInfo())
                 }
                 
             }

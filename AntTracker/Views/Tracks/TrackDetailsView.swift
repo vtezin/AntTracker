@@ -77,37 +77,40 @@ struct TrackDetailsView: View {
     
     var mapView: some View {
         
-        ZStack{
+        VStack{
             
-            //hint for redraw map when settings changed
-            if mapSettingsChanged {
-                TrackMapView(track: track, mapType: $mapType)
-            } else {
-                TrackMapView(track: track, mapType: $mapType)
-            }
+            TrackInfo(geoTrack: track.convertToGeoTrack())
+                .modifier(MapControl())
+                .clipShape(RoundedRectangle(cornerRadius: 5))
             
-            VStack {
+            ZStack{
                 
-                TrackInfo(geoTrack: track.convertToGeoTrack())
-                    .modifier(MapControl())
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .padding(5)
+                //hint for redraw map when settings changed
+                if mapSettingsChanged {
+                    TrackMapView(track: track, mapType: $mapType)
+                } else {
+                    TrackMapView(track: track, mapType: $mapType)
+                }
                 
-                Spacer()
-                
-                HStack{
-                    
-                    Button(action: {
-                        mapType = mapType == .standard ? .hybrid : .standard
-                    }) {
-                        Image(systemName: mapType == .standard ? "globe" : "map")
-                            .modifier(MapButton())
-                    }
+                VStack {
                     
                     Spacer()
                     
+                    HStack{
+                        
+                        Button(action: {
+                            mapType = mapType == .standard ? .hybrid : .standard
+                        }) {
+                            Image(systemName: mapType == .standard ? "globe" : "map")
+                                .modifier(MapButton())
+                        }
+                        
+                        Spacer()
+                        
+                    }
+                    .padding()
+                    
                 }
-                .padding()
                 
             }
             

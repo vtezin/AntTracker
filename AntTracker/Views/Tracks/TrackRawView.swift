@@ -24,7 +24,8 @@ struct TrackRawView: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing){
-                    Text(track.startDate.dateString())
+                    //Text(track.startDate.dateString())
+                    Text(periodDescription(start: track.startDate, end: track.finishDate))
                     Text(localeDistanceString(distanceMeters: Double(track.totalDistance)))
                 }
                 .modifier(SecondaryInfo())
