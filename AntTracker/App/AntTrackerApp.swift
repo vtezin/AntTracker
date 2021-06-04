@@ -12,11 +12,20 @@ import CoreData
 struct AntTrackerApp: App {
     
     let persistenceController = PersistenceController.shared
-    let currentTrack = GeoTrack.shared
-    @Environment(\.scenePhase) var scenePhase
-    let clManager = LocationManager()
     
-    let constants = Constants()
+    @Environment(\.scenePhase) var scenePhase
+    
+    @AppStorage("lastUsedLatitude") var lastUsedLatitude: Double = 0
+    @AppStorage("lastUsedLongitude") var lastUsedLongitude: Double = 0
+    
+    let clManager = LocationManager()
+    let currentTrack = CurrentTrack.currentTrack
+    
+    let constants = GlobalAppVars()
+    
+    init() {
+        
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -27,9 +36,25 @@ struct AntTrackerApp: App {
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
         }
-        .onChange(of: scenePhase) { _ in
+        .onChange(of: scenePhase) { newScenePhase in
             persistenceController.save()
+            
+            switch newScenePhase {
+                  case .active:
+                    return
+                  case .inactive:
+                    lastUsedLatitude = clManager.location.coordinate.latitude
+                    lastUsedLongitude = clManager.location.coordinate.longitude
+                  case .background:
+                    return
+                    //print("App is in background")
+                  @unknown default:
+                    return
+                    //print("Oh - interesting: I received an unexpected new value.")
+                  }
+            
         }
+
     }
 }
 
@@ -49,7 +74,7 @@ enum globalParameters {
     static var pointControlsColor = Color.orange
 }
 
-class Constants: ObservableObject {
-    @Published var needRedrawPointsOnMap = false
+class GlobalAppVars: ObservableObject {
+    @Published var needRedrawPointsOnMap = true
     @Published var needChangeMapView = false
 }

@@ -42,7 +42,10 @@ extension ContentView {
                 sheetMode = .saveTrack
             } else {
                 //update current track
-                currentTrack.updateTrackInDB(moc: moc)
+                currentTrack.trackCoreData!.fillByCurrentTrackData(moc: moc)
+                
+                try? moc.save()
+                
             }
 
             

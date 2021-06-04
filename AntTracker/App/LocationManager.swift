@@ -26,11 +26,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    @Published var currentTrack : GeoTrack
-    
     override init() {
         
-        self.currentTrack = GeoTrack.shared
         self.trackRecording = false
         
         super.init()
@@ -54,7 +51,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             region = MKCoordinateRegion(center: center, span: span)
             
             if trackRecording {
-                currentTrack.pushNewLocation(location: $0)
+                CurrentTrack.currentTrack.addNewPointFromLocation(location: $0)
             }
             
         }

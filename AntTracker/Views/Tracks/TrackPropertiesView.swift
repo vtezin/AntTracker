@@ -15,7 +15,6 @@ struct TrackPropertiesView: View {
     @AppStorage("lastUsedTrackColor") var lastUsedTrackColor: String = "orange"
     
     let track: Track?
-    let currentTrack: GeoTrack?
     @State var viewInitedByExistingTrack = false
     
     @State var title = ""
@@ -94,7 +93,7 @@ struct TrackPropertiesView: View {
         if track == nil {
             trackForSave = Track(context: moc)
             trackForSave.id = UUID()
-            currentTrack!.setTrackCoreDataProperties(trackCD: trackForSave, moc: moc)
+            trackForSave.fillByCurrentTrackData(moc: moc)
             lastUsedTrackColor = color.description
         } else {
             trackForSave = track!

@@ -13,7 +13,7 @@ struct PointEdit: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var clManager: LocationManager
-    @EnvironmentObject var constants: Constants
+    @EnvironmentObject var constants: GlobalAppVars
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     

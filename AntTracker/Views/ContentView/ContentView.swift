@@ -19,6 +19,9 @@ struct ContentView: View {
     @State var followCL = false
     @State var followCLforTimer = false
     
+    @AppStorage("lastUsedLatitude") var lastUsedLatitude: Double = 0
+    @AppStorage("lastUsedLongitude") var lastUsedLongitude: Double = 0
+    
     //work whith points
     @State var selectedPoint: Point?
     @State var showPointEdit = false
@@ -32,10 +35,11 @@ struct ContentView: View {
     
     //current location & track
     @EnvironmentObject var clManager: LocationManager
-    @EnvironmentObject var currentTrack: GeoTrack
+    @EnvironmentObject var currentTrack: CurrentTrack
+    
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     //constants
-    @EnvironmentObject var constants: Constants
+    @EnvironmentObject var constants: GlobalAppVars
     
     //controls visibility
     @State var showRecordTrackControls = false
@@ -85,7 +89,7 @@ struct ContentView: View {
                 
                 if clManager.trackRecording || currentTrack.points.count > 0 {
                     
-                    TrackInfo(geoTrack: currentTrack, showingSavedTrack: false)
+                    CurrentTrackInfo()
                         .padding()
                     
                 }
@@ -202,8 +206,22 @@ struct ContentView: View {
                 
                 if !firstAppearDone {
                     
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    
                         moveCenterMapToCurLocation()
+                        
+                        if clManager.region.center.latitude == 0
+                            || clManager.region.center.longitude == 0 {
+                            //getting coodrinats from clManager failed
+                            //restore last coordinates
+                            if lastUsedLongitude != 0 && lastUsedLatitude != 0 {
+                                let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedLatitude, longitude: lastUsedLongitude)
+                                center = lastUsedLocation
+                                constants.needChangeMapView = true
+                            }
+                        }
+                        
                     }
                     
                     mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
@@ -231,7 +249,7 @@ struct ContentView: View {
                     PointEdit(point: $selectedPoint, coordinate: center)
                         .environmentObject(clManager)
                 case .saveTrack:
-                    TrackPropertiesView(track: nil, currentTrack: currentTrack, mapSettingsChanged: $needChangeMapView)
+                    TrackPropertiesView(track: nil, mapSettingsChanged: $needChangeMapView)
                         .environment(\.managedObjectContext, moc)
                 }
                 

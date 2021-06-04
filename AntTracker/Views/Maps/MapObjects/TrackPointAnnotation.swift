@@ -13,28 +13,17 @@ class TrackPointAnnotation: NSObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
     
-    let track: Track?
-    let colorName: String
+    let trackColor: String
     let pointType: TrackPointType
     var title: String? = ""
     var subtitle: String? = ""
     
-    init(track: Track?, coordinate: CLLocationCoordinate2D, pointType: TrackPointType) {
-        
-        self.track = track
-        
-        var trackColor = ""
-        
-        if let track = track {
-            trackColor = track.color
-        } else {
-            trackColor = currentTrackColorName()
-        }
-        
-        self.colorName = trackColor
+    init(trackColor: String, coordinate: CLLocationCoordinate2D, pointType: TrackPointType) {
+
+        self.trackColor = trackColor
         self.coordinate = coordinate
         self.pointType = pointType
-        
+
     }
     
     enum TrackPointType {
@@ -57,7 +46,7 @@ class TrackPointAnnotation: NSObject, MKAnnotation {
             printTest("reuse annotation")
         }
         
-        let pointColor = UIColor(Color.getColorFromName(colorName: (colorName) )).withAlphaComponent(1)
+        let pointColor = UIColor(Color.getColorFromName(colorName: (trackColor) )).withAlphaComponent(1)
         
         annotationView!.markerTintColor = pointColor
         

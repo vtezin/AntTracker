@@ -1,30 +1,33 @@
 //
-//  TrackInfo.swift
-//  JustMap
+//  TrackStatisticInfo.swift
+//  AntTracker
 //
-//  Created by test on 05.04.2021.
+//  Created by test on 03.06.2021.
 //
 
 import SwiftUI
 
-struct TrackInfo: View {
+struct CurrentTrackInfo: View {
     
-    let track: Track
+    @EnvironmentObject var currentTrack: CurrentTrack
+    
     @State private var showFullInfo = false
-    @EnvironmentObject var clManager: LocationManager
     
     var body: some View {
         
         VStack{
             
             HStack{
-                Text(localeDistanceString(distanceMeters: track.totalDistanceMeters))
+                Text(localeDistanceString(distanceMeters: currentTrack.totalDistanceMeters))
                     .font(.title)
                 
                 Spacer()
                 
                 VStack{
-                    Text(track.durationString)
+                    if currentTrack.lastSpeed > 2 {
+                        Text(currentTrack.lastSpeed.localeSpeedString)
+                    }
+                    Text(currentTrack.durationString)
                         .fontWeight(.light)
                 }
                 
@@ -52,14 +55,14 @@ struct TrackInfo: View {
                         HStack {
                             Text("avg")
                                 .fontWeight(.light)
-                            Text(" \(track.averageSpeed.localeSpeedString)")
+                            Text(" \(currentTrack.averageSpeed.localeSpeedString)")
                                 .fontWeight(.light)
                         }
                         
                         HStack {
                             Text("max")
                                 .fontWeight(.light)
-                            Text(" \(track.maxSpeed.localeSpeedString)")
+                            Text(" \(currentTrack.maxSpeed.localeSpeedString)")
                                 .fontWeight(.light)
                         }
 
@@ -71,18 +74,22 @@ struct TrackInfo: View {
                         HStack{
                             //Image(systemName: "arrow.up")
                             Text("altitude")
+
+                                Text(String(format: "%.0f", currentTrack.lastAltitude) + " " + "m")
+                                    .fontWeight(.light)
+                            
                         }
                         .padding(.bottom, 5)
 
                         VStack {
                             HStack{
-                                Text("\(track.minAltitude)")
+                                Text("\(currentTrack.minAltitude)")
                                     .fontWeight(.light)
                                 Image(systemName: "arrow.up.right")
-                                Text("\(track.maxAltitude)")
+                                Text("\(currentTrack.maxAltitude)")
                                     .fontWeight(.light)
                             }
-                            Text("(\(track.maxAltitude - track.minAltitude)) " + "m")
+                            Text("(\(currentTrack.maxAltitude - currentTrack.minAltitude)) " + "m")
                                 .fontWeight(.light)
                         }
     
@@ -93,26 +100,18 @@ struct TrackInfo: View {
                 }
                 .padding(.top)
                 
-                    Divider()
-                    VStack{
-                        Text(periodDescription(start: track.startDate, end: track.finishDate))
-                            .font(.caption)
-                            .fontWeight(.thin)
-                    }
-                
             }
-            
-            
-            
             
         }
         
         
     }
+    
+    
 }
 
-//struct TrackInfo_Previews: PreviewProvider {
+//struct TrackStatisticInfo_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TrackInfo()
+//        TrackStatisticInfo()
 //    }
 //}

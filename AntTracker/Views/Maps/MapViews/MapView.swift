@@ -23,8 +23,8 @@ struct MapView: UIViewRepresentable {
     @Binding var sheetMode: ContentView.sheetModes?
     
     @EnvironmentObject var clManager: LocationManager
-    @EnvironmentObject var currentTrack: GeoTrack
-    @EnvironmentObject var constants: Constants
+    @EnvironmentObject var currentTrack: CurrentTrack
+    @EnvironmentObject var constants: GlobalAppVars
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -40,6 +40,8 @@ struct MapView: UIViewRepresentable {
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true
+        
+        mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
         return mapView
         
@@ -63,20 +65,24 @@ struct MapView: UIViewRepresentable {
 
         if clManager.trackRecording || (view.overlays.count == 0 && currentTrack.points.count > 0 )
         {
-            view.addTrackLine(track: nil, geoTrack: currentTrack)
+            view.addTrackLine(trackPoints: currentTrack.points,
+                              trackTitle: "current track",
+                              trackColor: currentTrackColorName())
         }
         
         
-        //adding points
-        addPointsAnnotationsToMapView(view)
+        //updating points
+        if constants.needRedrawPointsOnMap {
+            updatePointsAnnotationsOnMapView(view)
+        }
         
         printTest("overlays: \(view.overlays.count)")
         printTest("annotations: \(view.annotations.count)")
         
     }
     
-    func addPointsAnnotationsToMapView(_ view: MKMapView) {
-        
+    func updatePointsAnnotationsOnMapView(_ view: MKMapView) {
+                
         if constants.needRedrawPointsOnMap {
             removePointAnnotationsFromMapView(view)
             constants.needRedrawPointsOnMap = false
@@ -112,7 +118,9 @@ struct MapView: UIViewRepresentable {
             }
         }
         
-        view.addAnnotations(annotationsForAdd)
+        if annotationsForAdd.count > 0 {
+            view.addAnnotations(annotationsForAdd)
+        }
         
     }
     
@@ -157,7 +165,6 @@ struct MapView: UIViewRepresentable {
                 if let trackPolilyne = overlay as? MKPolyline{
                     return setTrackOverlayRenderer(trackPolilyne: trackPolilyne)
                 }
-                
             }
             
             return MKOverlayRenderer()

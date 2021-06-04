@@ -19,10 +19,9 @@ struct TrackMapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        let geoTrack = GeoTrack(track: track)
-        let center = geoTrack.centerPoint!
-        let distFromWestToEast = geoTrack.westPoint!.location.distance(from: geoTrack.eastPoint!.location)
-        let distFromNorthToSouth = geoTrack.northPoint!.location.distance(from: geoTrack.southPoint!.location)
+        let center = track.centerPoint()!
+        let distFromWestToEast = track.westestPoint()!.distance(from: track.eastestPoint()!)
+        let distFromNorthToSouth = track.northestPoint()!.distance(from: track.southestPoint()!)
         
         let maxDist = max(distFromWestToEast, distFromNorthToSouth)
         
@@ -40,7 +39,9 @@ struct TrackMapView: UIViewRepresentable {
         
         mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
-        mapView.addTrackLine(track: track, geoTrack: nil)
+        mapView.addTrackLine(trackPoints: track.geoPoints(),
+                             trackTitle: track.title,
+                             trackColor: track.color)
         
         return mapView
     }

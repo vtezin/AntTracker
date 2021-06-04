@@ -33,6 +33,7 @@
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		527BD615265FE6510047FA0C /* TrackDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BD614265FE6510047FA0C /* TrackDetailsView.swift */; };
+		528920322668B4DD00058BBF /* CurrentTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528920312668B4DD00058BBF /* CurrentTrack.swift */; };
 		529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CoordinatesSharing.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
@@ -48,10 +49,10 @@
 		52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953A260D14EB00F4E700 /* Extensions.swift */; };
 		52DD9542260D19C400F4E700 /* TrackPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953E260D19C400F4E700 /* TrackPoint+CoreDataClass.swift */; };
 		52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */; };
+		52EA8F9E266901CC00C665B2 /* CurrentTrackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */; };
 		52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F672619A30B00C261C0 /* TrackMapView.swift */; };
 		52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */; };
 		52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F70261B06B200C261C0 /* TrackInfo.swift */; };
-		52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F3367925F7DDCE002C0B1E /* GeoTrack.swift */; };
 		52F91140261C723500309F63 /* AlertWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9113F261C723500309F63 /* AlertWithTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		527BD614265FE6510047FA0C /* TrackDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsView.swift; sourceTree = "<group>"; };
+		528920312668B4DD00058BBF /* CurrentTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrack.swift; sourceTree = "<group>"; };
 		529C63032642C40A00A49993 /* CoordinatesSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesSharing.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,10 +101,10 @@
 		52DD953A260D14EB00F4E700 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		52DD953E260D19C400F4E700 /* TrackPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrackInfo.swift; sourceTree = "<group>"; };
 		52F04F672619A30B00C261C0 /* TrackMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMapView.swift; sourceTree = "<group>"; };
 		52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorView.swift; sourceTree = "<group>"; };
 		52F04F70261B06B200C261C0 /* TrackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfo.swift; sourceTree = "<group>"; };
-		52F3367925F7DDCE002C0B1E /* GeoTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoTrack.swift; sourceTree = "<group>"; };
 		52F9113F261C723500309F63 /* AlertWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWithTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -210,7 +212,7 @@
 		529B5C4125F9E87600BACDA8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				52F3367925F7DDCE002C0B1E /* GeoTrack.swift */,
+				528920312668B4DD00058BBF /* CurrentTrack.swift */,
 				5213A773264B22790009223D /* Colors.swift */,
 			);
 			path = Model;
@@ -271,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				52F04F70261B06B200C261C0 /* TrackInfo.swift */,
+				52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */,
 				52DB5176260DD13000427149 /* TrackListView.swift */,
 				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
@@ -369,6 +372,7 @@
 				5213A77F264D544B0009223D /* Point+CoreDataClass.swift in Sources */,
 				52F91140261C723500309F63 /* AlertWithTextField.swift in Sources */,
 				52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */,
+				528920322668B4DD00058BBF /* CurrentTrack.swift in Sources */,
 				52D3A93D25E6A96D001A50C1 /* LocationManager.swift in Sources */,
 				526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */,
 				5213A780264D544B0009223D /* Point+CoreDataProperties.swift in Sources */,
@@ -388,7 +392,6 @@
 				529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */,
 				527BD615265FE6510047FA0C /* TrackDetailsView.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
-				52F3367A25F7DDCE002C0B1E /* GeoTrack.swift in Sources */,
 				523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */,
 				52512C9526585AD5000619F6 /* MapControls.swift in Sources */,
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
@@ -402,6 +405,7 @@
 				5213A78B264D5D450009223D /* PointsManagment.swift in Sources */,
 				52DB5177260DD13000427149 /* TrackListView.swift in Sources */,
 				52DD9542260D19C400F4E700 /* TrackPoint+CoreDataClass.swift in Sources */,
+				52EA8F9E266901CC00C665B2 /* CurrentTrackInfo.swift in Sources */,
 				52DD9537260D138400F4E700 /* Track+CoreDataClass.swift in Sources */,
 				526D9D07261FFD03002A606D /* AppSettings.swift in Sources */,
 				52512CA0265C236E000619F6 /* TrackGroup+CoreDataClass.swift in Sources */,
@@ -544,7 +548,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
@@ -554,7 +558,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -568,7 +572,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
@@ -578,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

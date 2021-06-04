@@ -58,6 +58,7 @@ extension ContentView {
                 .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
                 //.scaleEffect(clManager.trackRecording ? 1.2 : 1)
                 //.animation(.easeInOut)
+                .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
                 .overlay(
                     Circle()
                         .stroke(Color.systemBackground,

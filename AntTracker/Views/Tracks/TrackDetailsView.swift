@@ -79,7 +79,7 @@ struct TrackDetailsView: View {
         
         VStack{
             
-            TrackInfo(geoTrack: track.convertToGeoTrack())
+            TrackInfo(track: track)
                 .modifier(MapControl())
                 .clipShape(RoundedRectangle(cornerRadius: 5))
             

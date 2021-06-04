@@ -11,25 +11,16 @@ import SwiftUI
 
 extension MKMapView {
     
-    func addTrackLine(track: Track?, geoTrack: GeoTrack?) {
-        
-        var geotrackToDraw: GeoTrack
-        
-        if let track = track {
-            geotrackToDraw = track.convertToGeoTrack()
-        } else {
-            geotrackToDraw = geoTrack!
-        }
+    func addTrackLine(trackPoints: [CurrentTrack.TrackPoint], trackTitle: String, trackColor: String) {
         
         printTest(#function)
         
-        let drawingCurrentTrack = track == nil
-        
-        let trackPoints = geotrackToDraw.accuracyPoints()
-        
-        if trackPoints.isEmpty {
+        guard !trackPoints.isEmpty else {
             return
         }
+        
+        let drawingCurrentTrack = trackTitle == "current track" //TODO fix it
+        
         
         var coordinates = [CLLocationCoordinate2D]()
         for point in trackPoints {
@@ -38,13 +29,10 @@ extension MKMapView {
         
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         
-        if drawingCurrentTrack {
-            polyline.title = "current track"
-            polyline.subtitle = currentTrackColorName()
-        } else {
-            polyline.title = track!.title
-            polyline.subtitle = track!.color
-        }
+
+        polyline.title = trackTitle
+        polyline.subtitle = trackColor
+
         
         //drawing track line
         if drawingCurrentTrack {
@@ -73,7 +61,7 @@ extension MKMapView {
             
         let startPoint = trackPoints.first!
         
-        let startPointAnnotation = TrackPointAnnotation(track: track, coordinate: startPoint.location.coordinate, pointType: .start)
+        let startPointAnnotation = TrackPointAnnotation(trackColor: trackColor, coordinate: startPoint.location.coordinate, pointType: .start)
         startPointAnnotation.title = drawingCurrentTrack ? startPoint.location.timestamp.timeString() : startPoint.location.timestamp.dateString()
         addTrackPointAnnotation(trackPointAnnotation: startPointAnnotation)
         
@@ -81,7 +69,7 @@ extension MKMapView {
         
         if !drawingCurrentTrack {
             let finishPoint = trackPoints.last!
-            let finishPointAnnotation = TrackPointAnnotation(track: track, coordinate: finishPoint.location.coordinate, pointType: .finish)
+            let finishPointAnnotation = TrackPointAnnotation(trackColor: trackColor, coordinate: finishPoint.location.coordinate, pointType: .finish)
             finishPointAnnotation.title = finishPoint.location.timestamp.timeString()
             addTrackPointAnnotation(trackPointAnnotation: finishPointAnnotation)
         }
@@ -92,7 +80,7 @@ extension MKMapView {
         
         for annotation in annotations {
             if let annotation = annotation as? TrackPointAnnotation{
-                if annotation.track == trackPointAnnotation.track && annotation.title == trackPointAnnotation.title {
+                if annotation.title == trackPointAnnotation.title {
                     //trackPointAnnotation alredy exist
                     return
                 }
@@ -133,10 +121,8 @@ func removeCurrentTrackFromMapView(mapView: MKMapView) {
     
     let annotationsCurrentTrack = mapView.annotations.filter {
         
-        if let annotation = $0 as? TrackPointAnnotation{
-            if annotation.track == nil {
+        if $0 is TrackPointAnnotation{
                 return true
-            }
         }
         return false
     }
