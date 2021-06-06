@@ -11,19 +11,23 @@ import MapKit
 struct TrackMapView: UIViewRepresentable {
     
     var track: Track
+    
     @Binding var mapType: MKMapType
     
     func makeUIView(context: UIViewRepresentableContext<TrackMapView>) -> MKMapView {
        
+        print(#function)
+        
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        let center = track.centerPoint()!
-        let distFromWestToEast = track.westestPoint()!.distance(from: track.eastestPoint()!)
-        let distFromNorthToSouth = track.northestPoint()!.distance(from: track.southestPoint()!)
+        let statistics = track.newGetStatictic()
         
-        let maxDist = max(distFromWestToEast, distFromNorthToSouth)
+        let center = statistics.centerPoint
+        let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
+        
+        print("\(statistics.centerPoint) max dist \(maxDist)")
         
         let region = MKCoordinateRegion(center: center,
                                         latitudinalMeters: maxDist * 1.5,
@@ -39,7 +43,7 @@ struct TrackMapView: UIViewRepresentable {
         
         mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
-        mapView.addTrackLine(trackPoints: track.geoPoints(),
+        mapView.addTrackLine(trackPoints: statistics.points,
                              trackTitle: track.title,
                              trackColor: track.color)
         

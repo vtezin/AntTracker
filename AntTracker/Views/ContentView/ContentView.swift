@@ -234,6 +234,8 @@ struct ContentView: View {
                     }
                 }
                 
+                constants.needRedrawPointsOnMap = true
+                
             }
             
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in

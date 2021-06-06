@@ -24,7 +24,7 @@ protocol TrackWhithInfo: ObservableObject {
 
 class CurrentTrack: ObservableObject, TrackWhithInfo {
     
-    @Published var startDate = Date()
+    var startDate = Date()
     @Published var finishDate = Date()
     
     var durationString: String {
@@ -42,19 +42,19 @@ class CurrentTrack: ObservableObject, TrackWhithInfo {
         
     }
     
-    @Published var lastSpeed: CLLocationSpeed = 0
-    @Published var maxSpeed: CLLocationSpeed = 0
+    var lastSpeed: CLLocationSpeed = 0
+    var maxSpeed: CLLocationSpeed = 0
     var summSpeed: CLLocationSpeed = 0
     
     var averageSpeed: CLLocationSpeed {
         return summSpeed / Double(points.count)
     }
     
-    @Published var lastAltitude: Int = 0
-    @Published var maxAltitude: Int = 0
-    @Published var minAltitude: Int = 0
+    var lastAltitude: Int = 0
+    var maxAltitude: Int = 0
+    var minAltitude: Int = 0
     
-    @Published var totalDistanceMeters: CLLocationDistance = 0
+    var totalDistanceMeters: CLLocationDistance = 0
     
     var points = [TrackPoint]()
     var trackCoreData: Track? = nil

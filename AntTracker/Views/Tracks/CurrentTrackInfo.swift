@@ -24,7 +24,7 @@ struct CurrentTrackInfo: View {
                 Spacer()
                 
                 VStack{
-                    if currentTrack.lastSpeed > 2 {
+                    if currentTrack.lastSpeed > 0.5 {
                         Text(currentTrack.lastSpeed.localeSpeedString)
                     }
                     Text(currentTrack.durationString)

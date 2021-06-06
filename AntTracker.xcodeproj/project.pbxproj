@@ -123,11 +123,11 @@
 			isa = PBXGroup;
 			children = (
 				521345682601C95500F7A43C /* Model.xcdatamodeld */,
+				521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */,
 				52DD953E260D19C400F4E700 /* TrackPoint+CoreDataClass.swift */,
 				52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */,
 				52DD9535260D138400F4E700 /* Track+CoreDataClass.swift */,
 				52DD9536260D138400F4E700 /* Track+CoreDataProperties.swift */,
-				521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */,
 				5213A77B264D544B0009223D /* Point+CoreDataClass.swift */,
 				5213A77C264D544B0009223D /* Point+CoreDataProperties.swift */,
 				5213A77D264D544B0009223D /* PointGroup+CoreDataClass.swift */,

@@ -10,6 +10,8 @@ import SwiftUI
 struct TrackInfo: View {
     
     let track: Track
+    let statistics: newTrackStatistics?
+    
     @State private var showFullInfo = false
     @EnvironmentObject var clManager: LocationManager
     
@@ -52,14 +54,14 @@ struct TrackInfo: View {
                         HStack {
                             Text("avg")
                                 .fontWeight(.light)
-                            Text(" \(track.averageSpeed.localeSpeedString)")
+                            Text(" \(statistics?.averageSpeed.localeSpeedString ?? "")")
                                 .fontWeight(.light)
                         }
                         
                         HStack {
                             Text("max")
                                 .fontWeight(.light)
-                            Text(" \(track.maxSpeed.localeSpeedString)")
+                            Text(" \(statistics?.maxSpeed.localeSpeedString ?? "")")
                                 .fontWeight(.light)
                         }
 
@@ -76,13 +78,13 @@ struct TrackInfo: View {
 
                         VStack {
                             HStack{
-                                Text("\(track.minAltitude)")
+                                Text("\(statistics?.minAltitude ?? 0)")
                                     .fontWeight(.light)
                                 Image(systemName: "arrow.up.right")
-                                Text("\(track.maxAltitude)")
+                                Text("\(statistics?.maxAltitude ?? 0)")
                                     .fontWeight(.light)
                             }
-                            Text("(\(track.maxAltitude - track.minAltitude)) " + "m")
+                            Text("(\((statistics?.maxAltitude ?? 0) - (statistics?.minAltitude ?? 0)))" + "m")
                                 .fontWeight(.light)
                         }
     

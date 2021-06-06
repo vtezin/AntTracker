@@ -17,6 +17,7 @@ struct TrackDetailsView: View {
     @State private var showQuestionBeforeDelete = false
     
     let track: Track
+    @State private var statistics: newTrackStatistics?
     
     //track props
     @State private var title = ""
@@ -29,6 +30,15 @@ struct TrackDetailsView: View {
     //working whith map
     @State private var mapType: MKMapType = .hybrid
     @State private var mapSettingsChanged = false
+    
+    init(track: Track) {
+        
+        self.track = track
+
+        //statistics = track.getStatictic()
+        print("init TrackDetailsView \(track.title)")
+        
+    }
     
     var body: some View {
         TabView {
@@ -43,12 +53,20 @@ struct TrackDetailsView: View {
                 }
         }
         .onAppear {
+            
             mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+            
             if !initDone {
+                
+                print("init on Appear")
+                
                 title = track.title
                 info = track.info
                 color = Color.getColorFromName(colorName: track.color)
                 trackGroup = track.trackGroup
+                
+                statistics = track.newGetStatictic()
+                
                 initDone = true
             }
         }
@@ -79,7 +97,7 @@ struct TrackDetailsView: View {
         
         VStack{
             
-            TrackInfo(track: track)
+            TrackInfo(track: track, statistics: statistics)
                 .modifier(MapControl())
                 .clipShape(RoundedRectangle(cornerRadius: 5))
             
