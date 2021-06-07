@@ -55,7 +55,7 @@ struct TrackDetailsView: View {
                         color = Color.getColorFromName(colorName: track.color)
                         trackGroup = track.trackGroup
                         
-                        statistics = track.newGetStatictic()
+                        statistics = track.getStatictic()
                         
                         initDone = true
                         

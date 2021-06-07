@@ -81,7 +81,7 @@ public class Track: NSManagedObject {
         
     }
     
-    func newGetStatictic() -> newTrackStatistics {
+    func getStatictic() -> newTrackStatistics {
         
         let points = geoPoints()
         

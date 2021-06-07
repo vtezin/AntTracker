@@ -23,7 +23,7 @@ struct TrackMapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        let statistics = track.newGetStatictic()
+        let statistics = track.getStatictic()
         
         let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
         let region = MKCoordinateRegion(center: statistics.centerPoint,
@@ -41,7 +41,7 @@ struct TrackMapView: UIViewRepresentable {
         
         mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
-        mapView.addTrackLine(trackPoints: track.geoPoints(),
+        mapView.addTrackLine(trackPoints: statistics.points,
                              trackTitle: track.title,
                              trackColor: track.color)
         
