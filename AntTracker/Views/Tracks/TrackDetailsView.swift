@@ -32,43 +32,40 @@ struct TrackDetailsView: View {
     @State private var mapSettingsChanged = false
     
     init(track: Track) {
-        
         self.track = track
-
-        //statistics = track.getStatictic()
-        print("init TrackDetailsView \(track.title)")
-        
     }
     
     var body: some View {
+        
         TabView {
             mapView
                 .tabItem {
                     Label("Map", systemImage: "map")
+                }
+                .onAppear {
+                    
+                    mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+                    
+                    if !initDone {
+                        
+                        print("init on Appear")
+                        
+                        title = track.title
+                        info = track.info
+                        color = Color.getColorFromName(colorName: track.color)
+                        trackGroup = track.trackGroup
+                        
+                        statistics = track.newGetStatictic()
+                        
+                        initDone = true
+                        
+                    }
                 }
             
             infoView
                 .tabItem {
                     Label("Info", systemImage: "info.circle")
                 }
-        }
-        .onAppear {
-            
-            mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
-            
-            if !initDone {
-                
-                print("init on Appear")
-                
-                title = track.title
-                info = track.info
-                color = Color.getColorFromName(colorName: track.color)
-                trackGroup = track.trackGroup
-                
-                statistics = track.newGetStatictic()
-                
-                initDone = true
-            }
         }
         
         .alert(isPresented:$showQuestionBeforeDelete) {

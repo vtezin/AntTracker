@@ -81,92 +81,9 @@ public class Track: NSManagedObject {
         
     }
     
-    func getStatictic() -> trackStatistics {
-        
-        let points = geoPoints()
-        
-        var northestPoint: CLLocation?
-        var southestPoint: CLLocation?
-        var westestPoint: CLLocation?
-        var eastestPoint: CLLocation?
-        var centerPoint: CLLocationCoordinate2D?
-        
-        if let foundedPoint = points.max(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
-            northestPoint = foundedPoint.location
-        }
-        
-        if let foundedPoint = points.min(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
-            southestPoint = foundedPoint.location
-        }
-        
-        if let foundedPoint = points.max(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
-            eastestPoint = foundedPoint.location
-        }
-        
-        if let foundedPoint = points.min(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
-            westestPoint = foundedPoint.location
-        }
-        
-        if let _northPoint = northestPoint,
-           let _southPoint = southestPoint,
-           let _eastPoint = eastestPoint,
-           let _westPoint = westestPoint
-        
-        {
-            let latitude = _southPoint.coordinate.latitude + (_northPoint.coordinate.latitude - _southPoint.coordinate.latitude)/2
-            let longitude = _westPoint.coordinate.longitude + (_eastPoint.coordinate.longitude - _westPoint.coordinate.longitude)/2
-            
-            centerPoint = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        }
-        
-        var minAltitude: Int = 0
-        var maxAltitude: Int = 0
-        
-        if let altPoint = points.max(by: { a, b in a.location.altitude < b.location.altitude}) {
-            maxAltitude = Int(altPoint.location.altitude)
-        }
-        
-        if let altPoint = points.min(by: { a, b in a.location.altitude < b.location.altitude}) {
-            minAltitude = Int(altPoint.location.altitude)
-        }
-        
-        var maxSpeed: CLLocationSpeed = 0
-        
-        if let maxSpeedPoint = points.max(by: { a, b in a.location.speed < b.location.speed}) {
-            maxSpeed = maxSpeedPoint.location.speed
-        }
-        
-        var averageSpeed: CLLocationSpeed = 0
-        
-        if points.count > 0 {
-            
-            var speedSumm: Double = 0
-            for point in points {
-                speedSumm += point.location.speed
-            }
-            
-            averageSpeed = speedSumm / Double(points.count)
-            
-        }
-        
-        return trackStatistics(points: points,
-                               northestPoint: northestPoint,
-                               southestPoint: southestPoint,
-                               westestPoint: westestPoint,
-                               eastestPoint: eastestPoint,
-                               centerPoint: centerPoint,
-                               maxSpeed: maxSpeed,
-                               averageSpeed: averageSpeed,
-                               minAltitude: minAltitude,
-                               maxAltitude: maxAltitude)
-        
-    }
-    
     func newGetStatictic() -> newTrackStatistics {
         
-        print(Date())
         let points = geoPoints()
-        print(Date(), "points getted")
         
         var maxLatitude: Double = 0
         var minLatitude: Double = 0
@@ -229,10 +146,6 @@ public class Track: NSManagedObject {
         let southPoint = CLLocation(latitude: minLatitude, longitude: minLongitude)
        
         let distFromNorthToSouth = northPoint.distance(from: southPoint)
-            
-        print(Date())
-        print("get statistic points: \(points.count)")
-        
         
         return newTrackStatistics(points: points,
                                   distFromWestToEast: distFromWestToEast,
@@ -265,20 +178,3 @@ struct newTrackStatistics {
     
 }
 
-struct trackStatistics {
-    
-    var points = [CurrentTrack.TrackPoint]()
-    
-    var northestPoint: CLLocation?
-    var southestPoint: CLLocation?
-    var westestPoint: CLLocation?
-    var eastestPoint: CLLocation?
-    var centerPoint: CLLocationCoordinate2D?
-    
-    var maxSpeed: CLLocationSpeed
-    var averageSpeed: CLLocationSpeed
-    
-    var minAltitude: Int
-    var maxAltitude: Int
-    
-}

@@ -10,13 +10,14 @@ import MapKit
 
 struct TrackMapView: UIViewRepresentable {
     
-    var track: Track
+    let track: Track
     
     @Binding var mapType: MKMapType
     
     func makeUIView(context: UIViewRepresentableContext<TrackMapView>) -> MKMapView {
        
         print(#function)
+        //print("\(region)")
         
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
@@ -24,13 +25,11 @@ struct TrackMapView: UIViewRepresentable {
         
         let statistics = track.newGetStatictic()
         
-        let center = statistics.centerPoint
         let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
-        
-        
-        let region = MKCoordinateRegion(center: center,
+        let region = MKCoordinateRegion(center: statistics.centerPoint,
                                         latitudinalMeters: maxDist * 1.5,
                                         longitudinalMeters: maxDist * 1.5)
+        
         
         mapView.setRegion(region, animated: false)
         
@@ -42,7 +41,7 @@ struct TrackMapView: UIViewRepresentable {
         
         mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
-        mapView.addTrackLine(trackPoints: statistics.points,
+        mapView.addTrackLine(trackPoints: track.geoPoints(),
                              trackTitle: track.title,
                              trackColor: track.color)
         
