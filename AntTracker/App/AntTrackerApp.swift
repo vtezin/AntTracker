@@ -78,3 +78,5 @@ class GlobalAppVars: ObservableObject {
     @Published var needRedrawPointsOnMap = true
     @Published var needChangeMapView = false
 }
+
+let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)

@@ -27,7 +27,6 @@ struct TrackMapView: UIViewRepresentable {
         let center = statistics.centerPoint
         let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
         
-        print("\(statistics.centerPoint) max dist \(maxDist)")
         
         let region = MKCoordinateRegion(center: center,
                                         latitudinalMeters: maxDist * 1.5,

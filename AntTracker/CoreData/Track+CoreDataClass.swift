@@ -83,9 +83,7 @@ public class Track: NSManagedObject {
     
     func getStatictic() -> trackStatistics {
         
-        print(Date())
         let points = geoPoints()
-        print(Date(), "points getted")
         
         var northestPoint: CLLocation?
         var southestPoint: CLLocation?
@@ -121,8 +119,6 @@ public class Track: NSManagedObject {
             centerPoint = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
         
-        print(Date(), "control points founded")
-        
         var minAltitude: Int = 0
         var maxAltitude: Int = 0
         
@@ -152,9 +148,6 @@ public class Track: NSManagedObject {
             averageSpeed = speedSumm / Double(points.count)
             
         }
-        
-        print(Date())
-        print("get statistic points: \(points.count)")
         
         return trackStatistics(points: points,
                                northestPoint: northestPoint,

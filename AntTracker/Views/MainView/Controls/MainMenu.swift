@@ -56,13 +56,13 @@ extension MainView {
             Image(systemName: "ant")
                 .modifier(ControlButton())
                 .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
-                //.scaleEffect(clManager.trackRecording ? 1.2 : 1)
-                //.animation(.easeInOut)
                 .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
                 .overlay(
                     Circle()
-                        .stroke(Color.systemBackground,
-                                lineWidth: showRecordTrackControls ? 4 : 0)
+                        .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: clManager.trackRecording ? 5 : 0)
+                        .scaleEffect(clManager.trackRecording ? 1.5 : 1)
+                        .opacity(clManager.trackRecording ? 0 : 1)
+                        .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
                 )
             
                 .onTapGesture {
@@ -71,7 +71,7 @@ extension MainView {
                 .onLongPressGesture {
                     if !clManager.trackRecording {
                         moveCenterMapToCurLocation()
-                        showRecordTrackControls = true
+                        //showRecordTrackControls = true
                         clManager.trackRecording = true
                     }
                 }
@@ -93,6 +93,8 @@ extension MainView {
                     showPointsManagment.toggle()
                  }
                 .onLongPressGesture {
+                    
+                    moveCenterMapToCurLocation()
                     
                     //fast adding new point
                     Point.addUpdatePoint(point: nil,
