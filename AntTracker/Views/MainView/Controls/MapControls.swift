@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-extension ContentView {
+extension MainView {
     
     var buttonZoomIn: some View {
         

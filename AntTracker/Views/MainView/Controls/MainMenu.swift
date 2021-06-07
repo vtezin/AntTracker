@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ContentView {
+extension MainView {
     
     var buttonBackToMainControls: some View {
         
@@ -27,7 +27,7 @@ extension ContentView {
     var buttonAppSettings: some View {
         
         Button(action: {
-            activePage = .appSettings
+            activePage = .settings
             
         }) {
             Image(systemName: "gearshape")
@@ -39,7 +39,7 @@ extension ContentView {
     var buttonTrackList: some View {
         
         Button(action: {
-            activePage = .tracks
+            activePage = .list
             
         }) {
             Image(systemName: "tray.full")

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ContentView {
+extension MainView {
     
     var buttonAddPoint: some View {
         

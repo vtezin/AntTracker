@@ -1,14 +1,16 @@
 //
-//  ContentView.swift
-//  JustMap
+//  MainView.swift
+//  AntTracker
 //
-//  Created by test on 24.02.2021.
+//  Created by test on 07.06.2021.
 //
 
 import SwiftUI
 import MapKit
 
-struct ContentView: View {
+struct MainView: View {
+    
+    @Binding var activePage: ContentView.pages
     
     //map bindings
     @State var mapType: MKMapType = .hybrid
@@ -66,22 +68,9 @@ struct ContentView: View {
     }
     @State var sheetMode: sheetModes?
     
-    //pages support
-    enum pages: Identifiable {
-        var id: Int {hashValue}
-        case map
-        case tracks
-        case appSettings
-    }
-    @State var activePage: pages = .map
-    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        
-        switch activePage {
-        
-        case .map:
             
             VStack{
                 
@@ -268,16 +257,6 @@ struct ContentView: View {
                         
                       }, secondaryButton: .cancel())
             }
-            
-        case.tracks:
-            
-            TrackListView(activePage: $activePage)
-        
-        case.appSettings:
-            
-            AppSettings(activePage: $activePage)            
-            
-        }
         
     }
 
@@ -364,9 +343,8 @@ func currentLocationInfo() -> some View {
 }
 }
 
-
-//struct ContentView_Previews: PreviewProvider {
+//struct MainView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ContentView()
+//        MainView()
 //    }
 //}

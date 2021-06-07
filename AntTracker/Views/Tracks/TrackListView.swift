@@ -29,6 +29,12 @@ struct TrackListView: View {
     //adding new group
     @State private var showAlertForGroupName = false
     
+    init(activePage: Binding<ContentView.pages>) {
+        
+        self._activePage = activePage
+        print("init TrackListView")
+    }
+    
     var body: some View {
         
         NavigationView {
@@ -111,7 +117,7 @@ struct TrackListView: View {
             
             .navigationBarItems(
                 leading: Button(action: {
-                    activePage = .map
+                    activePage = .main
                 }) {
                     HStack{
                         Image(systemName: "chevron.backward")

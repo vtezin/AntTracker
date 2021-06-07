@@ -30,6 +30,7 @@
 		52512CAD265D77B3000619F6 /* TrackPropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */; };
 		52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB2265E3280000619F6 /* TrackRawView.swift */; };
 		52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB7265E3568000619F6 /* TrackGroupView.swift */; };
+		526117E4266E38740011197A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526117E3266E38740011197A /* MainView.swift */; };
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		527BD615265FE6510047FA0C /* TrackDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BD614265FE6510047FA0C /* TrackDetailsView.swift */; };
@@ -80,6 +81,7 @@
 		52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPropertiesView.swift; sourceTree = "<group>"; };
 		52512CB2265E3280000619F6 /* TrackRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRawView.swift; sourceTree = "<group>"; };
 		52512CB7265E3568000619F6 /* TrackGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupView.swift; sourceTree = "<group>"; };
+		526117E3266E38740011197A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		527BD614265FE6510047FA0C /* TrackDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsView.swift; sourceTree = "<group>"; };
@@ -174,15 +176,6 @@
 			path = MapViews;
 			sourceTree = "<group>";
 		};
-		52512C8626584E76000619F6 /* ContentView */ = {
-			isa = PBXGroup;
-			children = (
-				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
-				52512C8726584E86000619F6 /* Controls */,
-			);
-			path = ContentView;
-			sourceTree = "<group>";
-		};
 		52512C8726584E86000619F6 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,11 +187,21 @@
 			path = Controls;
 			sourceTree = "<group>";
 		};
+		526117E2266E38200011197A /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				526117E3266E38740011197A /* MainView.swift */,
+				52512C8726584E86000619F6 /* Controls */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
+				526117E2266E38200011197A /* MainView */,
 				5226028B25F4C83500703DCE /* Modifiers.swift */,
-				52512C8626584E76000619F6 /* ContentView */,
 				526D9D06261FFD03002A606D /* AppSettings.swift */,
 				529C63032642C40A00A49993 /* CoordinatesSharing.swift */,
 				5213A7942651A3340009223D /* Points */,
@@ -395,6 +398,7 @@
 				523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */,
 				52512C9526585AD5000619F6 /* MapControls.swift in Sources */,
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
+				526117E4266E38740011197A /* MainView.swift in Sources */,
 				523F53392655037300B0DF4A /* PointAnnotation.swift in Sources */,
 				52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
@@ -548,7 +552,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
@@ -572,7 +576,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;

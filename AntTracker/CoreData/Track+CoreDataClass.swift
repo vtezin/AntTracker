@@ -81,50 +81,6 @@ public class Track: NSManagedObject {
         
     }
     
-    
-    //    func northestPoint() -> CLLocation? {
-    //        if let foundedPoint = geoPoints().max(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
-    //            return foundedPoint.location
-    //        }
-    //        return nil
-    //    }
-    //
-    //    func southestPoint() -> CLLocation? {
-    //        if let foundedPoint = geoPoints().min(by: { a, b in a.location.latitudeDMS < b.location.latitudeDMS}) {
-    //            return foundedPoint.location
-    //        }
-    //        return nil
-    //    }
-    //
-    //    func westestPoint() -> CLLocation? {
-    //        if let foundedPoint = geoPoints().min(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
-    //            return foundedPoint.location
-    //        }
-    //        return nil
-    //    }
-    //
-    //    func eastestPoint() -> CLLocation? {
-    //        if let foundedPoint = geoPoints().max(by: { a, b in a.location.longitudeDMS < b.location.longitudeDMS}) {
-    //            return foundedPoint.location
-    //        }
-    //        return nil
-    //    }
-    //
-    //
-    //    func centerPoint() -> CLLocationCoordinate2D? {
-    //
-    //        guard let _northPoint = northestPoint() else { return nil }
-    //        guard let _southPoint = southestPoint() else { return nil }
-    //        guard let _westPoint = westestPoint() else { return nil }
-    //        guard let _eastPoint = eastestPoint() else { return nil }
-    //
-    //        let latitude = _southPoint.coordinate.latitude + (_northPoint.coordinate.latitude - _southPoint.coordinate.latitude)/2
-    //        let longitude = _westPoint.coordinate.longitude + (_eastPoint.coordinate.longitude - _westPoint.coordinate.longitude)/2
-    //
-    //        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    //
-    //    }
-    
     func getStatictic() -> trackStatistics {
         
         print(Date())

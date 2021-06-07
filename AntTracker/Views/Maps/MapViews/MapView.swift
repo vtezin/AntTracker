@@ -20,7 +20,7 @@ struct MapView: UIViewRepresentable {
     
     //working with point selection
     @Binding var selectedPoint: Point?
-    @Binding var sheetMode: ContentView.sheetModes?
+    @Binding var sheetMode: MainView.sheetModes?
     
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: CurrentTrack

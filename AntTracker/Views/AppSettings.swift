@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AppSettings: View {
     
+    @Binding var activePage: ContentView.pages
+    
     @AppStorage("disableAutolockScreenWhenTrackRecording") var disableAutolockScreenWhenTrackRecording: Bool = false
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     @Environment(\.presentationMode) var presentationMode
@@ -16,7 +18,6 @@ struct AppSettings: View {
         
     @State var color: Color = .orange
     
-    @Binding var activePage: ContentView.pages
     
     var body: some View {
         
@@ -50,7 +51,7 @@ struct AppSettings: View {
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(
                 leading: Button(action: {
-                    activePage = .map
+                    activePage = .main
                 }) {
                     HStack{
                         Image(systemName: "chevron.backward")

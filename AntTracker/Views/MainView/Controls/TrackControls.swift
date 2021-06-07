@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ContentView {
+extension MainView {
     
     var buttonTrackPlayPause: some View {
         
