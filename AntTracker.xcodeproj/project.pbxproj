@@ -27,7 +27,7 @@
 		52512CA0265C236E000619F6 /* TrackGroup+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9E265C236E000619F6 /* TrackGroup+CoreDataClass.swift */; };
 		52512CA1265C236E000619F6 /* TrackGroup+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9F265C236E000619F6 /* TrackGroup+CoreDataProperties.swift */; };
 		52512CA9265CF860000619F6 /* TrackGroupSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */; };
-		52512CAD265D77B3000619F6 /* TrackPropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */; };
+		52512CAD265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */; };
 		52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB2265E3280000619F6 /* TrackRawView.swift */; };
 		52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB7265E3568000619F6 /* TrackGroupView.swift */; };
 		526117E4266E38740011197A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526117E3266E38740011197A /* MainView.swift */; };
@@ -78,7 +78,7 @@
 		52512C9E265C236E000619F6 /* TrackGroup+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackGroup+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52512C9F265C236E000619F6 /* TrackGroup+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackGroup+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupSelectionView.swift; sourceTree = "<group>"; };
-		52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPropertiesView.swift; sourceTree = "<group>"; };
+		52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingNewTrackToCoreDataView.swift; sourceTree = "<group>"; };
 		52512CB2265E3280000619F6 /* TrackRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRawView.swift; sourceTree = "<group>"; };
 		52512CB7265E3568000619F6 /* TrackGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupView.swift; sourceTree = "<group>"; };
 		526117E3266E38740011197A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
 				52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */,
-				52512CAC265D77B3000619F6 /* TrackPropertiesView.swift */,
+				52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */,
 				527BD614265FE6510047FA0C /* TrackDetailsView.swift */,
 			);
 			path = Tracks;
@@ -382,7 +382,7 @@
 				52512C8926584F21000619F6 /* MainMenu.swift in Sources */,
 				5213A78E264DB25D0009223D /* PointEdit.swift in Sources */,
 				52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */,
-				52512CAD265D77B3000619F6 /* TrackPropertiesView.swift in Sources */,
+				52512CAD265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift in Sources */,
 				5213A782264D544B0009223D /* PointGroup+CoreDataProperties.swift in Sources */,
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,

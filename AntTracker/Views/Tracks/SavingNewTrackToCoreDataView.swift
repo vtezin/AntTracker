@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-struct TrackPropertiesView: View {
+struct SavingNewTrackToCoreDataView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var currentTrack: CurrentTrack
     
     @AppStorage("lastUsedTrackColor") var lastUsedTrackColor: String = "orange"
     
@@ -106,6 +107,7 @@ struct TrackPropertiesView: View {
         
         try? moc.save()
         
+        currentTrack.trackCoreData = trackForSave
         
     }
     

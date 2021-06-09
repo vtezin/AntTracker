@@ -32,9 +32,7 @@ extension Date {
     func timeString() -> String {
         
         let formatter = DateFormatter()
-//        formatter.dateStyle = .medium
-//        formatter.timeStyle = .short
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "HH:mm:ss"
         return formatter.string(from: self)
         
     }

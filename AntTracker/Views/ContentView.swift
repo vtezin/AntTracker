@@ -31,7 +31,7 @@ struct ContentView: View {
                 .transition(.move(edge: .trailing))
         default:
             MainView(activePage: $activePage)
-                .transition(.move(edge: .leading))
+            //.transition(.move(edge: .leading))
         }
         
     }

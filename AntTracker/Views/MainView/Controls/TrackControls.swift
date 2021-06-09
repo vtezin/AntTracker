@@ -43,10 +43,9 @@ extension MainView {
             } else {
                 //update current track
                 currentTrack.trackCoreData!.fillByCurrentTrackData(moc: moc)
-                
                 try? moc.save()
-                
             }
+            dateOfSavingCurrentTrack = Date()
 
             
         }) {

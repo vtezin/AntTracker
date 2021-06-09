@@ -56,6 +56,7 @@ struct MainView: View {
     //other
     @State private var firstAppearDone = false
     @State private var showFullCLInfo = false //TODO remove in future
+    @State var dateOfSavingCurrentTrack = Date()
     
     //sheets support
     enum sheetModes: Identifiable {
@@ -154,20 +155,39 @@ struct MainView: View {
                     
                     if showRecordTrackControls {
                         
-                        HStack{
+                        VStack{
                             
-                            buttonBackToMainControls
-                            Spacer()
-                            buttonTrackPlayPause
-                            Spacer()
+                            if currentTrack.trackCoreData != nil {
+                                
+                                HStack {
+                                    Spacer()
+                                    //Text("track:").fontWeight(.thin)
+                                    Text(currentTrack.trackCoreData?.title ?? "").fontWeight(.thin)
+                                    Text("saved at:").fontWeight(.thin)
+                                    Text(dateOfSavingCurrentTrack.timeString()).fontWeight(.thin)
+                                    Spacer()
+                                }
+                                .font(.caption)
+                                .padding(.bottom)
+                            }
                             
-                            if !clManager.trackRecording && currentTrack.points.count > 0 {
+                            HStack{
+                                
+                                buttonBackToMainControls
+                                Spacer()
+                                buttonTrackPlayPause
+                                Spacer()
+                                
+                                //if !clManager.trackRecording && currentTrack.points.count > 0 {
                                 buttonTrackSave
                                 Spacer()
                                 buttonTrackReset
+                                //}
+                                
                             }
                             
                         }
+                        
                         .transition(.move(edge: .trailing))
                         
                         
@@ -249,7 +269,7 @@ struct MainView: View {
                     PointEdit(point: $selectedPoint, coordinate: center)
                         .environmentObject(clManager)
                 case .saveTrack:
-                    TrackPropertiesView(track: nil, mapSettingsChanged: $needChangeMapView)
+                    SavingNewTrackToCoreDataView(track: nil, mapSettingsChanged: $needChangeMapView)
                         .environment(\.managedObjectContext, moc)
                 }
                 

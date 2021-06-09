@@ -59,6 +59,8 @@
 
 "Save track" = "Сохранить трек";
 "Edit track" = "Изменить трек";
+"track:" = "трек:";
+"saved at:" = "сохранен:";
 
 "all tracks are saved and become tracks outside the groups" = "все треки сохраняться и станут треками вне групп";
 
