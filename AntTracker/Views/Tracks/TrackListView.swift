@@ -117,7 +117,9 @@ struct TrackListView: View {
             
             .navigationBarItems(
                 leading: Button(action: {
-                    activePage = .main
+                    withAnimation{
+                        activePage = .main
+                    }
                 }) {
                     HStack{
                         Image(systemName: "chevron.backward")

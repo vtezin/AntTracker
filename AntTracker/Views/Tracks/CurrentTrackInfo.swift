@@ -37,9 +37,9 @@ struct CurrentTrackInfo: View {
             }
             
             .onTapGesture() {
-                //withAnimation{
+                withAnimation{
                     showFullInfo.toggle()
-                //}
+                }
             }
             
             if showFullInfo {
@@ -99,6 +99,7 @@ struct CurrentTrackInfo: View {
                     
                 }
                 .padding(.top)
+                .transition(.move(edge: .bottom))
                 
             }
             

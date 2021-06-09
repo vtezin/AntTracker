@@ -8,28 +8,14 @@
 import Foundation
 import MapKit
 
-//TODO may be delete protocol
-protocol TrackWhithInfo: ObservableObject {
-    
-    var startDate: Date { get }
-    var finishDate: Date { get }
-    var durationString: String { get }
-    var maxSpeed: CLLocationSpeed { get }
-    var averageSpeed: CLLocationSpeed { get }
-    var maxAltitude: Int { get }
-    var minAltitude: Int { get }
-    var totalDistanceMeters: CLLocationDistance { get }
-    
-}
-
-class CurrentTrack: ObservableObject, TrackWhithInfo {
+class CurrentTrack: ObservableObject {
     
     var startDate = Date()
     @Published var finishDate = Date()
     
     var durationString: String {
         
-        //TODO - add pauses respecting
+        //TODO: - add pauses respecting
         
         if points.count == 0 {
             return "-"

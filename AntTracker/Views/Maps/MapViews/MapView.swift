@@ -88,7 +88,7 @@ struct MapView: UIViewRepresentable {
             constants.needRedrawPointsOnMap = false
         }
         
-        //TODO use .flatMap for filtering points annotations
+        //FIXME: use .flatMap for filtering points annotations
         
         let foundedAnnotations = view.annotations.filter{
             

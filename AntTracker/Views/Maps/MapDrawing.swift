@@ -19,8 +19,9 @@ extension MKMapView {
             return
         }
         
-        let drawingCurrentTrack = trackTitle == "current track" //TODO fix it
+        // FIXME: more smart detecting
         
+        let drawingCurrentTrack = trackTitle == "current track"
         
         var coordinates = [CLLocationCoordinate2D]()
         for point in trackPoints {

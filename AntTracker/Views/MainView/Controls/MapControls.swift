@@ -26,8 +26,9 @@ extension MainView {
                 }
             
                 .onLongPressGesture {
-                    span = MKCoordinateSpan(latitudeDelta: minSpan * 2,
-                                              longitudeDelta: minSpan * 2)
+                    let newDelta = max(span.latitudeDelta/(zoomMultiplikator() * 2), minSpan)
+                    span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                            longitudeDelta: newDelta)
                     constants.needChangeMapView = true
                 }
             
@@ -62,8 +63,10 @@ extension MainView {
             }
         
             .onLongPressGesture {
-                span = MKCoordinateSpan(latitudeDelta: minSpan * 20,
-                                          longitudeDelta: minSpan * 20)
+                let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 2, maxSpan)
+                
+                span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                        longitudeDelta: newDelta)
                 constants.needChangeMapView = true
             }
 

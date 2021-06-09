@@ -12,10 +12,10 @@ extension MainView {
     var buttonBackToMainControls: some View {
         
         Button(action: {
-            //withAnimation {
+            withAnimation {
                 showRecordTrackControls = false
                 showPointsManagment = false
-            //}
+            }
             
         }) {
             Image(systemName: "arrow.backward")
@@ -27,8 +27,9 @@ extension MainView {
     var buttonAppSettings: some View {
         
         Button(action: {
-            activePage = .settings
-            
+            withAnimation{
+                activePage = .settings
+            }
         }) {
             Image(systemName: "gearshape")
                 .modifier(ControlButton())
@@ -39,7 +40,9 @@ extension MainView {
     var buttonTrackList: some View {
         
         Button(action: {
-            activePage = .list
+            withAnimation{
+                activePage = .trackList
+            }
             
         }) {
             Image(systemName: "tray.full")
@@ -48,6 +51,29 @@ extension MainView {
         
     }
     
+    class AntAnimatingProperties: ObservableObject {
+        
+        @Published var lineWidth: CGFloat = 0
+        @Published var scaleEffect: CGFloat = 1
+        @Published var opacity: Double = 1
+        
+        func resetToDefaults() {
+            lineWidth = 0
+            scaleEffect = 1
+            opacity = 1
+        }
+    }
+    
+    func changeAnimatingProperties() {
+        
+        let animationOn = clManager.trackRecording
+        
+        animatingProperties.lineWidth = animationOn ? 2 : 0
+        animatingProperties.scaleEffect = animationOn ? 3 : 1
+        animatingProperties.opacity = animationOn ? 0 : 1
+    }
+    
+    
     var buttonTrackRecording: some View {
         
         Button(action: {
@@ -55,28 +81,45 @@ extension MainView {
         }) {
             Image(systemName: "ant")
                 .modifier(ControlButton())
-                .rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
-                .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
+                //.rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
+                //r.foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
                 .overlay(
                     Circle()
-                        .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: clManager.trackRecording ? 5 : 0)
-                        .scaleEffect(clManager.trackRecording ? 1.5 : 1)
-                        .opacity(clManager.trackRecording ? 0 : 1)
+                        .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)
+                        .scaleEffect(animatingProperties.scaleEffect)
+                        .opacity(animatingProperties.opacity)
                         .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
                 )
             
                 .onTapGesture {
-                    showRecordTrackControls.toggle()
+                    withAnimation{
+                        showRecordTrackControls.toggle()
+                    }
                  }
                 .onLongPressGesture {
                     if !clManager.trackRecording {
                         moveCenterMapToCurLocation()
-                        //showRecordTrackControls = true
-                        clManager.trackRecording = true
+                        withAnimation{
+                            clManager.trackRecording = true
+                        }
+                        changeAnimatingProperties()
+                    } else {
+                        withAnimation{
+                            clManager.trackRecording = false
+                        }
+                        animatingProperties.resetToDefaults()
                     }
                 }
-            
-            
+        }
+        
+        .onAppear{
+            clManager.trackRecording.toggle()
+            clManager.trackRecording.toggle()
+            changeAnimatingProperties()
+        }
+        
+        .onDisappear{
+            animatingProperties.resetToDefaults()
         }
         
     }
@@ -90,7 +133,9 @@ extension MainView {
                 .modifier(ControlButton())
                 .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
                 .onTapGesture {
-                    showPointsManagment.toggle()
+                    withAnimation{
+                        showPointsManagment.toggle()
+                    }
                  }
                 .onLongPressGesture {
                     

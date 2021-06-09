@@ -68,6 +68,9 @@ struct MainView: View {
     }
     @State var sheetMode: sheetModes?
     
+    //ant animation support
+    @State var animatingProperties = AntAnimatingProperties()
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -80,6 +83,7 @@ struct MainView: View {
                     
                     CurrentTrackInfo()
                         .padding()
+                        .transition(.move(edge: .bottom))
                     
                 }
                 
@@ -150,25 +154,34 @@ struct MainView: View {
                     
                     if showRecordTrackControls {
                         
-                        buttonBackToMainControls
-                        Spacer()
-                        buttonTrackPlayPause
-                        Spacer()
-                        
-                        if !clManager.trackRecording && currentTrack.points.count > 0 {
-                            buttonTrackSave
+                        HStack{
+                            
+                            buttonBackToMainControls
                             Spacer()
-                            buttonTrackReset
+                            buttonTrackPlayPause
+                            Spacer()
+                            
+                            if !clManager.trackRecording && currentTrack.points.count > 0 {
+                                buttonTrackSave
+                                Spacer()
+                                buttonTrackReset
+                            }
+                            
                         }
+                        .transition(.move(edge: .trailing))
                         
                         
                     }
                     else if showPointsManagment {
                         
-                        buttonBackToMainControls
-                        Spacer()
-                        buttonAddPoint
-                        Spacer()
+                        HStack{
+                            buttonBackToMainControls
+                            Spacer()
+                            buttonAddPoint
+                            Spacer()
+                        }
+                        .transition(.move(edge: .trailing))
+                        
                         //buttonAddPointFromClipboard
                         
                         
@@ -217,10 +230,6 @@ struct MainView: View {
                     
                     firstAppearDone = true
                     
-                } else {
-                    if clManager.trackRecording {
-                        moveCenterMapToCurLocation()
-                    }
                 }
                 
                 constants.needRedrawPointsOnMap = true
@@ -228,9 +237,9 @@ struct MainView: View {
             }
             
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                if clManager.trackRecording {
+                //if clManager.trackRecording {
                     moveCenterMapToCurLocation()
-                }
+                //}
             }
             
             .sheet(item: $sheetMode) { mode in
@@ -252,7 +261,9 @@ struct MainView: View {
                       primaryButton: .destructive(Text("Reset")) {
                         
                         moveCenterMapToCurLocation()
-                        clManager.trackRecording = false
+                        withAnimation{
+                            clManager.trackRecording = false
+                        }
                         currentTrack.reset()
                         
                       }, secondaryButton: .cancel())

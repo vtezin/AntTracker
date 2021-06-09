@@ -14,7 +14,7 @@ struct ContentView: View {
     enum pages: Identifiable {
         var id: Int {hashValue}
         case main
-        case list
+        case trackList
         case settings
     }
     
@@ -23,12 +23,15 @@ struct ContentView: View {
     var body: some View {
         
         switch activePage {
-        case .list:
+        case .trackList:
             TrackListView(activePage: $activePage)
+                .transition(.move(edge: .trailing))
         case .settings:
             AppSettings(activePage: $activePage)
+                .transition(.move(edge: .trailing))
         default:
             MainView(activePage: $activePage)
+                .transition(.move(edge: .leading))
         }
         
     }

@@ -51,7 +51,9 @@ struct AppSettings: View {
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(
                 leading: Button(action: {
-                    activePage = .main
+                    withAnimation{
+                        activePage = .main
+                    }
                 }) {
                     HStack{
                         Image(systemName: "chevron.backward")

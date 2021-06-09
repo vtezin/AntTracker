@@ -76,7 +76,7 @@ struct TrackMapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             
-            //TODO similar function in MapView
+            //FIXME: similar function in MapView
             
             guard !annotation.isKind(of: MKUserLocation.self) else {
                     // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
