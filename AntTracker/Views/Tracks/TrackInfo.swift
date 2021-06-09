@@ -36,9 +36,9 @@ struct TrackInfo: View {
             }
             
             .onTapGesture() {
-                //withAnimation{
+                withAnimation{
                     showFullInfo.toggle()
-                //}
+                }
             }
             
             if showFullInfo {
@@ -94,6 +94,7 @@ struct TrackInfo: View {
                     
                 }
                 .padding(.top)
+                .transition(.move(edge: .bottom))
                 
                     Divider()
                     VStack{
