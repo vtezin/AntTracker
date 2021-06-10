@@ -71,6 +71,7 @@ struct MainView: View {
     
     //ant animation support
     @State var animatingProperties = AntAnimatingProperties()
+    @State var animateAnt = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -169,6 +170,7 @@ struct MainView: View {
                                 }
                                 .font(.caption)
                                 .padding(.bottom)
+                                .transition(.move(edge: .bottom))
                             }
                             
                             HStack{
@@ -178,17 +180,17 @@ struct MainView: View {
                                 buttonTrackPlayPause
                                 Spacer()
                                 
-                                //if !clManager.trackRecording && currentTrack.points.count > 0 {
-                                buttonTrackSave
-                                Spacer()
-                                buttonTrackReset
-                                //}
+                                if currentTrack.points.count > 0 {
+                                    buttonTrackSave
+                                    Spacer()
+                                    buttonTrackReset
+                                }
                                 
                             }
                             
                         }
                         
-                        .transition(.move(edge: .trailing))
+                        .transition(.move(edge: .bottom))
                         
                         
                     }
@@ -200,7 +202,7 @@ struct MainView: View {
                             buttonAddPoint
                             Spacer()
                         }
-                        .transition(.move(edge: .trailing))
+                        .transition(.move(edge: .bottom))
                         
                         //buttonAddPointFromClipboard
                         

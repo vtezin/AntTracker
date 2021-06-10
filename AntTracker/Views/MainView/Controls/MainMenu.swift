@@ -66,11 +66,11 @@ extension MainView {
     
     func changeAnimatingProperties() {
         
-        let animationOn = clManager.trackRecording
+        animateAnt = clManager.trackRecording
         
-        animatingProperties.lineWidth = animationOn ? 2 : 0
-        animatingProperties.scaleEffect = animationOn ? 3 : 1
-        animatingProperties.opacity = animationOn ? 0 : 1
+        animatingProperties.lineWidth = animateAnt ? 2 : 0
+        animatingProperties.scaleEffect = animateAnt ? 3 : 1
+        animatingProperties.opacity = animateAnt ? 0 : 1
     }
     
     
@@ -113,8 +113,8 @@ extension MainView {
         }
         
         .onAppear{
-            clManager.trackRecording.toggle()
-            clManager.trackRecording.toggle()
+            animateAnt.toggle()
+            animateAnt.toggle()
             changeAnimatingProperties()
         }
         
