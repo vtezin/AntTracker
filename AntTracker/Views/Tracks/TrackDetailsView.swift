@@ -31,6 +31,8 @@ struct TrackDetailsView: View {
     @State private var mapType: MKMapType = .hybrid
     @State private var mapSettingsChanged = false
     
+    @State private var showMap = false
+    
     init(track: Track) {
         self.track = track
     }
@@ -55,7 +57,19 @@ struct TrackDetailsView: View {
                         color = Color.getColorFromName(colorName: track.color)
                         trackGroup = track.trackGroup
                         
-                        statistics = track.getStatictic()
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            
+                          let _statistics = track.getStatictic()
+
+                          DispatchQueue.main.async {
+                            // 3
+                            statistics = _statistics
+                            showMap = true
+                            
+                          }
+                        }
+                        
+                        //statistics = track.getStatictic()
                         
                         initDone = true
                         
@@ -100,11 +114,15 @@ struct TrackDetailsView: View {
             
             ZStack{
                 
-                //hint for redraw map when settings changed
-                if mapSettingsChanged {
-                    TrackMapView(track: track, mapType: $mapType)
+                if showMap {
+                    //hint for redraw map when settings changed
+                    if mapSettingsChanged {
+                        TrackMapView(track: track, statistics: statistics!, mapType: $mapType)
+                    } else {
+                        TrackMapView(track: track, statistics: statistics!, mapType: $mapType)
+                    }
                 } else {
-                    TrackMapView(track: track, mapType: $mapType)
+                    Text("Loading map...")
                 }
                 
                 VStack {

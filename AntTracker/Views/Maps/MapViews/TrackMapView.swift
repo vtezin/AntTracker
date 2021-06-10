@@ -11,6 +11,7 @@ import MapKit
 struct TrackMapView: UIViewRepresentable {
     
     let track: Track
+    var statistics: newTrackStatistics
     
     @Binding var mapType: MKMapType
     
@@ -23,7 +24,7 @@ struct TrackMapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
-        let statistics = track.getStatictic()
+        //let statistics = track.getStatictic()
         
         let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
         let region = MKCoordinateRegion(center: statistics.centerPoint,
