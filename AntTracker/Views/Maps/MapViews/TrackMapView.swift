@@ -10,8 +10,9 @@ import MapKit
 
 struct TrackMapView: UIViewRepresentable {
     
-    let track: Track
-    var statistics: newTrackStatistics
+    let statistics: newTrackStatistics
+    let trackTitle: String
+    let trackColor: String
     
     @Binding var mapType: MKMapType
     
@@ -42,16 +43,25 @@ struct TrackMapView: UIViewRepresentable {
         
         mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
-        mapView.addTrackLine(trackPoints: statistics.points,
-                             trackTitle: track.title,
-                             trackColor: track.color)
+//        mapView.addTrackLine(trackPoints: statistics.points,
+//                             trackTitle: track.title,
+//                             trackColor: track.color)
         
         return mapView
     }
 
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<TrackMapView>) {
         
+        print(#function)
+        
         view.mapType = mapType
+        
+        if view.overlays.count == 0 {
+            print("addTrackLine")
+            view.addTrackLine(trackPoints: statistics.points,
+                              trackTitle: trackTitle,
+                              trackColor: trackColor)
+        }
         
     }
     

@@ -32,47 +32,48 @@ struct PointEdit: View {
     var body: some View {
         
         NavigationView{
-
-            Form{
                 
-                Section(header: Text("Title")) {
-                    TextField("", text: $title)
-                        .font(.title2)
-                        .modifier(ClearButton(text: $title))
-                        .foregroundColor(color)
-                    ColorSelectorView(selectedColor: $color,
-                                      imageForSelectedColor: "mappin.circle.fill",
-                                      imageForUnselectedColor: "mappin.circle")
+                Form{
                     
-                }
-                
-                
-                Section(header: Text("Coordinate")) {
+                    Section(header: Text("Title")) {
+                        TextField("", text: $title)
+                            .font(.title2)
+                            .modifier(ClearButton(text: $title))
+                            .foregroundColor(color)
+                        ColorSelectorView(selectedColor: $color,
+                                          imageForSelectedColor: "mappin.circle.fill",
+                                          imageForUnselectedColor: "mappin.circle")
+                        
+                    }
                     
-                    HStack{
+                    
+                    Section(header: Text("Coordinate")) {
                         
-                        Text(coordinate.coordinateStrings[0])
-                        
-                        Spacer()
-                        
-                        Button(action: {
+                        HStack{
                             
-                            let pasteBoard = UIPasteboard.general
-                            pasteBoard.string = coordinate.coordinateStrings[0]
+                            Text(coordinate.coordinateStrings[0])
                             
-                        }) {
-                            Image(systemName: "doc.on.clipboard")
+                            Spacer()
+                            
+                            Button(action: {
+                                
+                                let pasteBoard = UIPasteboard.general
+                                pasteBoard.string = coordinate.coordinateStrings[0]
+                                
+                            }) {
+                                Image(systemName: "doc.on.clipboard")
+                            }
+                            
                         }
                         
                     }
                     
+                    Section(header: Text("Distance from here")) {
+                        Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
+                    }
+                                        
+                    
                 }
-                
-                Section(header: Text("Distance from here")) {
-                    Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
-                }
-                
-            }
             
             .navigationBarTitle(Text(point == nil ? "New point" : ""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
@@ -90,18 +91,6 @@ struct PointEdit: View {
             .toolbar {
                 
                 ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                        if point != nil {
-                            showQuestionBeforeDelete = true
-                        } else {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }) {
-                        Image(systemName: "trash")
-                    }
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
                     Spacer()
                 }
                 
@@ -117,6 +106,18 @@ struct PointEdit: View {
                 
                 ToolbarItem(placement: .bottomBar) {
                     Spacer()
+                }
+                
+                ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        if point != nil {
+                            showQuestionBeforeDelete = true
+                        } else {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }) {
+                        Image(systemName: "trash")
+                    }
                 }
                
                 

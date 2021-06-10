@@ -30,56 +30,97 @@ struct TrackDetailsView: View {
     //working whith map
     @State private var mapType: MKMapType = .hybrid
     @State private var mapSettingsChanged = false
-    
     @State private var showMap = false
     
     init(track: Track) {
         self.track = track
     }
     
+    //pages support
+    enum pages: Identifiable {
+        var id: Int {hashValue}
+        case map
+        case info
+    }
+    
+    @State var activePage: pages = .map
+    
     var body: some View {
         
-        TabView {
-            mapView
-                .tabItem {
-                    Label("Map", systemImage: "map")
+        VStack{
+            
+            switch activePage {
+            
+            case .info:
+                infoView
+            default:
+                mapView
+            }
+            
+            Spacer()
+            
+            HStack{
+                
+                Button(action: {
+                    activePage = .map
+                }) {
+                    Image(systemName: "map")
+                        .modifier(ControlButton())
                 }
-                .onAppear {
+                .padding()
+                
+                Spacer()
+                
+                Button(action: {
+                    activePage = .info
+                }) {
+                    Image(systemName: "info.circle")
+                        .modifier(ControlButton())
+                }
+                .padding()
+                
+                Spacer()
+                
+                Button(action: {
+                    showQuestionBeforeDelete = true
+                }) {
+                    Image(systemName: "trash")
+                        .modifier(ControlButton())
+                }
+                .padding()
+                
+            }
+            
+        }
+        
+        .onAppear {
+            
+            mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+            
+            if !initDone {
+                
+                print("init on Appear")
+                
+                title = track.title
+                info = track.info
+                color = Color.getColorFromName(colorName: track.color)
+                trackGroup = track.trackGroup
+                
+                DispatchQueue.global(qos: .userInitiated).async {
                     
-                    mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+                    let _statistics = track.getStatictic()
                     
-                    if !initDone {
-                        
-                        print("init on Appear")
-                        
-                        title = track.title
-                        info = track.info
-                        color = Color.getColorFromName(colorName: track.color)
-                        trackGroup = track.trackGroup
-                        
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            
-                          let _statistics = track.getStatictic()
-
-                          DispatchQueue.main.async {
-                            // 3
-                            statistics = _statistics
-                            showMap = true
-                            
-                          }
-                        }
-                        
-                        //statistics = track.getStatictic()
-                        
-                        initDone = true
+                    DispatchQueue.main.async {
+                        // 3
+                        statistics = _statistics
+                        showMap = true
                         
                     }
                 }
-            
-            infoView
-                .tabItem {
-                    Label("Info", systemImage: "info.circle")
-                }
+                
+                initDone = true
+                
+            }
         }
         
         .alert(isPresented:$showQuestionBeforeDelete) {
@@ -117,9 +158,15 @@ struct TrackDetailsView: View {
                 if showMap {
                     //hint for redraw map when settings changed
                     if mapSettingsChanged {
-                        TrackMapView(track: track, statistics: statistics!, mapType: $mapType)
+                        TrackMapView(statistics: statistics!,
+                                     trackTitle: track.title,
+                                     trackColor: track.color,
+                                     mapType: $mapType)
                     } else {
-                        TrackMapView(track: track, statistics: statistics!, mapType: $mapType)
+                        TrackMapView(statistics: statistics!,
+                                     trackTitle: track.title,
+                                     trackColor: track.color,
+                                     mapType: $mapType)
                     }
                 } else {
                     Text("Loading map...")
@@ -175,14 +222,6 @@ struct TrackDetailsView: View {
                 NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
                         Text(trackGroup?.title ?? "")
                 }
-            }
-            
-                
-            Button(action: {
-                showQuestionBeforeDelete = true
-            }) {
-                Text("Delete track")
-                    .foregroundColor(.red)
             }
             
             

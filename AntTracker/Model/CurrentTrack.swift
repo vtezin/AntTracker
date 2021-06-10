@@ -48,7 +48,6 @@ class CurrentTrack: ObservableObject {
     static let currentTrack = CurrentTrack()
     
     init() {
-        
     }
     
     //init from CoreData track
