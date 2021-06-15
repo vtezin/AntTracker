@@ -17,7 +17,7 @@ struct TrackDetailsView: View {
     @State private var showQuestionBeforeDelete = false
     
     let track: Track
-    @State private var statistics: newTrackStatistics?
+    @State private var statistics: TrackStatistic?
     
     //track props
     @State private var title = ""
@@ -25,11 +25,8 @@ struct TrackDetailsView: View {
     @State private var color: Color = .orange
     @State private var trackGroup: TrackGroup?
     
-    @State private var initDone = false
-    
     //working whith map
     @State private var mapType: MKMapType = .hybrid
-    @State private var mapSettingsChanged = false
     @State private var showMap = false
     
     init(track: Track) {
@@ -97,30 +94,16 @@ struct TrackDetailsView: View {
             
             mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
             
-            if !initDone {
-                
-                print("init on Appear")
-                
-                title = track.title
-                info = track.info
-                color = Color.getColorFromName(colorName: track.color)
-                trackGroup = track.trackGroup
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    
-                    let _statistics = track.getStatictic()
-                    
-                    DispatchQueue.main.async {
-                        // 3
-                        statistics = _statistics
-                        showMap = true
-                        
-                    }
-                }
-                
-                initDone = true
-                
-            }
+            print("init on Appear")
+            
+            title = track.title
+            info = track.info
+            color = Color.getColorFromName(colorName: track.color)
+            trackGroup = track.trackGroup
+            
+            statistics = track.getStatistic(moc: moc)
+            showMap = true
+            
         }
         
         .alert(isPresented:$showQuestionBeforeDelete) {
@@ -136,7 +119,6 @@ struct TrackDetailsView: View {
         .navigationBarItems(trailing:
                                 Button(action: {
                                     save()
-                                    mapSettingsChanged = color.description != track.color
                                     presentationMode.wrappedValue.dismiss()
                                 }) {
                                     Text("Done")
@@ -156,22 +138,12 @@ struct TrackDetailsView: View {
             ZStack{
                 
                 if showMap {
-                    //hint for redraw map when settings changed
-                    if mapSettingsChanged {
-                        TrackMapView(statistics: statistics!,
-                                     trackTitle: track.title,
-                                     trackColor: track.color,
-                                     mapType: $mapType)
-                    } else {
-                        TrackMapView(statistics: statistics!,
-                                     trackTitle: track.title,
-                                     trackColor: track.color,
-                                     mapType: $mapType)
-                    }
-                } else {
-                    Text("Loading map...")
+                    TrackMapView(statistics: statistics!,
+                                 trackTitle: track.title,
+                                 trackColor: track.color,
+                                 mapType: $mapType)
                 }
-                
+                    
                 VStack {
                     
                     Spacer()

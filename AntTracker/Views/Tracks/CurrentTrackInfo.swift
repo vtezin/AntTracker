@@ -10,6 +10,7 @@ import SwiftUI
 struct CurrentTrackInfo: View {
     
     @EnvironmentObject var currentTrack: CurrentTrack
+    @EnvironmentObject var clManager: LocationManager
     
     @State private var showFullInfo = false
     
@@ -40,6 +41,13 @@ struct CurrentTrackInfo: View {
                 withAnimation{
                     showFullInfo.toggle()
                 }
+            }
+            
+            if !clManager.trackRecording {
+                Text("track recording  paused")
+                    .foregroundColor(.secondary)
+                    .fontWeight(.light)
+                    .padding(.top)
             }
             
             if showFullInfo {

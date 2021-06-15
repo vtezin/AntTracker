@@ -23,29 +23,12 @@ public class Track: NSManagedObject {
     
     func deleteAllPoints(moc: NSManagedObjectContext) {
         
+        //let trackPointsArray = getTrackPointsAsArray()
+        
         for point in trackPointsArray {
             moc.delete(point)
         }
         try? moc.save()
-        
-    }
-    
-    func geoPoints() -> [CurrentTrack.TrackPoint] {
-        
-        return trackPointsArray.map {
-            let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: $0.latitude,
-                                                                         longitude: $0.longitude),
-                                      altitude: $0.altitude,
-                                      horizontalAccuracy: $0.horizontalAccuracy,
-                                      verticalAccuracy: $0.verticalAccuracy,
-                                      course: $0.course,
-                                      courseAccuracy: 0,
-                                      speed: $0.speed,
-                                      speedAccuracy: 0,
-                                      timestamp: $0.timestamp)
-            return CurrentTrack.TrackPoint(location: location, type: "")
-            
-        }
         
     }
     
@@ -81,9 +64,25 @@ public class Track: NSManagedObject {
         
     }
     
-    func getStatictic() -> newTrackStatistics {
+    func getStatistic(moc: NSManagedObjectContext) -> TrackStatistic {
         
-        let points = geoPoints()
+        let pointsCD = getTrackPointsArrayFromCoreData(moc: moc)
+        
+        //FIXME: convert to geopoints need?
+        let points: [CurrentTrack.TrackPoint] = pointsCD.map {
+            let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: $0.latitude,
+                                                                         longitude: $0.longitude),
+                                      altitude: $0.altitude,
+                                      horizontalAccuracy: $0.horizontalAccuracy,
+                                      verticalAccuracy: $0.verticalAccuracy,
+                                      course: $0.course,
+                                      courseAccuracy: 0,
+                                      speed: $0.speed,
+                                      speedAccuracy: 0,
+                                      timestamp: $0.timestamp)
+            return CurrentTrack.TrackPoint(location: location, type: "")
+            
+        }
         
         var maxLatitude: Double = 0
         var minLatitude: Double = 0
@@ -130,7 +129,7 @@ public class Track: NSManagedObject {
             
         }
         
-        averageSpeed = summSpeed / Double(geoPoints().count)
+        averageSpeed = summSpeed / Double(points.count)
         
         let centerLatitude = minLatitude + (maxLatitude - minLatitude)/2
         let centerLongitude = minLongitude + (maxLongitude - minLongitude)/2
@@ -147,7 +146,7 @@ public class Track: NSManagedObject {
        
         let distFromNorthToSouth = northPoint.distance(from: southPoint)
         
-        return newTrackStatistics(points: points,
+        return TrackStatistic(points: points,
                                   distFromWestToEast: distFromWestToEast,
                                   distFromNorthToSouth: distFromNorthToSouth,
                                   centerPoint: centerPoint,
@@ -162,7 +161,7 @@ public class Track: NSManagedObject {
     
 }
 
-struct newTrackStatistics {
+struct TrackStatistic {
     
     let points: [CurrentTrack.TrackPoint]
     

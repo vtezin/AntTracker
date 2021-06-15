@@ -10,7 +10,7 @@ import SwiftUI
 struct TrackInfo: View {
     
     let track: Track
-    let statistics: newTrackStatistics?
+    let statistics: TrackStatistic?
     
     @State private var showFullInfo = false
     @EnvironmentObject var clManager: LocationManager

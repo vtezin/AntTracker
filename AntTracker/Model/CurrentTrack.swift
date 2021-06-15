@@ -54,7 +54,9 @@ class CurrentTrack: ObservableObject {
     //will use in future for restore from saved track
     init(trackCD: Track) {
         
-        points = trackCD.trackPointsArray.map {
+        let trackPointsArray = trackCD.trackPointsArray
+        
+        points = trackPointsArray.map{
             
    
             let location =  CLLocation(coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude),
@@ -72,7 +74,7 @@ class CurrentTrack: ObservableObject {
         }
         
         trackCoreData = trackCD
-        //TODO update statistics here
+        //TODO: update statistics here
         
     }
     

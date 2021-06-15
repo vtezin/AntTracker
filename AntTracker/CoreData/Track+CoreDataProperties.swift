@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Track {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Track> {
@@ -36,11 +35,35 @@ extension Track {
         }
     }
     
-    var durationString: String {
+    func getTrackPointsAsArray() -> [TrackPoint] {
+        let set = trackPoint as? Set<TrackPoint> ?? []
         
-        if trackPointsArray.count == 0 {
-            return "-"
+        return set.sorted {
+            $0.timestamp < $1.timestamp
         }
+        
+    }
+    
+    func getTrackPointsArrayFromCoreData(moc: NSManagedObjectContext) -> [TrackPoint]  {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TrackPoint")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackPoint.timestamp, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "track == %@", self)
+            
+        let result = try? moc.fetch(fetchRequest)
+        
+        var arrayForReturn = [TrackPoint]()
+        
+        for pointCD in result! {
+            arrayForReturn.append(pointCD as! TrackPoint)
+        }
+        
+        return arrayForReturn
+        
+    }
+    
+    
+    var durationString: String {
         
         let dateComponentsFormatter = DateComponentsFormatter()
         dateComponentsFormatter.allowedUnits = [.second, .minute, .hour, .day]

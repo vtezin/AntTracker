@@ -106,8 +106,11 @@ extension MainView {
                     } else {
                         withAnimation{
                             clManager.trackRecording = false
+                            animatingProperties.resetToDefaults()
+                            if currentTrack.points.count > 0 {
+                                showRecordTrackControls = true
+                            }
                         }
-                        animatingProperties.resetToDefaults()
                     }
                 }
         }

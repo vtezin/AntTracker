@@ -26,7 +26,9 @@ extension MainView {
                 }
             
                 .onLongPressGesture {
-                    let newDelta = max(span.latitudeDelta/(zoomMultiplikator() * 2), minSpan)
+                    moveCenterMapToCurLocation()
+                    //let newDelta = max(span.latitudeDelta/(zoomMultiplikator() * 2), minSpan)
+                    let newDelta = minSpan * 2
                     span = MKCoordinateSpan(latitudeDelta: newDelta,
                                             longitudeDelta: newDelta)
                     constants.needChangeMapView = true

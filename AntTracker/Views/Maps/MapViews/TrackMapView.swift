@@ -10,7 +10,7 @@ import MapKit
 
 struct TrackMapView: UIViewRepresentable {
     
-    let statistics: newTrackStatistics
+    let statistics: TrackStatistic
     let trackTitle: String
     let trackColor: String
     
@@ -24,8 +24,6 @@ struct TrackMapView: UIViewRepresentable {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
-        
-        //let statistics = track.getStatictic()
         
         let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
         let region = MKCoordinateRegion(center: statistics.centerPoint,
@@ -43,10 +41,6 @@ struct TrackMapView: UIViewRepresentable {
         
         mapView.register(TrackPointAnnotation.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(TrackPointAnnotation.self))
         
-//        mapView.addTrackLine(trackPoints: statistics.points,
-//                             trackTitle: track.title,
-//                             trackColor: track.color)
-        
         return mapView
     }
 
@@ -57,7 +51,7 @@ struct TrackMapView: UIViewRepresentable {
         view.mapType = mapType
         
         if view.overlays.count == 0 {
-            print("addTrackLine")
+            print("addTrackLine points \(statistics.points.count)")
             view.addTrackLine(trackPoints: statistics.points,
                               trackTitle: trackTitle,
                               trackColor: trackColor)
