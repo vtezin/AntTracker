@@ -82,7 +82,7 @@ extension MainView {
             Image(systemName: "ant")
                 .modifier(ControlButton())
                 //.rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
-                //r.foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
+                .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
                 .overlay(
                     Circle()
                         .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)

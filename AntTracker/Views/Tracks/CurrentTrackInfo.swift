@@ -24,23 +24,17 @@ struct CurrentTrackInfo: View {
                 
                 Spacer()
                 
-                VStack{
-                    if currentTrack.lastSpeed > 0.5 {
-                        Text(currentTrack.lastSpeed.localeSpeedString)
-                    }
+//                VStack{
+//                    if currentTrack.lastSpeed > 0.5 {
+//                        Text(currentTrack.lastSpeed.localeSpeedString)
+//                    }
                     Text(currentTrack.durationString)
                         .fontWeight(.light)
-                }
+//                }
                 
                 Spacer()
                 Image(systemName: showFullInfo ? "chevron.up" : "chevron.down")
                 
-            }
-            
-            .onTapGesture() {
-                withAnimation{
-                    showFullInfo.toggle()
-                }
             }
             
             if !clManager.trackRecording {
@@ -111,6 +105,11 @@ struct CurrentTrackInfo: View {
                 
             }
             
+        }
+        .onTapGesture() {
+            withAnimation{
+                showFullInfo.toggle()
+            }
         }
         
         

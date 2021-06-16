@@ -85,7 +85,9 @@ struct MainView: View {
                 
                 //track info
                 
-                if clManager.trackRecording || currentTrack.points.count > 0 {
+                //if clManager.trackRecording || currentTrack.points.count > 0 {
+                    
+                if showRecordTrackControls {
                     
                     CurrentTrackInfo()
                         .padding()

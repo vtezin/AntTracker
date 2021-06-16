@@ -119,6 +119,7 @@ extension MainView {
     func gpsAccuracyInfo() -> some View {
         
         let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
+        let speed = clManager.location.speed
         
         var colorAccuracy = Color.red
         
@@ -139,6 +140,8 @@ extension MainView {
                 
                 if gpsAccuracy > 10 {
                     Text("gps +/- \(gpsAccuracy) m")
+                } else if speed > 0.5 {
+                    Text(speed.localeSpeedString)
                 }
                 
                 //Spacer()

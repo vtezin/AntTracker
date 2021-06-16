@@ -13,7 +13,7 @@ struct PointEdit: View {
     @Binding var activePage: ContentView.pages
     
     @Environment(\.managedObjectContext) var moc
-
+    
     @EnvironmentObject var constants: GlobalAppVars
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
@@ -31,55 +31,55 @@ struct PointEdit: View {
     var body: some View {
         
         NavigationView{
+            
+            Form{
                 
-                Form{
+                Section(header: Text("Title")) {
+                    TextField("", text: $title)
+                        .font(.title2)
+                        .modifier(ClearButton(text: $title))
+                        .foregroundColor(color)
+                    ColorSelectorView(selectedColor: $color,
+                                      imageForSelectedColor: "mappin.circle.fill",
+                                      imageForUnselectedColor: "mappin.circle")
                     
-                    Section(header: Text("Title")) {
-                        TextField("", text: $title)
-                            .font(.title2)
-                            .modifier(ClearButton(text: $title))
-                            .foregroundColor(color)
-                        ColorSelectorView(selectedColor: $color,
-                                          imageForSelectedColor: "mappin.circle.fill",
-                                          imageForUnselectedColor: "mappin.circle")
+                }
+                
+                
+                Section(header: Text("Coordinate")) {
+                    
+                    HStack{
                         
-                    }
-                    
-                    
-                    Section(header: Text("Coordinate")) {
+                        Text(coordinate.coordinateStrings[0])
                         
-                        HStack{
+                        Spacer()
+                        
+                        Button(action: {
                             
-                            Text(coordinate.coordinateStrings[0])
+                            let pasteBoard = UIPasteboard.general
+                            pasteBoard.string = coordinate.coordinateStrings[0]
                             
-                            Spacer()
-                            
-                            Button(action: {
-                                
-                                let pasteBoard = UIPasteboard.general
-                                pasteBoard.string = coordinate.coordinateStrings[0]
-                                
-                            }) {
-                                Image(systemName: "doc.on.clipboard")
-                            }
-                            
+                        }) {
+                            Image(systemName: "doc.on.clipboard")
                         }
                         
                     }
                     
-                    Section(header: Text("Distance from here")) {
-                        Text(localeDistanceString(distanceMeters: CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
-                    }
-                                        
-                    
                 }
+                
+                Section(header: Text("Distance from here")) {
+                    Text(localeDistanceString(distanceMeters: CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
+                }
+                
+                
+            }
             
             .navigationBarTitle(Text(""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
                 activePage = ContentView.pages.main
-             }) {
-                    Text("Cancel")
-             },
+            }) {
+                Text("Cancel")
+            },
             trailing: Button(action: {
                 save()
                 activePage = ContentView.pages.main
@@ -118,7 +118,7 @@ struct PointEdit: View {
                         Image(systemName: "trash")
                     }
                 }
-               
+                
                 
             }
             .alert(isPresented:$showQuestionBeforeDelete) {
@@ -166,7 +166,7 @@ struct PointEdit: View {
     
     
     func save() {
-                
+        
         Point.addUpdatePoint(point: point,
                              moc: moc,
                              title: title,
