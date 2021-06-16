@@ -17,5 +17,53 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D16B1F2-D7A1-46EE-9CB4-BABCD1624613"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AntTracker/Views/Points/PointEdit.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "PointEdit"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "7D16B1F2-D7A1-46EE-9CB4-BABCD1624613 - e351bc1b6f2e3df6"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AntTracker.PointEdit.constants.getter : AntTracker.GlobalAppVars"
+                  moduleName = "AntTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/test/Documents/iDeveloping/My%20Projects/AntTracker/AntTracker/AntTracker/Views/Points/PointEdit.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "104">
+               </Location>
+               <Location
+                  uuid = "7D16B1F2-D7A1-46EE-9CB4-BABCD1624613 - db845379084aec89"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AntTracker.PointEdit.$constants.getter : SwiftUI.EnvironmentObject&lt;AntTracker.GlobalAppVars&gt;.Wrapper"
+                  moduleName = "AntTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/test/Documents/iDeveloping/My%20Projects/AntTracker/AntTracker/AntTracker/Views/Points/PointEdit.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "104">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

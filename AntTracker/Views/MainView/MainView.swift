@@ -15,14 +15,20 @@ struct MainView: View {
     //map bindings
     @State var mapType: MKMapType = .hybrid
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
+    
     @State var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     @State var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    
     @State var needChangeMapView = false
     @State var followCL = false
     @State var followCLforTimer = false
     
-    @AppStorage("lastUsedLatitude") var lastUsedLatitude: Double = 0
-    @AppStorage("lastUsedLongitude") var lastUsedLongitude: Double = 0
+    @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
+    @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
+    
+    @SceneStorage("lastUsedMapCenterLatitude") var lastUsedMapCenterLatitude: Double = 0
+    @SceneStorage("lastUsedMapCenterLongitude") var lastUsedMapCenterLongitude: Double = 0
+    @SceneStorage("lastUsedMapSpan") var lastUsedMapSpan: Double = 0.01
     
     //work whith points
     @State var selectedPoint: Point?
@@ -54,8 +60,7 @@ struct MainView: View {
     @State var rotateCount: Double = 0
     
     //other
-    @State private var firstAppearDone = false
-    @State private var showFullCLInfo = false //TODO remove in future
+    @State private var showFullCLInfo = false //FIXME: remove in future
     @State var dateOfSavingCurrentTrack = Date()
     
     //sheets support
@@ -63,7 +68,6 @@ struct MainView: View {
         
         var id: Int {hashValue}
         
-        case editPoint
         case saveTrack
         
     }
@@ -92,7 +96,7 @@ struct MainView: View {
                 
                 ZStack{
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, points: points, selectedPoint: $selectedPoint, sheetMode: $sheetMode)
+                    MapView(mapType: $mapType, center: $center, span: $span, points: points, activePage: $activePage)
                         .onReceive(timer) { _ in
                             if followCLforTimer {
                                 moveCenterMapToCurLocation()
@@ -228,34 +232,49 @@ struct MainView: View {
             
             .onAppear {
                 
-                if !firstAppearDone {
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                
+                if lastUsedMapCenterLatitude != 0 {
+                    //restore saved state
                     
+                    center = CLLocationCoordinate2D(latitude: lastUsedMapCenterLatitude,
+                                                    longitude: lastUsedMapCenterLongitude)
                     
-                    //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
+                                            longitudeDelta: lastUsedMapSpan)
+                    constants.needChangeMapView = true
                     
-                        moveCenterMapToCurLocation()
-                        
-                        if clManager.region.center.latitude == 0
-                            || clManager.region.center.longitude == 0 {
-                            //getting coodrinats from clManager failed
-                            //restore last coordinates
-                            if lastUsedLongitude != 0 && lastUsedLatitude != 0 {
-                                let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedLatitude, longitude: lastUsedLongitude)
-                                center = lastUsedLocation
-                                constants.needChangeMapView = true
-                            }
+                } else {
+                    
+                    moveCenterMapToCurLocation()
+                    
+                    if clManager.region.center.latitude == 0
+                        || clManager.region.center.longitude == 0 {
+                        //getting coodrinats from clManager failed
+                        //restore last coordinates
+                        if lastUsedCLLongitude != 0 && lastUsedCLLatitude != 0 {
+                            let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude)
+                            center = lastUsedLocation
+                            constants.needChangeMapView = true
                         }
-                        
-                    //}
-                    
-                    mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
-                    
-                    firstAppearDone = true
+                    }
                     
                 }
                 
+                
+                
+                //}
+                
+                mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
+                
                 constants.needRedrawPointsOnMap = true
                 
+            }
+            
+            .onDisappear{
+                lastUsedMapCenterLatitude = center.latitude
+                lastUsedMapCenterLongitude = center.longitude
+                lastUsedMapSpan = span.latitudeDelta
             }
             
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
@@ -267,9 +286,7 @@ struct MainView: View {
             .sheet(item: $sheetMode) { mode in
                 
                 switch mode {
-                case .editPoint:
-                    PointEdit(point: $selectedPoint, coordinate: center)
-                        .environmentObject(clManager)
+                //FIXME: check and remove all .environmentObject
                 case .saveTrack:
                     SavingNewTrackToCoreDataView(track: nil, mapSettingsChanged: $needChangeMapView)
                         .environment(\.managedObjectContext, moc)

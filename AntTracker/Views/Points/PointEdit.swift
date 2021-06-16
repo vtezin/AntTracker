@@ -10,24 +10,23 @@ import CoreLocation
 
 struct PointEdit: View {
     
+    @Binding var activePage: ContentView.pages
+    
     @Environment(\.managedObjectContext) var moc
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var clManager: LocationManager
+
     @EnvironmentObject var constants: GlobalAppVars
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
+    @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
+    @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     
-    @Binding var point: Point?
-    
-    @State var dateAdded = Date()
-    
-    @State var coordinate: CLLocationCoordinate2D
-    
-    @State private var title = "New point"
-    @State private var color = Color.orange
+    @State private var title: String = "New point"
+    @State private var color: Color = Color.orange
+    @State private var dateAdded: Date = Date()
+    @State private var point: Point?
+    @State private var coordinate = CLLocationCoordinate2D()
     
     @State private var showQuestionBeforeDelete = false
-    
     
     var body: some View {
         
@@ -69,21 +68,21 @@ struct PointEdit: View {
                     }
                     
                     Section(header: Text("Distance from here")) {
-                        Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
+                        Text(localeDistanceString(distanceMeters: CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
                     }
                                         
                     
                 }
             
-            .navigationBarTitle(Text(point == nil ? "New point" : ""), displayMode: .inline)
+            .navigationBarTitle(Text(""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                activePage = ContentView.pages.main
              }) {
                     Text("Cancel")
              },
             trailing: Button(action: {
                 save()
-                presentationMode.wrappedValue.dismiss()
+                activePage = ContentView.pages.main
             }) {
                 Text("Done")
             })
@@ -113,7 +112,7 @@ struct PointEdit: View {
                         if point != nil {
                             showQuestionBeforeDelete = true
                         } else {
-                            presentationMode.wrappedValue.dismiss()
+                            activePage = ContentView.pages.main
                         }
                     }) {
                         Image(systemName: "trash")
@@ -126,18 +125,28 @@ struct PointEdit: View {
                 Alert(title: Text("Delete this point?"), message: Text(""), primaryButton: .destructive(Text("Delete")) {
                     
                     delete()
-                    presentationMode.wrappedValue.dismiss()
+                    activePage = ContentView.pages.main
                     
                 }, secondaryButton: .cancel())
             }
             
             .onAppear{
+                
+                point = constants.editingPoint
+                
                 if point != nil {
                     title = point!.title
                     color = Color.getColorFromName(colorName: point!.color)
-                    coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
                     dateAdded = point!.dateAdded
+                    coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
+                } else {
+                    title = "New point"
+                    color = Color.orange
+                    dateAdded = Date()
+                    coordinate = constants.centerOfMap
+                    print(#function, "point == nil")
                 }
+                
             }
             
         }
@@ -150,13 +159,14 @@ struct PointEdit: View {
         moc.delete(point!)
         try? moc.save()
         
+        constants.editingPoint = nil
         constants.needRedrawPointsOnMap = true
         
     }
     
     
     func save() {
-        
+                
         Point.addUpdatePoint(point: point,
                              moc: moc,
                              title: title,

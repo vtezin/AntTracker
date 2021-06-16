@@ -19,8 +19,7 @@ struct MapView: UIViewRepresentable {
     var points: FetchedResults<Point>
     
     //working with point selection
-    @Binding var selectedPoint: Point?
-    @Binding var sheetMode: MainView.sheetModes?
+    @Binding var activePage: ContentView.pages
     
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: CurrentTrack
@@ -150,6 +149,7 @@ struct MapView: UIViewRepresentable {
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
             
             parent.center = mapView.region.center
+            parent.constants.centerOfMap = mapView.region.center
             parent.span = mapView.region.span
             
             if parent.constants.needChangeMapView {
@@ -195,17 +195,23 @@ struct MapView: UIViewRepresentable {
             
             guard let placemark = view.annotation as? PointAnnotation else { return }
             
-            parent.selectedPoint = placemark.point
-            parent.sheetMode = .editPoint
+            parent.constants.editingPoint = placemark.point
+            
+            withAnimation{
+                parent.activePage = ContentView.pages.editPoint
+            }
             
         }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
             
             if let placemark = view.annotation as? PointAnnotation {
-                parent.selectedPoint = placemark.point
-                parent.sheetMode = .editPoint
+                
+                parent.constants.editingPoint = placemark.point
                 mapView.deselectAnnotation(placemark, animated: true)
+                withAnimation{
+                    parent.activePage = ContentView.pages.editPoint
+                }
                 
             }  else if ((view.annotation?.isKind(of: MKUserLocation.self)) != nil) {
                 

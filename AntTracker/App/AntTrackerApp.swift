@@ -15,8 +15,8 @@ struct AntTrackerApp: App {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @AppStorage("lastUsedLatitude") var lastUsedLatitude: Double = 0
-    @AppStorage("lastUsedLongitude") var lastUsedLongitude: Double = 0
+    @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
+    @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     
     let clManager = LocationManager()
     let currentTrack = CurrentTrack.currentTrack
@@ -43,8 +43,8 @@ struct AntTrackerApp: App {
                   case .active:
                     return
                   case .inactive:
-                    lastUsedLatitude = clManager.location.coordinate.latitude
-                    lastUsedLongitude = clManager.location.coordinate.longitude
+                    lastUsedCLLatitude = clManager.location.coordinate.latitude
+                    lastUsedCLLongitude = clManager.location.coordinate.longitude
                   case .background:
                     return
                     //print("App is in background")
@@ -77,6 +77,8 @@ enum globalParameters {
 class GlobalAppVars: ObservableObject {
     @Published var needRedrawPointsOnMap = true
     @Published var needChangeMapView = false
+    @Published var editingPoint: Point? = nil
+    @Published var centerOfMap = CLLocationCoordinate2D()
 }
 
 let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)

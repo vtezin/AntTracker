@@ -12,8 +12,10 @@ extension MainView {
     var buttonAddPoint: some View {
         
         Button(action: {
-            selectedPoint = nil
-            sheetMode = .editPoint
+            constants.editingPoint = nil
+            withAnimation{
+                activePage = ContentView.pages.editPoint
+            }
             showPointsManagment = false
         }) {
             Image(systemName: "star")
