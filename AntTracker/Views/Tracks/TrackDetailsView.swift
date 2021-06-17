@@ -101,12 +101,7 @@ struct TrackDetailsView: View {
             
             mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
             
-            print("init on Appear")
-            
-//            title = track.title
-//            info = track.info
-//            color = Color.getColorFromName(colorName: track.color)
-//            trackGroup = track.trackGroup
+            printTest("init on Appear")
             
             if statistics == nil {
                 statistics = track.getStatistic(moc: moc)

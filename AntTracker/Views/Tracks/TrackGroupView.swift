@@ -34,13 +34,8 @@ struct TrackGroupView: View {
             
             ForEach(tracks.wrappedValue, id: \.id) { track in
 
-                NavigationLink(destination:
-                                TrackDetailsView(track: track)
-                                .environment(\.managedObjectContext, moc)) {
-
+                NavigationLink(destination: TrackDetailsView(track: track)) {
                     TrackRawView(track: track)
-
-
                 }
 
             }

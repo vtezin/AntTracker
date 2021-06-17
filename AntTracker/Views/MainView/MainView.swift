@@ -231,9 +231,12 @@ struct MainView: View {
             
             .onAppear {
                 
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                
-                if lastUsedMapCenterLatitude != 0 {
+                if clManager.trackRecording {
+                    
+                    moveCenterMapToCurLocation()
+                    
+                } else if lastUsedMapCenterLatitude != 0  {
+                    
                     //restore saved state
                     
                     center = CLLocationCoordinate2D(latitude: lastUsedMapCenterLatitude,
@@ -241,31 +244,34 @@ struct MainView: View {
                     
                     span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
                                             longitudeDelta: lastUsedMapSpan)
-                    appVariables.needChangeMapView = true
                     
                 } else {
                     
-                    moveCenterMapToCurLocation()
+                    let clReceived = clManager.region.center.latitude != 0
+                        || clManager.region.center.longitude != 0
                     
-                    if clManager.region.center.latitude == 0
-                        || clManager.region.center.longitude == 0 {
-                        //getting coodrinats from clManager failed
-                        //restore last coordinates
-                        if lastUsedCLLongitude != 0 && lastUsedCLLatitude != 0 {
+                    let lastUsedCLReceived = lastUsedCLLongitude != 0 && lastUsedCLLatitude != 0
+                    
+                    if clReceived {
+                        moveCenterMapToCurLocation()
+                    } else {
+                        //try to restore last coordinates
+                        if lastUsedCLReceived {
                             let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude)
                             center = lastUsedLocation
-                            appVariables.needChangeMapView = true
+                        } else {
+                            //try to get CL after 0.5 sec
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                moveCenterMapToCurLocation()
+                            }
+                            
                         }
                     }
                     
                 }
                 
-                
-                
-                //}
-                
                 mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
-                
+                appVariables.needChangeMapView = true
                 appVariables.needRedrawPointsOnMap = true
                 
             }

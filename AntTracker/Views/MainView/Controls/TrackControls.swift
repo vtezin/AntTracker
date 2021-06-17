@@ -14,6 +14,9 @@ extension MainView {
         Button(action: {
             withAnimation{
                 clManager.trackRecording.toggle()
+                if clManager.trackRecording {
+                    moveCenterMapToCurLocation()
+                }
             }
         }) {
             Image(systemName: clManager.trackRecording ? "pause" : "play")
