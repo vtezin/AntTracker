@@ -31,6 +31,7 @@
 		52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB2265E3280000619F6 /* TrackRawView.swift */; };
 		52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB7265E3568000619F6 /* TrackGroupView.swift */; };
 		526117E4266E38740011197A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526117E3266E38740011197A /* MainView.swift */; };
+		526312D3267B132F00BB6AF5 /* TrackGroupRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526312D2267B132F00BB6AF5 /* TrackGroupRawView.swift */; };
 		526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526B5D3E2624B90600A48AFC /* MapDrawing.swift */; };
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		527BD615265FE6510047FA0C /* TrackDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BD614265FE6510047FA0C /* TrackDetailsView.swift */; };
@@ -82,6 +83,7 @@
 		52512CB2265E3280000619F6 /* TrackRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRawView.swift; sourceTree = "<group>"; };
 		52512CB7265E3568000619F6 /* TrackGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupView.swift; sourceTree = "<group>"; };
 		526117E3266E38740011197A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		526312D2267B132F00BB6AF5 /* TrackGroupRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupRawView.swift; sourceTree = "<group>"; };
 		526B5D3E2624B90600A48AFC /* MapDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDrawing.swift; sourceTree = "<group>"; };
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		527BD614265FE6510047FA0C /* TrackDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsView.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				52DB5176260DD13000427149 /* TrackListView.swift */,
 				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
+				526312D2267B132F00BB6AF5 /* TrackGroupRawView.swift */,
 				52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */,
 				52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */,
 				527BD614265FE6510047FA0C /* TrackDetailsView.swift */,
@@ -379,6 +382,7 @@
 				52D3A93D25E6A96D001A50C1 /* LocationManager.swift in Sources */,
 				526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */,
 				5213A780264D544B0009223D /* Point+CoreDataProperties.swift in Sources */,
+				526312D3267B132F00BB6AF5 /* TrackGroupRawView.swift in Sources */,
 				52512C8926584F21000619F6 /* MainMenu.swift in Sources */,
 				5213A78E264DB25D0009223D /* PointEdit.swift in Sources */,
 				52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */,

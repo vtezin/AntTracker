@@ -9,21 +9,19 @@ import SwiftUI
 
 struct SavingNewTrackToCoreDataView: View {
     
+    @Binding var activePage: ContentView.pages
+    
     @Environment(\.managedObjectContext) var moc
-    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var currentTrack: CurrentTrack
     
     @AppStorage("lastUsedTrackColor") var lastUsedTrackColor: String = "orange"
-    
-    let track: Track?
+        
     @State var viewInitedByExistingTrack = false
     
     @State var title = ""
     @State var info = ""
     @State var color: Color = .orange
     @State var trackGroup: TrackGroup?
-    
-    @Binding var mapSettingsChanged: Bool
     
     var body: some View {
         
@@ -47,39 +45,42 @@ struct SavingNewTrackToCoreDataView: View {
                 
                 Section(header: Text("Track group")) {
                     NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
-                            Text(trackGroup?.title ?? "")
+                        TrackGroupRawView(trackGroup: trackGroup)
                     }
                 }
                 
                 
             }
             
-            .navigationBarTitle(Text(track == nil ? "Save track" : "Edit track"), displayMode: .inline)
-            .navigationBarItems(
-                trailing: Button(action: {
-                    save()
-                    mapSettingsChanged.toggle()
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Done")
-                })
+            .navigationBarTitle(Text("Save track"), displayMode: .inline)
+            .navigationBarItems(leading: Button(action: {
+                activePage = ContentView.pages.main
+            }) {
+                Text("Cancel")
+            },
+            trailing: Button(action: {
+                save()
+                activePage = ContentView.pages.main
+            }) {
+                Text("Done")
+            })
             .onAppear{
 
-                if let track = track {
-                    
-                    if !viewInitedByExistingTrack {
-                        title = track.title
-                        info = track.info
-                        color = Color.getColorFromName(colorName: track.color)
-                        trackGroup = track.trackGroup
-                        viewInitedByExistingTrack = true
-                    }
-                    
-                } else {
+//                if let track = track {
+//
+//                    if !viewInitedByExistingTrack {
+//                        title = track.title
+//                        info = track.info
+//                        color = Color.getColorFromName(colorName: track.color)
+//                        trackGroup = track.trackGroup
+//                        viewInitedByExistingTrack = true
+//                    }
+//
+//                } else {
                     //presets for new track
                     title = Date().dateString()
                     color = Colors.nextColor(fromColorWhithName: lastUsedTrackColor)
-                }
+ //               }
         }
         
             
@@ -89,16 +90,10 @@ struct SavingNewTrackToCoreDataView: View {
     
     func save() {
         
-        var trackForSave: Track
-        
-        if track == nil {
-            trackForSave = Track(context: moc)
-            trackForSave.id = UUID()
-            trackForSave.fillByCurrentTrackData(moc: moc)
-            lastUsedTrackColor = color.description
-        } else {
-            trackForSave = track!
-        }
+        let trackForSave = Track(context: moc)
+        trackForSave.id = UUID()
+        trackForSave.fillByCurrentTrackData(moc: moc)
+        lastUsedTrackColor = color.description
         
         trackForSave.title = title
         trackForSave.info = info

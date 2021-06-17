@@ -12,7 +12,7 @@ extension MainView {
     var buttonAddPoint: some View {
         
         Button(action: {
-            constants.editingPoint = nil
+            appVariables.editingPoint = nil
             withAnimation{
                 activePage = ContentView.pages.editPoint
             }

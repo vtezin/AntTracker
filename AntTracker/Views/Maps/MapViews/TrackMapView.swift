@@ -18,8 +18,7 @@ struct TrackMapView: UIViewRepresentable {
     
     func makeUIView(context: UIViewRepresentableContext<TrackMapView>) -> MKMapView {
        
-        print(#function)
-        //print("\(region)")
+        printTest(#function)
         
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
@@ -46,7 +45,7 @@ struct TrackMapView: UIViewRepresentable {
 
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<TrackMapView>) {
         
-        print(#function)
+        printTest(#function)
         
         view.mapType = mapType
         

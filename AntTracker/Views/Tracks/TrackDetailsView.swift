@@ -20,9 +20,9 @@ struct TrackDetailsView: View {
     @State private var statistics: TrackStatistic?
     
     //track props
-    @State private var title = ""
-    @State private var info = ""
-    @State private var color: Color = .orange
+    @State private var title: String
+    @State private var info: String
+    @State private var color: Color
     @State private var trackGroup: TrackGroup?
     
     //working whith map
@@ -30,7 +30,14 @@ struct TrackDetailsView: View {
     @State private var showMap = false
     
     init(track: Track) {
+        
         self.track = track
+        
+        _title = State(initialValue: track.title)
+        _info = State(initialValue: track.info)
+        _color = State(initialValue: Color.getColorFromName(colorName: track.color))
+        _trackGroup = State(initialValue: track.trackGroup)
+        
     }
     
     //pages support
@@ -96,13 +103,15 @@ struct TrackDetailsView: View {
             
             print("init on Appear")
             
-            title = track.title
-            info = track.info
-            color = Color.getColorFromName(colorName: track.color)
-            trackGroup = track.trackGroup
+//            title = track.title
+//            info = track.info
+//            color = Color.getColorFromName(colorName: track.color)
+//            trackGroup = track.trackGroup
             
-            statistics = track.getStatistic(moc: moc)
-            showMap = true
+            if statistics == nil {
+                statistics = track.getStatistic(moc: moc)
+                showMap = true
+            }
             
         }
         
@@ -115,7 +124,7 @@ struct TrackDetailsView: View {
             }, secondaryButton: .cancel())
         }
         
-        .navigationBarTitle(Text(track.title), displayMode: .inline)
+        .navigationBarTitle(Text(title), displayMode: .inline)
         .navigationBarItems(trailing:
                                 Button(action: {
                                     save()
@@ -165,6 +174,7 @@ struct TrackDetailsView: View {
                 }
                 
             }
+                
             
         }
         
@@ -192,7 +202,7 @@ struct TrackDetailsView: View {
             
             Section(header: Text("Track group")) {
                 NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
-                        Text(trackGroup?.title ?? "")
+                    TrackGroupRawView(trackGroup: trackGroup)
                 }
             }
             

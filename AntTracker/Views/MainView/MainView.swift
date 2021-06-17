@@ -47,7 +47,7 @@ struct MainView: View {
     
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     //constants
-    @EnvironmentObject var constants: GlobalAppVars
+    @EnvironmentObject var appVariables: GlobalAppVars
     
     //controls visibility
     @State var showRecordTrackControls = false
@@ -60,18 +60,8 @@ struct MainView: View {
     @State var rotateCount: Double = 0
     
     //other
-    @State private var showFullCLInfo = false //FIXME: remove in future
     @State var dateOfSavingCurrentTrack = Date()
-    
-    //sheets support
-    enum sheetModes: Identifiable {
-        
-        var id: Int {hashValue}
-        
-        case saveTrack
-        
-    }
-    @State var sheetMode: sheetModes?
+    @State private var stringDistanceFromCLToCenter = ""
     
     //ant animation support
     @State var animatingProperties = AntAnimatingProperties()
@@ -87,7 +77,7 @@ struct MainView: View {
                 
                 //if clManager.trackRecording || currentTrack.points.count > 0 {
                     
-                if showRecordTrackControls {
+                if showRecordTrackControls && currentTrack.points.count > 0 {
                     
                     CurrentTrackInfo()
                         .padding()
@@ -102,6 +92,9 @@ struct MainView: View {
                         .onReceive(timer) { _ in
                             if followCLforTimer {
                                 moveCenterMapToCurLocation()
+                            }
+                            if showPointsManagment {
+                                stringDistanceFromCLToCenter = localeDistanceString(distanceMeters: CLLocation(latitude: center.latitude, longitude: center.longitude).distance(from: clManager.location))
                             }
                         }
                     //.edgesIgnoringSafeArea(.all)
@@ -119,7 +112,7 @@ struct MainView: View {
                         
                         VStack{
                             Spacer()
-                            gpsAccuracyInfo()
+                            gpsAccuracyAndSpeedInfo()
                                 .padding()
                         }
                         
@@ -139,10 +132,15 @@ struct MainView: View {
                     }
                     
                     if showPointsManagment {
-                        Image(systemName: "plus")
-                            .imageScale(.large)
-                            .font(Font.title.weight(.light))
-                            .foregroundColor(.orange)
+                        VStack{
+                            Image(systemName: "plus")
+                                .imageScale(.large)
+                                .font(Font.title.weight(.light))
+                                .foregroundColor(.orange)
+                            Text(stringDistanceFromCLToCenter)
+                                .font(Font.footnote.weight(.light))
+                                .foregroundColor(.orange)
+                        }
                     }
                     
                     if followCLforTimer {
@@ -155,7 +153,6 @@ struct MainView: View {
                     
                 }
                 
-                //info
                 
                 //controls
                 HStack{
@@ -244,7 +241,7 @@ struct MainView: View {
                     
                     span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
                                             longitudeDelta: lastUsedMapSpan)
-                    constants.needChangeMapView = true
+                    appVariables.needChangeMapView = true
                     
                 } else {
                     
@@ -257,7 +254,7 @@ struct MainView: View {
                         if lastUsedCLLongitude != 0 && lastUsedCLLatitude != 0 {
                             let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude)
                             center = lastUsedLocation
-                            constants.needChangeMapView = true
+                            appVariables.needChangeMapView = true
                         }
                     }
                     
@@ -269,7 +266,7 @@ struct MainView: View {
                 
                 mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
                 
-                constants.needRedrawPointsOnMap = true
+                appVariables.needRedrawPointsOnMap = true
                 
             }
             
@@ -283,17 +280,6 @@ struct MainView: View {
                 //if clManager.trackRecording {
                     moveCenterMapToCurLocation()
                 //}
-            }
-            
-            .sheet(item: $sheetMode) { mode in
-                
-                switch mode {
-                //FIXME: check and remove all .environmentObject
-                case .saveTrack:
-                    SavingNewTrackToCoreDataView(track: nil, mapSettingsChanged: $needChangeMapView)
-                        .environment(\.managedObjectContext, moc)
-                }
-                
             }
             
             .alert(isPresented: $showQuestionBeforeResetTrack) {
@@ -314,7 +300,7 @@ struct MainView: View {
 
     func moveCenterMapToCurLocation() {
         center = clManager.region.center
-        constants.needChangeMapView = true
+        appVariables.needChangeMapView = true
     }
     
     func zoomMultiplikator() -> Double {
@@ -327,72 +313,6 @@ struct MainView: View {
         
     }
 
-//let antAnimation = Animation.easeInOut.speed(0.5).repeatForever(autoreverses: true)
-
-func currentLocationInfo() -> some View {
-    
-    let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
-    
-    var colorAccuracy = Color.red
-    
-    switch gpsAccuracy {
-    case ..<20:
-        colorAccuracy = Color.systemBackground
-    case 20..<100:
-        colorAccuracy = Color.yellow
-    default:
-        colorAccuracy = Color.red
-    }
-    
-    return
-        
-        HStack {
-            
-            if showFullCLInfo {
-                
-                HStack {
-                    
-                    VStack{
-                        Text("\(clManager.location.latitudeDMS)")
-                        Text("\(clManager.location.longitudeDMS)")
-                        Text("alt." + String(format: "%.0f", clManager.location.altitude) + " " + "m")
-                    }
-                    
-                    NavigationLink(destination: CoordinatesSharing(coordinate: clManager.location.coordinate)) {
-                        
-                        Image(systemName: "square.and.arrow.up")
-                            .font(Font.title.weight(.light))
-                    }
-                    
-                }
-                
-            } else {
-                
-                VStack{
-                    
-                    Text(clManager.location.speed.localeSpeedString)
-                        .font(.body)
-                    if gpsAccuracy > 10 || showFullCLInfo {
-                        Text("gps +/- \(gpsAccuracy) m")
-                    }
-                    
-                }
-                
-            }
-            
-        }
-        .font(.caption)
-        .foregroundColor(.primary)
-        .padding(5)
-        .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
-        .onTapGesture()
-        {
-            //withAnimation {
-            showFullCLInfo.toggle()
-            //}
-        }
-    
-}
 }
 
 //struct MainView_Previews: PreviewProvider {

@@ -39,7 +39,7 @@ extension MainView {
             
             if currentTrack.trackCoreData == nil {
                 //save new track
-                sheetMode = .saveTrack
+                activePage = ContentView.pages.saveCurrentTrack
             } else {
                 //update current track
                 currentTrack.trackCoreData!.fillByCurrentTrackData(moc: moc)

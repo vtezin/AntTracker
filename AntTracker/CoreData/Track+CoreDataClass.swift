@@ -18,8 +18,7 @@ public class Track: NSManagedObject {
         moc.delete(track)
         try? moc.save()
         
-    }
-    
+    }    
     
     func deleteAllPoints(moc: NSManagedObjectContext) {
         

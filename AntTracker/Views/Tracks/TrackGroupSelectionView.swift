@@ -32,16 +32,19 @@ struct TrackGroupSelectionView: View {
             
             ForEach(groups, id: \.id) { group in
                 HStack{
-                    Image(systemName: "folder")
-                        .foregroundColor(.secondary)
-                    Text(group.title)
-                    Spacer()
+                    TrackGroupRawView(trackGroup: group)
                 }
                 .onTapGesture{
                     selectedGroup = group
                     presentationMode.wrappedValue.dismiss()
                 }
 
+            }
+            
+            TrackGroupRawView(trackGroup: nil)
+            .onTapGesture{
+                selectedGroup = nil
+                presentationMode.wrappedValue.dismiss()
             }
 
         }

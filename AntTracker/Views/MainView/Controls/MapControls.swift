@@ -22,7 +22,7 @@ extension MainView {
                     let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
                     span = MKCoordinateSpan(latitudeDelta: newDelta,
                                             longitudeDelta: newDelta)
-                    constants.needChangeMapView = true
+                    appVariables.needChangeMapView = true
                 }
             
                 .onLongPressGesture {
@@ -31,7 +31,7 @@ extension MainView {
                     let newDelta = minSpan * 2
                     span = MKCoordinateSpan(latitudeDelta: newDelta,
                                             longitudeDelta: newDelta)
-                    constants.needChangeMapView = true
+                    appVariables.needChangeMapView = true
                 }
             
         }
@@ -61,7 +61,7 @@ extension MainView {
                 
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
-                constants.needChangeMapView = true
+                appVariables.needChangeMapView = true
             }
         
             .onLongPressGesture {
@@ -69,7 +69,7 @@ extension MainView {
                 
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
-                constants.needChangeMapView = true
+                appVariables.needChangeMapView = true
             }
 
         }
@@ -108,7 +108,7 @@ extension MainView {
         Button(action: {
             mapType = mapType == .standard ? .hybrid : .standard
             lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-            constants.needChangeMapView = true
+            appVariables.needChangeMapView = true
         }) {
             Image(systemName: mapType == .standard ? "globe" : "map")
         }
@@ -116,7 +116,7 @@ extension MainView {
         
     }
     
-    func gpsAccuracyInfo() -> some View {
+    func gpsAccuracyAndSpeedInfo() -> some View {
         
         let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
         let speed = clManager.location.speed
@@ -140,14 +140,16 @@ extension MainView {
                 
                 if gpsAccuracy > 10 {
                     Text("gps +/- \(gpsAccuracy) m")
+                    .font(.caption)
                 } else if speed > 0.5 {
                     Text(speed.localeSpeedString)
+                        .font(.subheadline)
+                        .fontWeight(.light)
                 }
                 
                 //Spacer()
                 
             }
-            .font(.caption)
             .foregroundColor(.primary)
             .padding(5)
             .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))

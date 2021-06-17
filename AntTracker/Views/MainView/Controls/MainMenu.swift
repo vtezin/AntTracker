@@ -152,7 +152,7 @@ extension MainView {
                                          latitude: clManager.region.center.latitude,
                                          longitude: clManager.region.center.longitude)
                     
-                    constants.needRedrawPointsOnMap = true
+                    appVariables.needRedrawPointsOnMap = true
                     
                 }
             

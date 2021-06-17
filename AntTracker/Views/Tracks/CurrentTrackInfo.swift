@@ -24,24 +24,19 @@ struct CurrentTrackInfo: View {
                 
                 Spacer()
                 
-//                VStack{
-//                    if currentTrack.lastSpeed > 0.5 {
-//                        Text(currentTrack.lastSpeed.localeSpeedString)
-//                    }
+                VStack{
                     Text(currentTrack.durationString)
                         .fontWeight(.light)
-//                }
+                    if !clManager.trackRecording {
+                        Text("(pause)")
+                            .foregroundColor(.secondary)
+                            .fontWeight(.light)
+                    }
+                }
                 
                 Spacer()
                 Image(systemName: showFullInfo ? "chevron.up" : "chevron.down")
                 
-            }
-            
-            if !clManager.trackRecording {
-                Text("track recording  paused")
-                    .foregroundColor(.secondary)
-                    .fontWeight(.light)
-                    .padding(.top)
             }
             
             if showFullInfo {

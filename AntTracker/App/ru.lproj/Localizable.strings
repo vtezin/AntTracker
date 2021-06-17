@@ -56,6 +56,7 @@
 "Track groups" = "Группы треков";
 "Group title" = "Название группы";
 "Rename group" = "Переименовать группу";
+"< out of groups >" = "< вне групп >";
 
 "Save track" = "Сохранить трек";
 "Edit track" = "Изменить трек";
@@ -69,5 +70,4 @@
 
 "altitude" = "высота";
 
-"Loading map..." = "Загрузка карты...";
-"track recording  paused" = "запись трека приостановлена";
+"(pause)" = "(пауза)";

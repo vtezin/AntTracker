@@ -65,6 +65,10 @@ extension Track {
     
     var durationString: String {
         
+        if trackPointsArray.count == 0 {
+            return "-"
+        }
+        
         let dateComponentsFormatter = DateComponentsFormatter()
         dateComponentsFormatter.allowedUnits = [.second, .minute, .hour, .day]
         dateComponentsFormatter.unitsStyle = .abbreviated
