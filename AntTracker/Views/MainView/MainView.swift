@@ -166,9 +166,11 @@ struct MainView: View {
                                 HStack {
                                     Spacer()
                                     //Text("track:").fontWeight(.thin)
-                                    Text(currentTrack.trackCoreData?.title ?? "").fontWeight(.thin)
+                                    Text(currentTrack.trackCoreData?.title ?? "")
+                                        .fontWeight(.thin)
                                     Text("saved at:").fontWeight(.thin)
-                                    Text(dateOfSavingCurrentTrack.timeString()).fontWeight(.thin)
+                                    Text(dateOfSavingCurrentTrack.timeString())
+                                        .fontWeight(.thin)
                                     Spacer()
                                 }
                                 .font(.caption)
@@ -231,11 +233,7 @@ struct MainView: View {
             
             .onAppear {
                 
-                if clManager.trackRecording {
-                    
-                    moveCenterMapToCurLocation()
-                    
-                } else if lastUsedMapCenterLatitude != 0  {
+                if lastUsedMapCenterLatitude != 0  {
                     
                     //restore saved state
                     
@@ -245,12 +243,14 @@ struct MainView: View {
                     span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
                                             longitudeDelta: lastUsedMapSpan)
                     
+                    
                 } else {
                     
                     let clReceived = clManager.region.center.latitude != 0
                         || clManager.region.center.longitude != 0
                     
-                    let lastUsedCLReceived = lastUsedCLLongitude != 0 && lastUsedCLLatitude != 0
+                    let lastUsedCLReceived = lastUsedCLLongitude != 0
+                        && lastUsedCLLatitude != 0
                     
                     if clReceived {
                         moveCenterMapToCurLocation()

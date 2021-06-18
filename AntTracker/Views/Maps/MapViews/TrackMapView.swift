@@ -50,7 +50,7 @@ struct TrackMapView: UIViewRepresentable {
         view.mapType = mapType
         
         if view.overlays.count == 0 {
-            print("addTrackLine points \(statistics.points.count)")
+            printTest("addTrackLine points \(statistics.points.count)")
             view.addTrackLine(trackPoints: statistics.points,
                               trackTitle: trackTitle,
                               trackColor: trackColor)

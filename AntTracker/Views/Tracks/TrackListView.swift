@@ -30,9 +30,7 @@ struct TrackListView: View {
     @State private var showAlertForGroupName = false
     
     init(activePage: Binding<ContentView.pages>) {
-        
         self._activePage = activePage
-        print("init TrackListView")
     }
     
     var body: some View {
@@ -88,7 +86,6 @@ struct TrackListView: View {
                     .onDelete(perform: { indexSet in
                         showQuestionBeforeDeleteTrack = true
                         indexSetToDelete = indexSet
-                        print("deleting track")
                     })
                     .alert(isPresented:$showQuestionBeforeDeleteTrack) {
                         Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {

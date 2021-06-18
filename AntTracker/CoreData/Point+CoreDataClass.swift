@@ -30,8 +30,6 @@ public class Point: NSManagedObject {
             pointForSave.latitude = latitude
             pointForSave.longitude = longitude
             
-            print("\(latitude)  \(longitude)")
-            
         } else {
             pointForSave = point!
         }
