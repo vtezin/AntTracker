@@ -17,7 +17,7 @@ struct ContentView: View {
         case trackList
         case settings
         case editPoint
-        case saveCurrentTrack
+        case completeTrack
     }
     
     @State var activePage: pages = .main
@@ -34,8 +34,8 @@ struct ContentView: View {
         case .editPoint:
             PointEdit(activePage: $activePage)
                 .transition(.move(edge: .bottom))
-        case .saveCurrentTrack:
-            SavingNewTrackToCoreDataView(activePage: $activePage)
+        case .completeTrack:
+            CompleteRecordTrack(activePage: $activePage)
                 .transition(.move(edge: .bottom))        
         default:
             MainView(activePage: $activePage)

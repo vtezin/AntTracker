@@ -97,7 +97,7 @@ struct MainView: View {
                                 stringDistanceFromCLToCenter = localeDistanceString(distanceMeters: CLLocation(latitude: center.latitude, longitude: center.longitude).distance(from: clManager.location))
                             }
                         }
-                    //.edgesIgnoringSafeArea(.all)
+                    .edgesIgnoringSafeArea(.all)
                     
                     //map controls layer
                     HStack{
@@ -136,11 +136,10 @@ struct MainView: View {
                             Image(systemName: "plus")
                                 .imageScale(.large)
                                 .font(Font.title.weight(.light))
-                                .foregroundColor(.orange)
                             Text(stringDistanceFromCLToCenter)
-                                .font(Font.footnote.weight(.light))
-                                .foregroundColor(.orange)
+                                .font(Font.callout)
                         }
+                        .foregroundColor(mapType == MKMapType.hybrid ? .systemBackground : .primary)
                     }
                     
                     if followCLforTimer {
@@ -161,23 +160,6 @@ struct MainView: View {
                         
                         VStack{
                             
-                            if currentTrack.trackCoreData != nil {
-                                
-                                HStack {
-                                    Spacer()
-                                    //Text("track:").fontWeight(.thin)
-                                    Text(currentTrack.trackCoreData?.title ?? "")
-                                        .fontWeight(.thin)
-                                    Text("saved at:").fontWeight(.thin)
-                                    Text(dateOfSavingCurrentTrack.timeString())
-                                        .fontWeight(.thin)
-                                    Spacer()
-                                }
-                                .font(.caption)
-                                .padding(.bottom)
-                                .transition(.move(edge: .bottom))
-                            }
-                            
                             HStack{
                                 
                                 buttonBackToMainControls
@@ -197,20 +179,18 @@ struct MainView: View {
                         
                         .transition(.move(edge: .bottom))
                         
-                        
                     }
                     else if showPointsManagment {
-                        
-                        HStack{
-                            buttonBackToMainControls
-                            Spacer()
-                            buttonAddPoint
-                            Spacer()
-                        }
-                        .transition(.move(edge: .bottom))
+
+                            HStack{
+                                buttonBackToMainControls
+                                Spacer()
+                                buttonAddPoint
+                                Spacer()
+                            }
+                            .transition(.move(edge: .bottom))
                         
                         //buttonAddPointFromClipboard
-                        
                         
                     }
                     else {
@@ -290,14 +270,18 @@ struct MainView: View {
             
             .alert(isPresented: $showQuestionBeforeResetTrack) {
                 Alert(title: Text("Reset current track?"),
-                      message: Text(currentTrack.trackCoreData == nil ? "" : "(the saved track will remain in the database)"),
                       primaryButton: .destructive(Text("Reset")) {
                         
                         moveCenterMapToCurLocation()
                         withAnimation{
+                            
                             clManager.trackRecording = false
+                            
+                            if let trackCD = currentTrack.trackCoreData {
+                                Track.deleteTrack(track: trackCD, moc: moc)
+                            }
+                            
                         }
-                        currentTrack.reset()
                         
                       }, secondaryButton: .cancel())
             }

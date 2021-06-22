@@ -7,10 +7,13 @@
 
 import Foundation
 import MapKit
+import CoreData
+import SwiftUI
 
 class CurrentTrack: ObservableObject {
     
     var startDate = Date()
+    @Published var lastSaveDate = Date()
     @Published var finishDate = Date()
     
     var durationString: String {
@@ -47,6 +50,7 @@ class CurrentTrack: ObservableObject {
     
     static let currentTrack = CurrentTrack()
     
+    
     init() {
     }
     
@@ -81,6 +85,7 @@ class CurrentTrack: ObservableObject {
     struct TrackPoint {
         let location: CLLocation
         let type: String
+        var savedToDB = false
     }
     
     func reset() {
@@ -93,7 +98,6 @@ class CurrentTrack: ObservableObject {
         maxSpeed = 0
         summSpeed = 0
         totalDistanceMeters = 0
-        
     }
     
     func addNewPointFromLocation(location: CLLocation) {
@@ -122,6 +126,35 @@ class CurrentTrack: ObservableObject {
         }
         
         points.append(TrackPoint(location: location, type: ""))
+        
+        //saving to core data
+        if location.timestamp.seconds(from: lastSaveDate) > 5 {
+            
+            if let trackCD = CurrentTrack.currentTrack.trackCoreData {
+                let moc = PersistenceController.shared.container.viewContext
+                trackCD.fillByCurrentTrackData(moc: moc)
+                try? moc.save()
+            }
+            
+            lastSaveDate = location.timestamp
+            
+        }
+        
+    }
+    
+    func prepareForStartRecording(moc: NSManagedObjectContext) {
+        
+        guard trackCoreData == nil else { return }
+        
+        let trackCD = Track(context: moc)
+        trackCD.title = Date().dateString()
+        trackCD.id = UUID()
+        trackCD.startDate = Date()
+        trackCD.finishDate = Date()
+        
+        try? moc.save()
+        
+        trackCoreData = trackCD
         
     }
     

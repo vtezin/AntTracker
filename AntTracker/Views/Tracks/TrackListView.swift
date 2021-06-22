@@ -13,6 +13,7 @@ struct TrackListView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var currentTrack: CurrentTrack
     
     @FetchRequest(entity: Track.entity(),
                   sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)],

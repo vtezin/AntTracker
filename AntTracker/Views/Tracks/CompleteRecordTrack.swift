@@ -1,13 +1,13 @@
 //
-//  TrackPropertiesView.swift
+//  CompleteRecordTrack.swift
 //  AntTracker
 //
-//  Created by test on 25.05.2021.
+//  Created by test on 19.06.2021.
 //
 
 import SwiftUI
 
-struct SavingNewTrackToCoreDataView: View {
+struct CompleteRecordTrack: View {
     
     @Binding var activePage: ContentView.pages
     
@@ -15,13 +15,27 @@ struct SavingNewTrackToCoreDataView: View {
     @EnvironmentObject var currentTrack: CurrentTrack
     
     @AppStorage("lastUsedTrackColor") var lastUsedTrackColor: String = "orange"
-        
-    @State var viewInitedByExistingTrack = false
     
     @State var title = ""
     @State var info = ""
     @State var color: Color = .orange
     @State var trackGroup: TrackGroup?
+    
+    @State private var showQuestionBeforeDelete = false
+    
+    init(activePage: Binding<ContentView.pages>) {
+        
+        _activePage = activePage
+        
+        if let track = CurrentTrack.currentTrack.trackCoreData {
+            _title = State(initialValue: track.title)
+            _info = State(initialValue: track.info)
+            _color = State(initialValue: Color.getColorFromName(colorName: track.color))
+            _trackGroup = State(initialValue: track.trackGroup)
+        }
+        
+        
+    }
     
     var body: some View {
         
@@ -49,10 +63,15 @@ struct SavingNewTrackToCoreDataView: View {
                     }
                 }
                 
+                Button(action: {
+                    showQuestionBeforeDelete = true
+                }) {
+                    Text("Delete track")
+                        .foregroundColor(.red)
+                }
                 
             }
-            
-            .navigationBarTitle(Text("Save track"), displayMode: .inline)
+            .navigationBarTitle(Text("Complete track"), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
                 activePage = ContentView.pages.main
             }) {
@@ -64,52 +83,48 @@ struct SavingNewTrackToCoreDataView: View {
             }) {
                 Text("Done")
             })
-            .onAppear{
-
-//                if let track = track {
-//
-//                    if !viewInitedByExistingTrack {
-//                        title = track.title
-//                        info = track.info
-//                        color = Color.getColorFromName(colorName: track.color)
-//                        trackGroup = track.trackGroup
-//                        viewInitedByExistingTrack = true
-//                    }
-//
-//                } else {
-                    //presets for new track
-                    title = Date().dateString()
-                    color = Colors.nextColor(fromColorWhithName: lastUsedTrackColor)
- //               }
-        }
-        
+            
+            .alert(isPresented:$showQuestionBeforeDelete) {
+                Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                    
+                    delete()
+                    activePage = ContentView.pages.main
+                    
+                }, secondaryButton: .cancel())
+            }
             
         }
+        
+        
         
     }
     
     func save() {
         
-        let trackForSave = Track(context: moc)
-        trackForSave.id = UUID()
-        trackForSave.fillByCurrentTrackData(moc: moc)
+        let track = currentTrack.trackCoreData!
+        
+        track.fillByCurrentTrackData(moc: moc)
         lastUsedTrackColor = color.description
         
-        trackForSave.title = title
-        trackForSave.info = info
-        trackForSave.color = color.description
-        trackForSave.trackGroup = trackGroup
+        track.title = title
+        track.info = info
+        track.color = color.description
+        track.trackGroup = trackGroup
         
         try? moc.save()
         
-        currentTrack.trackCoreData = trackForSave
+        currentTrack.reset()
         
+    }
+    
+    func delete() {
+        Track.deleteTrack(track: currentTrack.trackCoreData!, moc: moc)
     }
     
 }
 
-//struct TrackPropertiesView_Previews: PreviewProvider {
+//struct CompleteRecordTrack_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TrackPropertiesView()
+//        CompleteRecordTrack()
 //    }
 //}

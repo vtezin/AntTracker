@@ -21,7 +21,8 @@ struct TrackInfo: View {
             
             HStack{
                 Text(localeDistanceString(distanceMeters: track.totalDistanceMeters))
-                    .font(.title)
+                    .font(.title2)
+                    .fontWeight(.light)
                 
                 Spacer()
                 

@@ -42,9 +42,8 @@
 "Color of current track" = "Цвет текущего трека";
 "Disable auto-lock screen when recording a track" = "Отключать автоблокировку экрана при записи трека";
 
-"(the saved track will remain in the database)" = "(сохраненный трек останется в базе данных)";
-"Reset current track?" = "Очистить текущий трек?";
-"Reset" = "Очистить";
+"Reset current track?" = "Сбросить текущий трек?";
+"Reset" = "Сбросить";
 
 "New point" = "Новая точка";
 
@@ -60,6 +59,7 @@
 
 "Save track" = "Сохранить трек";
 "Edit track" = "Изменить трек";
+"Complete track" = "Завершить трек";
 "track:" = "трек:";
 "saved at:" = "сохранен:";
 

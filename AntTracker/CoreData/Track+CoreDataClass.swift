@@ -14,6 +14,10 @@ public class Track: NSManagedObject {
     
     static func deleteTrack(track: Track, moc: NSManagedObjectContext) {
         
+        if CurrentTrack.currentTrack.trackCoreData == track {
+            CurrentTrack.currentTrack.reset()
+        }
+        
         track.deleteAllPoints(moc: moc)
         moc.delete(track)
         try? moc.save()
@@ -40,9 +44,12 @@ public class Track: NSManagedObject {
         finishDate = currentTrack.finishDate
         
         //saving points
-        deleteAllPoints(moc: moc)
         
-        for point in currentTrack.points {
+        for index in 0..<currentTrack.points.count {
+            
+            let point = currentTrack.points[index]
+            
+            guard point.savedToDB == false else {continue}
             
             let pointCoreData = TrackPoint(context: moc)
             
@@ -58,6 +65,8 @@ public class Track: NSManagedObject {
             pointCoreData.speed = point.location.speed
             pointCoreData.course = Double(point.location.course)
             pointCoreData.type = point.type
+               
+            currentTrack.points[index].savedToDB = true
             
         }
         

@@ -97,10 +97,23 @@ extension MainView {
             }
         
             .onLongPressGesture {
-                followCLforTimer.toggle()
+                startStopFollowCLForTimer()
                 moveCenterMapToCurLocation()
             }
         
+    }
+    
+    func startStopFollowCLForTimer() {
+        
+        followCLforTimer.toggle()
+        setDisableAutolockScreen()
+        
+    }
+    
+    func setDisableAutolockScreen() {
+        if UserDefaults.standard.bool(forKey: "disableAutolockScreenWhenTrackRecording") {
+            UIApplication.shared.isIdleTimerDisabled = followCLforTimer || clManager.trackRecording
+        }
     }
     
     var buttonMapType: some View {

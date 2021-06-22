@@ -37,6 +37,11 @@ extension Date {
         
     }
     
+    /// Returns the amount of seconds from another date
+     func seconds(from date: Date) -> Int {
+         return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
+     }
+    
 }
 
 extension Color {
@@ -203,15 +208,19 @@ func localeDistanceString(distanceMeters: Double) -> String {
     
 }
 
-func periodDescription(start startDate: Date, end finishDate: Date) -> String {
+func periodDescription(start startDate: Date?, end finishDate: Date?) -> String {
     
-    let dateInterval = DateInterval(start: startDate, end: finishDate)
-    let formatter = DateIntervalFormatter()
-    
-    formatter.dateStyle = .short
-    formatter.timeStyle = .short
-    
-    return formatter.string(from: dateInterval)!
+    if let startDate = startDate, let finishDate = finishDate {
+        let dateInterval = DateInterval(start: startDate, end: finishDate)
+        let formatter = DateIntervalFormatter()
+        
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        
+        return formatter.string(from: dateInterval)!
+    } else {
+        return ""
+    }
     
 }
 

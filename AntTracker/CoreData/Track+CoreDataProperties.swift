@@ -74,13 +74,11 @@ extension Track {
         dateComponentsFormatter.unitsStyle = .abbreviated
         return dateComponentsFormatter.string(from: startDate, to: finishDate) ?? "-"
         
-    }
-    
+    }    
     
     var totalDistanceMeters: CLLocationDistance {
         return CLLocationDistance(totalDistance)
     }
-    
     
 }
 

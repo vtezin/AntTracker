@@ -9,15 +9,23 @@ import SwiftUI
 
 extension MainView {
     
+    func startOrStopTrackRecording() {
+        withAnimation{
+            if clManager.trackRecording {
+                clManager.trackRecording = false
+            } else {
+                currentTrack.prepareForStartRecording(moc: moc)
+                moveCenterMapToCurLocation()
+                clManager.trackRecording = true
+            }
+        }
+        setDisableAutolockScreen()
+    }
+    
     var buttonTrackPlayPause: some View {
         
         Button(action: {
-            withAnimation{
-                clManager.trackRecording.toggle()
-                if clManager.trackRecording {
-                    moveCenterMapToCurLocation()
-                }
-            }
+            startOrStopTrackRecording()
         }) {
             Image(systemName: clManager.trackRecording ? "pause" : "play")
                 .modifier(ControlButton())
@@ -37,25 +45,17 @@ extension MainView {
     }
     
     var buttonTrackSave: some View {
-        
+                
         Button(action: {
-            
-            if currentTrack.trackCoreData == nil {
-                //save new track
-                activePage = ContentView.pages.saveCurrentTrack
-            } else {
-                //update current track
-                currentTrack.trackCoreData!.fillByCurrentTrackData(moc: moc)
-                try? moc.save()
+            if clManager.trackRecording {
+                //stop recording
+                startOrStopTrackRecording()
             }
-            dateOfSavingCurrentTrack = Date()
-
-            
+            activePage = ContentView.pages.completeTrack
         }) {
-            Image(systemName: "tray.and.arrow.down")
+            Image(systemName: "stop")
                 .modifier(ControlButton())
         }
-        
         
     }
     

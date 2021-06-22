@@ -97,21 +97,18 @@ extension MainView {
                     }
                  }
                 .onLongPressGesture {
-                    if !clManager.trackRecording {
-                        moveCenterMapToCurLocation()
-                        withAnimation{
-                            clManager.trackRecording = true
-                        }
+                    
+                    startOrStopTrackRecording()
+                    
+                    if clManager.trackRecording {
                         changeAnimatingProperties()
                     } else {
-                        withAnimation{
-                            clManager.trackRecording = false
-                            animatingProperties.resetToDefaults()
-                            if currentTrack.points.count > 0 {
-                                showRecordTrackControls = true
-                            }
+                        animatingProperties.resetToDefaults()
+                        if currentTrack.points.count > 0 {
+                            showRecordTrackControls = true
                         }
                     }
+                    
                 }
         }
         
@@ -136,7 +133,10 @@ extension MainView {
                 .modifier(ControlButton())
                 .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
                 .onTapGesture {
-                    withAnimation{
+                    withAnimation{                        
+                        if followCL {
+                            startStopFollowCLForTimer()
+                        }
                         showPointsManagment.toggle()
                     }
                  }

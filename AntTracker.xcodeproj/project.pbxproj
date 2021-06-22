@@ -27,7 +27,6 @@
 		52512CA0265C236E000619F6 /* TrackGroup+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9E265C236E000619F6 /* TrackGroup+CoreDataClass.swift */; };
 		52512CA1265C236E000619F6 /* TrackGroup+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C9F265C236E000619F6 /* TrackGroup+CoreDataProperties.swift */; };
 		52512CA9265CF860000619F6 /* TrackGroupSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */; };
-		52512CAD265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */; };
 		52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB2265E3280000619F6 /* TrackRawView.swift */; };
 		52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512CB7265E3568000619F6 /* TrackGroupView.swift */; };
 		526117E4266E38740011197A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526117E3266E38740011197A /* MainView.swift */; };
@@ -36,6 +35,7 @@
 		526D9D07261FFD03002A606D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D9D06261FFD03002A606D /* AppSettings.swift */; };
 		527BD615265FE6510047FA0C /* TrackDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527BD614265FE6510047FA0C /* TrackDetailsView.swift */; };
 		528920322668B4DD00058BBF /* CurrentTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528920312668B4DD00058BBF /* CurrentTrack.swift */; };
+		529557C2267DA9A5005D8304 /* CompleteRecordTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529557C1267DA9A5005D8304 /* CompleteRecordTrack.swift */; };
 		529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CoordinatesSharing.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
@@ -79,7 +79,6 @@
 		52512C9E265C236E000619F6 /* TrackGroup+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackGroup+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52512C9F265C236E000619F6 /* TrackGroup+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackGroup+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupSelectionView.swift; sourceTree = "<group>"; };
-		52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingNewTrackToCoreDataView.swift; sourceTree = "<group>"; };
 		52512CB2265E3280000619F6 /* TrackRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRawView.swift; sourceTree = "<group>"; };
 		52512CB7265E3568000619F6 /* TrackGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupView.swift; sourceTree = "<group>"; };
 		526117E3266E38740011197A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -88,6 +87,7 @@
 		526D9D06261FFD03002A606D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		527BD614265FE6510047FA0C /* TrackDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsView.swift; sourceTree = "<group>"; };
 		528920312668B4DD00058BBF /* CurrentTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrack.swift; sourceTree = "<group>"; };
+		529557C1267DA9A5005D8304 /* CompleteRecordTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteRecordTrack.swift; sourceTree = "<group>"; };
 		529C63032642C40A00A49993 /* CoordinatesSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesSharing.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,11 +127,11 @@
 			isa = PBXGroup;
 			children = (
 				521345682601C95500F7A43C /* Model.xcdatamodeld */,
+				52DD9535260D138400F4E700 /* Track+CoreDataClass.swift */,
+				52DD9536260D138400F4E700 /* Track+CoreDataProperties.swift */,
 				521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */,
 				52DD953E260D19C400F4E700 /* TrackPoint+CoreDataClass.swift */,
 				52DD953F260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift */,
-				52DD9535260D138400F4E700 /* Track+CoreDataClass.swift */,
-				52DD9536260D138400F4E700 /* Track+CoreDataProperties.swift */,
 				5213A77B264D544B0009223D /* Point+CoreDataClass.swift */,
 				5213A77C264D544B0009223D /* Point+CoreDataProperties.swift */,
 				5213A77D264D544B0009223D /* PointGroup+CoreDataClass.swift */,
@@ -284,8 +284,8 @@
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
 				526312D2267B132F00BB6AF5 /* TrackGroupRawView.swift */,
 				52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */,
-				52512CAC265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift */,
 				527BD614265FE6510047FA0C /* TrackDetailsView.swift */,
+				529557C1267DA9A5005D8304 /* CompleteRecordTrack.swift */,
 			);
 			path = Tracks;
 			sourceTree = "<group>";
@@ -386,7 +386,6 @@
 				52512C8926584F21000619F6 /* MainMenu.swift in Sources */,
 				5213A78E264DB25D0009223D /* PointEdit.swift in Sources */,
 				52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */,
-				52512CAD265D77B3000619F6 /* SavingNewTrackToCoreDataView.swift in Sources */,
 				5213A782264D544B0009223D /* PointGroup+CoreDataProperties.swift in Sources */,
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,
@@ -409,6 +408,7 @@
 				52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */,
 				52512C8D2658528F000619F6 /* TrackControls.swift in Sources */,
 				52512C92265859CB000619F6 /* PointControls.swift in Sources */,
+				529557C2267DA9A5005D8304 /* CompleteRecordTrack.swift in Sources */,
 				52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */,
 				5213A78B264D5D450009223D /* PointsManagment.swift in Sources */,
 				52DB5177260DD13000427149 /* TrackListView.swift in Sources */,
