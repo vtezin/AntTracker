@@ -45,6 +45,9 @@ class PointAnnotation: NSObject, MKAnnotation {
         // allow this to show pop up information
         annotationView?.canShowCallout = false
 
+        annotationView!.displayPriority = .required
+        annotationView!.titleVisibility = .adaptive
+        
         // attach an information button to the view
         //annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         

@@ -72,10 +72,6 @@ struct MainView: View {
     var body: some View {
             
             VStack{
-                
-                //track info
-                
-                //if clManager.trackRecording || currentTrack.points.count > 0 {
                     
                 if showRecordTrackControls && currentTrack.points.count > 0 {
                     

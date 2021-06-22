@@ -47,7 +47,7 @@ extension Track {
     func getTrackPointsArrayFromCoreData(moc: NSManagedObjectContext) -> [TrackPoint]  {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TrackPoint")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackPoint.timestamp, ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackPoint.timestamp, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "track == %@", self)
             
         let result = try? moc.fetch(fetchRequest)

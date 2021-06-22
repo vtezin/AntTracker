@@ -56,6 +56,9 @@ class TrackPointAnnotation: NSObject, MKAnnotation {
             annotationView!.glyphImage = UIImage(systemName: "checkmark.circle")
         }
         
+        annotationView!.displayPriority = .required
+        annotationView!.titleVisibility = .adaptive
+        
         return annotationView!
         
     }
