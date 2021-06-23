@@ -37,4 +37,17 @@ extension MainView {
         
     }
     
+    var buttonHideShowPoints: some View {
+        
+        Button(action: {
+            showPointsOnTheMap.toggle()
+            appVariables.needRedrawPointsOnMap = true
+        }) {
+            Image(systemName: showPointsOnTheMap ? "eye.slash" : "eye")
+        }
+        
+        .modifier(ControlButton())
+        
+    }
+    
 }

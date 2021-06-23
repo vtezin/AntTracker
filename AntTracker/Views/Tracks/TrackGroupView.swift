@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TrackGroupView: View {
     
+    @Binding var activePage: ContentView.pages
+    
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
@@ -16,12 +18,13 @@ struct TrackGroupView: View {
     
     @State private var showAlertForGroupName = false
     
-    init(group: TrackGroup) {
+    init(group: TrackGroup, activePage: Binding<ContentView.pages>) {
         
         self.group = group
         tracks = FetchRequest(entity: Track.entity(),
                       sortDescriptors: [NSSortDescriptor(keyPath: \Track.startDate, ascending: false)],
                       predicate: NSPredicate(format: "trackGroup == %@", group))
+        _activePage = activePage
     
         
     }
@@ -34,7 +37,7 @@ struct TrackGroupView: View {
             
             ForEach(tracks.wrappedValue, id: \.id) { track in
 
-                NavigationLink(destination: TrackDetailsView(track: track)) {
+                NavigationLink(destination: TrackDetailsView(track: track, activePage: $activePage)) {
                     TrackRawView(track: track)
                 }
 

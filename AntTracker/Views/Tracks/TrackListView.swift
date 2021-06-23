@@ -46,7 +46,7 @@ struct TrackListView: View {
                 ForEach(groups, id: \.id) { group in
                     
                     NavigationLink(destination:
-                                    TrackGroupView(group: group)) {
+                                    TrackGroupView(group: group, activePage: $activePage)) {
                         
                         HStack{
                             Image(systemName: "folder")
@@ -76,7 +76,7 @@ struct TrackListView: View {
                 ForEach(tracks, id: \.id) { track in
                     
                     NavigationLink(destination:
-                                    TrackDetailsView(track: track)
+                                    TrackDetailsView(track: track, activePage: $activePage)
                                     .environment(\.managedObjectContext, moc)) {
                         
                         TrackRawView(track: track)

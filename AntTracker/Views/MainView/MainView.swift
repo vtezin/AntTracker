@@ -33,6 +33,7 @@ struct MainView: View {
     //work whith points
     @State var selectedPoint: Point?
     @State var showPointEdit = false
+    @AppStorage("showPointsOnTheMap") var showPointsOnTheMap = true
     
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
@@ -84,7 +85,7 @@ struct MainView: View {
                 
                 ZStack{
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, points: points, activePage: $activePage)
+                    MapView(mapType: $mapType, center: $center, span: $span, points: points, showPointsOnTheMap: $showPointsOnTheMap, activePage: $activePage)
                         .onReceive(timer) { _ in
                             if followCLforTimer {
                                 moveCenterMapToCurLocation()
@@ -183,6 +184,7 @@ struct MainView: View {
                                 Spacer()
                                 buttonAddPoint
                                 Spacer()
+                                buttonHideShowPoints
                             }
                             .transition(.move(edge: .bottom))
                         
@@ -274,7 +276,7 @@ struct MainView: View {
                             clManager.trackRecording = false
                             
                             if let trackCD = currentTrack.trackCoreData {
-                                Track.deleteTrack(track: trackCD, moc: moc)
+                                Track.deleteTrack(track: trackCD, moc: moc)                                
                             }
                             
                         }

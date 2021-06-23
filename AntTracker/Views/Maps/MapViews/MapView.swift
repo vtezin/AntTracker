@@ -18,6 +18,8 @@ struct MapView: UIViewRepresentable {
     
     var points: FetchedResults<Point>
     
+    @Binding var showPointsOnTheMap: Bool
+    
     //working with point selection
     @Binding var activePage: ContentView.pages
     
@@ -86,6 +88,8 @@ struct MapView: UIViewRepresentable {
             removePointAnnotationsFromMapView(view)
             constants.needRedrawPointsOnMap = false
         }
+        
+        guard showPointsOnTheMap else { return }
         
         //FIXME: use .flatMap for filtering points annotations
         

@@ -10,6 +10,8 @@ import MapKit
 
 struct TrackDetailsView: View {
     
+    @Binding var activePage: ContentView.pages
+    
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
@@ -30,7 +32,7 @@ struct TrackDetailsView: View {
     @State private var mapType: MKMapType = .hybrid
     @State private var showMap = false
     
-    init(track: Track) {
+    init(track: Track, activePage: Binding<ContentView.pages>) {
         
         self.track = track
         
@@ -38,6 +40,7 @@ struct TrackDetailsView: View {
         _info = State(initialValue: track.info)
         _color = State(initialValue: Color.getColorFromName(colorName: track.color))
         _trackGroup = State(initialValue: track.trackGroup)
+        _activePage = activePage
         
     }
     
@@ -76,10 +79,25 @@ struct TrackDetailsView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    showQuestionBeforeDelete = true
-                }) {
-                    Image(systemName: "trash")
+                Menu{
+                    
+                    Button(action: {
+                        CurrentTrack.currentTrack.fillByTrackCoreData(trackCD: track)
+                        activePage = .main
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Label("Resume track", systemImage: "")
+                        .labelStyle(TitleOnlyLabelStyle())
+                    }
+                    Button(action: {
+                        showQuestionBeforeDelete = true
+                    }) {
+                        Label("Delete track", systemImage: "trash")
+                    }
+                    
+                    
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                         .modifier(ControlButton())
                 }
                 .padding()
@@ -126,10 +144,6 @@ struct TrackDetailsView: View {
         
         VStack{
             
-            TrackInfo(track: track, statistics: statistics)
-                .modifier(MapControl())
-                .clipShape(RoundedRectangle(cornerRadius: 5))
-            
             ZStack{
                 
                 if showMap {
@@ -137,6 +151,25 @@ struct TrackDetailsView: View {
                                  trackTitle: track.title,
                                  trackColor: track.color,
                                  mapType: $mapType)
+                    
+                    VStack{
+                        
+                        HStack{
+                            Text(localeDistanceString(distanceMeters: track.totalDistanceMeters))
+                                .font(.title3)
+                                .fontWeight(.light)
+                            
+                            Spacer()
+                            
+                            Text(track.durationString)
+                                .fontWeight(.light)
+                            
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding()
+                    
                 }
                     
                 VStack {
@@ -170,12 +203,16 @@ struct TrackDetailsView: View {
         
         Form{
             
-            Section(header: Text("Title")) {
-                TextField("Title", text: $title)
-                    .modifier(ClearButton(text: $title))
-                    .foregroundColor(color)
-                ColorSelectorView(selectedColor: $color)
-            }
+            TextField("Title", text: $title)
+                .modifier(ClearButton(text: $title))
+                .foregroundColor(color)
+            ColorSelectorView(selectedColor: $color)
+            
+            //Section(header: Text("Track group")) {
+                NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
+                    TrackGroupRawView(trackGroup: trackGroup)
+                }
+            //}
             
             Section(header: Text("Description")) {
                 
@@ -186,14 +223,63 @@ struct TrackDetailsView: View {
                 
             }
             
-            Section(header: Text("Track group")) {
-                NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
-                    TrackGroupRawView(trackGroup: trackGroup)
+                
+            HStack{
+                
+                VStack {
+                    HStack{
+                        Image(systemName: "hare")
+                    }
+                    .padding(.bottom, 5)
+                    
+                    HStack {
+                        Text("avg")
+                            .fontWeight(.light)
+                        Text(" \(statistics?.averageSpeed.localeSpeedString ?? "")")
+                            .fontWeight(.light)
+                    }
+                    
+                    HStack {
+                        Text("max")
+                            .fontWeight(.light)
+                        Text(" \(statistics?.maxSpeed.localeSpeedString ?? "")")
+                            .fontWeight(.light)
+                    }
+                    
                 }
+                
+                Spacer()
+                
+                VStack {
+                    HStack{
+                        //Image(systemName: "arrow.up")
+                        Text("altitude")
+                    }
+                    .padding(.bottom, 5)
+                    
+                    VStack {
+                        HStack{
+                            Text("\(statistics?.minAltitude ?? 0)")
+                                .fontWeight(.light)
+                            Image(systemName: "arrow.up.right")
+                            Text("\(statistics?.maxAltitude ?? 0)")
+                                .fontWeight(.light)
+                        }
+                        Text("(\((statistics?.maxAltitude ?? 0) - (statistics?.minAltitude ?? 0)))" + "m")
+                            .fontWeight(.light)
+                    }
+                    
+                }
+                
             }
             
             
+            
         }
+        
+    }
+    
+    func resumeTrackPressed() {
         
     }
     

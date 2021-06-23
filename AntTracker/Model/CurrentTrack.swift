@@ -47,37 +47,35 @@ class CurrentTrack: ObservableObject {
     
     var points = [TrackPoint]()
     var trackCoreData: Track? = nil
+    var trackCoreDataRestoredForResume = false
     
-    static let currentTrack = CurrentTrack()
-    
+    static let currentTrack = CurrentTrack()    
     
     init() {
     }
     
     //init from CoreData track
     //will use in future for restore from saved track
-    init(trackCD: Track) {
+    func fillByTrackCoreData(trackCD: Track) {
         
-        let trackPointsArray = trackCD.trackPointsArray
+        points.removeAll()
         
-        points = trackPointsArray.map{
-            
-   
-            let location =  CLLocation(coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude),
-                                                  altitude: $0.altitude,
-                                                  horizontalAccuracy: $0.horizontalAccuracy,
-                                                  verticalAccuracy: $0.verticalAccuracy,
-                                                  course: $0.course,
-                                                  courseAccuracy: 0,
-                                                  speed: $0.speed,
-                                                  speedAccuracy: 0,
-                                                  timestamp: $0.timestamp)
-            
-            return TrackPoint(location: location, type: "")
-            
+        for trackCoreDataPoint in trackCD.trackPointsArray {
+            let location =  CLLocation(coordinate: CLLocationCoordinate2D(latitude: trackCoreDataPoint.latitude,
+                                                                          longitude: trackCoreDataPoint.longitude),
+                                       altitude: trackCoreDataPoint.altitude,
+                                       horizontalAccuracy: trackCoreDataPoint.horizontalAccuracy,
+                                       verticalAccuracy: trackCoreDataPoint.verticalAccuracy,
+                                       course: trackCoreDataPoint.course,
+                                       courseAccuracy: 0,
+                                       speed: trackCoreDataPoint.speed,
+                                       speedAccuracy: 0,
+                                       timestamp: trackCoreDataPoint.timestamp)
+            addNewPointFromLocation(location: location)
         }
         
         trackCoreData = trackCD
+        trackCoreDataRestoredForResume = true
         //TODO: update statistics here
         
     }

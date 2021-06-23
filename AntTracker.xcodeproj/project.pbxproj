@@ -54,7 +54,6 @@
 		52EA8F9E266901CC00C665B2 /* CurrentTrackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */; };
 		52F04F682619A30B00C261C0 /* TrackMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F672619A30B00C261C0 /* TrackMapView.swift */; };
 		52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */; };
-		52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F04F70261B06B200C261C0 /* TrackInfo.swift */; };
 		52F91140261C723500309F63 /* AlertWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9113F261C723500309F63 /* AlertWithTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -108,7 +107,6 @@
 		52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrackInfo.swift; sourceTree = "<group>"; };
 		52F04F672619A30B00C261C0 /* TrackMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMapView.swift; sourceTree = "<group>"; };
 		52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorView.swift; sourceTree = "<group>"; };
-		52F04F70261B06B200C261C0 /* TrackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfo.swift; sourceTree = "<group>"; };
 		52F9113F261C723500309F63 /* AlertWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWithTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -277,7 +275,6 @@
 		52F04F632619A16300C261C0 /* Tracks */ = {
 			isa = PBXGroup;
 			children = (
-				52F04F70261B06B200C261C0 /* TrackInfo.swift */,
 				52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */,
 				52DB5176260DD13000427149 /* TrackListView.swift */,
 				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
@@ -403,7 +400,6 @@
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
 				526117E4266E38740011197A /* MainView.swift in Sources */,
 				523F53392655037300B0DF4A /* PointAnnotation.swift in Sources */,
-				52F04F71261B06B200C261C0 /* TrackInfo.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
 				52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */,
 				52512C8D2658528F000619F6 /* TrackControls.swift in Sources */,

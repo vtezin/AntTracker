@@ -18,9 +18,11 @@ public class Track: NSManagedObject {
             CurrentTrack.currentTrack.reset()
         }
         
-        track.deleteAllPoints(moc: moc)
-        moc.delete(track)
-        try? moc.save()
+        if !CurrentTrack.currentTrack.trackCoreDataRestoredForResume {
+            track.deleteAllPoints(moc: moc)
+            moc.delete(track)
+            try? moc.save()
+        }
         
     }    
     

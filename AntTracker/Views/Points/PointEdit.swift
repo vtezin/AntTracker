@@ -14,7 +14,7 @@ struct PointEdit: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @EnvironmentObject var constants: GlobalAppVars
+    @EnvironmentObject var appVariables: GlobalAppVars
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
@@ -132,7 +132,7 @@ struct PointEdit: View {
             
             .onAppear{
                 
-                point = constants.editingPoint
+                point = appVariables.editingPoint
                 
                 if point != nil {
                     title = point!.title
@@ -143,7 +143,7 @@ struct PointEdit: View {
                     title = "New point"
                     color = Color.orange
                     dateAdded = Date()
-                    coordinate = constants.centerOfMap
+                    coordinate = appVariables.centerOfMap
                     print(#function, "point == nil")
                 }
                 
@@ -159,8 +159,8 @@ struct PointEdit: View {
         moc.delete(point!)
         try? moc.save()
         
-        constants.editingPoint = nil
-        constants.needRedrawPointsOnMap = true
+        appVariables.editingPoint = nil
+        appVariables.needRedrawPointsOnMap = true
         
     }
     
@@ -174,7 +174,7 @@ struct PointEdit: View {
                              latitude: coordinate.latitude,
                              longitude: coordinate.longitude)
         
-        constants.needRedrawPointsOnMap = true
+        appVariables.needRedrawPointsOnMap = true
         
     }
     
