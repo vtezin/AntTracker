@@ -15,6 +15,7 @@ struct TrackDetailsView: View {
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
     
     @State private var showQuestionBeforeDelete = false
+    @State private var showInfo = false
     
     let track: Track
     @State private var statistics: TrackStatistic?
@@ -40,25 +41,15 @@ struct TrackDetailsView: View {
         
     }
     
-    //pages support
-    enum pages: Identifiable {
-        var id: Int {hashValue}
-        case map
-        case info
-    }
-    
-    @State var activePage: pages = .map
-    
     var body: some View {
         
         VStack{
             
-            switch activePage {
-            
-            case .info:
-                infoView
-            default:
+            ZStack{
                 mapView
+                if showInfo {
+                    infoView
+                }
             }
             
             Spacer()
@@ -66,7 +57,7 @@ struct TrackDetailsView: View {
             HStack{
                 
                 Button(action: {
-                    activePage = .map
+                    showInfo = false
                 }) {
                     Image(systemName: "map")
                         .modifier(ControlButton())
@@ -76,7 +67,7 @@ struct TrackDetailsView: View {
                 Spacer()
                 
                 Button(action: {
-                    activePage = .info
+                    showInfo = true
                 }) {
                     Image(systemName: "info.circle")
                         .modifier(ControlButton())
