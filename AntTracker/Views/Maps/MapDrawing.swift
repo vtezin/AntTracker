@@ -30,10 +30,8 @@ extension MKMapView {
         
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         
-
         polyline.title = trackTitle
         polyline.subtitle = trackColor
-
         
         //drawing track line
         if drawingCurrentTrack {

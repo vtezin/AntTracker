@@ -38,79 +38,79 @@ struct TrackListView: View {
         
         NavigationView {
             
-            VStack{
+            //Form{
+            
+            List{
                 
-                List{
+                //groups
+                ForEach(groups, id: \.id) { group in
                     
-                    //groups
-                    ForEach(groups, id: \.id) { group in
+                    NavigationLink(destination:
+                                    TrackGroupView(group: group)) {
                         
-                        NavigationLink(destination:
-                                        TrackGroupView(group: group)) {
-                            
-                            HStack{
-                                Image(systemName: "folder")
-                                    .foregroundColor(.secondary)
-                                Text(group.title)
-                                Spacer()
-                                Text("\(group.tracksArray.count)")
-                                    .modifier(SecondaryInfo())
-                            }
+                        HStack{
+                            Image(systemName: "folder")
+                                .foregroundColor(.secondary)
+                            Text(group.title)
+                            Spacer()
+                            Text("\(group.tracksArray.count)")
+                                .modifier(SecondaryInfo())
                         }
-                            
-                    }
-                    .onDelete(perform: { indexSet in
-                        showQuestionBeforeDeleteGroup = true
-                        indexSetToDeleteGroup = indexSet
-                    })
-                    .alert(isPresented:$showQuestionBeforeDeleteGroup) {
-                        Alert(title: Text("Delete this group?"),
-                              message: Text("all tracks are saved and become tracks outside the groups"), primaryButton: .destructive(Text("Delete")) {
-                            
-                        deleteGroup(at: indexSetToDeleteGroup)
-                            
-                        }, secondaryButton: .cancel())
-                    }
-                    
-                    
-                    ForEach(tracks, id: \.id) { track in
-                        
-                        NavigationLink(destination:
-                                        TrackDetailsView(track: track)
-                                        .environment(\.managedObjectContext, moc)) {
-                            
-                            TrackRawView(track: track)
-                            
-                        }
-                        
-                    }
-                    .onDelete(perform: { indexSet in
-                        showQuestionBeforeDeleteTrack = true
-                        indexSetToDelete = indexSet
-                    })
-                    .alert(isPresented:$showQuestionBeforeDeleteTrack) {
-                        Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                            
-                            for offset in indexSetToDelete! {
-                                Track.deleteTrack(track: tracks[offset], moc: moc)
-                            }
-                            
-                        }, secondaryButton: .cancel())
                     }
                     
                 }
-                .alert(isPresented: $showAlertForGroupName,
-                       TextAlert(title: "Group title",
-                                 message: "",
-                                 text: "",
-                                 keyboardType: .default) { result in
-                        if let text = result {
-                            addGroup(title: text)
-                        }
-                       })
+                .onDelete(perform: { indexSet in
+                    showQuestionBeforeDeleteGroup = true
+                    indexSetToDeleteGroup = indexSet
+                })
+                .alert(isPresented:$showQuestionBeforeDeleteGroup) {
+                    Alert(title: Text("Delete this group?"),
+                          message: Text("all tracks are saved and become tracks outside the groups"), primaryButton: .destructive(Text("Delete")) {
+                            
+                            deleteGroup(at: indexSetToDeleteGroup)
+                            
+                          }, secondaryButton: .cancel())
+                }
                 
+                
+                ForEach(tracks, id: \.id) { track in
+                    
+                    NavigationLink(destination:
+                                    TrackDetailsView(track: track)
+                                    .environment(\.managedObjectContext, moc)) {
+                        
+                        TrackRawView(track: track)
+                        
+                    }
+                    
+                }
+                .onDelete(perform: { indexSet in
+                    showQuestionBeforeDeleteTrack = true
+                    indexSetToDelete = indexSet
+                })
+                .alert(isPresented:$showQuestionBeforeDeleteTrack) {
+                    Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                        
+                        for offset in indexSetToDelete! {
+                            Track.deleteTrack(track: tracks[offset], moc: moc)
+                        }
+                        
+                    }, secondaryButton: .cancel())
+                }
                 
             }
+            .alert(isPresented: $showAlertForGroupName,
+                   TextAlert(title: "Group title",
+                             message: "",
+                             text: "",
+                             keyboardType: .default) { result in
+                    if let text = result {
+                        addGroup(title: text)
+                    }
+                   })
+            
+            
+            //}
             .navigationBarTitle("Tracks", displayMode: .inline)
             
             .navigationBarItems(
@@ -132,9 +132,9 @@ struct TrackListView: View {
                 })
             
         }
-            
-        }
         
+    }
+    
 }
 
 extension TrackListView {
@@ -152,7 +152,7 @@ extension TrackListView {
         newGroup.dateOfLastChange = Date()
         
         try? moc.save()
-
+        
     }
     
     private func deleteGroup(at offsets: IndexSet?) {
