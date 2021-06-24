@@ -50,11 +50,17 @@ struct TrackDetailsView: View {
         
         VStack{
             
-            ZStack{
+//            ZStack{
+//                mapView
+//                if showInfo {
+//                    infoView
+//                }
+//            }
+        
+            if showInfo {
+                infoView
+            } else {
                 mapView
-                if showInfo {
-                    infoView
-                }
             }
             
             Spacer()
@@ -169,6 +175,7 @@ struct TrackDetailsView: View {
                                 .fontWeight(.light)
                             
                         }
+                        .foregroundColor(mapType == MKMapType.hybrid ? .systemBackground : .primary)
                         
                         Spacer()
                     }
