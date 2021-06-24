@@ -17,6 +17,7 @@ struct TrackGroupView: View {
     var tracks: FetchRequest<Track>
     
     @State private var showAlertForGroupName = false
+    @State private var trackListRefreshID = UUID() //for force refreshing
     
     init(group: TrackGroup, activePage: Binding<ContentView.pages>) {
         
@@ -37,13 +38,14 @@ struct TrackGroupView: View {
             
             ForEach(tracks.wrappedValue, id: \.id) { track in
 
-                NavigationLink(destination: TrackDetailsView(track: track, activePage: $activePage)) {
+                NavigationLink(destination: TrackDetailsView(track: track, activePage: $activePage, trackListRefreshID: $trackListRefreshID)) {
                     TrackRawView(track: track)
                 }
 
             }
             
         }
+        .id(trackListRefreshID)
         
         .alert(isPresented: $showAlertForGroupName,
                TextAlert(title: "Group title",

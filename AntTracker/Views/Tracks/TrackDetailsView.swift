@@ -11,6 +11,7 @@ import MapKit
 struct TrackDetailsView: View {
     
     @Binding var activePage: ContentView.pages
+    @Binding var trackListRefreshID: UUID
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
@@ -32,7 +33,7 @@ struct TrackDetailsView: View {
     @State private var mapType: MKMapType = .hybrid
     @State private var showMap = false
     
-    init(track: Track, activePage: Binding<ContentView.pages>) {
+    init(track: Track, activePage: Binding<ContentView.pages>, trackListRefreshID: Binding<UUID>) {
         
         self.track = track
         
@@ -41,6 +42,7 @@ struct TrackDetailsView: View {
         _color = State(initialValue: Color.getColorFromName(colorName: track.color))
         _trackGroup = State(initialValue: track.trackGroup)
         _activePage = activePage
+        _trackListRefreshID = trackListRefreshID
         
     }
     
@@ -114,6 +116,8 @@ struct TrackDetailsView: View {
             
             if statistics == nil {
                 statistics = track.getStatistic(moc: moc)
+                showMap = true
+            } else {
                 showMap = true
             }
             
@@ -295,6 +299,8 @@ struct TrackDetailsView: View {
         track.trackGroup = trackGroup
         
         try? moc.save()
+        
+        trackListRefreshID = UUID()
         
     }
     

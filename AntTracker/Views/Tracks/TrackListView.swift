@@ -30,6 +30,8 @@ struct TrackListView: View {
     //adding new group
     @State private var showAlertForGroupName = false
     
+    @State private var trackListRefreshID = UUID() //for force refreshing
+    
     init(activePage: Binding<ContentView.pages>) {
         self._activePage = activePage
     }
@@ -76,7 +78,7 @@ struct TrackListView: View {
                 ForEach(tracks, id: \.id) { track in
                     
                     NavigationLink(destination:
-                                    TrackDetailsView(track: track, activePage: $activePage)
+                                    TrackDetailsView(track: track, activePage: $activePage, trackListRefreshID: $trackListRefreshID)
                                     .environment(\.managedObjectContext, moc)) {
                         
                         TrackRawView(track: track)
@@ -99,6 +101,7 @@ struct TrackListView: View {
                 }
                 
             }
+            .id(trackListRefreshID)
             .alert(isPresented: $showAlertForGroupName,
                    TextAlert(title: "Group title",
                              message: "",
