@@ -154,22 +154,18 @@ struct MainView: View {
                 HStack{
                     
                     if showRecordTrackControls {
-                        
-                        VStack{
                             
-                            HStack{
-                                
-                                buttonBackToMainControls
+                        HStack{
+                            
+                            buttonBackToMainControls
+                            Spacer()
+                            buttonTrackPlayPause
+                            Spacer()
+                            
+                            if currentTrack.points.count > 0 {
+                                buttonTrackSave
                                 Spacer()
-                                buttonTrackPlayPause
-                                Spacer()
-                                
-                                if currentTrack.points.count > 0 {
-                                    buttonTrackSave
-                                    Spacer()
-                                    buttonTrackReset
-                                }
-                                
+                                buttonTrackReset
                             }
                             
                         }
@@ -179,14 +175,14 @@ struct MainView: View {
                     }
                     else if showPointsManagment {
 
-                            HStack{
-                                buttonBackToMainControls
-                                Spacer()
-                                buttonAddPoint
-                                Spacer()
-                                buttonHideShowPoints
-                            }
-                            .transition(.move(edge: .bottom))
+                        HStack{
+                            buttonBackToMainControls
+                            Spacer()
+                            buttonAddPoint
+                            Spacer()
+                            buttonHideShowPoints
+                        }
+                        .transition(.move(edge: .bottom))
                         
                         //buttonAddPointFromClipboard
                         
@@ -201,11 +197,10 @@ struct MainView: View {
                         Spacer()
                         buttonAppSettings
                         
-                        
                     }
                     
                 }
-                .padding()
+                .padding(.init(top: 5, leading: 15, bottom: 10, trailing: 15))
                 
             }
             

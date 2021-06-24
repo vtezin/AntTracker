@@ -73,7 +73,6 @@ struct TrackDetailsView: View {
                     Image(systemName: "map")
                         .modifier(ControlButton())
                 }
-                .padding()
                 
                 Spacer()
                 
@@ -83,7 +82,6 @@ struct TrackDetailsView: View {
                     Image(systemName: "info.circle")
                         .modifier(ControlButton())
                 }
-                .padding()
                 
                 Spacer()
                 
@@ -108,9 +106,9 @@ struct TrackDetailsView: View {
                     Image(systemName: "ellipsis.circle")
                         .modifier(ControlButton())
                 }
-                .padding()
                 
             }
+            .padding(.init(top: 5, leading: 15, bottom: 10, trailing: 15))
             
         }
         
