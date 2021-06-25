@@ -18,10 +18,11 @@ extension MainView {
             }
             showPointsManagment = false
         }) {
-            Image(systemName: "star")
+            VStack{
+                Image(systemName: "star").modifier(ControlButton())
+                Text("Add").buttonText()
+            }
         }
-        
-        .modifier(ControlButton())
         
     }
     
@@ -43,10 +44,12 @@ extension MainView {
             showPointsOnTheMap.toggle()
             appVariables.needRedrawPointsOnMap = true
         }) {
-            Image(systemName: showPointsOnTheMap ? "eye.slash" : "eye")
+            VStack{
+                Image(systemName: showPointsOnTheMap ? "eye.slash" : "eye")
+                    .modifier(ControlButton())
+                Text(showPointsOnTheMap ? "Hide" : "Show").buttonText()
+            }
         }
-        
-        .modifier(ControlButton())
         
     }
     

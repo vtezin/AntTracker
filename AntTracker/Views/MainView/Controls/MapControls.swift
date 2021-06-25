@@ -116,19 +116,6 @@ extension MainView {
         }
     }
     
-    var buttonMapType: some View {
-        
-        Button(action: {
-            mapType = mapType == .standard ? .hybrid : .standard
-            lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-            appVariables.needChangeMapView = true
-        }) {
-            Image(systemName: mapType == .standard ? "globe" : "map")
-        }
-        .modifier(MapButton())
-        
-    }
-    
     func gpsAccuracyAndSpeedInfo() -> some View {
         
         let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
@@ -149,25 +136,25 @@ extension MainView {
             
             HStack {
                 
-                //Spacer()
-                
                 if gpsAccuracy > 10 {
                     Text("gps +/- \(gpsAccuracy) m")
-                    .font(.caption)
+                        .fontWeight(.light)
+                        .padding(5)
+                        .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
                 } else if speed > 0.5 {
                     Text(speed.localeSpeedString)
-                        .font(.subheadline)
                         .fontWeight(.light)
+                        .padding(5)
+                        .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
+                } else {
+                    Text("")
+                    .fontWeight(.light)
+                    .padding(5)
                 }
                 
-                //Spacer()
-                
             }
-            .foregroundColor(.primary)
-            .padding(5)
-            .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
-
+            .font(.subheadline)
+            
     }
-    
     
 }

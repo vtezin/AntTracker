@@ -37,16 +37,53 @@ extension MainView {
         
     }
     
+    var buttonOptions: some View {
+        
+        Menu{
+            
+            Button(action: {
+                withAnimation{
+                    activePage = .settings
+                }
+            }) {
+                Label("Settings", systemImage: "gear")
+            }
+            
+            Button(action: {
+                mapType = mapType == .standard ? .hybrid : .standard
+                lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+                appVariables.needChangeMapView = true
+            }) {
+                Label(mapType == .standard ? "Switch to satellite" : "Switch to standard map",
+                    systemImage: "")
+                .labelStyle(TitleOnlyLabelStyle())
+            }
+            
+        } label: {
+            
+            VStack{
+                Image(systemName: "ellipsis.circle")
+                    .modifier(ControlButton())
+                Text("More").buttonText()
+            }
+        }
+        
+    }
+    
+    
     var buttonTrackList: some View {
         
         Button(action: {
             withAnimation{
                 activePage = .trackList
             }
-            
         }) {
-            Image(systemName: "tray.full")
-                .modifier(ControlButton())
+            
+            VStack{
+                Image(systemName: "tray.full")
+                    .modifier(ControlButton())
+                Text("Tracks").buttonText()
+            }
         }
         
     }
@@ -76,40 +113,44 @@ extension MainView {
     
     var buttonTrackRecording: some View {
         
-        Button(action: {
+        Button(action: {}) {
             
-        }) {
-            Image(systemName: "ant")
-                .modifier(ControlButton())
-                //.rotationEffect(.degrees(clManager.trackRecording ? 90 : 0))
-                .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
-                .overlay(
-                    Circle()
-                        .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)
-                        .scaleEffect(animatingProperties.scaleEffect)
-                        .opacity(animatingProperties.opacity)
-                        .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
-                )
+            VStack{
+                
+                Image(systemName: "ant")
+                    .modifier(ControlButton())
+                    .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)
+                            .scaleEffect(animatingProperties.scaleEffect)
+                            .opacity(animatingProperties.opacity)
+                            .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
+                    )
+                
+                Text("Record").buttonText()
+                
+            }
             
-                .onTapGesture {
-                    withAnimation{
-                        showRecordTrackControls.toggle()
-                    }
-                 }
-                .onLongPressGesture {
-                    
-                    startOrStopTrackRecording()
-                    
-                    if clManager.trackRecording {
-                        changeAnimatingProperties()
-                    } else {
-                        animatingProperties.resetToDefaults()
-                        if currentTrack.points.count > 0 {
-                            showRecordTrackControls = true
-                        }
-                    }
-                    
+            .onTapGesture {
+                withAnimation{
+                    showRecordTrackControls.toggle()
                 }
+            }
+            .onLongPressGesture {
+                
+                startOrStopTrackRecording()
+                
+                if clManager.trackRecording {
+                    changeAnimatingProperties()
+                } else {
+                    animatingProperties.resetToDefaults()
+                    if currentTrack.points.count > 0 {
+                        showRecordTrackControls = true
+                    }
+                }
+                
+            }
         }
         
         .onAppear{
@@ -125,39 +166,41 @@ extension MainView {
     }
     
     var buttonPointsManagement: some View {
-        
-        Button(action: {
             
-        }) {
-            Image(systemName: "mappin.and.ellipse")
-                .modifier(ControlButton())
-                .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
-                .onTapGesture {
-                    withAnimation{                        
-                        if followCL {
-                            startStopFollowCLForTimer()
-                        }
-                        showPointsManagment.toggle()
-                    }
-                 }
-                .onLongPressGesture {
-                    
-                    moveCenterMapToCurLocation()
-                    
-                    //fast adding new point
-                    Point.addUpdatePoint(point: nil,
-                                         moc: moc,
-                                         title: nil,
-                                         color: nil,
-                                         latitude: clManager.region.center.latitude,
-                                         longitude: clManager.region.center.longitude)
-                    
-                    appVariables.needRedrawPointsOnMap = true
-                    
+            Button(action: {}) {
+                
+                VStack {
+                    Image(systemName: "mappin.and.ellipse")
+                        .modifier(ControlButton())
+                        .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
+                    Text("Points").buttonText()                    
                 }
-            
-        }
-
+                
+                    .onTapGesture {
+                        withAnimation{                        
+                            if followCL {
+                                startStopFollowCLForTimer()
+                            }
+                            showPointsManagment.toggle()
+                        }
+                    }
+                    .onLongPressGesture {
+                        
+                        moveCenterMapToCurLocation()
+                        
+                        //fast adding new point
+                        Point.addUpdatePoint(point: nil,
+                                             moc: moc,
+                                             title: nil,
+                                             color: nil,
+                                             latitude: clManager.region.center.latitude,
+                                             longitude: clManager.region.center.longitude)
+                        
+                        appVariables.needRedrawPointsOnMap = true
+                        
+                    }
+                
+            }
         
     }
     

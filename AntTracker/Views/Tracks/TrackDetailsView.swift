@@ -70,8 +70,11 @@ struct TrackDetailsView: View {
                 Button(action: {
                     showInfo = false
                 }) {
-                    Image(systemName: "map")
-                        .modifier(ControlButton())
+                    VStack{
+                        Image(systemName: "map")
+                            .modifier(ControlButton())
+                        Text("Map").buttonText()
+                    }
                 }
                 
                 Spacer()
@@ -79,13 +82,22 @@ struct TrackDetailsView: View {
                 Button(action: {
                     showInfo = true
                 }) {
-                    Image(systemName: "info.circle")
-                        .modifier(ControlButton())
+                    VStack{
+                        Image(systemName: "info.circle")
+                            .modifier(ControlButton())
+                        Text("Info").buttonText()
+                    }
                 }
                 
                 Spacer()
                 
                 Menu{
+                    
+                    Button(action: {
+                        showQuestionBeforeDelete = true
+                    }) {
+                        Label("Delete track", systemImage: "trash")
+                    }
                     
                     Button(action: {
                         CurrentTrack.currentTrack.fillByTrackCoreData(trackCD: track)
@@ -95,20 +107,28 @@ struct TrackDetailsView: View {
                         Label("Resume track", systemImage: "")
                         .labelStyle(TitleOnlyLabelStyle())
                     }
+                    
+                    
                     Button(action: {
-                        showQuestionBeforeDelete = true
+                        mapType = mapType == .standard ? .hybrid : .standard
+                        lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
                     }) {
-                        Label("Delete track", systemImage: "trash")
+                        Label(mapType == .standard ? "Switch to satellite" : "Switch to standard map",
+                              systemImage: "")
+                            .labelStyle(TitleOnlyLabelStyle())
                     }
                     
                     
                 } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .modifier(ControlButton())
+                    VStack{
+                        Image(systemName: "ellipsis.circle")
+                            .modifier(ControlButton())
+                        Text("More").buttonText()
+                    }
                 }
                 
             }
-            .padding(.init(top: 5, leading: 15, bottom: 10, trailing: 15))
+            .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
             
         }
         
@@ -176,26 +196,6 @@ struct TrackDetailsView: View {
                         .foregroundColor(mapType == MKMapType.hybrid ? .systemBackground : .primary)
                         
                         Spacer()
-                    }
-                    .padding()
-                    
-                }
-                    
-                VStack {
-                    
-                    Spacer()
-                    
-                    HStack{
-                        
-                        Button(action: {
-                            mapType = mapType == .standard ? .hybrid : .standard
-                        }) {
-                            Image(systemName: mapType == .standard ? "globe" : "map")
-                                .modifier(MapButton())
-                        }
-                        
-                        Spacer()
-                        
                     }
                     .padding()
                     

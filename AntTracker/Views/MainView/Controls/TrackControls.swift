@@ -27,8 +27,11 @@ extension MainView {
         Button(action: {
             startOrStopTrackRecording()
         }) {
-            Image(systemName: clManager.trackRecording ? "pause" : "play")
-                .modifier(ControlButton())
+            VStack{
+                Image(systemName: clManager.trackRecording ? "pause" : "play")
+                    .modifier(ControlButton())
+                Text(clManager.trackRecording ? "Pause" : "Record").buttonText()
+            }
         }
         
     }
@@ -38,8 +41,11 @@ extension MainView {
         Button(action: {
             showQuestionBeforeResetTrack = true
         }) {
-            Image(systemName: "xmark")
-                .modifier(ControlButton())
+            VStack{
+                Image(systemName: "xmark")
+                    .modifier(ControlButton())
+                Text("Reset").buttonText()
+            }
         }
         
     }
@@ -53,8 +59,11 @@ extension MainView {
             }
             activePage = ContentView.pages.completeTrack
         }) {
-            Image(systemName: "stop")
-                .modifier(ControlButton())
+            VStack{
+                Image(systemName: "stop")
+                    .modifier(ControlButton())
+                Text("Stop").buttonText()
+            }
         }
         
     }

@@ -97,36 +97,33 @@ struct MainView: View {
                     .edgesIgnoringSafeArea(.all)
                     
                     //map controls layer
-                    HStack{
+                    
+                    VStack{
                         
-                        VStack{
+                        HStack{
+                            
                             Spacer()
-                            buttonMapType
+                            
+                            VStack{
+                                Spacer()
+                                Spacer()
+                                buttonZoomIn
+                                buttonZoomOut
+                                    .padding(.top)
+                                Spacer()
+                                buttonCurLocation
+                            }
+                            .padding()
+                            
                         }
-                        .padding()
                         
-                        Spacer()
-                        
-                        VStack{
-                            Spacer()
+                        HStack{
                             gpsAccuracyAndSpeedInfo()
                                 .padding()
                         }
                         
-                        Spacer()
-                        
-                        VStack{
-                            Spacer()
-                            Spacer()
-                            buttonZoomIn
-                            buttonZoomOut
-                                .padding(.top)
-                            Spacer()
-                            buttonCurLocation
-                        }
-                        .padding()
-                        
                     }
+                    
                     
                     if showPointsManagment {
                         VStack{
@@ -195,12 +192,12 @@ struct MainView: View {
                         Spacer()
                         buttonPointsManagement
                         Spacer()
-                        buttonAppSettings
+                        buttonOptions
                         
                     }
                     
                 }
-                .padding(.init(top: 5, leading: 15, bottom: 10, trailing: 15))
+                .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
                 
             }
             

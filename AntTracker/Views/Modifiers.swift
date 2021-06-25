@@ -37,17 +37,34 @@ struct MapControl: ViewModifier {
 }
 
 struct ControlButton: ViewModifier {
+    
     func body(content: Content) -> some View {
-        content
-            .imageScale(.small)
-            .font(Font.title.weight(.light))
-            .accentColor(.primary)
+        
+        ZStack {
+            content
+                .imageScale(.small)
+                .font(Font.title.weight(.light))
+                .accentColor(.primary)
+            Image(systemName: "ant")
+                .imageScale(.small)
+                .font(Font.title.weight(.light))
+                .opacity(0)
+        }
+        
     }
 }
 
 struct SecondaryInfo: ViewModifier {
     func body(content: Content) -> some View {
         content
+            .font(.footnote)
+            .foregroundColor(.secondary)
+    }
+}
+
+extension Text {
+    func buttonText() -> some View {
+        self.fontWeight(.light)
             .font(.footnote)
             .foregroundColor(.secondary)
     }
