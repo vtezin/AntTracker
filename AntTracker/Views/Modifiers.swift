@@ -40,16 +40,16 @@ struct ControlButton: ViewModifier {
     
     func body(content: Content) -> some View {
         
-        ZStack {
+        //ZStack {
             content
                 .imageScale(.small)
                 .font(Font.title.weight(.light))
                 .accentColor(.primary)
-            Image(systemName: "ant")
-                .imageScale(.small)
-                .font(Font.title.weight(.light))
-                .opacity(0)
-        }
+//            Image(systemName: "ant")
+//                .imageScale(.small)
+//                .font(Font.title.weight(.light))
+//                .opacity(0)
+//        }
         
     }
 }
@@ -65,8 +65,9 @@ struct SecondaryInfo: ViewModifier {
 extension Text {
     func buttonText() -> some View {
         self.fontWeight(.light)
-            .font(.footnote)
+            .font(.caption)
             .foregroundColor(.secondary)
+            .padding(.top, 1)
     }
 }
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import MapKit
 
 @main
 struct AntTrackerApp: App {
@@ -79,6 +80,14 @@ class GlobalAppVars: ObservableObject {
     @Published var needChangeMapView = false
     @Published var editingPoint: Point? = nil
     @Published var centerOfMap = CLLocationCoordinate2D()
+}
+
+func colorForMapText(mapType: MKMapType, colorScheme: ColorScheme) -> Color {
+    if mapType == .hybrid {
+        return colorScheme == .dark ? .primary : .systemBackground
+    } else {
+        return .primary
+    }
 }
 
 let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)

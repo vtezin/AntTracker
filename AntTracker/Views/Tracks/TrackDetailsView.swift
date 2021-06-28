@@ -15,6 +15,7 @@ struct TrackDetailsView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
     
     @State private var showQuestionBeforeDelete = false
@@ -49,13 +50,6 @@ struct TrackDetailsView: View {
     var body: some View {
         
         VStack{
-            
-//            ZStack{
-//                mapView
-//                if showInfo {
-//                    infoView
-//                }
-//            }
         
             if showInfo {
                 infoView
@@ -193,7 +187,7 @@ struct TrackDetailsView: View {
                                 .fontWeight(.light)
                             
                         }
-                        .foregroundColor(mapType == MKMapType.hybrid ? .systemBackground : .primary)
+                        .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
                         
                         Spacer()
                     }

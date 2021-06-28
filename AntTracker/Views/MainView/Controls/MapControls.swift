@@ -150,6 +150,7 @@ extension MainView {
                     Text("")
                     .fontWeight(.light)
                     .padding(5)
+                    .opacity(0)
                 }
                 
             }

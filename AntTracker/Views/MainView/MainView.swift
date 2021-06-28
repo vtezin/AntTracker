@@ -12,6 +12,8 @@ struct MainView: View {
     
     @Binding var activePage: ContentView.pages
     
+    @Environment(\.colorScheme) var colorScheme
+    
     //map bindings
     @State var mapType: MKMapType = .hybrid
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
@@ -99,11 +101,11 @@ struct MainView: View {
                     //map controls layer
                     
                     VStack{
-                        
+
                         HStack{
-                            
+
                             Spacer()
-                            
+
                             VStack{
                                 Spacer()
                                 Spacer()
@@ -114,14 +116,14 @@ struct MainView: View {
                                 buttonCurLocation
                             }
                             .padding()
-                            
+
                         }
-                        
+
                         HStack{
                             gpsAccuracyAndSpeedInfo()
                                 .padding()
                         }
-                        
+
                     }
                     
                     
@@ -133,7 +135,7 @@ struct MainView: View {
                             Text(stringDistanceFromCLToCenter)
                                 .font(Font.callout)
                         }
-                        .foregroundColor(mapType == MKMapType.hybrid ? .systemBackground : .primary)
+                        .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
                     }
                     
                     if followCLforTimer {

@@ -80,7 +80,7 @@ extension MainView {
         }) {
             
             VStack{
-                Image(systemName: "tray.full")
+                Image(systemName: "tray.2")
                     .modifier(ControlButton())
                 Text("Tracks").buttonText()
             }
@@ -173,7 +173,7 @@ extension MainView {
                     Image(systemName: "mappin.and.ellipse")
                         .modifier(ControlButton())
                         .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
-                    Text("Points").buttonText()                    
+                    Text("Points").buttonText()
                 }
                 
                     .onTapGesture {
