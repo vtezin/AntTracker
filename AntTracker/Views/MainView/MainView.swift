@@ -34,8 +34,12 @@ struct MainView: View {
     
     //work whith points
     @State var selectedPoint: Point?
-    @State var showPointEdit = false
     @AppStorage("showPointsOnTheMap") var showPointsOnTheMap = true
+    //import point
+    @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
+    @State var coordinatesForImportPoint = ""
+    @State var showGoToCoordinates = false
+    @State var showInvalidFormatGoToCoordinates = false
     
     let minSpan: Double = 0.0008
     let maxSpan: Double = 108
@@ -174,16 +178,23 @@ struct MainView: View {
                     }
                     else if showPointsManagment {
 
-                        HStack{
-                            buttonBackToMainControls
-                            Spacer()
-                            buttonAddPoint
-                            Spacer()
-                            buttonHideShowPoints
+                        VStack{
+                            if showGoToCoordinates {
+                                barGoToCoordinates
+                                    .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
+                                    .transition(.move(edge: .bottom))
+                            }
+                            HStack{
+                                buttonBackToMainControls
+                                Spacer()
+                                buttonAddPoint
+                                Spacer()
+                                buttonGoToCoordinates
+                                Spacer()
+                                buttonHideShowPoints
+                            }
                         }
                         .transition(.move(edge: .bottom))
-                        
-                        //buttonAddPointFromClipboard
                         
                     }
                     else {

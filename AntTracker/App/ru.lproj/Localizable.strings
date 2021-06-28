@@ -86,8 +86,14 @@
 "Stop" = "Стоп";
 
 "Add" = "Добавить";
+"Import" = "Импорт";
+"Go to" = "Перейти";
 "Show" = "Показать";
 "Hide" = "Скрыть";
+
+"enter the coordinates" = "введите координаты";
+"latitude and longitude separated by space or comma" = "широта и долгота разделенные пробелом или запятой";
+"for example 55.52969, 38.909821" = "например 55.52969, 38.909821";
 
 "More" = "Еще";
 "Info" = "Инфо";

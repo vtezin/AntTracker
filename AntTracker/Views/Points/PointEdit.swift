@@ -50,14 +50,14 @@ struct PointEdit: View {
                     
                     HStack{
                         
-                        Text(coordinate.coordinateStrings[0])
+                        Text(coordinate.coordinateStrings[2])
                         
                         Spacer()
                         
                         Button(action: {
                             
                             let pasteBoard = UIPasteboard.general
-                            pasteBoard.string = coordinate.coordinateStrings[0]
+                            pasteBoard.string = coordinate.coordinateStrings[2]
                             
                         }) {
                             Image(systemName: "doc.on.clipboard")
@@ -144,7 +144,6 @@ struct PointEdit: View {
                     color = Color.orange
                     dateAdded = Date()
                     coordinate = appVariables.centerOfMap
-                    print(#function, "point == nil")
                 }
                 
             }
@@ -175,6 +174,7 @@ struct PointEdit: View {
                              longitude: coordinate.longitude)
         
         appVariables.needRedrawPointsOnMap = true
+        lastUsedPointColor = color.description
         
     }
     
