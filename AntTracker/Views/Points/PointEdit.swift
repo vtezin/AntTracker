@@ -90,6 +90,15 @@ struct PointEdit: View {
             .toolbar {
                 
                 ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        shareTextAsKMLFile(text: getTextForKMLFile(),
+                                           filename: title)
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+                
+                ToolbarItem(placement: .bottomBar) {
                     Spacer()
                 }
                 
@@ -102,6 +111,7 @@ struct PointEdit: View {
                     .foregroundColor(.secondary)
                     
                 }
+                
                 
                 ToolbarItem(placement: .bottomBar) {
                     Spacer()
@@ -177,6 +187,37 @@ struct PointEdit: View {
         lastUsedPointColor = color.description
         
     }
+    
+    
+    func getTextForKMLFile() -> String {
+        
+        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
+        kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
+        kmlText += "<Document> \n"
+        kmlText += "<name>\(title)</name> \n"
+        kmlText += "<Placemark> \n"
+        kmlText += "<name>\(title)</name> \n"
+        kmlText += "<Point> \n"
+        kmlText += "<tessellate>1</tessellate> \n"
+        kmlText += "<coordinates> \n"
+        
+        let latitudeString = String(coordinate.latitude)
+        let longitudeString = String(coordinate.longitude)
+        
+        kmlText += "\(longitudeString),\(latitudeString) \n"
+        
+        kmlText += """
+        </coordinates>
+        </Point>
+        </Placemark>
+        </Document>
+        </kml>
+        """
+        
+        return kmlText
+        
+    }
+    
     
 }
 

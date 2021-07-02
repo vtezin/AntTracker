@@ -13,13 +13,14 @@ struct TrackDetailsView: View {
     @Binding var activePage: ContentView.pages
     @Binding var trackListRefreshID: UUID
     
+    @State var currentPage: pages = .map
+    
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
     
     @State private var showQuestionBeforeDelete = false
-    @State private var showInfo = false
     
     let track: Track
     @State private var statistics: TrackStatistic?
@@ -47,14 +48,22 @@ struct TrackDetailsView: View {
         
     }
     
+    enum pages: Identifiable {
+        var id: Int {hashValue}
+        case map
+        case info
+    }
+    
     var body: some View {
         
         VStack{
         
-            if showInfo {
-                infoView
-            } else {
+            
+            switch currentPage {
+            case .map:
                 mapView
+            case .info:
+                infoView
             }
             
             Spacer()
@@ -62,7 +71,7 @@ struct TrackDetailsView: View {
             HStack{
                 
                 Button(action: {
-                    showInfo = false
+                    currentPage = .map
                 }) {
                     VStack{
                         Image(systemName: "map")
@@ -74,12 +83,25 @@ struct TrackDetailsView: View {
                 Spacer()
                 
                 Button(action: {
-                    showInfo = true
+                    currentPage = .map
                 }) {
                     VStack{
                         Image(systemName: "info.circle")
                             .modifier(ControlButton())
                         Text("Info").buttonText()
+                    }
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    shareTextAsKMLFile(text: track.getTextForKMLFile(),
+                                       filename: track.title)
+                }) {
+                    VStack{
+                        Image(systemName: "square.and.arrow.up")
+                            .modifier(ControlButton())
+                        Text("Share").buttonText()
                     }
                 }
                 
@@ -279,10 +301,6 @@ struct TrackDetailsView: View {
             
             
         }
-        
-    }
-    
-    func resumeTrackPressed() {
         
     }
     

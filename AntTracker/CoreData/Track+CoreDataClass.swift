@@ -168,6 +168,37 @@ public class Track: NSManagedObject {
         
     }
     
+    func getTextForKMLFile() -> String {
+        
+        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
+        kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
+        kmlText += "<Document> \n"
+        kmlText += "<name>\(title)</name> \n"
+        kmlText += "<Placemark> \n"
+        kmlText += "<name>\(title)</name> \n"
+        kmlText += "<LineString> \n"
+        kmlText += "<tessellate>1</tessellate> \n"
+        kmlText += "<coordinates> \n"
+        
+        for point in trackPointsArray {
+            
+            let latitudeString = String(point.latitude)
+            let longitudeString = String(point.longitude)
+            
+            kmlText += "\(longitudeString),\(latitudeString) \n"
+        }
+        
+        kmlText += """
+        </coordinates>
+        </LineString>
+        </Placemark>
+        </Document>
+        </kml>
+        """
+        
+        return kmlText
+        
+    }
     
 }
 

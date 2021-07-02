@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 
+//FIXME: unused struct
 struct CoordinatesSharing: View {
     
     @Environment(\.presentationMode) var presentationMode

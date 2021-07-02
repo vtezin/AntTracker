@@ -13,5 +13,6 @@ import CoreData
 public class PointGroup: NSManagedObject {
 
     
+    
 }
 
