@@ -20,6 +20,7 @@ extension Point {
     @NSManaged public var id: UUID
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
+    @NSManaged public var altitude: Double
     @NSManaged public var title: String
     @NSManaged public var dateAdded: Date
     

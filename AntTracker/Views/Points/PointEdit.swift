@@ -25,6 +25,7 @@ struct PointEdit: View {
     @State private var dateAdded: Date = Date()
     @State private var point: Point?
     @State private var coordinate = CLLocationCoordinate2D()
+    @State private var altitude: Double  = 0
     
     @State private var showQuestionBeforeDelete = false
     
@@ -50,7 +51,16 @@ struct PointEdit: View {
                     
                     HStack{
                         
-                        Text(coordinate.coordinateStrings[2])
+                        
+                            Text(coordinate.coordinateStrings[2])
+                            if altitude != 0 {
+                                HStack{
+                                    Text("altitude")
+                                    Text(altitude.string2s)
+                                }
+                                .modifier(SecondaryInfo())
+                            }
+                        
                         
                         Spacer()
                         
@@ -149,6 +159,7 @@ struct PointEdit: View {
                     color = Color.getColorFromName(colorName: point!.color)
                     dateAdded = point!.dateAdded
                     coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
+                    altitude = point!.altitude
                 } else {
                     title = "New point"
                     color = Color.orange
@@ -181,7 +192,8 @@ struct PointEdit: View {
                              title: title,
                              color: color.description,
                              latitude: coordinate.latitude,
-                             longitude: coordinate.longitude)
+                             longitude: coordinate.longitude,
+                             altitude: altitude)
         
         appVariables.needRedrawPointsOnMap = true
         lastUsedPointColor = color.description
@@ -203,8 +215,9 @@ struct PointEdit: View {
         
         let latitudeString = String(coordinate.latitude)
         let longitudeString = String(coordinate.longitude)
+        let altitudeString = altitude == 0 ? "": "," + String(altitude)
         
-        kmlText += "\(longitudeString),\(latitudeString) \n"
+        kmlText += "\(longitudeString),\(latitudeString)\(altitudeString) \n"
         
         kmlText += """
         </coordinates>

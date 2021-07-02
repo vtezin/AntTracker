@@ -194,7 +194,7 @@ extension MainView {
                                              title: nil,
                                              color: nil,
                                              latitude: clManager.region.center.latitude,
-                                             longitude: clManager.region.center.longitude)
+                                             longitude: clManager.region.center.longitude, altitude: clManager.location.altitude)
                         
                         appVariables.needRedrawPointsOnMap = true
                         

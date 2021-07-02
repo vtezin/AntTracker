@@ -17,7 +17,8 @@ public class Point: NSManagedObject {
                                title: String?,
                                color: String?,
                                latitude: Double,
-                               longitude: Double
+                               longitude: Double,
+                               altitude: Double
     ) {
         
         var pointForSave: Point
@@ -29,6 +30,7 @@ public class Point: NSManagedObject {
             pointForSave.dateAdded = Date()
             pointForSave.latitude = latitude
             pointForSave.longitude = longitude
+            pointForSave.altitude = altitude
             
         } else {
             pointForSave = point!
