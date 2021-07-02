@@ -71,30 +71,6 @@ struct TrackDetailsView: View {
             HStack{
                 
                 Button(action: {
-                    currentPage = .map
-                }) {
-                    VStack{
-                        Image(systemName: "map")
-                            .modifier(ControlButton())
-                        Text("Map").buttonText()
-                    }
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    currentPage = .map
-                }) {
-                    VStack{
-                        Image(systemName: "info.circle")
-                            .modifier(ControlButton())
-                        Text("Info").buttonText()
-                    }
-                }
-                
-                Spacer()
-                
-                Button(action: {
                     shareTextAsKMLFile(text: track.getTextForKMLFile(),
                                        filename: track.title)
                 }) {
@@ -102,6 +78,18 @@ struct TrackDetailsView: View {
                         Image(systemName: "square.and.arrow.up")
                             .modifier(ControlButton())
                         Text("Share").buttonText()
+                    }
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    currentPage = currentPage == .map ? .info : .map
+                }) {
+                    VStack{
+                        Image(systemName: currentPage == .map ? "info.circle" : "map")
+                            .modifier(ControlButton())
+                        Text(currentPage == .map ? "Info" : "Map").buttonText()
                     }
                 }
                 

@@ -184,8 +184,9 @@ public class Track: NSManagedObject {
             
             let latitudeString = String(point.latitude)
             let longitudeString = String(point.longitude)
+            let altitudeString = String(point.altitude)
             
-            kmlText += "\(longitudeString),\(latitudeString) \n"
+            kmlText += "\(longitudeString),\(latitudeString),\(altitudeString)\n"
         }
         
         kmlText += """
