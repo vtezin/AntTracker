@@ -65,13 +65,13 @@ struct TrackListView: View {
                     showQuestionBeforeDeleteGroup = true
                     indexSetToDeleteGroup = indexSet
                 })
-                .alert(isPresented:$showQuestionBeforeDeleteGroup) {
-                    Alert(title: Text("Delete this group?"),
-                          message: Text("all tracks are saved and become tracks outside the groups"), primaryButton: .destructive(Text("Delete")) {
-                            
-                            deleteGroup(at: indexSetToDeleteGroup)
-                            
-                          }, secondaryButton: .cancel())
+                                
+                .actionSheet(isPresented: $showQuestionBeforeDeleteGroup) {
+                    actionSheetForDelete(title: "Delete this group? (all tracks are saved and become tracks outside the groups)") {
+                        deleteGroup(at: indexSetToDeleteGroup)
+                    } cancelAction: {
+                        showQuestionBeforeDeleteGroup = false
+                    }
                 }
                 
                 
@@ -90,15 +90,17 @@ struct TrackListView: View {
                     showQuestionBeforeDeleteTrack = true
                     indexSetToDelete = indexSet
                 })
-                .alert(isPresented:$showQuestionBeforeDeleteTrack) {
-                    Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                        
+                
+                .actionSheet(isPresented: $showQuestionBeforeDeleteTrack) {
+                    actionSheetForDelete(title: "Delete this track?") {
                         for offset in indexSetToDelete! {
                             Track.deleteTrack(track: tracks[offset], moc: moc)
                         }
-                        
-                    }, secondaryButton: .cancel())
+                    } cancelAction: {
+                        showQuestionBeforeDeleteTrack = false
+                    }
                 }
+                
                 
             }
             .id(trackListRefreshID)

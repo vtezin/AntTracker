@@ -16,9 +16,6 @@ struct TrackGroupSelectionView: View {
     
     @Binding var selectedGroup: TrackGroup?
     
-    //deleting group
-    @State private var indexSetToDelete: IndexSet?
-    @State private var showQuestionBeforeDelete = false
     //adding new group
     @State private var titleForNewGroup = ""
     

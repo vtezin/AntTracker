@@ -84,13 +84,15 @@ struct CompleteRecordTrack: View {
                 Text("Done")
             })
             
-            .alert(isPresented:$showQuestionBeforeDelete) {
-                Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                    
+            .actionSheet(isPresented: $showQuestionBeforeDelete) {
+                
+                actionSheetForDelete(title: "Delete this track?") {
                     delete()
                     activePage = ContentView.pages.main
-                    
-                }, secondaryButton: .cancel())
+                } cancelAction: {
+                    showQuestionBeforeDelete = false
+                }
+
             }
             
         }

@@ -114,4 +114,20 @@ func shareTextAsKMLFile(text: String, filename: String) {
     
 }
 
+func actionSheetForDelete(title: LocalizedStringKey, deleteAction: @escaping ()->Void, cancelAction: @escaping ()->Void) -> ActionSheet {
+    ActionSheet(
+        title: Text(title),
+        message: Text("There is no undo"),
+        buttons: [
+            .destructive(Text("Delete")) {
+                deleteAction()
+            },
+            
+            .cancel(Text("Cancel")) {
+                cancelAction()
+            }
+        ]
+    )
+}
+
 let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)

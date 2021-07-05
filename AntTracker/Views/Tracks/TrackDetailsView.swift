@@ -151,13 +151,15 @@ struct TrackDetailsView: View {
             
         }
         
-        .alert(isPresented:$showQuestionBeforeDelete) {
-            Alert(title: Text("Delete this track?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
-                
+        .actionSheet(isPresented: $showQuestionBeforeDelete) {
+            
+            actionSheetForDelete(title: "Delete this track?") {
                 delete()
                 presentationMode.wrappedValue.dismiss()
-                
-            }, secondaryButton: .cancel())
+            } cancelAction: {
+                showQuestionBeforeDelete = false
+            }
+
         }
         
         .navigationBarTitle(Text(title), displayMode: .inline)

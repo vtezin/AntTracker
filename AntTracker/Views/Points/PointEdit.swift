@@ -141,13 +141,16 @@ struct PointEdit: View {
                 
                 
             }
-            .alert(isPresented:$showQuestionBeforeDelete) {
-                Alert(title: Text("Delete this point?"), message: Text(""), primaryButton: .destructive(Text("Delete")) {
-                    
+            
+            .actionSheet(isPresented: $showQuestionBeforeDelete) {
+                
+                actionSheetForDelete(title: "Delete this point?") {
                     delete()
                     activePage = ContentView.pages.main
-                    
-                }, secondaryButton: .cancel())
+                } cancelAction: {
+                    showQuestionBeforeDelete = false
+                }
+
             }
             
             .onAppear{

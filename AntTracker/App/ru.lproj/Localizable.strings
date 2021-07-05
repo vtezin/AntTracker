@@ -30,6 +30,8 @@
 "Delete" = "Удалить";
 "Delete track" = "Удалить трек";
 "Delete this group?" = "Удалить группу?";
+"Delete this group? (all tracks are saved and become tracks outside the groups)" =
+"Удалить группу? (все треки сохраняться и станут треками вне групп)";
 "Delete this track?" = "Удалить трек?";
 "Delete this point?" = "Удалить точку?";
 "There is no undo" = "Это действие необратимо";
