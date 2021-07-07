@@ -42,21 +42,6 @@ extension MainView {
         
     }
     
-    var buttonHideShowPoints: some View {
-        
-        Button(action: {
-            showPointsOnTheMap.toggle()
-            appVariables.needRedrawPointsOnMap = true
-        }) {
-            VStack{
-                Image(systemName: showPointsOnTheMap ? "eye.slash" : "eye")
-                    .modifier(ControlButton())
-                Text(showPointsOnTheMap ? "Hide" : "Show").buttonText()
-            }
-        }
-        
-    }
-    
     var barGoToCoordinates: some View {
         
         VStack {
@@ -130,6 +115,54 @@ extension MainView {
                 .foregroundColor(.secondary)
             
         }
+        
+        
+    }
+    
+    var buttonSharePosition: some View {
+        
+        Menu{
+            
+            Button(action: {
+                
+                let coordinate = appVariables.centerOfMap
+                let title = "Position from AntTracker"
+                
+                var kmlText = ""
+                kmlText += kmlAPI.headerFile(title: title)
+                kmlText += kmlAPI.getPointTag(title: title,
+                                              coordinate: coordinate, altitude: nil)
+                kmlText += kmlAPI.footerFile
+                
+                kmlAPI.shareTextAsKMLFile(text: kmlText,
+                                   filename: title)
+                
+            }) {
+                Label("KML file", systemImage: "")
+                    .labelStyle(TitleOnlyLabelStyle())
+            }
+            
+            Button(action: {
+                
+                let av = UIActivityViewController(activityItems: [appVariables.centerOfMap.coordinateStrings[2]],
+                                                  applicationActivities: nil)
+                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true,
+                                                                                completion: nil)
+                
+            }) {
+                Label("Coordinates", systemImage: "")
+                    .labelStyle(TitleOnlyLabelStyle())
+            }
+            
+        } label: {
+            
+            VStack{
+                Image(systemName: "square.and.arrow.up")
+                    .modifier(ControlButton())
+                Text("Share").buttonText()
+            }
+        }
+        
         
         
     }

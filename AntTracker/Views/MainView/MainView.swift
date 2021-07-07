@@ -189,9 +189,9 @@ struct MainView: View {
                                 Spacer()
                                 buttonAddPoint
                                 Spacer()
-                                buttonGoToCoordinates
+                                buttonSharePosition
                                 Spacer()
-                                buttonHideShowPoints
+                                buttonGoToCoordinates
                             }
                         }
                         .transition(.move(edge: .bottom))

@@ -38,6 +38,7 @@
 
 "Share location" = "Поделиться позицией";
 "Coordinate" = "Координаты";
+"Coordinates" = "Координаты";
 "Coordinate format" = "Формат координат";
 "Show saved tracks the map" = "Показать сохраненные треки на карте";
 
@@ -82,6 +83,9 @@
 "Switch to satellite" = "Переключиться на снимок";
 "Switch to standard map" = "Переключиться на карту";
 
+"Hide points" = "Скрыть точки";
+"Show points" = "Показать точки";
+
 "Record" = "Запись";
 "Points" = "Точки";
 "Options" = "Настройки";
@@ -101,3 +105,5 @@
 "More" = "Еще";
 "Info" = "Инфо";
 "Share" = "Поделиться";
+
+"KML file" = "Файл KML";
