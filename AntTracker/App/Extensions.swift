@@ -69,6 +69,30 @@ extension Color {
         
     }
     
+    public static func getKmlColorByName(colorName: String) -> String {
+        
+        switch colorName {
+        case "blue":
+            return "64FF7800"
+        case "green":
+            return "5000BE14"
+        case "red":
+            return "501400FF"
+        case "gray":
+            return "50AAAAAA"
+        case "orange":
+            return "501478FF"
+        case "yellow":
+            return "5014F0FF"
+        case "purple":
+            return "50FF78F0"
+        default:
+            return "501478FF"
+        }
+        
+        
+    }
+    
     static var systemBackground: Color {
         Color(UIColor.systemBackground)
     }

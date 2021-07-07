@@ -71,7 +71,7 @@ struct TrackDetailsView: View {
             HStack{
                 
                 Button(action: {
-                    shareTextAsKMLFile(text: track.getTextForKMLFile(),
+                    kmlAPI.shareTextAsKMLFile(text: track.getTextForKMLFile(),
                                        filename: track.title)
                 }) {
                     VStack{

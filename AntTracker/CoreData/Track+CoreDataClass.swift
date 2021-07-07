@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 @objc(Track)
 public class Track: NSManagedObject {
@@ -170,16 +171,39 @@ public class Track: NSManagedObject {
     
     func getTextForKMLFile() -> String {
         
-        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
-        kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
-        kmlText += "<Document> \n"
-        kmlText += "<name>\(title)</name> \n"
-        kmlText += "<Placemark> \n"
-        kmlText += "<name>\(title)</name> \n"
-        kmlText += "<LineString> \n"
-        kmlText += "<tessellate>1</tessellate> \n"
-        kmlText += "<coordinates> \n"
+        var kmlText = kmlAPI.headerFile(title: title)
         
+        kmlText += """
+        <Style id=\"lineStyle\">
+        <LineStyle>
+        <color>\(Color.getKmlColorByName(colorName: color))</color>
+        <width>4</width>
+        </LineStyle>
+        </Style>
+        """
+        
+        //start & finish
+        if trackPointsArray.count > 0 {
+            
+            let startPoint = trackPointsArray.first!
+            let finishPoint = trackPointsArray.last!
+            
+            kmlText += kmlAPI.getPointTag(title: startPoint.timestamp.dateString() + "->", coordinate: CLLocationCoordinate2D(latitude: startPoint.latitude, longitude: startPoint.longitude), altitude: startPoint.altitude)
+            
+            kmlText += kmlAPI.getPointTag(title: "->" + finishPoint.timestamp.dateString(), coordinate: CLLocationCoordinate2D(latitude: finishPoint.latitude, longitude: finishPoint.longitude), altitude: finishPoint.altitude)
+            
+        }
+        
+        kmlText += """
+        <Placemark>
+        <name>\(title)</name>
+        <styleUrl>#lineStyle</styleUrl>
+        <LineString>
+        <tessellate>1</tessellate>
+        <extrude>1</extrude>
+        <coordinates>
+        """
+
         for point in trackPointsArray {
             
             let latitudeString = String(point.latitude)
@@ -193,9 +217,9 @@ public class Track: NSManagedObject {
         </coordinates>
         </LineString>
         </Placemark>
-        </Document>
-        </kml>
         """
+            
+        kmlText += kmlAPI.footerFile
         
         return kmlText
         

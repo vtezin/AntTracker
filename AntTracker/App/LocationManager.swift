@@ -47,7 +47,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             region = MKCoordinateRegion(center: center, span: span)
             
             if trackRecording {
-                CurrentTrack.currentTrack.addNewPointFromLocation(location: $0)
+                DispatchQueue.global(qos: .utility).sync{ [weak self] in
+                    CurrentTrack.currentTrack.addNewPointFromLocation(location: self!.location)
+                }
             }
             
         }

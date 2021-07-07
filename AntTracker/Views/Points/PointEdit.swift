@@ -101,7 +101,7 @@ struct PointEdit: View {
                 
                 ToolbarItem(placement: .bottomBar) {
                     Button(action: {
-                        shareTextAsKMLFile(text: getTextForKMLFile(),
+                        kmlAPI.shareTextAsKMLFile(text: getTextForKMLFile(),
                                            filename: title)
                     }) {
                         Image(systemName: "square.and.arrow.up")
@@ -206,34 +206,16 @@ struct PointEdit: View {
     
     func getTextForKMLFile() -> String {
         
-        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
-        kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
-        kmlText += "<Document> \n"
-        kmlText += "<name>\(title)</name> \n"
-        kmlText += "<Placemark> \n"
-        kmlText += "<name>\(title)</name> \n"
-        kmlText += "<Point> \n"
-        kmlText += "<tessellate>1</tessellate> \n"
-        kmlText += "<coordinates> \n"
-        
-        let latitudeString = String(coordinate.latitude)
-        let longitudeString = String(coordinate.longitude)
-        let altitudeString = altitude == 0 ? "": "," + String(altitude)
-        
-        kmlText += "\(longitudeString),\(latitudeString)\(altitudeString) \n"
-        
-        kmlText += """
-        </coordinates>
-        </Point>
-        </Placemark>
-        </Document>
-        </kml>
-        """
+        var kmlText = ""
+        kmlText += kmlAPI.headerFile(title: title)
+        kmlText += kmlAPI.getPointTag(title: title,
+                                      coordinate: coordinate,
+                                      altitude: altitude)
+        kmlText += kmlAPI.footerFile
         
         return kmlText
         
     }
-    
     
 }
 

@@ -225,8 +225,7 @@ struct MainView: View {
                     
                     span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
                                             longitudeDelta: lastUsedMapSpan)
-                    
-                    
+                                        
                 } else {
                     
                     let clReceived = clManager.region.center.latitude != 0
@@ -266,9 +265,7 @@ struct MainView: View {
             }
             
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                //if clManager.trackRecording {
-                    moveCenterMapToCurLocation()
-                //}
+                moveCenterMapToCurLocation()
             }
             
             .alert(isPresented: $showQuestionBeforeResetTrack) {
