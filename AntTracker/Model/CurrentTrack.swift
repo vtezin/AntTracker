@@ -32,12 +32,19 @@ class CurrentTrack: ObservableObject {
     }
     
     var lastSpeed: CLLocationSpeed = 0
+    
+    //statistic
     var maxSpeed: CLLocationSpeed = 0
     var summSpeed: CLLocationSpeed = 0
     
     var averageSpeed: CLLocationSpeed {
         return summSpeed / Double(points.count)
     }
+    
+    var maxLatitude: Double = 0
+    var minLatitude: Double = 0
+    var maxLongitude: Double = 0
+    var minLongitude: Double = 0
     
     var lastAltitude: Int = 0
     var maxAltitude: Int = 0
@@ -96,6 +103,12 @@ class CurrentTrack: ObservableObject {
         maxSpeed = 0
         summSpeed = 0
         totalDistanceMeters = 0
+        
+        maxLatitude = 0
+        minLatitude = 0
+        maxLongitude = 0
+        minLongitude = 0
+        
     }
     
     func addNewPointFromLocation(location: CLLocation) {
@@ -106,6 +119,12 @@ class CurrentTrack: ObservableObject {
             //init by first point
             startDate = location.timestamp
             finishDate = location.timestamp
+            
+            minLatitude = location.coordinate.latitude
+            minLongitude = location.coordinate.longitude
+            maxLatitude = location.coordinate.latitude
+            maxLongitude = location.coordinate.longitude
+            
             minAltitude = Int(location.altitude)
             maxAltitude = Int(location.altitude)
             maxSpeed = location.speed
@@ -120,6 +139,12 @@ class CurrentTrack: ObservableObject {
             maxSpeed = max(location.speed, maxSpeed)
             lastAltitude = Int(location.altitude)
             maxAltitude = max(lastAltitude, maxAltitude)
+            
+            maxLatitude = max(maxLatitude, location.coordinate.latitude)
+            minLatitude = min(minLatitude, location.coordinate.latitude)
+            
+            maxLongitude = max(maxLongitude, location.coordinate.longitude)
+            minLongitude = min(minLongitude, location.coordinate.longitude)
             
         }
         

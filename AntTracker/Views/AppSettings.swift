@@ -11,7 +11,7 @@ struct AppSettings: View {
     
     @Binding var activePage: ContentView.pages
     
-    @AppStorage("disableAutolockScreenWhenTrackRecording") var disableAutolockScreenWhenTrackRecording: Bool = false
+    @AppStorage("disableAutolockScreen") var disableAutolockScreen: Bool = false
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var clManager: LocationManager
@@ -30,8 +30,11 @@ struct AppSettings: View {
                 }
                 
                 Section {
-                    Toggle(isOn: $disableAutolockScreenWhenTrackRecording.animation()) {
-                        Text("Disable auto-lock screen when recording a track")
+                    Toggle(isOn: $disableAutolockScreen.animation()) {
+                        Text("Disable auto-lock screen")
+                    }
+                    .onChange(of: disableAutolockScreen) { value in
+                        UIApplication.shared.isIdleTimerDisabled = disableAutolockScreen
                     }
                 }
                 
@@ -43,9 +46,6 @@ struct AppSettings: View {
             
             .onDisappear{
                 currentTrackColor = color.description
-                if disableAutolockScreenWhenTrackRecording {
-                    UIApplication.shared.isIdleTimerDisabled = clManager.trackRecording
-                }
             }
             
             .navigationBarTitle("Settings", displayMode: .inline)

@@ -19,7 +19,6 @@ extension MainView {
                 clManager.trackRecording = true
             }
         }
-        setDisableAutolockScreen()
     }
     
     var buttonTrackPlayPause: some View {

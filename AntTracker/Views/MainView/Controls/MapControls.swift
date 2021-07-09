@@ -65,10 +65,30 @@ extension MainView {
             }
         
             .onLongPressGesture {
-                let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 2, maxSpan)
                 
-                span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                        longitudeDelta: newDelta)
+                if currentTrack.trackCoreData != nil {
+                    
+                    let statistics = currentTrack.trackCoreData!.getStatistic(moc: moc)
+                    let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
+                    
+                    center = statistics.centerPoint
+                    
+                    let region = MKCoordinateRegion(center: statistics.centerPoint,
+                                                    latitudinalMeters: maxDist * 1.5,
+                                                    longitudinalMeters: maxDist * 1.5)
+                    
+                    span = region.span
+                    
+                } else {
+                    
+                    moveCenterMapToCurLocation()
+                    
+                    let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 4, maxSpan)
+                    
+                    span = MKCoordinateSpan(latitudeDelta: newDelta,
+                                            longitudeDelta: newDelta)
+                }
+                
                 appVariables.needChangeMapView = true
             }
 
@@ -106,14 +126,7 @@ extension MainView {
     func startStopFollowCLForTimer() {
         
         followCLforTimer.toggle()
-        setDisableAutolockScreen()
         
-    }
-    
-    func setDisableAutolockScreen() {
-        if UserDefaults.standard.bool(forKey: "disableAutolockScreenWhenTrackRecording") {
-            UIApplication.shared.isIdleTimerDisabled = followCLforTimer || clManager.trackRecording
-        }
     }
     
     func gpsAccuracyAndSpeedInfo() -> some View {

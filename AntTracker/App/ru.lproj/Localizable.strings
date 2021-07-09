@@ -44,7 +44,7 @@
 
 "Settings" = "Настройки";
 "Color of current track" = "Цвет текущего трека";
-"Disable auto-lock screen when recording a track" = "Отключать автоблокировку экрана при записи трека";
+"Disable auto-lock screen" = "Отключить автоблокировку экрана";
 
 "Reset current track?" = "Сбросить текущий трек?";
 "Reset" = "Сбросить";

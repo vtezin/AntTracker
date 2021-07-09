@@ -21,7 +21,7 @@ extension MainView {
         }) {
             VStack{
                 Image(systemName: "star").modifier(ControlButton())
-                Text("Add").buttonText()
+                Text("Save").buttonText()
             }
         }
         

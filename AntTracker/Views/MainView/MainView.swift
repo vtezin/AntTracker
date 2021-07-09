@@ -67,6 +67,7 @@ struct MainView: View {
     @State var rotateCount: Double = 0
     
     //other
+    @AppStorage("disableAutolockScreen") var disableAutolockScreen: Bool = false
     @State var dateOfSavingCurrentTrack = Date()
     @State private var stringDistanceFromCLToCenter = ""
     
@@ -215,6 +216,10 @@ struct MainView: View {
             }
             
             .onAppear {
+                
+                if disableAutolockScreen {
+                    UIApplication.shared.isIdleTimerDisabled = true
+                }
                 
                 if lastUsedMapCenterLatitude != 0  {
                     
