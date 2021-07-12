@@ -217,9 +217,7 @@ struct MainView: View {
             
             .onAppear {
                 
-                if disableAutolockScreen {
-                    UIApplication.shared.isIdleTimerDisabled = true
-                }
+                UIApplication.shared.isIdleTimerDisabled = disableAutolockScreen
                 
                 if lastUsedMapCenterLatitude != 0  {
                     
@@ -264,13 +262,16 @@ struct MainView: View {
             }
             
             .onDisappear{
+                //save app storages
                 lastUsedMapCenterLatitude = center.latitude
                 lastUsedMapCenterLongitude = center.longitude
                 lastUsedMapSpan = span.latitudeDelta
             }
             
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                moveCenterMapToCurLocation()
+                if clManager.trackRecording {
+                    moveCenterMapToCurLocation()
+                }
             }
             
             .alert(isPresented: $showQuestionBeforeResetTrack) {
