@@ -199,6 +199,8 @@ extension MainView {
                         
                         moveCenterMapToCurLocation()
                         
+                        showPointsOnTheMap = true
+                        
                         //fast adding new point
                         Point.addUpdatePoint(point: nil,
                                              moc: moc,

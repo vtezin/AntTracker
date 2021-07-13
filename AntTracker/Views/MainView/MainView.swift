@@ -143,14 +143,6 @@ struct MainView: View {
                         .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
                     }
                     
-                    if followCLforTimer {
-                        Image(systemName: "escape")
-                            .imageScale(.large)
-                            .font(Font.title.weight(.light))
-                            .foregroundColor(Color.getColorFromName(colorName: currentTrackColor))
-                            .rotationEffect(.degrees((clManager.heading ?? 0) + 45))
-                    }
-                    
                 }
                 
                 

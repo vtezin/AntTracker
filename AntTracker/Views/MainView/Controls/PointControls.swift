@@ -13,6 +13,7 @@ extension MainView {
     var buttonAddPoint: some View {
         
         Button(action: {
+            showPointsOnTheMap = true
             appVariables.editingPoint = nil
             withAnimation{
                 activePage = ContentView.pages.editPoint
