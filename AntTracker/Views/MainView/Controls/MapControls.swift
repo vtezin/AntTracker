@@ -66,6 +66,8 @@ extension MainView {
         
             .onLongPressGesture {
                 
+                followCLforTimer = false
+                
                 if currentTrack.trackCoreData != nil {
                     
                     let statistics = currentTrack.trackCoreData!.getStatistic(moc: moc)

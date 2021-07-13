@@ -57,6 +57,7 @@ struct MainView: View {
     @EnvironmentObject var appVariables: GlobalAppVars
     
     //controls visibility
+    @State var showControls = true
     @State var showRecordTrackControls = false
     @State var showPointsManagment = false
     
@@ -81,18 +82,23 @@ struct MainView: View {
             
             VStack{
                     
-                if showRecordTrackControls && currentTrack.points.count > 0 {
-                    
+                if showControls
+                    && (clManager.trackRecording
+                    || currentTrack.points.count > 0) {
                     CurrentTrackInfo()
                         .padding()
                         .transition(.move(edge: .bottom))
-                    
                 }
                 
                 
                 ZStack{
                     
                     MapView(mapType: $mapType, center: $center, span: $span, points: points, showPointsOnTheMap: $showPointsOnTheMap, activePage: $activePage)
+                        .onTapGesture {
+                            withAnimation{
+                                showControls.toggle()
+                            }
+                        }
                         .onReceive(timer) { _ in
                             if followCLforTimer {
                                 moveCenterMapToCurLocation()
@@ -104,13 +110,13 @@ struct MainView: View {
                     .edgesIgnoringSafeArea(.all)
                     
                     //map controls layer
-                    
+                        
                     VStack{
-
+                        
                         HStack{
-
+                            
                             Spacer()
-
+                            
                             VStack{
                                 Spacer()
                                 Spacer()
@@ -121,18 +127,18 @@ struct MainView: View {
                                 buttonCurLocation
                             }
                             .padding()
-
+                            
                         }
-
+                        
                         HStack{
                             gpsAccuracyAndSpeedInfo()
                                 .padding()
                         }
-
+                        
                     }
                     
                     
-                    if showPointsManagment {
+                    if showControls && showPointsManagment {
                         VStack{
                             Image(systemName: "plus")
                                 .imageScale(.large)
@@ -147,64 +153,68 @@ struct MainView: View {
                 
                 
                 //controls
-                HStack{
+                
+                if showControls {
                     
-                    if showRecordTrackControls {
-                            
-                        HStack{
-                            
-                            buttonBackToMainControls
-                            Spacer()
-                            buttonTrackPlayPause
-                            Spacer()
-                            
-                            if currentTrack.points.count > 0 {
-                                buttonTrackSave
-                                Spacer()
-                                buttonTrackReset
-                            }
-                            
-                        }
+                    HStack{
                         
-                        .transition(.move(edge: .bottom))
-                        
-                    }
-                    else if showPointsManagment {
-
-                        VStack{
-                            if showGoToCoordinates {
-                                barGoToCoordinates
-                                    .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
-                                    .transition(.move(edge: .bottom))
-                            }
+                        if showRecordTrackControls {
+                            
                             HStack{
+                                
                                 buttonBackToMainControls
                                 Spacer()
-                                buttonAddPoint
+                                buttonTrackPlayPause
                                 Spacer()
-                                buttonSharePosition
-                                Spacer()
-                                buttonGoToCoordinates
+                                
+                                if currentTrack.points.count > 0 {
+                                    buttonTrackSave
+                                    Spacer()
+                                    buttonTrackReset
+                                }
+                                
                             }
+                            
+                            .transition(.move(edge: .bottom))
+                            
                         }
-                        .transition(.move(edge: .bottom))
+                        else if showPointsManagment {
+                            
+                            VStack{
+                                if showGoToCoordinates {
+                                    barGoToCoordinates
+                                        .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
+                                        .transition(.move(edge: .bottom))
+                                }
+                                HStack{
+                                    buttonBackToMainControls
+                                    Spacer()
+                                    buttonAddPoint
+                                    Spacer()
+                                    buttonSharePosition
+                                    Spacer()
+                                    buttonGoToCoordinates
+                                }
+                            }
+                            .transition(.move(edge: .bottom))
+                            
+                        }
+                        else {
+                            
+                            buttonTrackRecording
+                            Spacer()
+                            buttonTrackList
+                            Spacer()
+                            buttonPointsManagement
+                            Spacer()
+                            buttonOptions
+                            
+                        }
                         
                     }
-                    else {
-                        
-                        buttonTrackRecording
-                        Spacer()
-                        buttonTrackList
-                        Spacer()
-                        buttonPointsManagement
-                        Spacer()
-                        buttonOptions
-                        
-                    }
+                    .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
                     
                 }
-                .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
-                
             }
             
             .onAppear {
