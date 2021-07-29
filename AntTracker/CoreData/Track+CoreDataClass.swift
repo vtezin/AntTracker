@@ -109,6 +109,9 @@ public class Track: NSManagedObject {
         
         var isFirstPoint = true
         
+        var distanceFromPreviosPoint: Double = 0
+        var previosLocation = CLLocation()
+        
         for point in points {
             
             if isFirstPoint {
@@ -136,9 +139,16 @@ public class Track: NSManagedObject {
                 maxAltitude = max(maxAltitude, point.location.altitude)
                 minAltitude = min(minAltitude, point.location.altitude)
                 
+                distanceFromPreviosPoint = point.location.distance(from: previosLocation)
+                
             }
             
+            print("speed: \(point.location.speed.roundedForKmH()) | dist: \(distanceFromPreviosPoint)")
+            previosLocation = point.location
+            
         }
+        
+        print("points count: \(points.count)")
         
         averageSpeed = summSpeed / Double(points.count)
         

@@ -56,6 +56,8 @@ class CurrentTrack: ObservableObject {
     var trackCoreData: Track? = nil
     var trackCoreDataRestoredForResume = false
     
+    var lastSavedLocation = CLLocation()
+    
     static let currentTrack = CurrentTrack()    
     
     init() {
@@ -109,6 +111,8 @@ class CurrentTrack: ObservableObject {
         maxLongitude = 0
         minLongitude = 0
         
+        lastSavedLocation = CLLocation()
+        
     }
     
     func addNewPointFromLocation(location: CLLocation) {
@@ -131,6 +135,12 @@ class CurrentTrack: ObservableObject {
             summSpeed = location.speed
             totalDistanceMeters = 0
         } else {
+            
+            let distanceFromLastLocation = location.distance(from: lastSavedLocation)
+            
+            guard distanceFromLastLocation > 5 else {return}
+            guard distanceFromLastLocation > location.speed.roundedForKmH() else {return}
+            
             totalDistanceMeters += location.distance(from: points.last!.location)
             summSpeed += location.speed
             
@@ -149,6 +159,8 @@ class CurrentTrack: ObservableObject {
         }
         
         points.append(TrackPoint(location: location, type: ""))
+        
+        lastSavedLocation = location
         
         //saving to core data
         if location.timestamp.seconds(from: lastSaveDate) > 5 {

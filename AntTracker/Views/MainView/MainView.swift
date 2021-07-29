@@ -310,6 +310,13 @@ struct MainView: View {
         }
         
     }
+    
+    func makeVibration() {
+
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+        
+    }
 
 }
 

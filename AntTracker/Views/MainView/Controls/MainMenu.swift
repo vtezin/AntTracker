@@ -150,6 +150,8 @@ extension MainView {
             }
             .onLongPressGesture {
                 
+                makeVibration()
+                
                 startOrStopTrackRecording()
                 
                 if clManager.trackRecording {
@@ -197,6 +199,8 @@ extension MainView {
                     }
                     .onLongPressGesture {
                         
+                        makeVibration()
+                        
                         moveCenterMapToCurLocation()
                         
                         showPointsOnTheMap = true
@@ -216,5 +220,6 @@ extension MainView {
             }
         
     }
+ 
     
 }
