@@ -117,7 +117,7 @@ class CurrentTrack: ObservableObject {
     
     func addNewPointFromLocation(location: CLLocation) {
         
-        guard Int(location.horizontalAccuracy) <= 20 else {return}
+        guard Int(location.horizontalAccuracy) <= 50 else {return}
         
         if points.count == 0 {
             //init by first point

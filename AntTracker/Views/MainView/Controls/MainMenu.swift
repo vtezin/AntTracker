@@ -49,7 +49,7 @@ extension MainView {
                 Label("Settings", systemImage: "gear")
             }
             
-            Divider()
+            //Divider()
             
             Button(action: {
                 showPointsOnTheMap.toggle()
@@ -60,15 +60,6 @@ extension MainView {
                 .labelStyle(TitleOnlyLabelStyle())
             }
             
-            Button(action: {
-                mapType = mapType == .standard ? .hybrid : .standard
-                lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-                appVariables.needChangeMapView = true
-            }) {
-                Label(mapType == .standard ? "Switch to satellite" : "Switch to standard map",
-                    systemImage: "")
-                .labelStyle(TitleOnlyLabelStyle())
-            }
             
         } label: {
             

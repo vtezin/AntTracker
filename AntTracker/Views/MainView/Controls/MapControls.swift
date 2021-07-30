@@ -19,10 +19,13 @@ extension MainView {
                 .modifier(MapButton())
                 
                 .onTapGesture() {
-                    let newDelta = max(span.latitudeDelta/zoomMultiplikator(), minSpan)
+                    
+                    let newDelta = max(span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator(), minSpan)
+                    
                     span = MKCoordinateSpan(latitudeDelta: newDelta,
                                             longitudeDelta: newDelta)
                     appVariables.needChangeMapView = true
+                    
                 }
             
                 .onLongPressGesture {
@@ -35,7 +38,8 @@ extension MainView {
                 }
             
         }
-        //.disabled(span.latitudeDelta == minSpan)
+        .disabled(span.latitudeDelta == minSpan)
+        .foregroundColor(span.latitudeDelta == minSpan ? .secondary : .primary)
         
     }
     
@@ -50,7 +54,6 @@ extension MainView {
                 //for same sizes all buttons
                 Image(systemName: "plus")
                     .opacity(0.0)
-
                 Image(systemName: "minus")
 
             }
@@ -62,6 +65,7 @@ extension MainView {
                 span = MKCoordinateSpan(latitudeDelta: newDelta,
                                         longitudeDelta: newDelta)
                 appVariables.needChangeMapView = true
+                
             }
         
             .onLongPressGesture {
@@ -95,9 +99,29 @@ extension MainView {
             }
 
         }
-        //.disabled(span.latitudeDelta == maxSpan)
+        .disabled(span.latitudeDelta == maxSpan)
+        .foregroundColor(span.latitudeDelta == maxSpan ? .secondary : .primary)
         
     }
+    
+    var buttonMapType: some View {
+        
+        Image(mapType == .standard ? "satelite": "map")
+            //.scaledToFill()
+            //.aspectRatio(contentMode: .fill)
+            .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .clipShape(Circle())
+            .clipped()
+            .opacity(0.8)
+            .onTapGesture() {
+                mapType = mapType == .standard ? .hybrid : .standard
+                lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+                appVariables.needChangeMapView = true
+            }
+            .padding()
+        
+    }
+    
     
     var buttonCurLocation: some View {
         
@@ -119,6 +143,7 @@ extension MainView {
             }
         
             .onLongPressGesture {
+                makeVibration()
                 startStopFollowCLForTimer()
                 moveCenterMapToCurLocation()
             }

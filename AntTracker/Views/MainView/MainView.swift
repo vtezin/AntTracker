@@ -115,6 +115,11 @@ struct MainView: View {
                         
                         HStack{
                             
+                            VStack{
+                                Spacer()
+                                buttonMapType
+                            }
+                            
                             Spacer()
                             
                             VStack{
