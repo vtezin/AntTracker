@@ -13,7 +13,6 @@ extension MainView {
         
         Button(action: {
             withAnimation {
-                showRecordTrackControls = false
                 showPointsManagment = false
             }
             
@@ -119,41 +118,34 @@ extension MainView {
             
             VStack{
                 
-                Image(systemName: "ant")
-                    .modifier(ControlButton())
-                    .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)
-                            .scaleEffect(animatingProperties.scaleEffect)
-                            .opacity(animatingProperties.opacity)
-                            .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
-                    )
+                if showCurrentTrackActions {
+                    Image(systemName: "ant")
+                        .modifier(ControlButton())
+                } else {
+                    
+                    Image(systemName: "ant")
+                        .modifier(ControlButton())
+                        .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)
+                                .scaleEffect(animatingProperties.scaleEffect)
+                                .opacity(animatingProperties.opacity)
+                                .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
+                        )
+                    
+                }
                 
                 Text("Record").buttonText()
                 
             }
             
             .onTapGesture {
-                withAnimation{
-                    showRecordTrackControls.toggle()
-                }
+                showCurrentTrackActions = true
             }
             .onLongPressGesture {
-                
                 makeVibration()
-                
                 startOrStopTrackRecording()
-                
-                if clManager.trackRecording {
-                    changeAnimatingProperties()
-                } else {
-                    animatingProperties.resetToDefaults()
-                    if currentTrack.points.count > 0 {
-                        showRecordTrackControls = true
-                    }
-                }
-                
             }
         }
         

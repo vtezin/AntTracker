@@ -29,6 +29,7 @@ extension MainView {
                 }
             
                 .onLongPressGesture {
+                    makeVibration()
                     moveCenterMapToCurLocation()
                     //let newDelta = max(span.latitudeDelta/(zoomMultiplikator() * 2), minSpan)
                     let newDelta = minSpan * 2
@@ -70,6 +71,7 @@ extension MainView {
         
             .onLongPressGesture {
                 
+                makeVibration()
                 followCLforTimer = false
                 
                 if currentTrack.trackCoreData != nil {
@@ -156,10 +158,9 @@ extension MainView {
         
     }
     
-    func gpsAccuracyAndSpeedInfo() -> some View {
+    func gpsAccuracyInfo() -> some View {
         
         let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
-        let speed = clManager.location.speed
         
         var colorAccuracy = Color.red
         
@@ -181,11 +182,6 @@ extension MainView {
                         .fontWeight(.light)
                         .padding(5)
                         .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
-                } else if speed > 0.5 {
-                    Text(speed.localeSpeedString)
-                        .fontWeight(.light)
-                        .padding(5)
-                        .background(colorAccuracy.opacity(0.7).clipShape(RoundedRectangle(cornerRadius: 5)))
                 } else {
                     Text("")
                     .fontWeight(.light)
@@ -197,5 +193,58 @@ extension MainView {
             .font(.subheadline)
             
     }
+    
+    
+    func speedInfo() -> some View {
+        
+        let speed = clManager.location.speed
+        //let gpsAccuracy = Int(clManager.location.horizontalAccuracy)
+        
+        var speedOut: Double
+        
+        if speed < 0.5 {
+            speedOut = 0
+        } else {
+            speedOut = speed
+        }
+        
+        var fontSpeed = Font.subheadline
+        var paddingSpeed: CGFloat = 5
+        
+        switch speed.speedKmHRounded() {
+        case ..<10:
+            fontSpeed = Font.subheadline
+            paddingSpeed = 5
+        case 10..<50:
+            fontSpeed = Font.headline
+            paddingSpeed = 7
+        default:
+            fontSpeed = Font.title3
+            paddingSpeed = 10
+        }
+        
+        return
+            
+            HStack {
+                
+                if speedOut > 0 {
+                    Text(speedOut.localeSpeedString)
+                        .fontWeight(.light)
+                        .padding(paddingSpeed)
+                        .background(Color.systemBackground
+                                        .opacity(0.7)
+                                        .clipShape(RoundedRectangle(cornerRadius: 5)))
+                        .font(fontSpeed)
+                } else {
+                    Text("")
+                        .fontWeight(.light)
+                        .padding(paddingSpeed)
+                        .opacity(0)
+                }
+                
+            }
+    }
+
+    
     
 }

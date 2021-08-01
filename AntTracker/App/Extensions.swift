@@ -185,7 +185,7 @@ extension CLLocationSpeed {
     var localeSpeedString: String {
         
         let formatter = MeasurementFormatter()
-        let valueForOutput = max(0, self.roundedForKmH()) //speed is positive
+        let valueForOutput = max(0, self.speedKmHRounded()) //speed is positive
         let speedInMSec = Measurement(value: valueForOutput, unit: UnitSpeed.metersPerSecond)
         formatter.unitStyle = MeasurementFormatter.UnitStyle.medium
         formatter.unitOptions = .naturalScale
@@ -193,10 +193,9 @@ extension CLLocationSpeed {
         
     }
     
-    func roundedForKmH() -> Double {
+    func speedKmHRounded() -> Double {
         
         let speedKmH = self/1000 * 3600
-    
         return speedKmH.rounded(toPlaces: 1) / 3600 * 1000
         
     }

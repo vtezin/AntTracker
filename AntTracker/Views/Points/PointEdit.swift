@@ -128,15 +128,17 @@ struct PointEdit: View {
                 }
                 
                 ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                        if point != nil {
-                            showQuestionBeforeDelete = true
-                        } else {
-                            activePage = ContentView.pages.main
+
+                    Image(systemName: "trash")
+                        .modifier(ControlButton())
+                        .foregroundColor(.red)
+                        .onTapGesture {
+                            if point != nil {
+                                showQuestionBeforeDelete = true
+                            } else {
+                                activePage = ContentView.pages.main
+                            }
                         }
-                    }) {
-                        Image(systemName: "trash")
-                    }
                 }
                 
                 

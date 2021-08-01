@@ -112,7 +112,6 @@ struct TrackDetailsView: View {
                         .labelStyle(TitleOnlyLabelStyle())
                     }
                     
-                    
                     Button(action: {
                         mapType = mapType == .standard ? .hybrid : .standard
                         lastUsedMapType = mapType == .standard ? "standart" : "hybrid"

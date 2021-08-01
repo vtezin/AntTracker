@@ -58,11 +58,11 @@ struct MainView: View {
     
     //controls visibility
     @State var showControls = true
-    @State var showRecordTrackControls = false
     @State var showPointsManagment = false
     
     //track
     @State var showQuestionBeforeResetTrack = false
+    @State var showCurrentTrackActions = false
     
     //animations
     @State var rotateCount: Double = 0
@@ -114,6 +114,11 @@ struct MainView: View {
                     VStack{
                         
                         HStack{
+                            speedInfo()
+                                .padding()
+                        }
+                        
+                        HStack{
                             
                             VStack{
                                 Spacer()
@@ -136,7 +141,7 @@ struct MainView: View {
                         }
                         
                         HStack{
-                            gpsAccuracyAndSpeedInfo()
+                            gpsAccuracyInfo()
                                 .padding()
                         }
                         
@@ -156,34 +161,13 @@ struct MainView: View {
                     
                 }
                 
-                
                 //controls
                 
                 if showControls {
                     
                     HStack{
                         
-                        if showRecordTrackControls {
-                            
-                            HStack{
-                                
-                                buttonBackToMainControls
-                                Spacer()
-                                buttonTrackPlayPause
-                                Spacer()
-                                
-                                if currentTrack.points.count > 0 {
-                                    buttonTrackSave
-                                    Spacer()
-                                    buttonTrackReset
-                                }
-                                
-                            }
-                            
-                            .transition(.move(edge: .bottom))
-                            
-                        }
-                        else if showPointsManagment {
+                        if showPointsManagment {
                             
                             VStack{
                                 if showGoToCoordinates {
@@ -286,21 +270,25 @@ struct MainView: View {
                       primaryButton: .destructive(Text("Reset")) {
                         
                         moveCenterMapToCurLocation()
+                        
                         withAnimation{
-                            
-                            clManager.trackRecording = false
-                            
-                            if let trackCD = currentTrack.trackCoreData {
-                                Track.deleteTrack(track: trackCD, moc: moc)                                
-                            }
-                            
+                            resetTrack()                            
                         }
                         
                       }, secondaryButton: .cancel())
             }
         
+            .actionSheet(isPresented: $showCurrentTrackActions) {
+                ActionSheet(
+                title: Text("Track recording"),
+                message: Text(""),
+                buttons: currentTrackActions()
+                )
+            }
+        
     }
 
+    
     func moveCenterMapToCurLocation() {
         center = clManager.region.center
         appVariables.needChangeMapView = true

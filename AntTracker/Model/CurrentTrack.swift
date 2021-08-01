@@ -138,8 +138,8 @@ class CurrentTrack: ObservableObject {
             
             let distanceFromLastLocation = location.distance(from: lastSavedLocation)
             
-            guard distanceFromLastLocation > 5 else {return}
-            guard distanceFromLastLocation > location.speed.roundedForKmH() else {return}
+            guard distanceFromLastLocation > 3 else {return}
+            guard distanceFromLastLocation > location.speed.speedKmHRounded() else {return}
             
             totalDistanceMeters += location.distance(from: points.last!.location)
             summSpeed += location.speed

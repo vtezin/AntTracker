@@ -9,7 +9,61 @@ import SwiftUI
 
 extension MainView {
     
+    func currentTrackActions() -> [ActionSheet.Button] {
+        
+        var buttons = [ActionSheet.Button]()
+        
+        buttons.append(.default(Text(clManager.trackRecording ? "Pause" : "Start recording")) {
+            
+            startOrStopTrackRecording()
+            
+        })
+        
+        
+        if currentTrack.trackCoreData != nil {
+            
+            buttons.append(.default(Text("Finish track")) {
+                
+                if clManager.trackRecording {
+                    //stop recording
+                    startOrStopTrackRecording()
+                }
+                if currentTrack.points.count > 0 {
+                    //open view for saving track
+                    activePage = ContentView.pages.completeTrack
+                } else {
+                    //track is clean
+                    //just reset track
+                    resetTrack()
+                }
+                
+            })
+            
+        }
+        
+       
+        if currentTrack.points.count > 0 {
+            
+            buttons.append(.destructive(Text("Reset")) {
+                if clManager.trackRecording {
+                    showQuestionBeforeResetTrack = true
+                }
+            })
+            
+            animatingProperties.resetToDefaults()
+            
+        }
+        
+        buttons.append(.cancel(Text("Cancel")) {
+            showCurrentTrackActions = false
+        })
+        
+        return buttons
+        
+    }
+    
     func startOrStopTrackRecording() {
+        
         withAnimation{
             if clManager.trackRecording {
                 clManager.trackRecording = false
@@ -19,51 +73,24 @@ extension MainView {
                 clManager.trackRecording = true
             }
         }
-    }
-    
-    var buttonTrackPlayPause: some View {
         
-        Button(action: {
-            startOrStopTrackRecording()
-        }) {
-            VStack{
-                Image(systemName: clManager.trackRecording ? "pause" : "play")
-                    .modifier(ControlButton())
-                Text(clManager.trackRecording ? "Pause" : "Record").buttonText()
-            }
+        if clManager.trackRecording {
+            changeAnimatingProperties()
+        } else {
+            animatingProperties.resetToDefaults()
         }
         
     }
     
-    var buttonTrackReset: some View {
+    func resetTrack() {
         
-        Button(action: {
-            showQuestionBeforeResetTrack = true
-        }) {
-            VStack{
-                Image(systemName: "xmark")
-                    .modifier(ControlButton())
-                Text("Reset").buttonText()
-            }
+        clManager.trackRecording = false
+        
+        if let trackCD = currentTrack.trackCoreData {
+            Track.deleteTrack(track: trackCD, moc: moc)
         }
         
-    }
-    
-    var buttonTrackSave: some View {
-                
-        Button(action: {
-            if clManager.trackRecording {
-                //stop recording
-                startOrStopTrackRecording()
-            }
-            activePage = ContentView.pages.completeTrack
-        }) {
-            VStack{
-                Image(systemName: "stop")
-                    .modifier(ControlButton())
-                Text("Stop").buttonText()
-            }
-        }
+        animatingProperties.resetToDefaults()
         
     }
     

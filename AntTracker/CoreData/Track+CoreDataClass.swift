@@ -143,7 +143,7 @@ public class Track: NSManagedObject {
                 
             }
             
-            print("speed: \(point.location.speed.roundedForKmH()) | dist: \(distanceFromPreviosPoint)")
+            print("speed: \(point.location.speed.speedKmHRounded()) | dist: \(distanceFromPreviosPoint)")
             previosLocation = point.location
             
         }

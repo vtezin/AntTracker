@@ -61,6 +61,10 @@
 "Rename group" = "Переименовать группу";
 "< out of groups >" = "< вне групп >";
 
+"Track recording" = "Запись трека";
+"Start recording" = "Начать запись";
+"Finish track" = "Завершить трек";
+
 "Save track" = "Сохранить трек";
 "Edit track" = "Изменить трек";
 "Complete track" = "Завершить трек";
