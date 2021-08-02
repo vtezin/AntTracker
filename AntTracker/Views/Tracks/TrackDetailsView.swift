@@ -112,15 +112,6 @@ struct TrackDetailsView: View {
                         .labelStyle(TitleOnlyLabelStyle())
                     }
                     
-                    Button(action: {
-                        mapType = mapType == .standard ? .hybrid : .standard
-                        lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
-                    }) {
-                        Label(mapType == .standard ? "Switch to satellite" : "Switch to standard map",
-                              systemImage: "")
-                            .labelStyle(TitleOnlyLabelStyle())
-                    }
-                    
                     
                 } label: {
                     VStack{
@@ -201,6 +192,25 @@ struct TrackDetailsView: View {
                         .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
                         
                         Spacer()
+                        
+                        HStack{
+                            
+                            Image(mapType == .standard ? "satelite": "map")
+                                .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .clipShape(Circle())
+                                .clipped()
+                                .opacity(0.8)
+                                .onTapGesture() {
+                                    mapType = mapType == .standard ? .hybrid : .standard
+                                    lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
+                                }
+                                .padding()
+                            
+                            Spacer()
+                            
+                        }
+                        
+                        
                     }
                     .padding()
                     
