@@ -147,7 +147,6 @@ struct MainView: View {
                         
                     }
                     
-                    
                     if showControls && showPointsManagment {
                         VStack{
                             Image(systemName: "plus")
