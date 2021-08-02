@@ -109,8 +109,6 @@ extension MainView {
     var buttonMapType: some View {
         
         Image(mapType == .standard ? "satelite": "map")
-            //.scaledToFill()
-            //.aspectRatio(contentMode: .fill)
             .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .clipShape(Circle())
             .clipped()
@@ -208,18 +206,18 @@ extension MainView {
             speedOut = speed
         }
         
-        var fontSpeed = Font.subheadline
+        var fontSpeed = Font.headline
         var paddingSpeed: CGFloat = 5
         
         switch speed.speedKmHRounded() {
         case ..<10:
-            fontSpeed = Font.subheadline
+            fontSpeed = Font.headline
             paddingSpeed = 5
         case 10..<50:
-            fontSpeed = Font.headline
+            fontSpeed = Font.title3
             paddingSpeed = 7
         default:
-            fontSpeed = Font.title3
+            fontSpeed = Font.title2
             paddingSpeed = 10
         }
         
