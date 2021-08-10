@@ -17,7 +17,7 @@ struct AppSettings: View {
     @EnvironmentObject var clManager: LocationManager
         
     @State var color: Color = .orange
-    
+    @State private var showColorSelector = false
     
     var body: some View {
         
@@ -26,7 +26,7 @@ struct AppSettings: View {
             Form{
                 
                 Section(header: Text("Color of current track")) {
-                    ColorSelectorView(selectedColor: $color)
+                    ColorSelectorView(selectedColor: $color, showSelectorOnRequestor: $showColorSelector)
                 }
                 
                 Section {

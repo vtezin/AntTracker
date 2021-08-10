@@ -13,7 +13,10 @@ extension MainView {
         
         var buttons = [ActionSheet.Button]()
         
-        buttons.append(.default(Text(clManager.trackRecording ? "Pause" : "Start recording")) {
+        buttons.append(.default(Text(clManager.trackRecording ?
+                                        "Pause" :
+                                        currentTrack.points.count > 0 ? "Continue recording"
+                                        : "Start recording")) {
             
             startOrStopTrackRecording()
             
@@ -45,9 +48,7 @@ extension MainView {
         if currentTrack.points.count > 0 {
             
             buttons.append(.destructive(Text("Reset")) {
-                if clManager.trackRecording {
-                    showQuestionBeforeResetTrack = true
-                }
+                showQuestionBeforeResetTrack = true
             })
             
             animatingProperties.resetToDefaults()
@@ -70,6 +71,7 @@ extension MainView {
             } else {
                 currentTrack.prepareForStartRecording(moc: moc)
                 moveCenterMapToCurLocation()
+                setMapSpan(delta: minSpan * 3)
                 clManager.trackRecording = true
             }
         }

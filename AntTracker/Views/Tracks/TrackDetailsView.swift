@@ -24,6 +24,7 @@ struct TrackDetailsView: View {
     
     let track: Track
     @State private var statistics: TrackStatistic?
+    @State private var showColorSelector = false
     
     //track props
     @State private var title: String
@@ -226,14 +227,32 @@ struct TrackDetailsView: View {
     var infoView: some View {
         
         Form{
-            
-            TextField("Title", text: $title)
-                .modifier(ClearButton(text: $title))
-                .foregroundColor(color)
-            ColorSelectorView(selectedColor: $color)
+    
+            Section() {
+                
+                VStack{
+                
+                    HStack{
+                        Image(systemName: "circle.fill")
+                            .foregroundColor(color)
+                            .onTapGesture {
+                                showColorSelector = true
+                            }
+                            .imageScale(.large)
+                        TextField("", text: $title).modifier(ClearButton(text: $title))
+                    }
+                    
+                    if showColorSelector {
+                        Divider()
+                        ColorSelectorView(selectedColor: $color,
+                                          showSelectorOnRequestor: $showColorSelector)
+                    }
+                    
+                }
+            }
             
             //Section(header: Text("Track group")) {
-                NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
+            NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
                     TrackGroupRawView(trackGroup: trackGroup)
                 }
             //}

@@ -27,6 +27,7 @@ struct MainView: View {
     
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
+    @AppStorage("lastShutdownOrBackgroundDate") var lastShutdownDate: Date = Date()
     
     @SceneStorage("lastUsedMapCenterLatitude") var lastUsedMapCenterLatitude: Double = 0
     @SceneStorage("lastUsedMapCenterLongitude") var lastUsedMapCenterLongitude: Double = 0
@@ -96,11 +97,13 @@ struct MainView: View {
                     MapView(mapType: $mapType, center: $center, span: $span, points: points, showPointsOnTheMap: $showPointsOnTheMap, activePage: $activePage)
                         .onTapGesture {
                             withAnimation{
-                                showControls.toggle()
+                                if !showPointsManagment {
+                                    showControls.toggle()
+                                }
                             }
                         }
                         .onReceive(timer) { _ in
-                            if followCLforTimer {
+                            if followCLforTimer{
                                 moveCenterMapToCurLocation()
                             }
                             if showPointsManagment {
@@ -205,45 +208,11 @@ struct MainView: View {
                 }
             }
             
-            .onAppear {
+            .onAppear{
                 
                 UIApplication.shared.isIdleTimerDisabled = disableAutolockScreen
                 
-                if lastUsedMapCenterLatitude != 0  {
-                    
-                    //restore saved state
-                    
-                    center = CLLocationCoordinate2D(latitude: lastUsedMapCenterLatitude,
-                                                    longitude: lastUsedMapCenterLongitude)
-                    
-                    span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
-                                            longitudeDelta: lastUsedMapSpan)
-                                        
-                } else {
-                    
-                    let clReceived = clManager.region.center.latitude != 0
-                        || clManager.region.center.longitude != 0
-                    
-                    let lastUsedCLReceived = lastUsedCLLongitude != 0
-                        && lastUsedCLLatitude != 0
-                    
-                    if clReceived {
-                        moveCenterMapToCurLocation()
-                    } else {
-                        //try to restore last coordinates
-                        if lastUsedCLReceived {
-                            let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude)
-                            center = lastUsedLocation
-                        } else {
-                            //try to get CL after 0.5 sec
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                moveCenterMapToCurLocation()
-                            }
-                            
-                        }
-                    }
-                    
-                }
+                setMapPositionOnAppear()
                 
                 mapType = lastUsedMapType == "hybrid" ? .hybrid : .standard
                 appVariables.needChangeMapView = true
@@ -252,17 +221,18 @@ struct MainView: View {
             }
             
             .onDisappear{
-                //save app storages
-                lastUsedMapCenterLatitude = center.latitude
-                lastUsedMapCenterLongitude = center.longitude
-                lastUsedMapSpan = span.latitudeDelta
+                saveSceneStorages()
             }
             
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                if clManager.trackRecording {
-                    moveCenterMapToCurLocation()
-                }
+                //print("willEnterForegroundNotification")
+                setMapPositionOnAppear()
             }
+            
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                saveSceneStorages()
+            }
+
             
             .alert(isPresented: $showQuestionBeforeResetTrack) {
                 Alert(title: Text("Reset current track?"),
@@ -287,20 +257,85 @@ struct MainView: View {
         
     }
 
+    func setMapPositionOnAppear() {
+        
+        if clManager.trackRecording || clManager.location.speed.speedKmHRounded() > 10 {
+            moveCenterMapToCurLocation()
+            return
+        }
+        
+        let minutesFromLastShoutDown = Date().seconds(from: lastShutdownDate) / 60
+        
+        //print("last shdown \(lastShutdownDate) - \(Date().seconds(from: lastShutdownDate)) seconds")
+        
+        if minutesFromLastShoutDown > 10 {
+            
+            //go to current position
+            tryToSetMapPositionByCurrentLocation()
+            return
+            
+        }
+        
+        if lastUsedMapCenterLatitude != 0  {
+            
+            //restore saved state
+            //print("restore saved state (lastUsedMapCenterLatitude : \(lastUsedMapCenterLatitude)")
+            
+            center = CLLocationCoordinate2D(latitude: lastUsedMapCenterLatitude,
+                                            longitude: lastUsedMapCenterLongitude)
+            
+            span = MKCoordinateSpan(latitudeDelta: lastUsedMapSpan,
+                                    longitudeDelta: lastUsedMapSpan)
+            return
+            
+        }
+        
+        tryToSetMapPositionBySavedCoordinates()
+        
+    }
+    
+    func tryToSetMapPositionByCurrentLocation() {
+        
+        let clReceived = clManager.region.center.latitude != 0
+            || clManager.region.center.longitude != 0
+
+        if clReceived {
+            if clManager.location.horizontalAccuracy < 50 {
+                setMapSpan(delta: minSpan * 3)
+            }
+            moveCenterMapToCurLocation()
+        } else {
+            tryToSetMapPositionBySavedCoordinates()
+        }
+        
+    }
+    
+    func tryToSetMapPositionBySavedCoordinates() {
+        
+        let lastUsedCLReceived = lastUsedCLLongitude != 0
+            && lastUsedCLLatitude != 0
+        
+        //try to restore last coordinates
+        if lastUsedCLReceived {
+            let lastUsedLocation = CLLocationCoordinate2D(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude)
+            center = lastUsedLocation
+        } else {
+            //try to get CL after 0.5 sec
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                moveCenterMapToCurLocation()
+            }
+        }
+    }
+    
+    func saveSceneStorages() {
+        lastUsedMapCenterLatitude = center.latitude
+        lastUsedMapCenterLongitude = center.longitude
+        lastUsedMapSpan = span.latitudeDelta
+    }
     
     func moveCenterMapToCurLocation() {
         center = clManager.region.center
         appVariables.needChangeMapView = true
-    }
-    
-    func zoomMultiplikator() -> Double {
-        
-        if span.latitudeDelta < 0.05 {
-            return 2
-        } else {
-            return 5
-        }
-        
     }
     
     func makeVibration() {

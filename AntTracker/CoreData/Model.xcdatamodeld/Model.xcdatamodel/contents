@@ -31,6 +31,7 @@
     <entity name="TrackGroup" representedClassName="TrackGroup" syncable="YES">
         <attribute name="dateOfLastChange" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imageSymbol" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="track" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="trackGroup" inverseEntity="Track"/>
     </entity>
@@ -51,7 +52,7 @@
         <element name="Point" positionX="-45" positionY="99" width="128" height="148"/>
         <element name="PointGroup" positionX="-63" positionY="90" width="128" height="103"/>
         <element name="Track" positionX="-54" positionY="36" width="128" height="208"/>
-        <element name="TrackGroup" positionX="-63" positionY="90" width="128" height="103"/>
+        <element name="TrackGroup" positionX="-63" positionY="90" width="128" height="118"/>
         <element name="TrackPoint" positionX="-63" positionY="-18" width="128" height="208"/>
     </elements>
 </model>

@@ -22,6 +22,7 @@ struct CompleteRecordTrack: View {
     @State var trackGroup: TrackGroup?
     
     @State private var showQuestionBeforeDelete = false
+    @State private var showColorSelector = false
     
     init(activePage: Binding<ContentView.pages>) {
         
@@ -44,8 +45,26 @@ struct CompleteRecordTrack: View {
             Form{
                 
                 Section() {
-                    TextField("", text: $title).modifier(ClearButton(text: $title))
-                    ColorSelectorView(selectedColor: $color)
+                    
+                    VStack{
+                    
+                        HStack{
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(color)
+                                .onTapGesture {
+                                    showColorSelector = true
+                                }
+                                .imageScale(.large)
+                            TextField("", text: $title).modifier(ClearButton(text: $title))
+                        }
+                        
+                        if showColorSelector {
+                            Divider()
+                            ColorSelectorView(selectedColor: $color,
+                                              showSelectorOnRequestor: $showColorSelector)
+                        }
+                        
+                    }
                 }
                 
                 Section(header: Text("Description")) {

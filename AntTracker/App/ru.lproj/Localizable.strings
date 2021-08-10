@@ -55,6 +55,7 @@
 
 "Distance from here" = "Расстояние отсюда";
 
+"Group" = "Группа";
 "Track group" = "Группа треков";
 "Track groups" = "Группы треков";
 "Group title" = "Название группы";
@@ -63,6 +64,7 @@
 
 "Track recording" = "Запись трека";
 "Start recording" = "Начать запись";
+"Continue recording" = "Продолжить запись";
 "Finish track" = "Завершить трек";
 
 "Save track" = "Сохранить трек";

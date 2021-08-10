@@ -20,6 +20,8 @@
 		523F53392655037300B0DF4A /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F53382655037300B0DF4A /* PointAnnotation.swift */; };
 		523F533C265507DB00B0DF4A /* TrackPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F533B265507DB00B0DF4A /* TrackPointAnnotation.swift */; };
 		523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F533E26550A0900B0DF4A /* TrackPolyline.swift */; };
+		5240810F26C1BAF3002CD327 /* ImageSymbolSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */; };
+		5240811226C1C06E002CD327 /* TrackGroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */; };
 		52512C8926584F21000619F6 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C8826584F20000619F6 /* MainMenu.swift */; };
 		52512C8D2658528F000619F6 /* TrackControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C8C2658528F000619F6 /* TrackControls.swift */; };
 		52512C92265859CB000619F6 /* PointControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C91265859CB000619F6 /* PointControls.swift */; };
@@ -72,6 +74,8 @@
 		523F53382655037300B0DF4A /* PointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		523F533B265507DB00B0DF4A /* TrackPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPointAnnotation.swift; sourceTree = "<group>"; };
 		523F533E26550A0900B0DF4A /* TrackPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPolyline.swift; sourceTree = "<group>"; };
+		5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSymbolSelectorView.swift; sourceTree = "<group>"; };
+		5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupDetailView.swift; sourceTree = "<group>"; };
 		52512C8826584F20000619F6 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		52512C8C2658528F000619F6 /* TrackControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackControls.swift; sourceTree = "<group>"; };
 		52512C91265859CB000619F6 /* PointControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointControls.swift; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 			children = (
 				52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */,
 				5213A78A264D5D450009223D /* PointsManagment.swift */,
+				5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -176,6 +181,17 @@
 				52F04F672619A30B00C261C0 /* TrackMapView.swift */,
 			);
 			path = MapViews;
+			sourceTree = "<group>";
+		};
+		5240811426C23C09002CD327 /* TrackGroup */ = {
+			isa = PBXGroup;
+			children = (
+				5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */,
+				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
+				526312D2267B132F00BB6AF5 /* TrackGroupRawView.swift */,
+				52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */,
+			);
+			path = TrackGroup;
 			sourceTree = "<group>";
 		};
 		52512C8726584E86000619F6 /* Controls */ = {
@@ -279,11 +295,9 @@
 			isa = PBXGroup;
 			children = (
 				52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */,
+				5240811426C23C09002CD327 /* TrackGroup */,
 				52DB5176260DD13000427149 /* TrackListView.swift */,
-				52512CB7265E3568000619F6 /* TrackGroupView.swift */,
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
-				526312D2267B132F00BB6AF5 /* TrackGroupRawView.swift */,
-				52512CA8265CF860000619F6 /* TrackGroupSelectionView.swift */,
 				527BD614265FE6510047FA0C /* TrackDetailsView.swift */,
 				529557C1267DA9A5005D8304 /* CompleteRecordTrack.swift */,
 			);
@@ -373,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				523F533C265507DB00B0DF4A /* TrackPointAnnotation.swift in Sources */,
+				5240811226C1C06E002CD327 /* TrackGroupDetailView.swift in Sources */,
 				521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */,
 				52DD9538260D138400F4E700 /* Track+CoreDataProperties.swift in Sources */,
 				5213A77F264D544B0009223D /* Point+CoreDataClass.swift in Sources */,
@@ -385,6 +400,7 @@
 				526312D3267B132F00BB6AF5 /* TrackGroupRawView.swift in Sources */,
 				52512C8926584F21000619F6 /* MainMenu.swift in Sources */,
 				5213A78E264DB25D0009223D /* PointEdit.swift in Sources */,
+				5240810F26C1BAF3002CD327 /* ImageSymbolSelectorView.swift in Sources */,
 				52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */,
 				5213A782264D544B0009223D /* PointGroup+CoreDataProperties.swift in Sources */,
 				52D3A93925E68310001A50C1 /* MapView.swift in Sources */,
@@ -566,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 8;
+				MARKETING_VERSION = 8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -590,7 +606,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 8;
+				MARKETING_VERSION = 8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

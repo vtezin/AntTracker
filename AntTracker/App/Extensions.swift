@@ -44,6 +44,19 @@ extension Date {
     
 }
 
+//extension for save and restore Date in AppStorage
+extension Date: RawRepresentable {
+    private static let formatter = ISO8601DateFormatter()
+    
+    public var rawValue: String {
+        Date.formatter.string(from: self)
+    }
+    
+    public init?(rawValue: String) {
+        self = Date.formatter.date(from: rawValue) ?? Date()
+    }
+}
+
 extension Color {
     
     public static func getColorFromName(colorName: String) -> Color {

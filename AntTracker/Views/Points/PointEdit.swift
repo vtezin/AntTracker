@@ -28,6 +28,7 @@ struct PointEdit: View {
     @State private var altitude: Double  = 0
     
     @State private var showQuestionBeforeDelete = false
+    @State private var showColorSelector = false
     
     var body: some View {
         
@@ -35,15 +36,32 @@ struct PointEdit: View {
             
             Form{
                 
-                Section(header: Text("Title")) {
-                    TextField("", text: $title)
-                        .font(.title2)
-                        .modifier(ClearButton(text: $title))
-                        .foregroundColor(color)
-                    ColorSelectorView(selectedColor: $color,
-                                      imageForSelectedColor: "mappin.circle.fill",
-                                      imageForUnselectedColor: "mappin.circle")
+                
+                Section() {
                     
+                    VStack{
+                    
+                        HStack{
+                            Image(systemName: "mappin.circle.fill")
+                                .foregroundColor(color)
+                                .onTapGesture {
+                                    showColorSelector = true
+                                }
+                                .imageScale(.large)
+                            TextField("", text: $title)
+                                .font(.title2)
+                                .modifier(ClearButton(text: $title))
+                        }
+                        
+                        if showColorSelector {
+                            Divider()
+                            ColorSelectorView(selectedColor: $color,
+                                              showSelectorOnRequestor: $showColorSelector,
+                                              imageForSelectedColor: "mappin.circle.fill",
+                                              imageForUnselectedColor: "mappin.circle")
+                        }
+                        
+                    }
                 }
                 
                 

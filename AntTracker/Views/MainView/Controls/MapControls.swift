@@ -10,6 +10,12 @@ import MapKit
 
 extension MainView {
     
+    func setMapSpan(delta: Double) {
+        span = MKCoordinateSpan(latitudeDelta: delta,
+                                longitudeDelta: delta)
+        appVariables.needChangeMapView = true
+    }
+    
     var buttonZoomIn: some View {
         
         Button(action: {
@@ -21,21 +27,16 @@ extension MainView {
                 .onTapGesture() {
                     
                     let newDelta = max(span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator(), minSpan)
-                    
-                    span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                            longitudeDelta: newDelta)
-                    appVariables.needChangeMapView = true
+                    setMapSpan(delta: newDelta)
                     
                 }
             
                 .onLongPressGesture {
+                    
                     makeVibration()
                     moveCenterMapToCurLocation()
-                    //let newDelta = max(span.latitudeDelta/(zoomMultiplikator() * 2), minSpan)
-                    let newDelta = minSpan * 2
-                    span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                            longitudeDelta: newDelta)
-                    appVariables.needChangeMapView = true
+                    setMapSpan(delta: minSpan * 2)
+                    
                 }
             
         }
@@ -61,11 +62,9 @@ extension MainView {
             .modifier(MapButton())
             
             .onTapGesture() {
-                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
                 
-                span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                        longitudeDelta: newDelta)
-                appVariables.needChangeMapView = true
+                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
+                setMapSpan(delta: newDelta)
                 
             }
         
@@ -86,23 +85,32 @@ extension MainView {
                                                     longitudinalMeters: maxDist * 1.5)
                     
                     span = region.span
+                    appVariables.needChangeMapView = true
                     
                 } else {
                     
                     moveCenterMapToCurLocation()
                     
                     let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 4, maxSpan)
-                    
-                    span = MKCoordinateSpan(latitudeDelta: newDelta,
-                                            longitudeDelta: newDelta)
+                    setMapSpan(delta: newDelta)
+
                 }
                 
-                appVariables.needChangeMapView = true
             }
 
         }
         .disabled(span.latitudeDelta == maxSpan)
         .foregroundColor(span.latitudeDelta == maxSpan ? .secondary : .primary)
+        
+    }
+    
+    func zoomMultiplikator() -> Double {
+        
+        if span.latitudeDelta < 0.05 {
+            return 2
+        } else {
+            return 3
+        }
         
     }
     
@@ -206,16 +214,16 @@ extension MainView {
             speedOut = speed
         }
         
-        var fontSpeed = Font.headline
-        var paddingSpeed: CGFloat = 5
+        var fontSpeed: Font
+        var paddingSpeed: CGFloat
         
         switch speed.speedKmHRounded() {
-        case ..<10:
+        case ..<5:
             fontSpeed = Font.headline
-            paddingSpeed = 5
-        case 10..<50:
+            paddingSpeed = 10
+        case ..<15:
             fontSpeed = Font.title3
-            paddingSpeed = 7
+            paddingSpeed = 10
         default:
             fontSpeed = Font.title2
             paddingSpeed = 10

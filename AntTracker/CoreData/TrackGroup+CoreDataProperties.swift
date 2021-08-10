@@ -20,12 +20,23 @@ extension TrackGroup {
     @NSManaged public var id: UUID?
     @NSManaged public var track: NSSet?
     @NSManaged public var dateOfLastChange: Date
+    @NSManaged public var imageSymbol: String?
     
     public var tracksArray: [Track] {
         let set = track as? Set<Track> ?? []
         return set.sorted {
             $0.startDate < $1.startDate
         }
+    }
+    
+    public var wrappedImageSymbol: String {
+        
+        if let imageSymbol = imageSymbol {
+            return imageSymbol
+        } else {
+            return "folder"
+        }
+        
     }
     
 }

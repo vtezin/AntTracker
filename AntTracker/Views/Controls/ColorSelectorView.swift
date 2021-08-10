@@ -10,6 +10,7 @@ import SwiftUI
 struct ColorSelectorView: View {
     
     @Binding var selectedColor: Color
+    @Binding var showSelectorOnRequestor: Bool
     
     var imageForSelectedColor: String = "circle.fill"
     var imageForUnselectedColor: String = "circle"
@@ -25,8 +26,9 @@ struct ColorSelectorView: View {
                 image(for: color)
                     .onTapGesture {
                         selectedColor = color
-                }
-                    .font(.largeTitle)
+                        showSelectorOnRequestor = false
+                    }
+                    .font(.title)
                     .imageScale(color == selectedColor ? .large : .medium)
                 
             }
@@ -44,25 +46,25 @@ struct ColorSelectorView: View {
             
             if showPrimaryColor {
                 return AnyView(Image(systemName: "circle.lefthalf.fill")
-                    .foregroundColor(color))
+                                .foregroundColor(color))
             } else {
                 return AnyView(EmptyView())
             }
             
         case selectedColor:
             return AnyView(Image(systemName: imageForSelectedColor)
-                .foregroundColor(color))
+                            .foregroundColor(color))
         default:
             return AnyView(Image(systemName: imageForUnselectedColor)
-                .foregroundColor(color))
+                            .foregroundColor(color))
         }
         
         
     }
 }
 
-struct ColorSelectorView_Previews: PreviewProvider {
-    static var previews: some View {
-        ColorSelectorView(selectedColor: .constant(.blue))
-    }
-}
+//struct ColorSelectorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ColorSelectorView(selectedColor: .constant(.blue), showColorSelector: .constant(true))
+//    }
+//}

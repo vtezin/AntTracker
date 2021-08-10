@@ -16,7 +16,7 @@ struct TrackGroupView: View {
     
     var tracks: FetchRequest<Track>
     
-    @State private var showAlertForGroupName = false
+    @State private var showingGroupDetailView = false
     @State private var trackListRefreshID = UUID() //for force refreshing
     
     init(group: TrackGroup, activePage: Binding<ContentView.pages>) {
@@ -47,19 +47,13 @@ struct TrackGroupView: View {
         }
         .id(trackListRefreshID)
         
-        .alert(isPresented: $showAlertForGroupName,
-               TextAlert(title: "Group title",
-                         message: "",
-                         text: group.title,
-                         keyboardType: .default) { result in
-                if let text = result {
-                    renameGroup(title: text)
-                }
-               })
+        .sheet(isPresented: $showingGroupDetailView) {
+            TrackGroupDetailView(group: group)
+        }
         .navigationBarTitle(group.title, displayMode: .inline)
         .navigationBarItems(
             trailing: Button(action: {
-                showAlertForGroupName = true
+                showingGroupDetailView = true
             }) {
                 Image(systemName: "pencil")
             })

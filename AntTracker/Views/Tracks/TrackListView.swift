@@ -28,7 +28,7 @@ struct TrackListView: View {
     @State private var showQuestionBeforeDeleteGroup = false
     
     //adding new group
-    @State private var showAlertForGroupName = false
+    @State private var showingAddGroupView = false
     
     @State private var trackListRefreshID = UUID() //for force refreshing
     
@@ -51,8 +51,8 @@ struct TrackListView: View {
                                     TrackGroupView(group: group, activePage: $activePage)) {
                         
                         HStack{
-                            Image(systemName: "folder")
-                                .foregroundColor(.secondary)
+                            Image(systemName: group.wrappedImageSymbol)
+                            //.foregroundColor(.secondary)
                             Text(group.title)
                             Spacer()
                             Text("\(group.tracksArray.count)")
@@ -104,17 +104,10 @@ struct TrackListView: View {
                 
             }
             .id(trackListRefreshID)
-            .alert(isPresented: $showAlertForGroupName,
-                   TextAlert(title: "Group title",
-                             message: "",
-                             text: "",
-                             keyboardType: .default) { result in
-                    if let text = result {
-                        addGroup(title: text)
-                    }
-                   })
-            
-            
+            .sheet(isPresented: $showingAddGroupView) {
+                TrackGroupDetailView(group: nil)
+            }
+                        
             //}
             .navigationBarTitle("Tracks", displayMode: .inline)
             
@@ -130,7 +123,7 @@ struct TrackListView: View {
                     }
                 },
                 trailing: Button(action: {
-                    showAlertForGroupName = true
+                    showingAddGroupView = true
                 }) {
                     Image(systemName: "folder.badge.plus")
                         .imageScale(.large)
