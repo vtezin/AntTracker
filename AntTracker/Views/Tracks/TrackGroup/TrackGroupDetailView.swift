@@ -15,9 +15,9 @@ struct TrackGroupDetailView: View {
     let group: TrackGroup?
     
     @State private var title = "New group"
-    @State private var imageSymbol = "folder"
+    @State private var imageSymbol = SFSymbolsAPI.groupDefaultImageSymbol
     
-    @State private var showImageSymbolSelector = false
+    @State private var showImageSymbolSelector = true
     
     init(group: TrackGroup?) {
         
@@ -41,21 +41,21 @@ struct TrackGroupDetailView: View {
                 Section{
                     
                     HStack{
+//                        Image(systemName: imageSymbol)
+//                            .imageScale(.large)
+//                            .onTapGesture {
+//                                withAnimation{
+//                                    showImageSymbolSelector.toggle()
+//                                }
+//                            }
+//                        Divider()
                         TextField("Title", text: $title)
-                        Divider()
-                        Image(systemName: imageSymbol)
-                            .imageScale(.large)
-                            .onTapGesture {
-                                withAnimation{
-                                    showImageSymbolSelector = true
-                                }
-                            }
+                            .modifier(ClearButton(text: $title))
                     }
-                    .font(.title2)
                     
                     if showImageSymbolSelector {
                         ImageSymbolSelectorView(selectedImage: $imageSymbol,
-                                                showSelectorOnRequestor: $showImageSymbolSelector)
+                                                imageSymbolSet: SFSymbolsAPI.groupImageSymbols)
                     }
                     
                 }

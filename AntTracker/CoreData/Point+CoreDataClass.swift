@@ -16,6 +16,7 @@ public class Point: NSManagedObject {
                                moc: NSManagedObjectContext,
                                title: String?,
                                color: String?,
+                               imageSymbol: String?,
                                latitude: Double,
                                longitude: Double,
                                altitude: Double
@@ -40,6 +41,12 @@ public class Point: NSManagedObject {
             pointForSave.color = color
         } else {
             pointForSave.color = "orange"
+        }
+        
+        if let imageSymbol = imageSymbol {
+            pointForSave.imageSymbol = imageSymbol
+        } else {
+            pointForSave.imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
         }
         
         if let title = title {

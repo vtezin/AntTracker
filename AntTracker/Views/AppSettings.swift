@@ -26,7 +26,7 @@ struct AppSettings: View {
             Form{
                 
                 Section(header: Text("Color of current track")) {
-                    ColorSelectorView(selectedColor: $color, showSelectorOnRequestor: $showColorSelector)
+                    ColorSelectorView(selectedColor: $color)
                 }
                 
                 Section {

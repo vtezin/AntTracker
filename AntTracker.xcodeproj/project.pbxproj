@@ -22,6 +22,7 @@
 		523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F533E26550A0900B0DF4A /* TrackPolyline.swift */; };
 		5240810F26C1BAF3002CD327 /* ImageSymbolSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */; };
 		5240811226C1C06E002CD327 /* TrackGroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */; };
+		5240811826C25F5F002CD327 /* SFSymbolsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240811726C25F5F002CD327 /* SFSymbolsAPI.swift */; };
 		52512C8926584F21000619F6 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C8826584F20000619F6 /* MainMenu.swift */; };
 		52512C8D2658528F000619F6 /* TrackControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C8C2658528F000619F6 /* TrackControls.swift */; };
 		52512C92265859CB000619F6 /* PointControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C91265859CB000619F6 /* PointControls.swift */; };
@@ -76,6 +77,7 @@
 		523F533E26550A0900B0DF4A /* TrackPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPolyline.swift; sourceTree = "<group>"; };
 		5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSymbolSelectorView.swift; sourceTree = "<group>"; };
 		5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupDetailView.swift; sourceTree = "<group>"; };
+		5240811726C25F5F002CD327 /* SFSymbolsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolsAPI.swift; sourceTree = "<group>"; };
 		52512C8826584F20000619F6 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		52512C8C2658528F000619F6 /* TrackControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackControls.swift; sourceTree = "<group>"; };
 		52512C91265859CB000619F6 /* PointControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointControls.swift; sourceTree = "<group>"; };
@@ -158,8 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				52F04F6D261AD30D00C261C0 /* ColorSelectorView.swift */,
-				5213A78A264D5D450009223D /* PointsManagment.swift */,
 				5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */,
+				5213A78A264D5D450009223D /* PointsManagment.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -235,6 +237,7 @@
 			children = (
 				528920312668B4DD00058BBF /* CurrentTrack.swift */,
 				5213A773264B22790009223D /* Colors.swift */,
+				5240811726C25F5F002CD327 /* SFSymbolsAPI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */,
 				528920322668B4DD00058BBF /* CurrentTrack.swift in Sources */,
 				52D3A93D25E6A96D001A50C1 /* LocationManager.swift in Sources */,
+				5240811826C25F5F002CD327 /* SFSymbolsAPI.swift in Sources */,
 				526B5D3F2624B90600A48AFC /* MapDrawing.swift in Sources */,
 				5213A780264D544B0009223D /* Point+CoreDataProperties.swift in Sources */,
 				526312D3267B132F00BB6AF5 /* TrackGroupRawView.swift in Sources */,

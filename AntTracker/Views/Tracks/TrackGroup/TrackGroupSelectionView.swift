@@ -47,6 +47,7 @@ struct TrackGroupSelectionView: View {
         }
         .navigationBarTitle("Track groups", displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
     

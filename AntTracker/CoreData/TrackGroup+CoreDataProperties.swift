@@ -34,7 +34,7 @@ extension TrackGroup {
         if let imageSymbol = imageSymbol {
             return imageSymbol
         } else {
-            return "folder"
+            return SFSymbolsAPI.groupDefaultImageSymbol
         }
         
     }

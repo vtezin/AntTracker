@@ -41,7 +41,7 @@ class PointAnnotation: NSObject, MKAnnotation {
         let pointColor = UIColor(Color.getColorFromName(colorName: (point.color) )).withAlphaComponent(1)
         
         annotationView!.markerTintColor = pointColor
-        annotationView!.glyphImage = UIImage(systemName: "star")
+        annotationView!.glyphImage = UIImage(systemName: point.wrappedImageSymbol)
         
         // allow this to show pop up information
         annotationView?.canShowCallout = false

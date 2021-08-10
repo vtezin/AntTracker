@@ -193,6 +193,7 @@ extension MainView {
                                              moc: moc,
                                              title: nil,
                                              color: nil,
+                                             imageSymbol: nil,
                                              latitude: clManager.region.center.latitude,
                                              longitude: clManager.region.center.longitude, altitude: clManager.location.altitude)
                         

@@ -10,7 +10,6 @@ import SwiftUI
 struct ColorSelectorView: View {
     
     @Binding var selectedColor: Color
-    @Binding var showSelectorOnRequestor: Bool
     
     var imageForSelectedColor: String = "circle.fill"
     var imageForUnselectedColor: String = "circle"
@@ -26,7 +25,6 @@ struct ColorSelectorView: View {
                 image(for: color)
                     .onTapGesture {
                         selectedColor = color
-                        showSelectorOnRequestor = false
                     }
                     .font(.title)
                     .imageScale(color == selectedColor ? .large : .medium)
@@ -34,7 +32,6 @@ struct ColorSelectorView: View {
             }
             
         }
-        .animation(.default)
         
     }
     

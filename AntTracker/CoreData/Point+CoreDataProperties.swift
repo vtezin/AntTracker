@@ -23,6 +23,17 @@ extension Point {
     @NSManaged public var altitude: Double
     @NSManaged public var title: String
     @NSManaged public var dateAdded: Date
+    @NSManaged public var imageSymbol: String?
+    
+    public var wrappedImageSymbol: String {
+        
+        if let imageSymbol = imageSymbol {
+            return imageSymbol
+        } else {
+            return SFSymbolsAPI.pointDefaultImageSymbol
+        }
+        
+    }
     
     
 }

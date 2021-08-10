@@ -18,13 +18,15 @@ struct TrackGroupRawView: View {
             if trackGroup == nil {
                 Text("< out of groups >")
                     .foregroundColor(.secondary)
+                Spacer()
             } else {
-                Image(systemName: "folder")
-                    .foregroundColor(.secondary)
+                
+                Image(systemName: trackGroup!.wrappedImageSymbol)
+                    .imageScale(.medium)
                 Text(trackGroup!.title)
+                Spacer()
+                
             }
-            
-            Spacer()
             
         }
         

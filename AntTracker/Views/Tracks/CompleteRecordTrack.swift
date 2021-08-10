@@ -49,19 +49,19 @@ struct CompleteRecordTrack: View {
                     VStack{
                     
                         HStack{
-                            Image(systemName: "circle.fill")
+                            Image(systemName: "arrow.triangle.swap")
                                 .foregroundColor(color)
                                 .onTapGesture {
-                                    showColorSelector = true
+                                    showColorSelector.toggle()
                                 }
-                                .imageScale(.large)
+                                .imageScale(.medium)
+                            Divider()
                             TextField("", text: $title).modifier(ClearButton(text: $title))
                         }
                         
                         if showColorSelector {
                             Divider()
-                            ColorSelectorView(selectedColor: $color,
-                                              showSelectorOnRequestor: $showColorSelector)
+                            ColorSelectorView(selectedColor: $color)
                         }
                         
                     }

@@ -52,7 +52,6 @@ struct TrackListView: View {
                         
                         HStack{
                             Image(systemName: group.wrappedImageSymbol)
-                            //.foregroundColor(.secondary)
                             Text(group.title)
                             Spacer()
                             Text("\(group.tracksArray.count)")
@@ -110,6 +109,7 @@ struct TrackListView: View {
                         
             //}
             .navigationBarTitle("Tracks", displayMode: .inline)
+            .navigationViewStyle(StackNavigationViewStyle())
             
             .navigationBarItems(
                 leading: Button(action: {
@@ -130,6 +130,7 @@ struct TrackListView: View {
                 })
             
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
     

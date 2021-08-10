@@ -55,7 +55,7 @@ struct TrackGroupView: View {
             trailing: Button(action: {
                 showingGroupDetailView = true
             }) {
-                Image(systemName: "pencil")
+                Image(systemName: "info.circle")
             })
         
     }

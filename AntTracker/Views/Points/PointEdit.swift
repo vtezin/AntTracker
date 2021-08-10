@@ -21,6 +21,7 @@ struct PointEdit: View {
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     
     @State private var title: String = "New point"
+    @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
     @State private var color: Color = Color.orange
     @State private var dateAdded: Date = Date()
     @State private var point: Point?
@@ -36,32 +37,34 @@ struct PointEdit: View {
             
             Form{
                 
-                
                 Section() {
                     
-                    VStack{
-                    
                         HStack{
-                            Image(systemName: "mappin.circle.fill")
-                                .foregroundColor(color)
+                            Image(systemName: imageSymbol)
+                                .foregroundColor(.white)
+                                .imageScale(.medium)
+                                .padding(10)
+                                .background(color)
+                                .clipShape(Circle())
                                 .onTapGesture {
-                                    showColorSelector = true
+                                    withAnimation {
+                                        showColorSelector.toggle()
+                                    }
                                 }
-                                .imageScale(.large)
+                            Divider()
                             TextField("", text: $title)
-                                .font(.title2)
                                 .modifier(ClearButton(text: $title))
                         }
                         
-                        if showColorSelector {
-                            Divider()
+                    if showColorSelector {
+                        VStack{
                             ColorSelectorView(selectedColor: $color,
-                                              showSelectorOnRequestor: $showColorSelector,
-                                              imageForSelectedColor: "mappin.circle.fill",
-                                              imageForUnselectedColor: "mappin.circle")
+                                              imageForSelectedColor: "circle.fill",
+                                              imageForUnselectedColor: "circle")
+                            ImageSymbolSelectorView(selectedImage: $imageSymbol, imageSymbolSet: SFSymbolsAPI.pointImageSymbols)
                         }
-                        
                     }
+                        
                 }
                 
                 
@@ -180,13 +183,11 @@ struct PointEdit: View {
                 if point != nil {
                     title = point!.title
                     color = Color.getColorFromName(colorName: point!.color)
+                    imageSymbol = point!.wrappedImageSymbol
                     dateAdded = point!.dateAdded
                     coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
                     altitude = point!.altitude
                 } else {
-                    title = "New point"
-                    color = Color.orange
-                    dateAdded = Date()
                     coordinate = appVariables.centerOfMap
                 }
                 
@@ -214,6 +215,7 @@ struct PointEdit: View {
                              moc: moc,
                              title: title,
                              color: color.description,
+                             imageSymbol: imageSymbol,
                              latitude: coordinate.latitude,
                              longitude: coordinate.longitude,
                              altitude: altitude)
