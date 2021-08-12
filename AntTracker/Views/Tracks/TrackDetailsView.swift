@@ -36,6 +36,8 @@ struct TrackDetailsView: View {
     @State private var mapType: MKMapType = .hybrid
     @State private var showMap = false
     
+    @State private var showControls = true
+    
     init(track: Track, activePage: Binding<ContentView.pages>, trackListRefreshID: Binding<UUID>) {
         
         self.track = track
@@ -62,68 +64,76 @@ struct TrackDetailsView: View {
             switch currentPage {
             case .map:
                 mapView
+                    .onTapGesture {
+                        withAnimation {
+                            showControls.toggle()
+                        }
+                    }
             case .info:
                 infoView
             }
             
-            Spacer()
-            
-            HStack{
-                
-                Button(action: {
-                    kmlAPI.shareTextAsKMLFile(text: track.getTextForKMLFile(),
-                                       filename: track.title)
-                }) {
-                    VStack{
-                        Image(systemName: "square.and.arrow.up")
-                            .modifier(ControlButton())
-                        Text("Share").buttonText()
-                    }
-                }
+            if showControls {
                 
                 Spacer()
                 
-                Button(action: {
-                    currentPage = currentPage == .map ? .info : .map
-                }) {
-                    VStack{
-                        Image(systemName: currentPage == .map ? "info.circle" : "map")
-                            .modifier(ControlButton())
-                        Text(currentPage == .map ? "Info" : "Map").buttonText()
-                    }
-                }
-                
-                Spacer()
-                
-                Menu{
+                HStack{
                     
                     Button(action: {
-                        showQuestionBeforeDelete = true
+                        kmlAPI.shareTextAsKMLFile(text: track.getTextForKMLFile(),
+                                                  filename: track.title)
                     }) {
-                        Label("Delete track", systemImage: "trash")
+                        VStack{
+                            Image(systemName: "square.and.arrow.up")
+                                .modifier(ControlButton())
+                            Text("Share").buttonText()
+                        }
                     }
+                    
+                    Spacer()
                     
                     Button(action: {
-                        CurrentTrack.currentTrack.fillByTrackCoreData(trackCD: track)
-                        activePage = .main
-                        presentationMode.wrappedValue.dismiss()
+                        currentPage = currentPage == .map ? .info : .map
                     }) {
-                        Label("Resume track", systemImage: "")
-                        .labelStyle(TitleOnlyLabelStyle())
+                        VStack{
+                            Image(systemName: currentPage == .map ? "info.circle" : "map")
+                                .modifier(ControlButton())
+                            Text(currentPage == .map ? "Info" : "Map").buttonText()
+                        }
                     }
                     
+                    Spacer()
                     
-                } label: {
-                    VStack{
-                        Image(systemName: "ellipsis.circle")
-                            .modifier(ControlButton())
-                        Text("More").buttonText()
+                    Menu{
+                        
+                        Button(action: {
+                            showQuestionBeforeDelete = true
+                        }) {
+                            Label("Delete track", systemImage: "trash")
+                        }
+                        
+                        Button(action: {
+                            CurrentTrack.currentTrack.fillByTrackCoreData(trackCD: track)
+                            activePage = .main
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Label("Resume track", systemImage: "")
+                                .labelStyle(TitleOnlyLabelStyle())
+                        }
+                        
+                        
+                    } label: {
+                        VStack{
+                            Image(systemName: "ellipsis.circle")
+                                .modifier(ControlButton())
+                            Text("More").buttonText()
+                        }
                     }
+                    
                 }
+                .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
                 
             }
-            .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
-            
         }
         
         .onAppear {
@@ -178,18 +188,23 @@ struct TrackDetailsView: View {
                     
                     VStack{
                         
-                        HStack{
-                            Text(localeDistanceString(distanceMeters: track.totalDistanceMeters))
-                                .font(.title3)
-                                .fontWeight(.light)
+                        if showControls {
                             
-                            Spacer()
-                            
-                            Text(track.durationString)
-                                .fontWeight(.light)
+                            HStack{
+                                Text(localeDistanceString(distanceMeters: track.totalDistanceMeters))
+                                    .font(.title3)
+                                    .fontWeight(.light)
+                                
+                                Spacer()
+                                
+                                Text(track.durationString)
+                                    .fontWeight(.light)
+                                
+                            }
+                            .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
                             
                         }
-                        .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
+                        
                         
                         Spacer()
                         

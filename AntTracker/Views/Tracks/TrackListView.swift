@@ -51,7 +51,16 @@ struct TrackListView: View {
                                     TrackGroupView(group: group, activePage: $activePage)) {
                         
                         HStack{
-                            Image(systemName: group.wrappedImageSymbol)
+                            
+                            ZStack {
+                                Image(systemName: group.wrappedImageSymbol)
+                                    .font(Font.title3.weight(.light))
+                                    .foregroundColor(.secondary)
+                                Image(systemName: "bicycle")
+                                    .font(Font.title3.weight(.light))
+                                    .opacity(0)
+                            }
+                            
                             Text(group.title)
                             Spacer()
                             Text("\(group.tracksArray.count)")
@@ -126,7 +135,7 @@ struct TrackListView: View {
                     showingAddGroupView = true
                 }) {
                     Image(systemName: "folder.badge.plus")
-                        .imageScale(.large)
+                        .modifier(NavigationButton())
                 })
             
         }

@@ -21,8 +21,14 @@ struct TrackGroupRawView: View {
                 Spacer()
             } else {
                 
-                Image(systemName: trackGroup!.wrappedImageSymbol)
-                    .imageScale(.medium)
+                ZStack {
+                    Image(systemName: trackGroup!.wrappedImageSymbol)
+                        .font(Font.title3.weight(.light))
+                        .foregroundColor(.secondary)
+                    Image(systemName: "bicycle")
+                        .font(Font.title3.weight(.light))
+                        .opacity(0)
+                }
                 Text(trackGroup!.title)
                 Spacer()
                 

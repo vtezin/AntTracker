@@ -14,10 +14,15 @@ struct TrackGroupDetailView: View {
     
     let group: TrackGroup?
     
-    @State private var title = "New group"
+    @State private var title = ""
     @State private var imageSymbol = SFSymbolsAPI.groupDefaultImageSymbol
     
     @State private var showImageSymbolSelector = true
+    
+    enum FirstResponders: Int {
+        case title
+    }
+    @State var firstResponder: FirstResponders?
     
     init(group: TrackGroup?) {
         
@@ -28,6 +33,7 @@ struct TrackGroupDetailView: View {
             _imageSymbol = State(initialValue: group.wrappedImageSymbol)
         } else {
             _showImageSymbolSelector = State(initialValue: true)
+            _firstResponder = State(initialValue: .title)
         }
         
     }
@@ -50,6 +56,7 @@ struct TrackGroupDetailView: View {
 //                            }
 //                        Divider()
                         TextField("Title", text: $title)
+                            .firstResponder(id: FirstResponders.title, firstResponder: $firstResponder, resignableUserOperations: .all)
                             .modifier(ClearButton(text: $title))
                     }
                     

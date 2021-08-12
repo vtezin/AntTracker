@@ -54,10 +54,19 @@ struct ControlButton: ViewModifier {
     }
 }
 
+struct NavigationButton: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        content
+            .imageScale(.large)
+            .font(Font.title3.weight(.light))
+    }
+}
+
 struct SecondaryInfo: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.footnote)
+            .font(Font.footnote.weight(.light))
             .foregroundColor(.secondary)
     }
 }
@@ -82,19 +91,19 @@ struct MapControlColors: ViewModifier {
 struct ClearButton: ViewModifier
 {
     @Binding var text: String
-
+    
     public func body(content: Content) -> some View
     {
         ZStack(alignment: .trailing)
         {
             content
-
+            
             if !text.isEmpty
             {
                 Button(action:
-                {
-                    self.text = ""
-                })
+                        {
+                            self.text = ""
+                        })
                 {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(Color(UIColor.opaqueSeparator))

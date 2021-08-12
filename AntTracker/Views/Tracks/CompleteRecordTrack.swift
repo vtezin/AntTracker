@@ -24,6 +24,11 @@ struct CompleteRecordTrack: View {
     @State private var showQuestionBeforeDelete = false
     @State private var showColorSelector = false
     
+    enum FirstResponders: Int {
+        case title
+    }
+    @State var firstResponder: FirstResponders?
+    
     init(activePage: Binding<ContentView.pages>) {
         
         _activePage = activePage
@@ -56,7 +61,9 @@ struct CompleteRecordTrack: View {
                                 }
                                 .imageScale(.medium)
                             Divider()
-                            TextField("", text: $title).modifier(ClearButton(text: $title))
+                            TextField("", text: $title)
+                                .firstResponder(id: FirstResponders.title, firstResponder: $firstResponder, resignableUserOperations: .all)
+                                .modifier(ClearButton(text: $title))
                         }
                         
                         if showColorSelector {
@@ -113,10 +120,11 @@ struct CompleteRecordTrack: View {
                 }
 
             }
+            .onAppear{
+                firstResponder = .title
+            }
             
         }
-        
-        
         
     }
     

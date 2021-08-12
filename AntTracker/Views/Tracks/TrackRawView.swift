@@ -16,11 +16,11 @@ struct TrackRawView: View {
         VStack(alignment: .leading) {
             
             Text(track.title)
+                .font(Font.subheadline.weight(.light))
             HStack{
                 VStack(alignment: .leading){
                     Text(track.info)
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
+                        .modifier(SecondaryInfo())
                 }
                 Spacer()
                 VStack(alignment: .trailing){

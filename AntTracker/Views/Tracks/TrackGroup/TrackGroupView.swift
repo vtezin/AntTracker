@@ -56,6 +56,7 @@ struct TrackGroupView: View {
                 showingGroupDetailView = true
             }) {
                 Image(systemName: "info.circle")
+                    .modifier(NavigationButton())
             })
         
     }

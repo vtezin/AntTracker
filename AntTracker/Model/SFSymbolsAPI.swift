@@ -13,11 +13,11 @@ class SFSymbolsAPI {
     
     static let groupDefaultImageSymbol = "folder"
     
-    static let pointImageSymbols = ["mappin", "star", "face.smiling",
-                       "pin", "house", "figure.wave",
-                       "hand.thumbsup", "eye", "camera",
-                       "trash", "flag", "wrench", "wifi",
-                       "flame", "cart", "cross"]
+    static let pointImageSymbols = ["mappin", "pin", "star", "face.smiling",
+                                    "house", "figure.wave",
+                                    "hand.thumbsup", "eye", "camera",
+                                    "trash", "flag", "wrench", "wifi",
+                                    "flame", "cart", "cross"]
     
     static let pointDefaultImageSymbol = "mappin"
     

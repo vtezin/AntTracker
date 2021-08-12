@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-let folderImages = ["folder", "car", "figure.walk", "bicycle", "ant", "star", "face.smiling"]
-let pointImages = ["mappin", "star", "face.smiling",
-                   "pin", "house", "figure.wave",
-                   "hand.thumbsup", "eye", "camera",
-                   "trash", "flag", "wrench", "wifi",
-                   "flame", "cart", "cross"]
-
 struct ImageSymbolSelectorView: View {
     
     @Binding var selectedImage: String
