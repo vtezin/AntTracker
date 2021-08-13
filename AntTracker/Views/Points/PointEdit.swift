@@ -20,7 +20,7 @@ struct PointEdit: View {
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     
-    @State private var title: String = "New point"
+    @State private var title: String = ""
     @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
     @State private var color: Color = Color.orange
     @State private var dateAdded: Date = Date()
@@ -30,6 +30,11 @@ struct PointEdit: View {
     
     @State private var showQuestionBeforeDelete = false
     @State private var showColorSelector = false
+    
+    enum FirstResponders: Int {
+        case title
+    }
+    @State var firstResponder: FirstResponders?
     
     var body: some View {
         
@@ -53,6 +58,7 @@ struct PointEdit: View {
                                 }
                             Divider()
                             TextField("", text: $title)
+                                .firstResponder(id: FirstResponders.title, firstResponder: $firstResponder, resignableUserOperations: .all)
                                 .modifier(ClearButton(text: $title))
                         }
                         
@@ -189,6 +195,7 @@ struct PointEdit: View {
                     altitude = point!.altitude
                 } else {
                     coordinate = appVariables.centerOfMap
+                    firstResponder = .title
                 }
                 
             }
