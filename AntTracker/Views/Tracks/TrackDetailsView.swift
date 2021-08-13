@@ -30,7 +30,10 @@ struct TrackDetailsView: View {
     @State private var title: String
     @State private var info: String
     @State private var color: Color
+    
+    //selecting group
     @State private var trackGroup: TrackGroup?
+    @State private var showGroupSelection = false
     
     //working whith map
     @State private var mapType: MKMapType = .hybrid
@@ -151,6 +154,10 @@ struct TrackDetailsView: View {
             
         }
         
+        .sheet(isPresented: $showGroupSelection) {
+            TrackGroupSelectionView(selectedGroup: $trackGroup)
+        }
+        
         .actionSheet(isPresented: $showQuestionBeforeDelete) {
             
             actionSheetForDelete(title: "Delete this track?") {
@@ -265,12 +272,16 @@ struct TrackDetailsView: View {
                 }
             }
             
-            //Section(header: Text("Track group")) {
-            NavigationLink(destination: TrackGroupSelectionView(selectedGroup: $trackGroup)) {
-                    TrackGroupRawView(trackGroup: trackGroup)
-                }
-            //}
             
+            HStack{
+                TrackGroupRawView(trackGroup: trackGroup)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showGroupSelection = true
+            }
+            
+
             Section(header: Text("Description")) {
                 
                 ZStack {
