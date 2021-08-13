@@ -17,7 +17,7 @@ class SFSymbolsAPI {
                                     "house", "figure.wave",
                                     "hand.thumbsup", "eye", "camera",
                                     "trash", "flag", "wrench", "wifi",
-                                    "flame", "cart", "cross"]
+                                    "flame", "cart", "cross", "p.square"]
     
     static let pointDefaultImageSymbol = "mappin"
     
