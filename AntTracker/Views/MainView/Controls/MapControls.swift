@@ -200,6 +200,28 @@ extension MainView {
             
     }
     
+    func altInfo() -> some View {
+        
+        HStack{
+            Image(systemName: "arrow.up")
+                .imageScale(.small)
+            Text("\(Int(clManager.location.altitude)) m")
+                .fontWeight(.light)
+        }
+        .contextMenu {
+            Button {
+                mainViewShowCurrentAltitude = false
+            } label: {
+                Label("Hide", systemImage: "")
+            }
+        }
+        .padding(10)
+        .background(Color.systemBackground
+                        .opacity(0.7)
+                        .clipShape(RoundedRectangle(cornerRadius: 5)))
+        
+    }
+    
     
     func speedInfo() -> some View {
         
@@ -233,7 +255,7 @@ extension MainView {
             
             HStack {
                 
-                if speedOut > 0 {
+                //if speedOut > 0 {
                     Text(speedOut.localeSpeedString)
                         .fontWeight(.light)
                         .padding(paddingSpeed)
@@ -241,14 +263,22 @@ extension MainView {
                                         .opacity(0.7)
                                         .clipShape(RoundedRectangle(cornerRadius: 5)))
                         .font(fontSpeed)
-                } else {
-                    Text("")
-                        .fontWeight(.light)
-                        .padding(paddingSpeed)
-                        .opacity(0)
-                }
+//                } else {
+//                    Text("")
+//                        .fontWeight(.light)
+//                        .padding(paddingSpeed)
+//                        .opacity(0)
+//                }
                 
             }
+            .contextMenu {
+                Button {
+                    mainViewShowCurrentSpeed = false
+                } label: {
+                    Label("Hide", systemImage: "")
+                }
+            }
+
     }
 
     

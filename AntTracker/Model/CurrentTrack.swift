@@ -16,6 +16,8 @@ class CurrentTrack: ObservableObject {
     @Published var lastSaveDate = Date()
     @Published var finishDate = Date()
     
+    @AppStorage("currentTrackCoreDataUIIDString") var currentTrackCoreDataUIIDString = ""
+    
     var durationString: String {
         
         //TODO: - add pauses respecting
@@ -96,8 +98,10 @@ class CurrentTrack: ObservableObject {
     }
     
     func reset() {
+        
         points.removeAll()
         trackCoreData = nil
+        currentTrackCoreDataUIIDString = ""
         
         //clear statistic
         minAltitude = 0
@@ -190,6 +194,7 @@ class CurrentTrack: ObservableObject {
         try? moc.save()
         
         trackCoreData = trackCD
+        currentTrackCoreDataUIIDString = trackCD.id!.uuidString
         
     }
     

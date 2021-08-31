@@ -29,6 +29,9 @@ struct MainView: View {
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     @AppStorage("lastShutdownOrBackgroundDate") var lastShutdownDate: Date = Date()
     
+    @AppStorage("mainViewShowCurrentAlt") var mainViewShowCurrentAltitude: Bool = false
+    @AppStorage("mainViewShowCurrentSpeed") var mainViewShowCurrentSpeed: Bool = true
+    
     @SceneStorage("lastUsedMapCenterLatitude") var lastUsedMapCenterLatitude: Double = 0
     @SceneStorage("lastUsedMapCenterLongitude") var lastUsedMapCenterLongitude: Double = 0
     @SceneStorage("lastUsedMapSpan") var lastUsedMapSpan: Double = 0.01
@@ -117,8 +120,19 @@ struct MainView: View {
                     VStack{
                         
                         HStack{
-                            speedInfo()
-                                .padding()
+                            
+                            if mainViewShowCurrentAltitude {
+                                altInfo()
+                                    .padding()
+                            }
+                            
+                            Spacer()
+                            
+                            if mainViewShowCurrentSpeed {
+                                speedInfo()
+                                    .padding()
+                            }
+                            
                         }
                         
                         HStack{

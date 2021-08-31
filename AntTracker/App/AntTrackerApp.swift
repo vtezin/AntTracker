@@ -19,6 +19,7 @@ struct AntTrackerApp: App {
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     @AppStorage("lastShutdownOrBackgroundDate") var lastShutdownDate: Date = Date()
+    @AppStorage("currentTrackCoreDataUIIDString") var currentTrackCoreDataUIIDString = ""
     
     let clManager = LocationManager()
     let currentTrack = CurrentTrack.currentTrack
@@ -26,6 +27,47 @@ struct AntTrackerApp: App {
     let constants = GlobalAppVars()
     
     init() {
+        
+        if currentTrack.trackCoreData == nil && !currentTrackCoreDataUIIDString.isEmpty {
+            restoreTrackRecording(currentTrackCoreDataUIIDString: currentTrackCoreDataUIIDString)
+        }
+        
+    }
+    
+    func restoreTrackRecording(currentTrackCoreDataUIIDString: String) {
+        
+        let trackCDUUID = UUID(uuidString: currentTrackCoreDataUIIDString)
+        
+        print("restore track recording " + trackCDUUID!.uuidString)
+        
+        let moc = persistenceController.container.viewContext
+        
+        let entityDescription = NSEntityDescription.entity(forEntityName: "Track", in: moc)
+        
+        let request = NSFetchRequest<NSFetchRequestResult>()
+        
+        request.entity = entityDescription
+        request.predicate = NSPredicate(format: "id == %@", trackCDUUID! as CVarArg)
+        
+        do {
+            
+            let tracks = try moc.fetch(request)
+            
+            guard tracks.count == 1 else {
+                return
+            }
+            
+            let trackCoreData = tracks.first! as! Track
+            
+            currentTrack.trackCoreData = trackCoreData
+            currentTrack.fillByTrackCoreData(trackCD: trackCoreData)
+            clManager.trackRecording = true
+            
+            print("track record restored")
+            
+        } catch {
+            //just failed restoring
+        }
         
     }
     

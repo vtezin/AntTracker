@@ -9,13 +9,17 @@ import SwiftUI
 
 struct AppSettings: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var clManager: LocationManager
+    
     @Binding var activePage: ContentView.pages
     
     @AppStorage("disableAutolockScreen") var disableAutolockScreen: Bool = false
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var clManager: LocationManager
-        
+    
+    @AppStorage("mainViewShowCurrentAlt") var mainViewShowCurrentAltitude: Bool = false
+    @AppStorage("mainViewShowCurrentSpeed") var mainViewShowCurrentSpeed: Bool = true
+    
     @State var color: Color = .orange
     @State private var showColorSelector = false
     
@@ -25,8 +29,17 @@ struct AppSettings: View {
             
             Form{
                 
-                Section(header: Text("Color of current track")) {
+                Section(header: Text("Display on the map")) {
                     ColorSelectorView(selectedColor: $color)
+                }
+                
+                Section(header: Text("Map settings")) {
+                    Toggle(isOn: $mainViewShowCurrentSpeed.animation()) {
+                        Text("Сurrent speed")
+                    }
+                    Toggle(isOn: $mainViewShowCurrentAltitude.animation()) {
+                        Text("Сurrent altitude")
+                    }
                 }
                 
                 Section {
