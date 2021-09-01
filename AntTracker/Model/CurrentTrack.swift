@@ -121,9 +121,10 @@ class CurrentTrack: ObservableObject {
     
     func addNewPointFromLocation(location: CLLocation) {
         
-        guard Int(location.horizontalAccuracy) <= 50 else {return}
+        guard Int(location.horizontalAccuracy) <= 30 else {return}
         
         if points.count == 0 {
+            
             //init by first point
             startDate = location.timestamp
             finishDate = location.timestamp
@@ -132,18 +133,29 @@ class CurrentTrack: ObservableObject {
             minLongitude = location.coordinate.longitude
             maxLatitude = location.coordinate.latitude
             maxLongitude = location.coordinate.longitude
-            
             minAltitude = Int(location.altitude)
             maxAltitude = Int(location.altitude)
+            
             maxSpeed = location.speed
             summSpeed = location.speed
+            
             totalDistanceMeters = 0
+            
         } else {
             
             let distanceFromLastLocation = location.distance(from: lastSavedLocation)
             
-            guard distanceFromLastLocation > 3 else {return}
+            guard distanceFromLastLocation >= max(location.horizontalAccuracy,
+                    lastSavedLocation.horizontalAccuracy) else {
+                return
+            }
+            
             guard distanceFromLastLocation > location.speed.speedKmHRounded() else {return}
+            
+//            print("-> \(distanceFromLastLocation)")
+//            print("cl ha \(location.horizontalAccuracy)")
+//            print("ls ha \(lastSavedLocation.horizontalAccuracy)")
+//            print("speed \(location.speed.speedKmHRounded())")
             
             totalDistanceMeters += location.distance(from: points.last!.location)
             summSpeed += location.speed

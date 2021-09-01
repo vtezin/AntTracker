@@ -207,18 +207,21 @@ extension MainView {
                 .imageScale(.small)
             Text("\(Int(clManager.location.altitude)) m")
                 .fontWeight(.light)
-        }
-        .contextMenu {
-            Button {
-                mainViewShowCurrentAltitude = false
-            } label: {
-                Label("Hide", systemImage: "")
-            }
+            Text("(+/-\(Int(clManager.location.verticalAccuracy)))")
+                .modifier(SecondaryInfo())
+            
         }
         .padding(10)
         .background(Color.systemBackground
                         .opacity(0.7)
                         .clipShape(RoundedRectangle(cornerRadius: 5)))
+        .contextMenu {
+            Button {
+                mainViewShowCurrentAltitude = false
+            } label: {
+                Label("Hide", systemImage: "eye.slash")
+            }
+        }
         
     }
     
@@ -275,7 +278,7 @@ extension MainView {
                 Button {
                     mainViewShowCurrentSpeed = false
                 } label: {
-                    Label("Hide", systemImage: "")
+                    Label("Hide", systemImage: "eye.slash")
                 }
             }
 

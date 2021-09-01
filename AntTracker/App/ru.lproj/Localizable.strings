@@ -114,3 +114,8 @@
 "Display on the map" = "Отображать на карте";
 "Сurrent speed" = "Текущая скорость";
 "Сurrent altitude" = "Текущая высота";
+
+"Statistics" = "Статистика";
+
+"%lld points" = "%lld точек";
+

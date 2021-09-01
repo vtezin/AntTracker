@@ -251,7 +251,7 @@ struct TrackDetailsView: View {
     
             Section() {
                 
-                VStack{
+                //VStack{
                 
                     HStack{
                         Image(systemName: "arrow.triangle.swap")
@@ -265,20 +265,18 @@ struct TrackDetailsView: View {
                     }
                     
                     if showColorSelector {
-                        Divider()
+                        //Divider()
                         ColorSelectorView(selectedColor: $color)
                     }
                     
+                //}
+                HStack{
+                    TrackGroupRawView(trackGroup: trackGroup)
                 }
-            }
-            
-            
-            HStack{
-                TrackGroupRawView(trackGroup: trackGroup)
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                showGroupSelection = true
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    showGroupSelection = true
+                }
             }
             
 
@@ -291,56 +289,61 @@ struct TrackDetailsView: View {
                 
             }
             
+            Section(header: Text("Statistics")) {
                 
-            HStack{
+                Text("\(statistics?.points.count ?? 0) points")
+                    .modifier(SecondaryInfo())
                 
-                VStack {
-                    HStack{
-                        Image(systemName: "hare")
-                    }
-                    .padding(.bottom, 5)
-                    
-                    HStack {
-                        Text("avg")
-                            .fontWeight(.light)
-                        Text(" \(statistics?.averageSpeed.localeSpeedString ?? "")")
-                            .fontWeight(.light)
-                    }
-                    
-                    HStack {
-                        Text("max")
-                            .fontWeight(.light)
-                        Text(" \(statistics?.maxSpeed.localeSpeedString ?? "")")
-                            .fontWeight(.light)
-                    }
-                    
-                }
-                
-                Spacer()
-                
-                VStack {
-                    HStack{
-                        //Image(systemName: "arrow.up")
-                        Text("altitude")
-                    }
-                    .padding(.bottom, 5)
+                HStack{
                     
                     VStack {
                         HStack{
-                            Text("\(statistics?.minAltitude ?? 0)")
+                            Image(systemName: "hare")
+                        }
+                        .padding(.bottom, 5)
+                        
+                        HStack {
+                            Text("avg")
                                 .fontWeight(.light)
-                            Image(systemName: "arrow.up.right")
-                            Text("\(statistics?.maxAltitude ?? 0)")
+                            Text(" \(statistics?.averageSpeed.localeSpeedString ?? "")")
                                 .fontWeight(.light)
                         }
-                        Text("(\((statistics?.maxAltitude ?? 0) - (statistics?.minAltitude ?? 0)))" + "m")
-                            .fontWeight(.light)
+                        
+                        HStack {
+                            Text("max")
+                                .fontWeight(.light)
+                            Text(" \(statistics?.maxSpeed.localeSpeedString ?? "")")
+                                .fontWeight(.light)
+                        }
+                        
+                    }
+                    
+                    Spacer()
+                    
+                    VStack {
+                        HStack{
+                            //Image(systemName: "arrow.up")
+                            Text("altitude")
+                        }
+                        .padding(.bottom, 5)
+                        
+                        VStack {
+                            HStack{
+                                Text("\(statistics?.minAltitude ?? 0)")
+                                    .fontWeight(.light)
+                                Image(systemName: "arrow.up.right")
+                                Text("\(statistics?.maxAltitude ?? 0)")
+                                    .fontWeight(.light)
+                            }
+                            Text("(\((statistics?.maxAltitude ?? 0) - (statistics?.minAltitude ?? 0)))" + " m")
+                                .fontWeight(.light)
+                        }
+                        
                     }
                     
                 }
-                
+                .padding()
             }
-            
             
             
         }
