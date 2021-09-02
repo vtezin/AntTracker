@@ -19,6 +19,7 @@ struct PointEdit: View {
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
+    @AppStorage("lastUsedCLAltitude") var lastUsedCLAltitude: Int = 0
     
     @State private var title: String = ""
     @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
@@ -26,7 +27,7 @@ struct PointEdit: View {
     @State private var dateAdded: Date = Date()
     @State private var point: Point?
     @State private var coordinate = CLLocationCoordinate2D()
-    @State private var altitude: Double  = 0
+    @State private var altitude: Int = 0
     
     @State private var showQuestionBeforeDelete = false
     @State private var showColorSelector = false
@@ -78,16 +79,7 @@ struct PointEdit: View {
                     
                     HStack{
                         
-                        
-                            Text(coordinate.coordinateStrings[2])
-                            if altitude != 0 {
-                                HStack{
-                                    Text("altitude")
-                                    Text(altitude.string2s)
-                                }
-                                .modifier(SecondaryInfo())
-                            }
-                        
+                        Text(coordinate.coordinateStrings[2])
                         
                         Spacer()
                         
@@ -106,6 +98,26 @@ struct PointEdit: View {
                 
                 Section(header: Text("Distance from here")) {
                     Text(localeDistanceString(distanceMeters: CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
+                }
+                
+                if altitude != 0 {
+                    
+                    Section(header: Text("Altitude")) {
+                        
+                        let altitudeDelta = altitude - lastUsedCLAltitude
+                        
+                        HStack{
+                            Text("\(altitude) m")
+                            Spacer()
+                            if altitudeDelta != 0 {
+                                Image(systemName: altitudeDelta > 0 ? "arrow.up.right" : "arrow.down.right")
+                                    .foregroundColor(.secondary)
+                                Text("\(altitudeDelta) m")
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    
+                    }
                 }
                 
                 
@@ -187,15 +199,23 @@ struct PointEdit: View {
                 point = appVariables.editingPoint
                 
                 if point != nil {
+                    
                     title = point!.title
                     color = Color.getColorFromName(colorName: point!.color)
                     imageSymbol = point!.wrappedImageSymbol
                     dateAdded = point!.dateAdded
                     coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
-                    altitude = point!.altitude
+                    altitude = Int(point!.altitude)
+                    
                 } else {
+                    
                     coordinate = appVariables.centerOfMap
                     firstResponder = .title
+                    let distanceToCL = CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                    if distanceToCL <= 30 {
+                        altitude = lastUsedCLAltitude
+                    }
+                    
                 }
                 
             }
@@ -225,7 +245,7 @@ struct PointEdit: View {
                              imageSymbol: imageSymbol,
                              latitude: coordinate.latitude,
                              longitude: coordinate.longitude,
-                             altitude: altitude)
+                             altitude: Double(altitude))
         
         appVariables.needRedrawPointsOnMap = true
         lastUsedPointColor = color.description
@@ -239,7 +259,7 @@ struct PointEdit: View {
         kmlText += kmlAPI.headerFile(title: title)
         kmlText += kmlAPI.getPointTag(title: title,
                                       coordinate: coordinate,
-                                      altitude: altitude)
+                                      altitude: Double(altitude))
         kmlText += kmlAPI.footerFile
         
         return kmlText
