@@ -119,3 +119,6 @@
 
 "%lld points" = "%lld точек";
 
+"Altitude" = "Высота";
+"altitude %lld m" = "высота %lld м";
+"%lld m" = "%lld м";
