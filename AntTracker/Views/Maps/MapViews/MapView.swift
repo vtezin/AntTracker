@@ -55,7 +55,8 @@ struct MapView: UIViewRepresentable {
         if constants.needChangeMapView {
             
             let region = MKCoordinateRegion(center: center, span: span)
-            view.setRegion(region, animated: true)
+            view.setRegion(region, animated: span.latitudeDelta < 0.1)
+            //print("span: \(span)")
             
             constants.needChangeMapView = false
         }

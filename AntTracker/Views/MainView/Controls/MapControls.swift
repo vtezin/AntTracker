@@ -35,7 +35,7 @@ extension MainView {
                     
                     makeVibration()
                     moveCenterMapToCurLocation()
-                    setMapSpan(delta: minSpan * 2)
+                    setMapSpan(delta: minSpan * 3)
                     
                 }
             
@@ -145,6 +145,7 @@ extension MainView {
             
             .onTapGesture() {
                 moveCenterMapToCurLocation()
+                setMapSpan(delta: minSpan * 3)
                 withAnimation(.easeOut){
                     rotateCount += 1
                 }
