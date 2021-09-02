@@ -18,7 +18,8 @@ struct AntTrackerApp: App {
     
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
-    @AppStorage("lastShutdownOrBackgroundDate") var lastShutdownDate: Date = Date()
+    @AppStorage("lastUsedCLAltitude") var lastUsedCLAltitude: Int = 0
+    
     @AppStorage("currentTrackCoreDataUIIDString") var currentTrackCoreDataUIIDString = ""
     
     let clManager = LocationManager()
@@ -89,9 +90,8 @@ struct AntTrackerApp: App {
                   case .inactive:
                     lastUsedCLLatitude = clManager.location.coordinate.latitude
                     lastUsedCLLongitude = clManager.location.coordinate.longitude
+                    lastUsedCLAltitude = Int(clManager.location.altitude)
                   case .background:
-                    lastShutdownDate = Date()
-                    //print("background lastShutdownDate saved")
                     return
                     //print("App is in background")
                   @unknown default:
