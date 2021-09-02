@@ -22,8 +22,6 @@
 "Save changes" = "Сохранить изменения";
 "Done" = "Готово";
 "Cancel" = "Отменить";
-"alt." = "выс.";
-"altitude" = "высота";
 "saved" = "записан";
 "created:" = "создано:";
 
@@ -122,3 +120,5 @@
 "Altitude" = "Высота";
 "altitude %lld m" = "высота %lld м";
 "%lld m" = "%lld м";
+"alt." = "выс.";
+"altitude" = "высота";
