@@ -27,7 +27,7 @@ struct MainView: View {
     
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
-    @AppStorage("lastShutdownOrBackgroundDate") var lastShutdownDate: Date = Date()
+    @AppStorage("lastMapDisapearingDate") var lastMapDisapearingDate: Date = Date()
     
     @AppStorage("mainViewShowCurrentAlt") var mainViewShowCurrentAltitude: Bool = false
     @AppStorage("mainViewShowCurrentSpeed") var mainViewShowCurrentSpeed: Bool = true
@@ -278,7 +278,7 @@ struct MainView: View {
             return
         }
         
-        let minutesFromLastShoutDown = Date().seconds(from: lastShutdownDate) / 60
+        let minutesFromLastShoutDown = Date().seconds(from: lastMapDisapearingDate) / 60
         
         //print("last shdown \(lastShutdownDate) - \(Date().seconds(from: lastShutdownDate)) seconds")
         
@@ -304,7 +304,7 @@ struct MainView: View {
             
         }
         
-        tryToSetMapPositionBySavedCoordinates()
+        tryToSetMapPositionBySavedCurentLocation()
         
     }
     
@@ -319,12 +319,12 @@ struct MainView: View {
             }
             moveCenterMapToCurLocation()
         } else {
-            tryToSetMapPositionBySavedCoordinates()
+            tryToSetMapPositionBySavedCurentLocation()
         }
         
     }
     
-    func tryToSetMapPositionBySavedCoordinates() {
+    func tryToSetMapPositionBySavedCurentLocation() {
         
         let lastUsedCLReceived = lastUsedCLLongitude != 0
             && lastUsedCLLatitude != 0
@@ -345,6 +345,7 @@ struct MainView: View {
         lastUsedMapCenterLatitude = center.latitude
         lastUsedMapCenterLongitude = center.longitude
         lastUsedMapSpan = span.latitudeDelta
+        lastMapDisapearingDate = Date()
     }
     
     func moveCenterMapToCurLocation() {
