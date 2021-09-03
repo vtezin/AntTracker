@@ -42,7 +42,7 @@
 
 "Settings" = "Настройки";
 "Color of current track" = "Цвет текущего трека";
-"Disable auto-lock screen" = "Отключить автоблокировку экрана";
+"Disable auto-lock screen when app is active" = "Отключать автоблокировку экрана когда приложение активно";
 
 "Reset current track?" = "Сбросить текущий трек?";
 "Reset" = "Сбросить";
@@ -122,3 +122,6 @@
 "%lld m" = "%lld м";
 "alt." = "выс.";
 "altitude" = "высота";
+"(altitude according to GPS signal data)" = "(высота над уровнем моря по данным GPS-сигнала)";
+
+"Color of the current track" = "Цвет текущего трека";

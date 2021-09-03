@@ -29,22 +29,24 @@ struct AppSettings: View {
             
             Form{
                 
-                Section(header: Text("Display on the map")) {
+                Section(header: Text("Color of the current track")) {
                     ColorSelectorView(selectedColor: $color)
                 }
                 
-                Section(header: Text("Map settings")) {
+                Section(header: Text("Display on the map")) {
                     Toggle(isOn: $mainViewShowCurrentSpeed.animation()) {
                         Text("Сurrent speed")
                     }
                     Toggle(isOn: $mainViewShowCurrentAltitude.animation()) {
                         Text("Сurrent altitude")
                     }
+                    Text("(altitude according to GPS signal data)")
+                        .modifier(SecondaryInfo())
                 }
                 
                 Section {
                     Toggle(isOn: $disableAutolockScreen.animation()) {
-                        Text("Disable auto-lock screen")
+                        Text("Disable auto-lock screen when app is active")
                     }
                     .onChange(of: disableAutolockScreen) { value in
                         UIApplication.shared.isIdleTimerDisabled = disableAutolockScreen
