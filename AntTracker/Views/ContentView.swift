@@ -15,12 +15,15 @@ struct ContentView: View {
         var id: Int {hashValue}
         case main
         case trackList
+        case pointList
         case settings
         case editPoint
         case completeTrack
     }
     
     @State var activePage: pages = .main
+    @State private var pointListRefreshID: UUID? = nil //for force refreshing
+    @EnvironmentObject var appVariables: GlobalAppVars
     
     var body: some View {
         
@@ -28,11 +31,17 @@ struct ContentView: View {
         case .trackList:
             TrackListView(activePage: $activePage)
                 .transition(.move(edge: .trailing))
+        case .pointList:
+            PointListView(activePage: $activePage)
+                .transition(.move(edge: .trailing))
         case .settings:
             AppSettings(activePage: $activePage)
                 .transition(.move(edge: .trailing))
         case .editPoint:
-            PointEdit(activePage: $activePage)
+            PointEdit(point: appVariables.editingPoint,
+                      centerOfMap: appVariables.centerOfMap,
+                      activePage: $activePage,
+                      pointListRefreshID: $pointListRefreshID)
                 .transition(.move(edge: .bottom))
         case .completeTrack:
             CompleteRecordTrack(activePage: $activePage)

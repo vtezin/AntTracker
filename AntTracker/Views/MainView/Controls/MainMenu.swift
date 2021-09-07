@@ -168,7 +168,6 @@ extension MainView {
                 VStack {
                     Image(systemName: "mappin.and.ellipse")
                         .modifier(ControlButton())
-                        .foregroundColor(showPointsManagment ? globalParameters.pointControlsColor : .primary)
                     Text("Points").buttonText()
                 }
                 
@@ -195,7 +194,9 @@ extension MainView {
                                              color: nil,
                                              imageSymbol: nil,
                                              latitude: clManager.region.center.latitude,
-                                             longitude: clManager.region.center.longitude, altitude: clManager.location.altitude)
+                                             longitude: clManager.region.center.longitude,
+                                             altitude: clManager.location.altitude,
+                                             pointGroup: nil)
                         
                         appVariables.needRedrawPointsOnMap = true
                         

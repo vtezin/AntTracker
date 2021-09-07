@@ -19,7 +19,8 @@ public class Point: NSManagedObject {
                                imageSymbol: String?,
                                latitude: Double,
                                longitude: Double,
-                               altitude: Double
+                               altitude: Double,
+                               pointGroup: PointGroup?
     ) {
         
         var pointForSave: Point
@@ -54,6 +55,8 @@ public class Point: NSManagedObject {
         } else {
             pointForSave.title = Date().dateString()
         }
+        
+        pointForSave.pointGroup = pointGroup
         
         try? moc.save()
         

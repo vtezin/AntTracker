@@ -38,7 +38,7 @@ class PointAnnotation: NSObject, MKAnnotation {
             annotationView!.annotation = self
         }
         
-        let pointColor = UIColor(Color.getColorFromName(colorName: (point.color) )).withAlphaComponent(1)
+        let pointColor = UIColor(Color.getColorFromName(colorName: (point.wrappedColor) )).withAlphaComponent(1)
         
         annotationView!.markerTintColor = pointColor
         annotationView!.glyphImage = UIImage(systemName: point.wrappedImageSymbol)

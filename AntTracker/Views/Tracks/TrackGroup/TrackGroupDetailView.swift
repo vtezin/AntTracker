@@ -47,14 +47,6 @@ struct TrackGroupDetailView: View {
                 Section{
                     
                     HStack{
-//                        Image(systemName: imageSymbol)
-//                            .imageScale(.large)
-//                            .onTapGesture {
-//                                withAnimation{
-//                                    showImageSymbolSelector.toggle()
-//                                }
-//                            }
-//                        Divider()
                         TextField("Title", text: $title)
                             .firstResponder(id: FirstResponders.title, firstResponder: $firstResponder, resignableUserOperations: .all)
                             .modifier(ClearButton(text: $title))
@@ -105,8 +97,7 @@ struct TrackGroupDetailView: View {
         try? moc.save()
         
     }
-    
-    
+        
 }
 
 //struct TrackGroupDetailView_Previews: PreviewProvider {

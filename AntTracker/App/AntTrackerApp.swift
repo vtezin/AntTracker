@@ -116,15 +116,24 @@ func printTest(_ stringToPrint: String) {
 }
 
 enum globalParameters {
+    
     static var printTestData = false
-    static var pointControlsColor = Color.orange
+    static let defaultColor = Color.orange
+    
+    //span
+    static let minSpan: Double = 0.0008
+    static let maxSpan: Double = 108
+    static let curLocationSpan = minSpan * 3
+    
 }
 
 class GlobalAppVars: ObservableObject {
+    
     @Published var needRedrawPointsOnMap = true
     @Published var needChangeMapView = false
     @Published var editingPoint: Point? = nil
     @Published var centerOfMap = CLLocationCoordinate2D()
+    
 }
 
 func colorForMapText(mapType: MKMapType, colorScheme: ColorScheme) -> Color {

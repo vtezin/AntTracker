@@ -1,20 +1,20 @@
 //
-//  TrackGroupsView.swift
+//  PointGroupSelectionView.swift
 //  AntTracker
 //
-//  Created by test on 25.05.2021.
+//  Created by test on 06.09.2021.
 //
 
 import SwiftUI
 
-struct TrackGroupSelectionView: View {
+struct PointGroupSelectionView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
     
-    @FetchRequest(entity: TrackGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.dateOfLastChange, ascending: false)]) var groups:FetchedResults<TrackGroup>
+    @FetchRequest(entity: PointGroup.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TrackGroup.dateOfLastChange, ascending: false)]) var groups:FetchedResults<PointGroup>
     
-    @Binding var selectedGroup: TrackGroup?
+    @Binding var selectedGroup: PointGroup?
     
     //adding new group
     @State private var titleForNewGroup = ""
@@ -29,7 +29,7 @@ struct TrackGroupSelectionView: View {
             
             ForEach(groups, id: \.id) { group in
                 HStack{
-                    TrackGroupRawView(trackGroup: group)
+                    PointGroupRawView(group: group)
                 }
                 .onTapGesture{
                     selectedGroup = group
@@ -38,23 +38,22 @@ struct TrackGroupSelectionView: View {
 
             }
             
-            TrackGroupRawView(trackGroup: nil)
+            PointGroupRawView(group: nil)
             .onTapGesture{
                 selectedGroup = nil
                 presentationMode.wrappedValue.dismiss()
             }
 
         }
-        .navigationBarTitle("Track groups", displayMode: .inline)
+        .navigationBarTitle("Point groups", displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
         .navigationViewStyle(StackNavigationViewStyle())
         
     }
-    
 }
 
-//struct TrackGroupsView_Previews: PreviewProvider {
+//struct PointGroupSelectionView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TrackGroupsView()
+//        PointGroupSelectionView()
 //    }
 //}

@@ -29,9 +29,5 @@ public class TrackGroup: NSManagedObject {
         
     }
     
-    func updateDateOfLastChange(moc: NSManagedObjectContext) {
-        dateOfLastChange = Date()
-    }
-    
 }
 

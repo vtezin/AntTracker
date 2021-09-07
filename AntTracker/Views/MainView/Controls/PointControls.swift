@@ -168,5 +168,79 @@ extension MainView {
         
     }
     
+    var buttonPointList: some View {
+        
+        Button(action: {
+            withAnimation{
+                activePage = .pointList
+            }
+        }) {
+            VStack{
+                Image(systemName: "tray.2").modifier(ControlButton())
+                Text("Points").buttonText()
+            }
+        }
+        
+    }
+    
+    var buttonPointsMore: some View {
+        
+        Menu{
+            
+            Button(action: {
+                
+                let coordinate = appVariables.centerOfMap
+                let title = "Position from AntTracker"
+                
+                var kmlText = ""
+                kmlText += kmlAPI.headerFile(title: title)
+                kmlText += kmlAPI.getPointTag(title: title,
+                                              coordinate: coordinate, altitude: nil)
+                kmlText += kmlAPI.footerFile
+                
+                kmlAPI.shareTextAsKMLFile(text: kmlText,
+                                   filename: title)
+                
+            }) {
+                Label("KML file", systemImage: "square.and.arrow.up")
+                    //.labelStyle(TitleOnlyLabelStyle())
+            }
+            
+            Button(action: {
+                
+                let av = UIActivityViewController(activityItems: [appVariables.centerOfMap.coordinateStrings[2]],
+                                                  applicationActivities: nil)
+                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true,
+                                                                                completion: nil)
+                
+            }) {
+                Label("Coordinates", systemImage: "square.and.arrow.up")
+                    //.labelStyle(TitleOnlyLabelStyle())
+            }
+            
+            Divider()
+            
+            Button(action: {
+                withAnimation {
+                    showGoToCoordinates.toggle()
+                }
+            }) {
+                VStack{
+                    Image(systemName: "arrow.down.to.line").modifier(ControlButton())
+                    Text("Go to").buttonText()
+                }
+            }
+            
+        } label: {
+            
+            VStack{
+                Image(systemName: "ellipsis.circle")
+                    .modifier(ControlButton())
+                Text("More").buttonText()
+            }
+        }
+        
+    }
+    
     
 }

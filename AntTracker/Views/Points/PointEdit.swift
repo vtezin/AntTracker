@@ -11,9 +11,12 @@ import CoreLocation
 struct PointEdit: View {
     
     @Binding var activePage: ContentView.pages
+    @Binding var pointListRefreshID: UUID?
+    
+    var point: Point?
+    var centerOfMap: CLLocationCoordinate2D?
     
     @Environment(\.managedObjectContext) var moc
-    
     @EnvironmentObject var appVariables: GlobalAppVars
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
@@ -23,19 +26,57 @@ struct PointEdit: View {
     
     @State private var title: String = ""
     @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
-    @State private var color: Color = Color.orange
+    @State private var color: Color = globalParameters.defaultColor
     @State private var dateAdded: Date = Date()
-    @State private var point: Point?
     @State private var coordinate = CLLocationCoordinate2D()
     @State private var altitude: Int = 0
     
     @State private var showQuestionBeforeDelete = false
     @State private var showColorSelector = false
     
+    //selecting group
+    @State private var group: PointGroup?
+    @State private var showGroupSelection = false
+    
     enum FirstResponders: Int {
         case title
     }
     @State var firstResponder: FirstResponders?
+    
+    
+    init(point: Point?,
+         centerOfMap: CLLocationCoordinate2D?,
+         activePage: Binding<ContentView.pages>,
+         pointListRefreshID: Binding<UUID?>) {
+        
+        self.point = point
+        self._activePage = activePage
+        self._pointListRefreshID = pointListRefreshID
+        
+        if let point = point {
+            //init by existing point
+            
+            _title = State(initialValue: point.title)
+            _color = State(initialValue: Color.getColorFromName(colorName: point.wrappedColor))
+            _imageSymbol = State(initialValue: point.wrappedImageSymbol)
+            _dateAdded = State(initialValue: point.dateAdded)
+            _coordinate = State(initialValue: CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude))
+            _altitude = State(initialValue: Int(point.altitude))
+            _group = State(initialValue: point.pointGroup)
+            
+        } else {
+            //adding new point
+            
+            _firstResponder = State(initialValue: .title)
+            
+            _coordinate = State(initialValue: centerOfMap!)
+            let distanceToCL = CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))
+            if distanceToCL <= 30 {
+                _altitude = State(initialValue:lastUsedCLAltitude)
+            }
+        }
+
+    }
     
     var body: some View {
         
@@ -46,18 +87,22 @@ struct PointEdit: View {
                 Section() {
                     
                         HStack{
-                            Image(systemName: imageSymbol)
-                                .foregroundColor(.white)
-                                .imageScale(.medium)
-                                .padding(10)
-                                .background(color)
-                                .clipShape(Circle())
-                                .onTapGesture {
-                                    withAnimation {
-                                        showColorSelector.toggle()
+                            
+                            if group == nil {
+                                Image(systemName: imageSymbol)
+                                    .foregroundColor(.white)
+                                    .imageScale(.medium)
+                                    .padding(10)
+                                    .background(color)
+                                    .clipShape(Circle())
+                                    .onTapGesture {
+                                        withAnimation {
+                                            showColorSelector.toggle()
+                                        }
                                     }
-                                }
-                            Divider()
+                                Divider()
+                            }
+                            
                             TextField("", text: $title)
                                 .firstResponder(id: FirstResponders.title, firstResponder: $firstResponder, resignableUserOperations: .all)
                                 .modifier(ClearButton(text: $title))
@@ -70,6 +115,14 @@ struct PointEdit: View {
                                               imageForUnselectedColor: "circle")
                             ImageSymbolSelectorView(selectedImage: $imageSymbol, imageSymbolSet: SFSymbolsAPI.pointImageSymbols)
                         }
+                    }
+                    
+                    HStack{
+                        PointGroupRawView(group: group)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        showGroupSelection = true
                     }
                         
                 }
@@ -119,7 +172,6 @@ struct PointEdit: View {
                     
                     }
                 }
-                
                 
             }
             
@@ -183,6 +235,11 @@ struct PointEdit: View {
                 
             }
             
+            .sheet(isPresented: $showGroupSelection) {
+                PointGroupSelectionView(selectedGroup: $group)
+                    .environment(\.managedObjectContext, moc)
+            }
+            
             .actionSheet(isPresented: $showQuestionBeforeDelete) {
                 
                 actionSheetForDelete(title: "Delete this point?") {
@@ -194,31 +251,29 @@ struct PointEdit: View {
 
             }
             
-            .onAppear{
-                
-                point = appVariables.editingPoint
-                
-                if point != nil {
-                    
-                    title = point!.title
-                    color = Color.getColorFromName(colorName: point!.color)
-                    imageSymbol = point!.wrappedImageSymbol
-                    dateAdded = point!.dateAdded
-                    coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
-                    altitude = Int(point!.altitude)
-                    
-                } else {
-                    
-                    coordinate = appVariables.centerOfMap
-                    firstResponder = .title
-                    let distanceToCL = CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))
-                    if distanceToCL <= 30 {
-                        altitude = lastUsedCLAltitude
-                    }
-                    
-                }
-                
-            }
+//            .onAppear{
+//
+//                if point != nil {
+//
+//                    title = point!.title
+//                    color = Color.getColorFromName(colorName: point!.wrappedColor)
+//                    imageSymbol = point!.wrappedImageSymbol
+//                    dateAdded = point!.dateAdded
+//                    coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
+//                    altitude = Int(point!.altitude)
+//
+//                } else {
+//
+//                    coordinate = appVariables.centerOfMap
+//                    firstResponder = .title
+//                    let distanceToCL = CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))
+//                    if distanceToCL <= 30 {
+//                        altitude = lastUsedCLAltitude
+//                    }
+//
+//                }
+//
+//            }
             
         }
         
@@ -245,7 +300,8 @@ struct PointEdit: View {
                              imageSymbol: imageSymbol,
                              latitude: coordinate.latitude,
                              longitude: coordinate.longitude,
-                             altitude: Double(altitude))
+                             altitude: Double(altitude),
+                             pointGroup: group)
         
         appVariables.needRedrawPointsOnMap = true
         lastUsedPointColor = color.description

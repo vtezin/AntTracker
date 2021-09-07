@@ -156,6 +156,7 @@ struct TrackDetailsView: View {
         
         .sheet(isPresented: $showGroupSelection) {
             TrackGroupSelectionView(selectedGroup: $trackGroup)
+                .environment(\.managedObjectContext, moc)
         }
         
         .actionSheet(isPresented: $showQuestionBeforeDelete) {
@@ -362,7 +363,13 @@ struct TrackDetailsView: View {
         track.color = color.description
         track.trackGroup = trackGroup
         
-        try? moc.save()
+        //try? moc.save()
+        
+        do {
+            try moc.save()
+        } catch {
+            print(error)
+        }
         
         trackListRefreshID = UUID()
         

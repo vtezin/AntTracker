@@ -40,15 +40,14 @@ struct TrackListView: View {
         
         NavigationView {
             
-            //Form{
-            
             List{
                 
                 //groups
                 ForEach(groups, id: \.id) { group in
                     
                     NavigationLink(destination:
-                                    TrackGroupView(group: group, activePage: $activePage)) {
+                                    TrackGroupView(group: group, activePage: $activePage)
+                                    .environment(\.managedObjectContext, moc)) {
                         
                         HStack{
                             
@@ -116,7 +115,6 @@ struct TrackListView: View {
                 TrackGroupDetailView(group: nil)
             }
                         
-            //}
             .navigationBarTitle("Tracks", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             
@@ -146,23 +144,7 @@ struct TrackListView: View {
 }
 
 extension TrackListView {
-    
-    private func addGroup(title: String) {
         
-        guard !title.isEmpty else {
-            return
-        }
-        
-        let newGroup = TrackGroup(context: moc)
-        
-        newGroup.title = title
-        newGroup.id = UUID()
-        newGroup.dateOfLastChange = Date()
-        
-        try? moc.save()
-        
-    }
-    
     private func deleteGroup(at offsets: IndexSet?) {
         
         for offset in offsets! {

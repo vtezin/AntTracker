@@ -45,9 +45,6 @@ struct MainView: View {
     @State var showGoToCoordinates = false
     @State var showInvalidFormatGoToCoordinates = false
     
-    let minSpan: Double = 0.0008
-    let maxSpan: Double = 108
-    
     //Core Data
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Point.entity(), sortDescriptors: []) var points: FetchedResults<Point>
@@ -196,9 +193,9 @@ struct MainView: View {
                                     Spacer()
                                     buttonAddPoint
                                     Spacer()
-                                    buttonSharePosition
+                                    buttonPointList
                                     Spacer()
-                                    buttonGoToCoordinates
+                                    buttonPointsMore
                                 }
                             }
                             .transition(.move(edge: .bottom))
@@ -273,6 +270,14 @@ struct MainView: View {
 
     func setMapPositionOnAppear() {
         
+        if let editingPoint = appVariables.editingPoint {
+            center = CLLocationCoordinate2D(latitude: editingPoint.latitude,
+                                            longitude: editingPoint.longitude)
+            setMapSpan(delta: globalParameters.curLocationSpan)
+            appVariables.editingPoint = nil
+            return
+        }
+        
         if clManager.trackRecording || clManager.location.speed.speedKmHRounded() > 10 {
             moveCenterMapToCurLocation()
             return
@@ -315,7 +320,7 @@ struct MainView: View {
 
         if clReceived {
             if clManager.location.horizontalAccuracy < 50 {
-                setMapSpan(delta: minSpan * 3)
+                setMapSpan(delta: globalParameters.curLocationSpan)
             }
             moveCenterMapToCurLocation()
         } else {

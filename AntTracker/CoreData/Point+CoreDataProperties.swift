@@ -16,7 +16,7 @@ extension Point {
         return NSFetchRequest<Point>(entityName: "Point")
     }
 
-    @NSManaged public var color: String
+    @NSManaged public var color: String?
     @NSManaged public var id: UUID
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
@@ -24,13 +24,32 @@ extension Point {
     @NSManaged public var title: String
     @NSManaged public var dateAdded: Date
     @NSManaged public var imageSymbol: String?
+    @NSManaged public var pointGroup: PointGroup?
     
     public var wrappedImageSymbol: String {
+        
+        if let pointGroup = pointGroup {
+            return pointGroup.wrappedImageSymbol
+        }
         
         if let imageSymbol = imageSymbol {
             return imageSymbol
         } else {
             return SFSymbolsAPI.pointDefaultImageSymbol
+        }
+        
+    }
+    
+    public var wrappedColor: String {
+        
+        if let pointGroup = pointGroup {
+            return pointGroup.wrappedColor
+        }
+        
+        if let color = color {
+            return color
+        } else {
+            return globalParameters.defaultColor.description
         }
         
     }

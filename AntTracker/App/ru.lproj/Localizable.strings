@@ -30,6 +30,8 @@
 "Delete this group?" = "Удалить группу?";
 "Delete this group? (all tracks are saved and become tracks outside the groups)" =
 "Удалить группу? (все треки сохраняться и станут треками вне групп)";
+"Delete this group? (all points are saved and become points outside the groups)" =
+"Удалить группу? (все точки сохраняться и станут точками вне групп)";
 "Delete this track?" = "Удалить трек?";
 "Delete this point?" = "Удалить точку?";
 "There is no undo" = "Это действие необратимо";
@@ -71,8 +73,6 @@
 "Resume track" = "Продолжить трек";
 "track:" = "трек:";
 "saved at:" = "сохранен:";
-
-"all tracks are saved and become tracks outside the groups" = "все треки сохраняться и станут треками вне групп";
 
 "max" = "макс";
 "avg" = "сред";
@@ -116,6 +116,9 @@
 "Statistics" = "Статистика";
 
 "%lld points" = "%lld точек";
+"Show on the map" = "Показать на карте";
+"Point group" = "Группа точек";
+"Point groups" = "Группы точек";
 
 "Altitude" = "Высота";
 "altitude %lld m" = "высота %lld м";

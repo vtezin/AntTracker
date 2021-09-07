@@ -61,14 +61,6 @@ struct TrackGroupView: View {
         
     }
     
-    func renameGroup(title: String) {
-        
-            group.title = title
-            try? moc.save()
-
-    }
-    
-    
 }
 
 //struct TrackGroupView_Previews: PreviewProvider {

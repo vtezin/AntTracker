@@ -26,7 +26,8 @@ extension MainView {
                 
                 .onTapGesture() {
                     
-                    let newDelta = max(span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator(), minSpan)
+                    let newDelta = max(span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator(),
+                                       globalParameters.minSpan)
                     setMapSpan(delta: newDelta)
                     
                 }
@@ -35,13 +36,13 @@ extension MainView {
                     
                     makeVibration()
                     moveCenterMapToCurLocation()
-                    setMapSpan(delta: minSpan * 3)
+                    setMapSpan(delta: globalParameters.minSpan * 3)
                     
                 }
             
         }
-        .disabled(span.latitudeDelta == minSpan)
-        .foregroundColor(span.latitudeDelta == minSpan ? .secondary : .primary)
+        .disabled(span.latitudeDelta == globalParameters.minSpan)
+        .foregroundColor(span.latitudeDelta == globalParameters.minSpan ? .secondary : .primary)
         
     }
     
@@ -63,7 +64,8 @@ extension MainView {
             
             .onTapGesture() {
                 
-                let newDelta = min(span.latitudeDelta * zoomMultiplikator(), maxSpan)
+                let newDelta = min(span.latitudeDelta * zoomMultiplikator(),
+                                   globalParameters.maxSpan)
                 setMapSpan(delta: newDelta)
                 
             }
@@ -91,7 +93,8 @@ extension MainView {
                     
                     moveCenterMapToCurLocation()
                     
-                    let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 4, maxSpan)
+                    let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 4,
+                                       globalParameters.maxSpan)
                     setMapSpan(delta: newDelta)
 
                 }
@@ -99,8 +102,8 @@ extension MainView {
             }
 
         }
-        .disabled(span.latitudeDelta == maxSpan)
-        .foregroundColor(span.latitudeDelta == maxSpan ? .secondary : .primary)
+        .disabled(span.latitudeDelta == globalParameters.maxSpan)
+        .foregroundColor(span.latitudeDelta == globalParameters.maxSpan ? .secondary : .primary)
         
     }
     
@@ -145,7 +148,11 @@ extension MainView {
             
             .onTapGesture() {
                 moveCenterMapToCurLocation()
-                setMapSpan(delta: minSpan * 3)
+                
+                if span.latitudeDelta > globalParameters.curLocationSpan {
+                    setMapSpan(delta: globalParameters.curLocationSpan)
+                }
+                                
                 withAnimation(.easeOut){
                     rotateCount += 1
                 }
@@ -221,6 +228,7 @@ extension MainView {
                 mainViewShowCurrentAltitude = false
             } label: {
                 Label("Hide", systemImage: "eye.slash")
+                    .labelStyle(TitleOnlyLabelStyle())
             }
         }
         
@@ -247,11 +255,11 @@ extension MainView {
         case ..<5:
             fontSpeed = Font.headline
             paddingSpeed = 10
-        case ..<15:
-            fontSpeed = Font.title3
+        case 5..<15:
+            fontSpeed = Font.title2
             paddingSpeed = 10
         default:
-            fontSpeed = Font.title2
+            fontSpeed = Font.title
             paddingSpeed = 10
         }
         
@@ -267,6 +275,7 @@ extension MainView {
                                         .opacity(0.7)
                                         .clipShape(RoundedRectangle(cornerRadius: 5)))
                         .font(fontSpeed)
+                        .opacity(speedOut == 0 ? 0.5 : 1)
 //                } else {
 //                    Text("")
 //                        .fontWeight(.light)
@@ -280,6 +289,7 @@ extension MainView {
                     mainViewShowCurrentSpeed = false
                 } label: {
                     Label("Hide", systemImage: "eye.slash")
+                        .labelStyle(TitleOnlyLabelStyle())
                 }
             }
 

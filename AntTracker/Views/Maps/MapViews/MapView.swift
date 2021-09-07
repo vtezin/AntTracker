@@ -102,9 +102,13 @@ struct MapView: UIViewRepresentable {
             return false
         }
         
-        guard points.count != foundedAnnotations.count else {return}
+        let pointsForShowing = points.filter {
+            $0.pointGroup == nil || $0.pointGroup?.showOnMap ?? false
+        }
         
-        printTest("points added \(points.count) - \(foundedAnnotations.count)")
+        guard pointsForShowing.count != foundedAnnotations.count else {return}
+        
+        printTest("points added \(pointsForShowing.count) - \(foundedAnnotations.count)")
         
         var pointsAnnotationsOnMap = [PointAnnotation]()
         
@@ -114,7 +118,8 @@ struct MapView: UIViewRepresentable {
         
         var annotationsForAdd = [PointAnnotation]()
         
-        for point in points {
+        for point in pointsForShowing {
+            
             if !pointsAnnotationsOnMap.contains(where: {$0.point == point}) {
                 let annotation = PointAnnotation(point: point)
                 annotation.title = point.title

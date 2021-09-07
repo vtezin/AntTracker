@@ -17,6 +17,12 @@
 		5213A78B264D5D450009223D /* PointsManagment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5213A78A264D5D450009223D /* PointsManagment.swift */; };
 		5213A78E264DB25D0009223D /* PointEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5213A78D264DB25D0009223D /* PointEdit.swift */; };
 		5226028C25F4C83600703DCE /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226028B25F4C83500703DCE /* Modifiers.swift */; };
+		5239F00526E5D8D800BB6C85 /* PointRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5239F00426E5D8D800BB6C85 /* PointRawView.swift */; };
+		5239F00826E5DA2000BB6C85 /* PointListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5239F00726E5DA2000BB6C85 /* PointListView.swift */; };
+		5239F00E26E68FE700BB6C85 /* PointGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5239F00D26E68FE700BB6C85 /* PointGroupView.swift */; };
+		5239F01126E6920800BB6C85 /* PointGroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5239F01026E6920800BB6C85 /* PointGroupDetailView.swift */; };
+		5239F01426E6985A00BB6C85 /* PointGroupRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5239F01326E6985A00BB6C85 /* PointGroupRawView.swift */; };
+		5239F01726E6A6C500BB6C85 /* PointGroupSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5239F01626E6A6C500BB6C85 /* PointGroupSelectionView.swift */; };
 		523F262626C4811500AFB09B /* Window Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F261C26C4811500AFB09B /* Window Gesture.swift */; };
 		523F262726C4811500AFB09B /* Interoperability Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F261D26C4811500AFB09B /* Interoperability Views.swift */; };
 		523F262826C4811500AFB09B /* Def.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523F261F26C4811500AFB09B /* Def.swift */; };
@@ -80,6 +86,12 @@
 		5213A78A264D5D450009223D /* PointsManagment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsManagment.swift; sourceTree = "<group>"; };
 		5213A78D264DB25D0009223D /* PointEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEdit.swift; sourceTree = "<group>"; };
 		5226028B25F4C83500703DCE /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		5239F00426E5D8D800BB6C85 /* PointRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointRawView.swift; sourceTree = "<group>"; };
+		5239F00726E5DA2000BB6C85 /* PointListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointListView.swift; sourceTree = "<group>"; };
+		5239F00D26E68FE700BB6C85 /* PointGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointGroupView.swift; sourceTree = "<group>"; };
+		5239F01026E6920800BB6C85 /* PointGroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointGroupDetailView.swift; sourceTree = "<group>"; };
+		5239F01326E6985A00BB6C85 /* PointGroupRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointGroupRawView.swift; sourceTree = "<group>"; };
+		5239F01626E6A6C500BB6C85 /* PointGroupSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointGroupSelectionView.swift; sourceTree = "<group>"; };
 		523F261C26C4811500AFB09B /* Window Gesture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Window Gesture.swift"; sourceTree = "<group>"; };
 		523F261D26C4811500AFB09B /* Interoperability Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Interoperability Views.swift"; sourceTree = "<group>"; };
 		523F261F26C4811500AFB09B /* Def.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Def.swift; sourceTree = "<group>"; };
@@ -167,7 +179,9 @@
 		5213A7942651A3340009223D /* Points */ = {
 			isa = PBXGroup;
 			children = (
+				5239F00326E5D8A800BB6C85 /* PointGroup */,
 				5213A78D264DB25D0009223D /* PointEdit.swift */,
+				5239F00A26E5DA2C00BB6C85 /* PointList */,
 			);
 			path = Points;
 			sourceTree = "<group>";
@@ -180,6 +194,26 @@
 				5213A78A264D5D450009223D /* PointsManagment.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		5239F00326E5D8A800BB6C85 /* PointGroup */ = {
+			isa = PBXGroup;
+			children = (
+				5239F00D26E68FE700BB6C85 /* PointGroupView.swift */,
+				5239F01026E6920800BB6C85 /* PointGroupDetailView.swift */,
+				5239F01326E6985A00BB6C85 /* PointGroupRawView.swift */,
+				5239F01626E6A6C500BB6C85 /* PointGroupSelectionView.swift */,
+			);
+			path = PointGroup;
+			sourceTree = "<group>";
+		};
+		5239F00A26E5DA2C00BB6C85 /* PointList */ = {
+			isa = PBXGroup;
+			children = (
+				5239F00426E5D8D800BB6C85 /* PointRawView.swift */,
+				5239F00726E5DA2000BB6C85 /* PointListView.swift */,
+			);
+			path = PointList;
 			sourceTree = "<group>";
 		};
 		523F261A26C4811500AFB09B /* FirstRespondersForSwiftUI */ = {
@@ -450,6 +484,7 @@
 				521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */,
 				52DD9538260D138400F4E700 /* Track+CoreDataProperties.swift in Sources */,
 				5213A77F264D544B0009223D /* Point+CoreDataClass.swift in Sources */,
+				5239F00E26E68FE700BB6C85 /* PointGroupView.swift in Sources */,
 				52F91140261C723500309F63 /* AlertWithTextField.swift in Sources */,
 				52F04F6E261AD30D00C261C0 /* ColorSelectorView.swift in Sources */,
 				528920322668B4DD00058BBF /* CurrentTrack.swift in Sources */,
@@ -472,17 +507,22 @@
 				52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */,
 				52512CA1265C236E000619F6 /* TrackGroup+CoreDataProperties.swift in Sources */,
 				52512CB8265E3568000619F6 /* TrackGroupView.swift in Sources */,
+				5239F01726E6A6C500BB6C85 /* PointGroupSelectionView.swift in Sources */,
 				52512CA9265CF860000619F6 /* TrackGroupSelectionView.swift in Sources */,
 				52DD9543260D19C400F4E700 /* TrackPoint+CoreDataProperties.swift in Sources */,
+				5239F00526E5D8D800BB6C85 /* PointRawView.swift in Sources */,
 				5213A781264D544B0009223D /* PointGroup+CoreDataClass.swift in Sources */,
 				5213A774264B22790009223D /* Colors.swift in Sources */,
 				529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */,
+				5239F00826E5DA2000BB6C85 /* PointListView.swift in Sources */,
 				527BD615265FE6510047FA0C /* TrackDetailsView.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
 				523F262926C4811500AFB09B /* Text Field.swift in Sources */,
+				5239F01126E6920800BB6C85 /* PointGroupDetailView.swift in Sources */,
 				523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */,
 				52512C9526585AD5000619F6 /* MapControls.swift in Sources */,
 				5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */,
+				5239F01426E6985A00BB6C85 /* PointGroupRawView.swift in Sources */,
 				526117E4266E38740011197A /* MainView.swift in Sources */,
 				523F53392655037300B0DF4A /* PointAnnotation.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
