@@ -15,6 +15,7 @@ public class Point: NSManagedObject {
     static func addUpdatePoint(point: Point?,
                                moc: NSManagedObjectContext,
                                title: String?,
+                               info: String?,
                                color: String?,
                                imageSymbol: String?,
                                latitude: Double,
@@ -55,6 +56,8 @@ public class Point: NSManagedObject {
         } else {
             pointForSave.title = Date().dateString()
         }
+        
+        pointForSave.info = info
         
         pointForSave.pointGroup = pointGroup
         

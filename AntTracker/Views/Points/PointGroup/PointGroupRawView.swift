@@ -22,7 +22,7 @@ struct PointGroupRawView: View {
             } else {
                 
                 HStack{
-
+                    
                     ZStack {
                         Image(systemName: group!.wrappedImageSymbol)
                             .foregroundColor(.white)
@@ -37,8 +37,19 @@ struct PointGroupRawView: View {
                     
                     Image(systemName: group!.showOnMap ? "eye" : "eye.slash")
                         .foregroundColor(.secondary)
-
-                    Text(group!.title)
+                    
+                    VStack(alignment: .leading){
+                        
+                        Text(group!.title)
+                        
+                        if !group!.wrappedInfo.isEmpty {
+                            HStack{
+                                Text(group!.wrappedInfo)
+                                    .modifier(SecondaryInfo())
+                            }
+                        }
+                        
+                    }
                     
                     Spacer()
                     

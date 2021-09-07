@@ -25,6 +25,7 @@ struct PointEdit: View {
     @AppStorage("lastUsedCLAltitude") var lastUsedCLAltitude: Int = 0
     
     @State private var title: String = ""
+    @State private var info = ""
     @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
     @State private var color: Color = globalParameters.defaultColor
     @State private var dateAdded: Date = Date()
@@ -57,6 +58,7 @@ struct PointEdit: View {
             //init by existing point
             
             _title = State(initialValue: point.title)
+            _info = State(initialValue: point.wrappedInfo)
             _color = State(initialValue: Color.getColorFromName(colorName: point.wrappedColor))
             _imageSymbol = State(initialValue: point.wrappedImageSymbol)
             _dateAdded = State(initialValue: point.dateAdded)
@@ -125,6 +127,15 @@ struct PointEdit: View {
                         showGroupSelection = true
                     }
                         
+                }
+                
+                Section(header: Text("Description")) {
+                    
+                    ZStack {
+                        TextEditor(text: $info)
+                        Text(info).opacity(0).padding(.all, 8)
+                    }
+                    
                 }
                 
                 
@@ -296,6 +307,7 @@ struct PointEdit: View {
         Point.addUpdatePoint(point: point,
                              moc: moc,
                              title: title,
+                             info: info,
                              color: color.description,
                              imageSymbol: imageSymbol,
                              latitude: coordinate.latitude,

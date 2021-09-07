@@ -17,6 +17,7 @@ struct PointGroupDetailView: View {
     let group: PointGroup?
     
     @State private var title = ""
+    @State private var info = ""
     @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
     @State private var color: Color = globalParameters.defaultColor
     @State private var showOnMap = true
@@ -35,6 +36,7 @@ struct PointGroupDetailView: View {
         
         if let group = group {
             _title = State(initialValue: group.title)
+            _info = State(initialValue: group.wrappedInfo)
             _imageSymbol = State(initialValue: group.wrappedImageSymbol)
             _color = State(initialValue: Color.getColorFromName(colorName: group.wrappedColor))
             _showOnMap = State(initialValue: group.showOnMap)
@@ -85,6 +87,15 @@ struct PointGroupDetailView: View {
                     
                 }
                 
+                Section(header: Text("Description")) {
+                    
+                    ZStack {
+                        TextEditor(text: $info)
+                        Text(info).opacity(0).padding(.all, 8)
+                    }
+                    
+                }
+                
                 Toggle(isOn: $showOnMap.animation()) {
                     Text("Display on the map")
                 }
@@ -122,6 +133,7 @@ struct PointGroupDetailView: View {
         
         groupForSave.dateOfLastChange = Date()
         groupForSave.title = title
+        groupForSave.info = info
         groupForSave.imageSymbol = imageSymbol
         groupForSave.color = color.description
         groupForSave.showOnMap = showOnMap

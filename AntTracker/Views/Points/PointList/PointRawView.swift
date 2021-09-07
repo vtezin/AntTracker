@@ -16,6 +16,7 @@ struct PointRawView: View {
         VStack(alignment: .leading) {
             
             HStack{
+                
                 Image(systemName: point.wrappedImageSymbol)
                     .foregroundColor(.white)
                     .imageScale(.small)
@@ -25,10 +26,13 @@ struct PointRawView: View {
                 
                 Text(point.title)
                     .font(Font.subheadline.weight(.light))
+                
+                Spacer()
+                
+                Text(point.dateAdded.dateString())
+                    .modifier(SecondaryInfo())
+                
             }
-            
-            Text(point.dateAdded.dateString())
-                        .modifier(SecondaryInfo())
             
         }
     }

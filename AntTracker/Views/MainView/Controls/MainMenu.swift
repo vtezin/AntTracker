@@ -191,6 +191,7 @@ extension MainView {
                         Point.addUpdatePoint(point: nil,
                                              moc: moc,
                                              title: nil,
+                                             info: nil,
                                              color: nil,
                                              imageSymbol: nil,
                                              latitude: clManager.region.center.latitude,

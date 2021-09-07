@@ -52,6 +52,10 @@ extension PointGroup {
         
     }
     
+    public var wrappedInfo: String {
+        return info ?? ""
+    }
+    
 }
 
 extension PointGroup : Identifiable {
