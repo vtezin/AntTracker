@@ -209,7 +209,7 @@ struct MainView: View {
                             Spacer()
                             buttonPointsManagement
                             Spacer()
-                            buttonOptions
+                            buttonAppSettings
                             
                         }
                         

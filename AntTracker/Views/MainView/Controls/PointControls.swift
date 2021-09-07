@@ -231,6 +231,15 @@ extension MainView {
                 }
             }
             
+            Button(action: {
+                showPointsOnTheMap.toggle()
+                appVariables.needRedrawPointsOnMap = true
+            }) {
+                Label(showPointsOnTheMap ? "Hide points" : "Show points",
+                    systemImage: "")
+                .labelStyle(TitleOnlyLabelStyle())
+            }
+            
         } label: {
             
             VStack{

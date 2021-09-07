@@ -30,42 +30,10 @@ extension MainView {
                 activePage = .settings
             }
         }) {
-            Image(systemName: "gearshape")
-                .modifier(ControlButton())
-        }
-        
-    }
-    
-    var buttonOptions: some View {
-        
-        Menu{
-            
-            Button(action: {
-                withAnimation{
-                    activePage = .settings
-                }
-            }) {
-                Label("Settings", systemImage: "gear")
-            }
-            
-            //Divider()
-            
-            Button(action: {
-                showPointsOnTheMap.toggle()
-                appVariables.needRedrawPointsOnMap = true
-            }) {
-                Label(showPointsOnTheMap ? "Hide points" : "Show points",
-                    systemImage: "")
-                .labelStyle(TitleOnlyLabelStyle())
-            }
-            
-            
-        } label: {
-            
             VStack{
-                Image(systemName: "ellipsis.circle")
+                Image(systemName: "gearshape")
                     .modifier(ControlButton())
-                Text("More").buttonText()
+                Text("Settings").buttonText()
             }
         }
         
