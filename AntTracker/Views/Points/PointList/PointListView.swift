@@ -70,7 +70,7 @@ struct PointListView: View {
                 ForEach(points, id: \.id) { point in
                     
                     Button(action: {
-                        appVariables.editingPoint = point
+                        appVariables.selectedPoint = point
                         activePage = ContentView.pages.main
                     }) {
                         PointRawView(point: point)

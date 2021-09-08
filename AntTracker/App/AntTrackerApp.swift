@@ -131,7 +131,7 @@ class GlobalAppVars: ObservableObject {
     
     @Published var needRedrawPointsOnMap = true
     @Published var needChangeMapView = false
-    @Published var editingPoint: Point? = nil
+    @Published var selectedPoint: Point? = nil
     @Published var centerOfMap = CLLocationCoordinate2D()
     
 }
@@ -158,6 +158,66 @@ func actionSheetForDelete(title: LocalizedStringKey, deleteAction: @escaping ()-
             }
         ]
     )
+}
+
+func getDescriptionByCoordinates(latitude: CLLocationDegrees,
+                                 longitude: CLLocationDegrees,
+                                 handler: @escaping (String) -> Void ) {
+    
+    let location = CLLocation(latitude: latitude, longitude: longitude)
+    let geocoder = CLGeocoder()
+    
+    geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+        guard error == nil else {
+            return
+        }
+        
+        // Most geocoding requests contain only one result.
+        if let placemark = placemarks?.first {
+            
+            //construct adress string
+            
+            var adressArray = [String]()
+            
+            if let country = placemark.country {
+                adressArray.append(country)
+            }
+            
+            if let admArea = placemark.administrativeArea {
+                adressArray.append(admArea)
+            }
+            
+            if let subadmArea = placemark.subAdministrativeArea {
+                adressArray.append(subadmArea)
+            }
+            
+            if let city = placemark.locality {
+                adressArray.append(city)
+            }
+            
+            if let subLoc = placemark.subLocality {
+                adressArray.append(subLoc)
+            }
+            
+            if let street = placemark.thoroughfare {
+                adressArray.append(street)
+            }
+            
+            if let subStreet = placemark.subThoroughfare {
+                adressArray.append(subStreet)
+            }
+            
+            adressArray = adressArray.filter { !$0.isEmpty }
+            
+            guard adressArray.count > 0 else {
+                return
+            }
+            
+            handler(adressArray.unique.joined(separator: ", "))
+            
+        }
+    }
+    
 }
 
 let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)

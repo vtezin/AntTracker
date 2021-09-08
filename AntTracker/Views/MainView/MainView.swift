@@ -270,11 +270,11 @@ struct MainView: View {
 
     func setMapPositionOnAppear() {
         
-        if let editingPoint = appVariables.editingPoint {
+        if let editingPoint = appVariables.selectedPoint {
             center = CLLocationCoordinate2D(latitude: editingPoint.latitude,
                                             longitude: editingPoint.longitude)
             setMapSpan(delta: globalParameters.curLocationSpan)
-            appVariables.editingPoint = nil
+            appVariables.selectedPoint = nil
             return
         }
         

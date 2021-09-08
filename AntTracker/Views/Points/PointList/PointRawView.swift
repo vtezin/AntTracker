@@ -24,13 +24,23 @@ struct PointRawView: View {
                     .background(Color.getColorFromName(colorName: point.wrappedColor))
                     .clipShape(Circle())
                 
-                Text(point.title)
-                    .font(Font.subheadline.weight(.light))
+                VStack(alignment: .leading){
+                    
+                    Text(point.title)
+                    
+                    Text(point.dateAdded.dateString())
+                        .modifier(SecondaryInfo())
+                    
+                }
                 
                 Spacer()
                 
-                Text(point.dateAdded.dateString())
-                    .modifier(SecondaryInfo())
+                if !point.wrappedInfo.isEmpty {
+                    //HStack{
+                        Text(point.wrappedInfo)
+                            .modifier(SecondaryInfo())
+                    //}
+                }
                 
             }
             

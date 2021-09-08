@@ -44,7 +44,6 @@ struct PointDetailView: View {
     }
     @State var firstResponder: FirstResponders?
     
-    
     init(point: Point?,
          centerOfMap: CLLocationCoordinate2D?,
          activePage: Binding<ContentView.pages>,
@@ -83,9 +82,16 @@ struct PointDetailView: View {
                 _altitude = State(initialValue:lastUsedCLAltitude)
             }
             
-            
         }
 
+    }
+    
+    func setAdressToInfo(adressString: String) {
+        
+        if info.isEmpty {
+            info = adressString
+        }
+        
     }
     
     var body: some View {
@@ -144,8 +150,25 @@ struct PointDetailView: View {
                         Text(info).opacity(0).padding(.all, 8)
                     }
                     
+                    if info.isEmpty {
+                        
+                        VStack(alignment: .leading){
+                            
+                            Button(action: {
+                                
+                                getDescriptionByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude, handler: setAdressToInfo)
+                                
+                            }) {
+                                
+                                Text("Fill in with address")
+                            }
+                            
+                            Text("Internet access required")
+                                .modifier(SecondaryInfo())
+                        }
+                    }
+                    
                 }
-                
                 
                 Section(header: Text("Coordinate")) {
                     
@@ -269,30 +292,17 @@ struct PointDetailView: View {
                 }
 
             }
-            
-//            .onAppear{
-//
-//                if point != nil {
-//
-//                    title = point!.title
-//                    color = Color.getColorFromName(colorName: point!.wrappedColor)
-//                    imageSymbol = point!.wrappedImageSymbol
-//                    dateAdded = point!.dateAdded
-//                    coordinate = CLLocationCoordinate2D(latitude: point!.latitude, longitude: point!.longitude)
-//                    altitude = Int(point!.altitude)
-//
-//                } else {
-//
-//                    coordinate = appVariables.centerOfMap
-//                    firstResponder = .title
-//                    let distanceToCL = CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))
-//                    if distanceToCL <= 30 {
-//                        altitude = lastUsedCLAltitude
-//                    }
-//
-//                }
-//
-//            }
+            .onAppear{
+                
+                appVariables.selectedPoint = nil
+                
+                if point == nil {
+                    getDescriptionByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude, handler: setAdressToInfo)
+                }
+                
+                
+            }
+
             
         }
         
@@ -304,7 +314,7 @@ struct PointDetailView: View {
         moc.delete(point!)
         try? moc.save()
         
-        appVariables.editingPoint = nil
+        appVariables.selectedPoint = nil
         appVariables.needRedrawPointsOnMap = true
         
     }

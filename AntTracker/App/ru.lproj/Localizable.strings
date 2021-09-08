@@ -128,3 +128,6 @@
 "(altitude according to GPS signal data)" = "(высота над уровнем моря по данным GPS-сигнала)";
 
 "Color of the current track" = "Цвет текущего трека";
+
+"Fill in with address" = "Заполнить адресом";
+"Internet access required" = "требуется доступ в Интернет";

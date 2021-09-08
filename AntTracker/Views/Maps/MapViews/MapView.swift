@@ -188,11 +188,18 @@ struct MapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             
-            guard !annotation.isKind(of: MKUserLocation.self) else {
+            if annotation.isKind(of: MKUserLocation.self) {
                 
-                //return nil
-                let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "UserLocation")
-                return annotationView
+//                if parent.clManager.location.horizontalAccuracy > 50 {
+//
+//                    return nil
+//
+//                } else {
+                    
+                    let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "UserLocation")
+                    return annotationView
+                    
+//                }
                 
             }
             
@@ -214,7 +221,7 @@ struct MapView: UIViewRepresentable {
             
             guard let placemark = view.annotation as? PointAnnotation else { return }
             
-            parent.constants.editingPoint = placemark.point
+            parent.constants.selectedPoint = placemark.point
             
             withAnimation{
                 parent.activePage = ContentView.pages.editPoint
@@ -226,7 +233,7 @@ struct MapView: UIViewRepresentable {
             
             if let placemark = view.annotation as? PointAnnotation {
                 
-                parent.constants.editingPoint = placemark.point
+                parent.constants.selectedPoint = placemark.point
                 mapView.deselectAnnotation(placemark, animated: true)
                 withAnimation{
                     parent.activePage = ContentView.pages.editPoint
