@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-struct TrackDetailsView: View {
+struct TrackDetailView: View {
     
     @Binding var activePage: ContentView.pages
     @Binding var trackListRefreshID: UUID
@@ -33,6 +33,7 @@ struct TrackDetailsView: View {
     
     //selecting group
     @State private var trackGroup: TrackGroup?
+    @State private var trackGroupOnAppear: TrackGroup?
     @State private var showGroupSelection = false
     
     //working whith map
@@ -51,6 +52,8 @@ struct TrackDetailsView: View {
         _trackGroup = State(initialValue: track.trackGroup)
         _activePage = activePage
         _trackListRefreshID = trackListRefreshID
+        
+        _trackGroupOnAppear = _trackGroup
         
     }
     
@@ -371,7 +374,12 @@ struct TrackDetailsView: View {
             print(error)
         }
         
-        trackListRefreshID = UUID()
+        if trackGroupOnAppear != trackGroup {
+            //dont refresh ID because app crashes if group was changed
+            //(only real device, on simulator - everything ok)
+        } else {
+            trackListRefreshID = UUID()
+        }
         
     }
     
