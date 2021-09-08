@@ -35,8 +35,11 @@ struct PointGroupRawView: View {
                             .opacity(0)
                     }
                     
-                    Image(systemName: group!.showOnMap ? "eye" : "eye.slash")
-                        .foregroundColor(.secondary)
+                    if !group!.showOnMap {
+                        Image(systemName: "eye.slash")
+                            .foregroundColor(.secondary)
+                    }
+                    
                     
                     VStack(alignment: .leading){
                         

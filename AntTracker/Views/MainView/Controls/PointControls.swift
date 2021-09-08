@@ -90,22 +90,24 @@ extension MainView {
                         return
                     }
                     
-//                    Point.addUpdatePoint(point: nil,
-//                                         moc: moc,
-//                                         title: Date().dateString(),
-//                                         color: lastUsedPointColor,
-//                                         latitude: latitude!,
-//                                         longitude: longitude!)
-//
-//                    appVariables.needRedrawPointsOnMap = true
-                    
                     center = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
                     appVariables.needChangeMapView = true
                     
                     showInvalidFormatGoToCoordinates = false
                     showGoToCoordinates = false
-                    //showPointsManagment = false
+                    
                 }
+                .disabled(coordinatesForImportPoint.isEmpty)
+                
+                Button(action: {
+                    withAnimation {
+                        showGoToCoordinates = false
+                    }
+                }) {
+                    Image(systemName: "xmark.circle").modifier(ControlButton())
+                        .foregroundColor(.secondary)
+                }
+                
             }
             
             VStack(alignment: .leading){

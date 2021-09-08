@@ -38,7 +38,7 @@ struct TrackGroupView: View {
             
             ForEach(tracks.wrappedValue, id: \.id) { track in
 
-                NavigationLink(destination: TrackDetailsView(track: track, activePage: $activePage, trackListRefreshID: $trackListRefreshID)) {
+                NavigationLink(destination: TrackDetailView(track: track, activePage: $activePage, trackListRefreshID: $trackListRefreshID)) {
                     TrackRawView(track: track)
                 }
 

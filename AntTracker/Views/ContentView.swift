@@ -38,7 +38,7 @@ struct ContentView: View {
             AppSettings(activePage: $activePage)
                 .transition(.move(edge: .trailing))
         case .editPoint:
-            PointEdit(point: appVariables.editingPoint,
+            PointDetailView(point: appVariables.editingPoint,
                       centerOfMap: appVariables.centerOfMap,
                       activePage: $activePage,
                       pointListRefreshID: $pointListRefreshID)

@@ -1,5 +1,5 @@
 //
-//  PointEdit.swift
+//  PointDetailView.swift
 //  AntTracker
 //
 //  Created by test on 13.05.2021.
@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreLocation
 
-struct PointEdit: View {
+struct PointDetailView: View {
     
     @Binding var activePage: ContentView.pages
     @Binding var pointListRefreshID: UUID?
@@ -24,13 +24,13 @@ struct PointEdit: View {
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
     @AppStorage("lastUsedCLAltitude") var lastUsedCLAltitude: Int = 0
     
-    @State private var title: String = ""
-    @State private var info = ""
-    @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
-    @State private var color: Color = globalParameters.defaultColor
-    @State private var dateAdded: Date = Date()
-    @State private var coordinate = CLLocationCoordinate2D()
-    @State private var altitude: Int = 0
+    @State private var title: String
+    @State private var info: String
+    @State private var imageSymbol: String
+    @State private var color: Color
+    @State private var dateAdded: Date
+    @State private var coordinate: CLLocationCoordinate2D
+    @State private var altitude: Int
     
     @State private var showQuestionBeforeDelete = false
     @State private var showColorSelector = false
@@ -70,12 +70,20 @@ struct PointEdit: View {
             //adding new point
             
             _firstResponder = State(initialValue: .title)
+            _title = State(initialValue: Date().dateString())
+            _info = State(initialValue: "")
+            _imageSymbol = State(initialValue: SFSymbolsAPI.pointDefaultImageSymbol)
+            _color = State(initialValue: globalParameters.defaultColor)
+            _dateAdded = State(initialValue: Date())
+            _altitude = State(initialValue: 0)
             
             _coordinate = State(initialValue: centerOfMap!)
             let distanceToCL = CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))
             if distanceToCL <= 30 {
                 _altitude = State(initialValue:lastUsedCLAltitude)
             }
+            
+            
         }
 
     }

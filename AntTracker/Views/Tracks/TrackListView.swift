@@ -85,7 +85,7 @@ struct TrackListView: View {
                 ForEach(tracks, id: \.id) { track in
                     
                     NavigationLink(destination:
-                                    TrackDetailsView(track: track, activePage: $activePage, trackListRefreshID: $trackListRefreshID)
+                                    TrackDetailView(track: track, activePage: $activePage, trackListRefreshID: $trackListRefreshID)
                                     .environment(\.managedObjectContext, moc)) {
                         
                         TrackRawView(track: track)
