@@ -179,9 +179,9 @@ func getDescriptionByCoordinates(latitude: CLLocationDegrees,
             
             var adressArray = [String]()
             
-            if let country = placemark.country {
-                adressArray.append(country)
-            }
+//            if let country = placemark.country {
+//                adressArray.append(country)
+//            }
             
             if let admArea = placemark.administrativeArea {
                 adressArray.append(admArea)

@@ -87,11 +87,9 @@ struct PointDetailView: View {
     }
     
     func setAdressToInfo(adressString: String) {
-        
         if info.isEmpty {
             info = adressString
         }
-        
     }
     
     var body: some View {

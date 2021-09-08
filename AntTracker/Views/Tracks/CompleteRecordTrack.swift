@@ -122,6 +122,15 @@ struct CompleteRecordTrack: View {
             }
             .onAppear{
                 firstResponder = .title
+                
+                if CurrentTrack.currentTrack.points.count > 0 {
+                    
+                    let startPoint = CurrentTrack.currentTrack.points[0].location
+                    
+                    getDescriptionByCoordinates(latitude: startPoint.coordinate.latitude, longitude: startPoint.coordinate.longitude, handler: setAdressToInfo)
+                    
+                }
+                
             }
             
         }
@@ -148,6 +157,12 @@ struct CompleteRecordTrack: View {
     
     func delete() {
         Track.deleteTrack(track: currentTrack.trackCoreData!, moc: moc)
+    }
+    
+    func setAdressToInfo(adressString: String) {
+        if info.isEmpty {
+            info = adressString
+        }
     }
     
 }

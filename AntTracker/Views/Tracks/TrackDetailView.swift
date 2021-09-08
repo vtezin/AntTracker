@@ -291,6 +291,31 @@ struct TrackDetailView: View {
                     Text(info).opacity(0).padding(.all, 8)
                 }
                 
+                if info.isEmpty {
+                    
+                    VStack(alignment: .leading){
+                        
+                        Button(action: {
+                            
+                            if let statistics = statistics {
+                                
+                                let centerPoint = statistics.centerPoint
+                                
+                                getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: setAdressToInfo)
+                                
+                            }
+                            
+                            
+                        }) {
+                            
+                            Text("Fill in with address")
+                        }
+                        
+                        Text("Internet access required")
+                            .modifier(SecondaryInfo())
+                    }
+                }
+                
             }
             
             Section(header: Text("Statistics")) {
@@ -381,6 +406,12 @@ struct TrackDetailView: View {
             trackListRefreshID = UUID()
         }
         
+    }
+    
+    func setAdressToInfo(adressString: String) {
+        if info.isEmpty {
+            info = adressString
+        }
     }
     
 }
