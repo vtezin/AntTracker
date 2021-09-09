@@ -70,7 +70,10 @@ struct PointListView: View {
                 ForEach(points, id: \.id) { point in
                     
                     Button(action: {
-                        appVariables.selectedPoint = point
+                        appVariables.mapSettingsForAppear = (latitude: point.latitude,
+                                                             longitude: point.longitude,
+                                                             span: globalParameters.curLocationSpan)
+                        
                         activePage = ContentView.pages.main
                     }) {
                         PointRawView(point: point)

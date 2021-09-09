@@ -13,7 +13,7 @@ struct PointDetailView: View {
     @Binding var activePage: ContentView.pages
     @Binding var pointListRefreshID: UUID?
     
-    var point: Point?
+    let point: Point?
     var centerOfMap: CLLocationCoordinate2D?
     
     @Environment(\.managedObjectContext) var moc
@@ -217,12 +217,14 @@ struct PointDetailView: View {
             
             .navigationBarTitle(Text(""), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
+                appVariables.selectedPoint = nil
                 activePage = ContentView.pages.main
             }) {
                 Text("Cancel")
             },
             trailing: Button(action: {
                 save()
+                appVariables.selectedPoint = nil
                 activePage = ContentView.pages.main
             }) {
                 Text("Done")
@@ -291,8 +293,6 @@ struct PointDetailView: View {
 
             }
             .onAppear{
-                
-                appVariables.selectedPoint = nil
                 
                 if point == nil {
                     getDescriptionByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude, handler: setAdressToInfo)

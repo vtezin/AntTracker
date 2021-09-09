@@ -25,29 +25,41 @@ struct TrackGroupSelectionView: View {
     
     var body: some View {
         
-        List{
+        NavigationView{
             
-            ForEach(groups, id: \.id) { group in
-                HStack{
-                    TrackGroupRawView(trackGroup: group)
+            List{
+                
+                ForEach(groups, id: \.id) { group in
+                    HStack{
+                        TrackGroupRawView(trackGroup: group)
+                    }
+                    .onTapGesture{
+                        selectedGroup = group
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    
                 }
-                .onTapGesture{
-                    selectedGroup = group
-                    presentationMode.wrappedValue.dismiss()
-                }
-
+                
+                TrackGroupRawView(trackGroup: nil)
+                    .onTapGesture{
+                        selectedGroup = nil
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                
             }
+            .navigationBarTitle("Select group", displayMode: .inline)
+            .navigationViewStyle(StackNavigationViewStyle())
             
-            TrackGroupRawView(trackGroup: nil)
-            .onTapGesture{
-                selectedGroup = nil
-                presentationMode.wrappedValue.dismiss()
-            }
-
+            .navigationBarItems(
+                trailing:
+                    NavigationLink(destination: TrackGroupDetailView(group: nil)) {
+                        Image(systemName: "folder.badge.plus")
+                            .modifier(NavigationButton())
+                }
+            )
+            
         }
-        .navigationBarTitle("Track groups", displayMode: .inline)
-        .navigationBarItems(trailing: EditButton())
-        .navigationViewStyle(StackNavigationViewStyle())
+        
         
     }
     

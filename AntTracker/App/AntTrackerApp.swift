@@ -133,6 +133,9 @@ class GlobalAppVars: ObservableObject {
     @Published var needChangeMapView = false
     @Published var selectedPoint: Point? = nil
     @Published var centerOfMap = CLLocationCoordinate2D()
+    @Published var mapSettingsForAppear: (latitude: CLLocationDegrees,
+                                          longitude: CLLocationDegrees,
+                                          span: Double?)?
     
 }
 

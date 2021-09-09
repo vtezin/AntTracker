@@ -23,31 +23,44 @@ struct PointGroupSelectionView: View {
     @State private var showAlertForGroupRenaming = false
     @State private var groupForRenaming: TrackGroup?
     
+    @State private var pointListRefreshID = UUID() //for force refreshing
+    
     var body: some View {
         
-        List{
+        NavigationView{
             
-            ForEach(groups, id: \.id) { group in
-                HStack{
-                    PointGroupRawView(group: group)
+            List{
+                
+                ForEach(groups, id: \.id) { group in
+                    HStack{
+                        PointGroupRawView(group: group)
+                    }
+                    .onTapGesture{
+                        selectedGroup = group
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    
                 }
-                .onTapGesture{
-                    selectedGroup = group
-                    presentationMode.wrappedValue.dismiss()
-                }
-
+                
+                PointGroupRawView(group: nil)
+                    .onTapGesture{
+                        selectedGroup = nil
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                
             }
+            .navigationBarTitle("Point groups", displayMode: .inline)
+            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationBarItems(
+                trailing:
+                    NavigationLink(destination: PointGroupDetailView(group: nil, pointListRefreshID: $pointListRefreshID)) {
+                        Image(systemName: "folder.badge.plus")
+                            .modifier(NavigationButton())
+                    }
+            )
             
-            PointGroupRawView(group: nil)
-            .onTapGesture{
-                selectedGroup = nil
-                presentationMode.wrappedValue.dismiss()
-            }
-
         }
-        .navigationBarTitle("Point groups", displayMode: .inline)
-        .navigationBarItems(trailing: EditButton())
-        .navigationViewStyle(StackNavigationViewStyle())
+        
         
     }
 }

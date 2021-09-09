@@ -14,7 +14,6 @@ extension MainView {
         
         Button(action: {
             showPointsOnTheMap = true
-            appVariables.selectedPoint = nil
             withAnimation{
                 activePage = ContentView.pages.editPoint
             }

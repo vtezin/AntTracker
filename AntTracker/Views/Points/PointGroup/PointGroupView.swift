@@ -40,8 +40,13 @@ struct PointGroupView: View {
             ForEach(points.wrappedValue, id: \.id) { point in
 
                 Button(action: {
-                    appVariables.selectedPoint = point
+                    
+                    appVariables.mapSettingsForAppear = (latitude: point.latitude,
+                                                         longitude: point.longitude,
+                                                         span: globalParameters.curLocationSpan)
+                    
                     activePage = ContentView.pages.main
+                    
                 }) {
                     PointRawView(point: point)
                 }

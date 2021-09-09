@@ -270,13 +270,19 @@ struct MainView: View {
 
     func setMapPositionOnAppear() {
         
-        if let editingPoint = appVariables.selectedPoint {
-            center = CLLocationCoordinate2D(latitude: editingPoint.latitude,
-                                            longitude: editingPoint.longitude)
-            setMapSpan(delta: globalParameters.curLocationSpan)
-            appVariables.selectedPoint = nil
+        if let mapSettingsForAppear = appVariables.mapSettingsForAppear {
+            
+            center = CLLocationCoordinate2D(latitude: mapSettingsForAppear.latitude,
+                                            longitude: mapSettingsForAppear.longitude)
+            
+            if let span = mapSettingsForAppear.span {
+                setMapSpan(delta: span)
+            }
+            
+            appVariables.mapSettingsForAppear = nil
             return
         }
+        
         
         if clManager.trackRecording || clManager.location.speed.speedKmHRounded() > 10 {
             moveCenterMapToCurLocation()
