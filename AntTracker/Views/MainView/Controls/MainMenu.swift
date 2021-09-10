@@ -160,6 +160,7 @@ extension MainView {
                                              moc: moc,
                                              title: nil,
                                              info: nil,
+                                             locationString: nil,
                                              color: nil,
                                              imageSymbol: nil,
                                              latitude: clManager.region.center.latitude,

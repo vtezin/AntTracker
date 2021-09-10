@@ -16,6 +16,7 @@ public class Point: NSManagedObject {
                                moc: NSManagedObjectContext,
                                title: String?,
                                info: String?,
+                               locationString: String?,
                                color: String?,
                                imageSymbol: String?,
                                latitude: Double,
@@ -57,6 +58,10 @@ public class Point: NSManagedObject {
             pointForSave.title = Date().dateString()
         }
         
+        if let locationString = locationString {
+            pointForSave.locationString = locationString
+        }
+        
         pointForSave.info = info
         
         pointForSave.pointGroup = pointGroup
@@ -71,9 +76,9 @@ public class Point: NSManagedObject {
         var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
         kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
         kmlText += "<Document> \n"
-        kmlText += "<name>\(title)</name> \n"
+        kmlText += "<name>\(wrappedTitle)</name> \n"
         kmlText += "<Placemark> \n"
-        kmlText += "<name>\(title)</name> \n"
+        kmlText += "<name>\(wrappedTitle)</name> \n"
         kmlText += "<Point> \n"
         kmlText += "<tessellate>1</tessellate> \n"
         kmlText += "<coordinates> \n"

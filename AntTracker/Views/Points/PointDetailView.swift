@@ -26,6 +26,7 @@ struct PointDetailView: View {
     
     @State private var title: String
     @State private var info: String
+    @State private var locationString: String
     @State private var imageSymbol: String
     @State private var color: Color
     @State private var dateAdded: Date
@@ -56,8 +57,9 @@ struct PointDetailView: View {
         if let point = point {
             //init by existing point
             
-            _title = State(initialValue: point.title)
+            _title = State(initialValue: point.wrappedTitle)
             _info = State(initialValue: point.wrappedInfo)
+            _locationString = State(initialValue: point.wrappedLocationString)
             _color = State(initialValue: Color.getColorFromName(colorName: point.wrappedColor))
             _imageSymbol = State(initialValue: point.wrappedImageSymbol)
             _dateAdded = State(initialValue: point.dateAdded)
@@ -71,6 +73,7 @@ struct PointDetailView: View {
             _firstResponder = State(initialValue: .title)
             _title = State(initialValue: Date().dateString())
             _info = State(initialValue: "")
+            _locationString = State(initialValue: "")
             _imageSymbol = State(initialValue: SFSymbolsAPI.pointDefaultImageSymbol)
             _color = State(initialValue: globalParameters.defaultColor)
             _dateAdded = State(initialValue: Date())
@@ -84,12 +87,6 @@ struct PointDetailView: View {
             
         }
 
-    }
-    
-    func setAdressToInfo(adressString: String) {
-        if info.isEmpty {
-            info = adressString
-        }
     }
     
     var body: some View {
@@ -148,31 +145,34 @@ struct PointDetailView: View {
                         Text(info).opacity(0).padding(.all, 8)
                     }
                     
-                    if info.isEmpty {
-                        
-                        VStack(alignment: .leading){
-                            
-                            Button(action: {
-                                
-                                getDescriptionByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude, handler: setAdressToInfo)
-                                
-                            }) {
-                                
-                                Text("Fill in with address")
-                            }
-                            
-                            Text("Internet access required")
-                                .modifier(SecondaryInfo())
-                        }
-                    }
-                    
                 }
                 
-                Section(header: Text("Coordinate")) {
+                Section(header: Text("Location")) {
+                    
+                    HStack{
+                        
+                        ZStack {
+                            TextEditor(text: $locationString)
+                            Text(locationString).opacity(0).padding(.all, 8)
+                        }
+                        .modifier(LightText())
+                        
+                        Button(action: {
+                            getDescriptionByCoordinates(latitude: coordinate.latitude,
+                                                        longitude: coordinate.longitude,
+                                                        handler: fillLocationString)
+                        }) {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                                .font(Font.title3.weight(.light))
+                                .foregroundColor(.secondary)
+                        }
+                        
+                    }
                     
                     HStack{
                         
                         Text(coordinate.coordinateStrings[2])
+                            .modifier(LightText())
                         
                         Spacer()
                         
@@ -183,6 +183,8 @@ struct PointDetailView: View {
                             
                         }) {
                             Image(systemName: "doc.on.clipboard")
+                                .font(Font.title3.weight(.light))
+                                .foregroundColor(.secondary)
                         }
                         
                     }
@@ -191,6 +193,7 @@ struct PointDetailView: View {
                 
                 Section(header: Text("Distance from here")) {
                     Text(localeDistanceString(distanceMeters: CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
+                        .modifier(LightText())
                 }
                 
                 if altitude != 0 {
@@ -211,6 +214,7 @@ struct PointDetailView: View {
                         }
                     
                     }
+                    .modifier(LightText())
                 }
                 
             }
@@ -250,8 +254,7 @@ struct PointDetailView: View {
                     VStack{
                         Text(dateAdded.dateString())
                     }
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .modifier(SecondaryInfo())
                     
                 }
                 
@@ -295,7 +298,7 @@ struct PointDetailView: View {
             .onAppear{
                 
                 if point == nil {
-                    getDescriptionByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude, handler: setAdressToInfo)
+                    getDescriptionByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude, handler: fillLocationString)
                 }
                 
                 
@@ -324,6 +327,7 @@ struct PointDetailView: View {
                              moc: moc,
                              title: title,
                              info: info,
+                             locationString: locationString,
                              color: color.description,
                              imageSymbol: imageSymbol,
                              latitude: coordinate.latitude,
@@ -348,6 +352,12 @@ struct PointDetailView: View {
         
         return kmlText
         
+    }
+    
+    func fillLocationString(adressString: String) {
+        if locationString.isEmpty {
+            locationString = adressString
+        }
     }
     
 }

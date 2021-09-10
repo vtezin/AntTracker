@@ -71,6 +71,13 @@ struct SecondaryInfo: ViewModifier {
     }
 }
 
+struct LightText: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(Font.subheadline.weight(.light))
+    }
+}
+
 extension Text {
     func buttonText() -> some View {
         self.fontWeight(.light)

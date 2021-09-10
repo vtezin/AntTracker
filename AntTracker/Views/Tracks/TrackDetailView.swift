@@ -29,6 +29,7 @@ struct TrackDetailView: View {
     //track props
     @State private var title: String
     @State private var info: String
+    @State private var locationString: String
     @State private var color: Color
     
     //selecting group
@@ -48,6 +49,7 @@ struct TrackDetailView: View {
         
         _title = State(initialValue: track.title)
         _info = State(initialValue: track.info)
+        _locationString = State(initialValue: track.locationString)
         _color = State(initialValue: Color.getColorFromName(colorName: track.color))
         _trackGroup = State(initialValue: track.trackGroup)
         _activePage = activePage
@@ -291,37 +293,43 @@ struct TrackDetailView: View {
                     Text(info).opacity(0).padding(.all, 8)
                 }
                 
-                if info.isEmpty {
+            }
+            
+            Section(header: Text("Location")) {
+                
+                HStack{
                     
-                    VStack(alignment: .leading){
+                    ZStack {
+                        TextEditor(text: $locationString)
+                        Text(locationString).opacity(0).padding(.all, 8)
+                    }
+                    .modifier(LightText())
+                    
+                    Button(action: {
                         
-                        Button(action: {
+                        if let statistics = statistics {
                             
-                            if let statistics = statistics {
-                                
-                                let centerPoint = statistics.centerPoint
-                                
-                                getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: setAdressToInfo)
-                                
-                            }
+                            let centerPoint = statistics.centerPoint
                             
+                            getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: fillLocationString)
                             
-                        }) {
-                            
-                            Text("Fill in with address")
                         }
                         
-                        Text("Internet access required")
-                            .modifier(SecondaryInfo())
+                    }) {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .font(Font.title3.weight(.light))
+                            .foregroundColor(.secondary)
                     }
+                    
                 }
                 
             }
             
+            
             Section(header: Text("Statistics")) {
                 
-                Text("\(statistics?.points.count ?? 0) points")
-                    .modifier(SecondaryInfo())
+//                Text("\(statistics?.points.count ?? 0) points")
+//                    .modifier(SecondaryInfo())
                 
                 HStack{
                     
@@ -332,18 +340,15 @@ struct TrackDetailView: View {
                         .padding(.bottom, 5)
                         
                         HStack {
-                            Text("avg")
-                                .fontWeight(.light)
-                            Text(" \(statistics?.averageSpeed.localeSpeedString ?? "")")
-                                .fontWeight(.light)
+                            Text("max")
+                            Text(" \(statistics?.maxSpeed.localeSpeedString ?? "")")
                         }
                         
                         HStack {
-                            Text("max")
-                                .fontWeight(.light)
-                            Text(" \(statistics?.maxSpeed.localeSpeedString ?? "")")
-                                .fontWeight(.light)
+                            Text("avg")
+                            Text(" \(statistics?.averageSpeed.localeSpeedString ?? "")")
                         }
+                        
                         
                     }
                     
@@ -359,21 +364,18 @@ struct TrackDetailView: View {
                         VStack {
                             HStack{
                                 Text("\(statistics?.minAltitude ?? 0)")
-                                    .fontWeight(.light)
                                 Image(systemName: "arrow.up.right")
                                 Text("\(statistics?.maxAltitude ?? 0)")
-                                    .fontWeight(.light)
                             }
                             Text("(\((statistics?.maxAltitude ?? 0) - (statistics?.minAltitude ?? 0)))" + " m")
-                                .fontWeight(.light)
                         }
                         
                     }
                     
                 }
+                .modifier(LightText())
                 .padding()
             }
-            
             
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -388,10 +390,9 @@ struct TrackDetailView: View {
         
         track.title = title
         track.info = info
+        track.locationString = locationString
         track.color = color.description
         track.trackGroup = trackGroup
-        
-        //try? moc.save()
         
         do {
             try moc.save()
@@ -408,10 +409,8 @@ struct TrackDetailView: View {
         
     }
     
-    func setAdressToInfo(adressString: String) {
-        if info.isEmpty {
-            info = adressString
-        }
+    func fillLocationString(adressString: String) {
+            locationString = adressString
     }
     
 }

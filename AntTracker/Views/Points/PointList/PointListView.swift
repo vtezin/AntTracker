@@ -49,6 +49,11 @@ struct PointListView: View {
                                                    pointListRefreshID: $pointListRefreshID)) {
 
                         PointGroupRawView(group: group)
+                        
+                        Spacer()
+                        
+                        Text("\(group.pointsArray.count)")
+                            .modifier(SecondaryInfo())
                     }
 
                 }

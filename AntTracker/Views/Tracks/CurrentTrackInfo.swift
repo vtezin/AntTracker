@@ -44,23 +44,20 @@ struct CurrentTrackInfo: View {
                 HStack{
                     
                     VStack {
+                        
                         HStack{
                             Image(systemName: "hare")
                         }
                         .padding(.bottom, 5)
                         
                         HStack {
-                            Text("avg")
-                                .fontWeight(.light)
-                            Text(" \(currentTrack.averageSpeed.localeSpeedString)")
-                                .fontWeight(.light)
+                            Text("max")
+                            Text(" \(currentTrack.maxSpeed.localeSpeedString)")
                         }
                         
                         HStack {
-                            Text("max")
-                                .fontWeight(.light)
-                            Text(" \(currentTrack.maxSpeed.localeSpeedString)")
-                                .fontWeight(.light)
+                            Text("avg")
+                            Text(" \(currentTrack.averageSpeed.localeSpeedString)")
                         }
 
                     }
@@ -71,30 +68,23 @@ struct CurrentTrackInfo: View {
                         HStack{
                             //Image(systemName: "arrow.up")
                             Text("altitude")
-
-                                Text(String(format: "%.0f", currentTrack.lastAltitude) + " " + "m")
-                                    .fontWeight(.light)
-                            
+                            Text(String(format: "%.0f", currentTrack.lastAltitude) + " " + "m")
                         }
                         .padding(.bottom, 5)
 
                         VStack {
                             HStack{
                                 Text("\(currentTrack.minAltitude)")
-                                    .fontWeight(.light)
                                 Image(systemName: "arrow.up.right")
                                 Text("\(currentTrack.maxAltitude)")
-                                    .fontWeight(.light)
                             }
                             Text("(\(currentTrack.maxAltitude - currentTrack.minAltitude)) " + "m")
-                                .fontWeight(.light)
                         }
     
                     }
                     
-                    
-                    
                 }
+                .modifier(LightText())
                 .padding(.top)
                 .transition(.move(edge: .bottom))
                 

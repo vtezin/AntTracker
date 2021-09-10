@@ -54,11 +54,6 @@ struct PointGroupRawView: View {
                         
                     }
                     
-                    Spacer()
-                    
-                    Text("\(group!.pointsArray.count)")
-                        .modifier(SecondaryInfo())
-                    
                 }
                 
             }

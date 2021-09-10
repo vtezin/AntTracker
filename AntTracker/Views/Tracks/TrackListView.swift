@@ -51,16 +51,7 @@ struct TrackListView: View {
                         
                         HStack{
                             
-                            ZStack {
-                                Image(systemName: group.wrappedImageSymbol)
-                                    .font(Font.title3.weight(.light))
-                                    .foregroundColor(.secondary)
-                                Image(systemName: "bicycle")
-                                    .font(Font.title3.weight(.light))
-                                    .opacity(0)
-                            }
-                            
-                            Text(group.title)
+                            TrackGroupRawView(trackGroup: group)
                             Spacer()
                             Text("\(group.tracksArray.count)")
                                 .modifier(SecondaryInfo())
@@ -81,7 +72,7 @@ struct TrackListView: View {
                     }
                 }
                 
-                
+                //tracks
                 ForEach(tracks, id: \.id) { track in
                     
                     NavigationLink(destination:

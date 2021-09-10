@@ -18,6 +18,7 @@ struct CompleteRecordTrack: View {
     
     @State var title = ""
     @State var info = ""
+    @State var locationString = ""
     @State var color: Color = .orange
     @State var trackGroup: TrackGroup?
     
@@ -89,6 +90,19 @@ struct CompleteRecordTrack: View {
                     }
                 }
                 
+                Section(header: Text("Location")) {
+                    
+                    HStack{
+                        
+                        ZStack {
+                            TextEditor(text: $locationString)
+                            Text(locationString).opacity(0).padding(.all, 8)
+                        }
+                        
+                    }
+                    
+                }
+                
                 Button(action: {
                     showQuestionBeforeDelete = true
                 }) {
@@ -127,7 +141,9 @@ struct CompleteRecordTrack: View {
                     
                     let startPoint = CurrentTrack.currentTrack.points[0].location
                     
-                    getDescriptionByCoordinates(latitude: startPoint.coordinate.latitude, longitude: startPoint.coordinate.longitude, handler: setAdressToInfo)
+                    getDescriptionByCoordinates(latitude: startPoint.coordinate.latitude,
+                                                longitude: startPoint.coordinate.longitude,
+                                                handler: fillLocationString)
                     
                 }
                 
@@ -159,10 +175,8 @@ struct CompleteRecordTrack: View {
         Track.deleteTrack(track: currentTrack.trackCoreData!, moc: moc)
     }
     
-    func setAdressToInfo(adressString: String) {
-        if info.isEmpty {
-            info = adressString
-        }
+    func fillLocationString(adressString: String) {
+            locationString = adressString
     }
     
 }

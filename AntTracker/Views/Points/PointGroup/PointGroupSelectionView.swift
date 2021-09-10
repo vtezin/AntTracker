@@ -49,7 +49,7 @@ struct PointGroupSelectionView: View {
                     }
                 
             }
-            .navigationBarTitle("Point groups", displayMode: .inline)
+            .navigationBarTitle("Select group", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarItems(
                 trailing:

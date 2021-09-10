@@ -21,8 +21,9 @@ extension Point {
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
     @NSManaged public var altitude: Double
-    @NSManaged public var title: String
+    @NSManaged public var title: String?
     @NSManaged public var info: String?
+    @NSManaged public var locationString: String?
     @NSManaged public var dateAdded: Date
     @NSManaged public var imageSymbol: String?
     @NSManaged public var pointGroup: PointGroup?
@@ -57,6 +58,14 @@ extension Point {
     
     public var wrappedInfo: String {
         return info ?? ""
+    }
+    
+    public var wrappedTitle: String {
+        return title ?? ""
+    }
+    
+    public var wrappedLocationString: String {
+        return locationString ?? ""
     }
     
 }

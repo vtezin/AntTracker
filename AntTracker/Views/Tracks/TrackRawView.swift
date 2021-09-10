@@ -19,7 +19,7 @@ struct TrackRawView: View {
                 .font(Font.subheadline.weight(.light))
             HStack{
                 VStack(alignment: .leading){
-                    Text(track.info)
+                    Text(track.locationString)
                         .modifier(SecondaryInfo())
                 }
                 Spacer()

@@ -26,7 +26,8 @@ struct PointRawView: View {
                 
                 VStack(alignment: .leading){
                     
-                    Text(point.title)
+                    Text(point.wrappedTitle)
+                        .modifier(LightText())
                     
                     Text(point.dateAdded.dateString())
                         .modifier(SecondaryInfo())
@@ -35,12 +36,10 @@ struct PointRawView: View {
                 
                 Spacer()
                 
-                if !point.wrappedInfo.isEmpty {
-                    //HStack{
-                        Text(point.wrappedInfo)
+//                if !point.wrappedLocationString.isEmpty {
+                        Text(point.wrappedLocationString)
                             .modifier(SecondaryInfo())
-                    //}
-                }
+//                }
                 
             }
             
