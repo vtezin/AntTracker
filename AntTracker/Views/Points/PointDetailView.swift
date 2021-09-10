@@ -157,35 +157,40 @@ struct PointDetailView: View {
                         }
                         .modifier(LightText())
                         
-                        Button(action: {
-                            getDescriptionByCoordinates(latitude: coordinate.latitude,
-                                                        longitude: coordinate.longitude,
-                                                        handler: fillLocationString)
-                        }) {
-                            Image(systemName: "arrow.triangle.2.circlepath")
-                                .font(Font.title3.weight(.light))
-                                .foregroundColor(.secondary)
+                        if locationString.isEmpty {
+                            Button(action: {
+                                getDescriptionByCoordinates(latitude: coordinate.latitude,
+                                                            longitude: coordinate.longitude,
+                                                            handler: fillLocationString)
+                            }) {
+                                Image(systemName: "arrow.triangle.2.circlepath")
+                                    .font(Font.title3.weight(.light))
+                                    .foregroundColor(.secondary)
+                            }
                         }
                         
+                    }
+                    .contextMenu {
+                        Button {
+                            let pasteBoard = UIPasteboard.general
+                            pasteBoard.string = locationString
+                        } label: {
+                            Label("Copy", systemImage: "doc.on.clipboard")
+                        }
                     }
                     
                     HStack{
                         
                         Text(coordinate.coordinateStrings[2])
                             .modifier(LightText())
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            
-                            let pasteBoard = UIPasteboard.general
-                            pasteBoard.string = coordinate.coordinateStrings[2]
-                            
-                        }) {
-                            Image(systemName: "doc.on.clipboard")
-                                .font(Font.title3.weight(.light))
-                                .foregroundColor(.secondary)
-                        }
+                            .contextMenu {
+                                Button {
+                                    let pasteBoard = UIPasteboard.general
+                                    pasteBoard.string = coordinate.coordinateStrings[2]
+                                } label: {
+                                    Label("Copy", systemImage: "doc.on.clipboard")
+                                }
+                            }
                         
                     }
                     

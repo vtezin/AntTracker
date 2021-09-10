@@ -305,22 +305,32 @@ struct TrackDetailView: View {
                     }
                     .modifier(LightText())
                     
-                    Button(action: {
-                        
-                        if let statistics = statistics {
+                    if locationString.isEmpty {
+                        Button(action: {
                             
-                            let centerPoint = statistics.centerPoint
+                            if let statistics = statistics {
+                                
+                                let centerPoint = statistics.centerPoint
+                                
+                                getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: fillLocationString)
+                                
+                            }
                             
-                            getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: fillLocationString)
-                            
+                        }) {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                                .font(Font.title3.weight(.light))
+                                .foregroundColor(.secondary)
                         }
-                        
-                    }) {
-                        Image(systemName: "arrow.triangle.2.circlepath")
-                            .font(Font.title3.weight(.light))
-                            .foregroundColor(.secondary)
-                    }
+                    }                    
                     
+                }
+                .contextMenu {
+                    Button {
+                        let pasteBoard = UIPasteboard.general
+                        pasteBoard.string = locationString
+                    } label: {
+                        Label("Copy", systemImage: "doc.on.clipboard")
+                    }
                 }
                 
             }

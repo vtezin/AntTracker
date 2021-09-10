@@ -228,7 +228,6 @@ extension MainView {
                 mainViewShowCurrentAltitude = false
             } label: {
                 Label("Hide", systemImage: "eye.slash")
-                    .labelStyle(TitleOnlyLabelStyle())
             }
         }
         
@@ -289,7 +288,6 @@ extension MainView {
                     mainViewShowCurrentSpeed = false
                 } label: {
                     Label("Hide", systemImage: "eye.slash")
-                        .labelStyle(TitleOnlyLabelStyle())
                 }
             }
 

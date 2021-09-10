@@ -387,11 +387,11 @@
 		52F04F632619A16300C261C0 /* Tracks */ = {
 			isa = PBXGroup;
 			children = (
+				527BD614265FE6510047FA0C /* TrackDetailView.swift */,
 				52EA8F9D266901CC00C665B2 /* CurrentTrackInfo.swift */,
 				5240811426C23C09002CD327 /* TrackGroup */,
 				52DB5176260DD13000427149 /* TrackListView.swift */,
 				52512CB2265E3280000619F6 /* TrackRawView.swift */,
-				527BD614265FE6510047FA0C /* TrackDetailView.swift */,
 				529557C1267DA9A5005D8304 /* CompleteRecordTrack.swift */,
 			);
 			path = Tracks;
