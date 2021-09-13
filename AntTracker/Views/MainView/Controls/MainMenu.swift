@@ -156,7 +156,7 @@ extension MainView {
                         showPointsOnTheMap = true
                         
                         //fast adding new point
-                        Point.addUpdatePoint(point: nil,
+                        lastQuickAddedPoint = Point.addUpdatePoint(point: nil,
                                              moc: moc,
                                              title: nil,
                                              info: nil,
@@ -166,13 +166,31 @@ extension MainView {
                                              latitude: clManager.region.center.latitude,
                                              longitude: clManager.region.center.longitude,
                                              altitude: clManager.location.altitude,
-                                             pointGroup: nil)
+                                             pointGroup: appVars.lastUsedPointGroup)
+                        
+                        if let lastQuickAddedPoint = lastQuickAddedPoint{
+                            
+                            getDescriptionByCoordinates(latitude: lastQuickAddedPoint.latitude,
+                                                        longitude: lastQuickAddedPoint.longitude,
+                                                        handler: fillLastQuickAddedPointLocationString)
+                            
+                        }
+                        
                         
                         appVariables.needRedrawPointsOnMap = true
                         
                     }
                 
             }
+        
+    }
+    
+    func fillLastQuickAddedPointLocationString(adressString: String) {
+        
+        if let lastQuickAddedPoint = lastQuickAddedPoint {
+            lastQuickAddedPoint.setLocationString(moc: moc,
+                                                  locationString: adressString)
+        }
         
     }
  

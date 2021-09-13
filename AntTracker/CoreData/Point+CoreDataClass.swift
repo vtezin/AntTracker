@@ -12,7 +12,7 @@ import CoreData
 @objc(Point)
 public class Point: NSManagedObject {
 
-    static func addUpdatePoint(point: Point?,
+    @discardableResult static func addUpdatePoint(point: Point?,
                                moc: NSManagedObjectContext,
                                title: String?,
                                info: String?,
@@ -23,7 +23,7 @@ public class Point: NSManagedObject {
                                longitude: Double,
                                altitude: Double,
                                pointGroup: PointGroup?
-    ) {
+    ) -> Point {
         
         var pointForSave: Point
         
@@ -74,6 +74,8 @@ public class Point: NSManagedObject {
         
         appVars.lastUsedPointGroup = pointGroup
         
+        return pointForSave
+        
     }
     
     static func deletePoint(point: Point, moc: NSManagedObjectContext) {
@@ -81,6 +83,12 @@ public class Point: NSManagedObject {
         moc.delete(point)
         try? moc.save()
         
+    }
+    
+    func setLocationString(moc: NSManagedObjectContext,
+                           locationString: String) {
+        self.locationString = locationString
+        try? moc.save()
     }
     
     static func textForKMLFile(title: String,

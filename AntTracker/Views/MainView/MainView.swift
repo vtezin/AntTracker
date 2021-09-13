@@ -77,6 +77,9 @@ struct MainView: View {
     @State var animatingProperties = AntAnimatingProperties()
     @State var animateAnt = false
     
+    //quick add point support
+    @State var lastQuickAddedPoint: Point?
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {

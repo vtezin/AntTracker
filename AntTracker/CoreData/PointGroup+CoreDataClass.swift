@@ -44,6 +44,10 @@ public class PointGroup: NSManagedObject {
     
     private func prepareForDelete(moc: NSManagedObjectContext) {
         
+        if appVars.lastUsedPointGroup == self {
+            appVars.lastUsedPointGroup = nil
+        }
+        
         for point in pointsArray {
             point.pointGroup = nil
         }
