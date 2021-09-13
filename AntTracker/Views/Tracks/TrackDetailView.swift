@@ -47,10 +47,10 @@ struct TrackDetailView: View {
         
         self.track = track
         
-        _title = State(initialValue: track.title)
-        _info = State(initialValue: track.info)
-        _locationString = State(initialValue: track.locationString)
-        _color = State(initialValue: Color.getColorFromName(colorName: track.color))
+        _title = State(initialValue: track.wrappedTitle)
+        _info = State(initialValue: track.wrappedInfo)
+        _locationString = State(initialValue: track.wrappedLocationString)
+        _color = State(initialValue: Color.getColorFromName(colorName: track.wrappedColor))
         _trackGroup = State(initialValue: track.trackGroup)
         _activePage = activePage
         _trackListRefreshID = trackListRefreshID
@@ -89,7 +89,7 @@ struct TrackDetailView: View {
                     
                     Button(action: {
                         kmlAPI.shareTextAsKMLFile(text: track.getTextForKMLFile(),
-                                                  filename: track.title)
+                                                  filename: track.wrappedTitle)
                     }) {
                         VStack{
                             Image(systemName: "square.and.arrow.up")
@@ -195,8 +195,8 @@ struct TrackDetailView: View {
                 
                 if showMap {
                     TrackMapView(statistics: statistics!,
-                                 trackTitle: track.title,
-                                 trackColor: track.color,
+                                 trackTitle: track.wrappedTitle,
+                                 trackColor: track.wrappedColor,
                                  mapType: $mapType)
                     
                     VStack{
@@ -398,17 +398,13 @@ struct TrackDetailView: View {
     
     func save() {
         
-        track.title = title
-        track.info = info
-        track.locationString = locationString
-        track.color = color.description
-        track.trackGroup = trackGroup
-        
-        do {
-            try moc.save()
-        } catch {
-            print(error)
-        }
+        Track.saveTrack(track: track,
+                        moc: moc,
+                        title: title,
+                        info: info,
+                        locationString: locationString,
+                        color: color.description,
+                        trackGroup: trackGroup)
         
         if trackGroupOnAppear != trackGroup {
             //dont refresh ID because app crashes if group was changed

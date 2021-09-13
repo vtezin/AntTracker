@@ -16,8 +16,9 @@ extension TrackGroup {
         return NSFetchRequest<TrackGroup>(entityName: "TrackGroup")
     }
 
-    @NSManaged public var title: String
     @NSManaged public var id: UUID?
+    @NSManaged public var title: String
+    @NSManaged public var info: String?
     @NSManaged public var track: NSSet?
     @NSManaged public var dateOfLastChange: Date
     @NSManaged public var imageSymbol: String?
@@ -25,7 +26,7 @@ extension TrackGroup {
     public var tracksArray: [Track] {
         let set = track as? Set<Track> ?? []
         return set.sorted {
-            $0.startDate < $1.startDate
+            $0.wrappedStartDate < $1.wrappedFinishDate
         }
     }
     
@@ -37,6 +38,10 @@ extension TrackGroup {
             return SFSymbolsAPI.groupDefaultImageSymbol
         }
         
+    }
+    
+    public var wrappedInfo: String {
+        return info ?? ""
     }
     
 }

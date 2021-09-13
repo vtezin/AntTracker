@@ -14,8 +14,6 @@ struct CompleteRecordTrack: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var currentTrack: CurrentTrack
     
-    @AppStorage("lastUsedTrackColor") var lastUsedTrackColor: String = "orange"
-    
     @State var title = ""
     @State var info = ""
     @State var locationString = ""
@@ -35,9 +33,9 @@ struct CompleteRecordTrack: View {
         _activePage = activePage
         
         if let track = CurrentTrack.currentTrack.trackCoreData {
-            _title = State(initialValue: track.title)
-            _info = State(initialValue: track.info)
-            _color = State(initialValue: Color.getColorFromName(colorName: track.color))
+            _title = State(initialValue: track.wrappedTitle)
+            _info = State(initialValue: track.wrappedInfo)
+            _color = State(initialValue: Color.getColorFromName(colorName: track.wrappedColor))
             _trackGroup = State(initialValue: track.trackGroup)
         }
         
@@ -158,14 +156,14 @@ struct CompleteRecordTrack: View {
         let track = currentTrack.trackCoreData!
         
         track.fillByCurrentTrackData(moc: moc)
-        lastUsedTrackColor = color.description
         
-        track.title = title
-        track.info = info
-        track.color = color.description
-        track.trackGroup = trackGroup
-        
-        try? moc.save()
+        Track.saveTrack(track: track,
+                        moc: moc,
+                        title: title,
+                        info: info,
+                        locationString: locationString,
+                        color: color.description,
+                        trackGroup: trackGroup)
         
         currentTrack.reset()
         

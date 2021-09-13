@@ -25,7 +25,7 @@ struct MapView: UIViewRepresentable {
     
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: CurrentTrack
-    @EnvironmentObject var constants: GlobalAppVars
+    @EnvironmentObject var constants: AppVariables
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        

@@ -15,18 +15,47 @@ extension Track {
         return NSFetchRequest<Track>(entityName: "Track")
     }
 
-    @NSManaged public var color: String
-    @NSManaged public var finishDate: Date
+    @NSManaged public var color: String?
     @NSManaged public var id: UUID?
-    @NSManaged public var info: String
-    @NSManaged public var locationString: String
-    @NSManaged public var title: String
-    @NSManaged public var showOnMap: Bool
-    @NSManaged public var startDate: Date
+    @NSManaged public var info: String?
+    @NSManaged public var locationString: String?
+    @NSManaged public var title: String?
+    @NSManaged public var startDate: Date?
+    @NSManaged public var finishDate: Date?
     @NSManaged public var totalDistance: Int64
     @NSManaged public var trackAnnotationPoint: NSSet?
     @NSManaged public var trackPoint: NSSet?
     @NSManaged public var trackGroup: TrackGroup?
+    
+    public var wrappedColor: String {
+        
+        if let color = color {
+            return color
+        } else {
+            return AppConstants.defaultColor.description
+        }
+        
+    }
+    
+    public var wrappedInfo: String {
+        return info ?? ""
+    }
+    
+    public var wrappedTitle: String {
+        return title ?? ""
+    }
+    
+    public var wrappedLocationString: String {
+        return locationString ?? ""
+    }
+    
+    public var wrappedStartDate: Date {
+        return startDate ?? Date.smallestDate
+    }
+    
+    public var wrappedFinishDate: Date {
+        return finishDate ?? Date.smallestDate
+    }
     
     public var trackPointsArray: [TrackPoint] {
         let set = trackPoint as? Set<TrackPoint> ?? []
@@ -62,7 +91,6 @@ extension Track {
         
     }
     
-    
     var durationString: String {
         
         if trackPointsArray.count == 0 {
@@ -72,13 +100,16 @@ extension Track {
         let dateComponentsFormatter = DateComponentsFormatter()
         dateComponentsFormatter.allowedUnits = [.second, .minute, .hour, .day]
         dateComponentsFormatter.unitsStyle = .abbreviated
-        return dateComponentsFormatter.string(from: startDate, to: finishDate) ?? "-"
+        return dateComponentsFormatter.string(from: wrappedStartDate,
+                                              to: wrappedFinishDate) ?? "-"
         
     }    
     
     var totalDistanceMeters: CLLocationDistance {
         return CLLocationDistance(totalDistance)
     }
+    
+    
     
 }
 

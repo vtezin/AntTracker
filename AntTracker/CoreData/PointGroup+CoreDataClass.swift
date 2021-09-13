@@ -12,7 +12,37 @@ import CoreData
 @objc(PointGroup)
 public class PointGroup: NSManagedObject {
 
-    func prepareForDelete(moc: NSManagedObjectContext) {
+    
+    static func addUpdateGroup(group: PointGroup?,
+                               moc: NSManagedObjectContext,
+                               title: String,
+                               info: String,
+                               imageSymbol: String,
+                               color: String,
+                               showOnMap: Bool
+                               ) {
+        
+        var groupForSave: PointGroup
+        
+        if group == nil {
+            groupForSave = PointGroup(context: moc)
+            groupForSave.id = UUID()
+        } else {
+            groupForSave = group!
+        }
+        
+        groupForSave.dateOfLastChange = Date()
+        groupForSave.title = title
+        groupForSave.info = info
+        groupForSave.imageSymbol = imageSymbol
+        groupForSave.color = color
+        groupForSave.showOnMap = showOnMap
+        
+        try? moc.save()
+        
+    }
+    
+    private func prepareForDelete(moc: NSManagedObjectContext) {
         
         for point in pointsArray {
             point.pointGroup = nil

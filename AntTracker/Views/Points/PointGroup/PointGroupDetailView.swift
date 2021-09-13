@@ -19,7 +19,7 @@ struct PointGroupDetailView: View {
     @State private var title = ""
     @State private var info = ""
     @State private var imageSymbol = SFSymbolsAPI.pointDefaultImageSymbol
-    @State private var color: Color = globalParameters.defaultColor
+    @State private var color: Color = AppConstants.defaultColor
     @State private var showOnMap = true
     
     @State private var showImageSymbolSelector = true
@@ -122,23 +122,13 @@ struct PointGroupDetailView: View {
     
     func save() {
         
-        var groupForSave: PointGroup
-        
-        if group == nil {
-            groupForSave = PointGroup(context: moc)
-            groupForSave.id = UUID()
-        } else {
-            groupForSave = group!
-        }
-        
-        groupForSave.dateOfLastChange = Date()
-        groupForSave.title = title
-        groupForSave.info = info
-        groupForSave.imageSymbol = imageSymbol
-        groupForSave.color = color.description
-        groupForSave.showOnMap = showOnMap
-        
-        try? moc.save()
+        PointGroup.addUpdateGroup(group: group,
+                                  moc: moc,
+                                  title: title,
+                                  info: info,
+                                  imageSymbol: imageSymbol,
+                                  color: color.description,
+                                  showOnMap: showOnMap)
         
         pointListRefreshID = UUID()
         

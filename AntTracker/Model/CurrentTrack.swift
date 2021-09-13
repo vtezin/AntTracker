@@ -17,6 +17,7 @@ class CurrentTrack: ObservableObject {
     @Published var finishDate = Date()
     
     @AppStorage("currentTrackCoreDataUIIDString") var currentTrackCoreDataUIIDString = ""
+    @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     
     var durationString: String {
         
@@ -203,6 +204,7 @@ class CurrentTrack: ObservableObject {
         trackCD.id = UUID()
         trackCD.startDate = Date()
         trackCD.finishDate = Date()
+        trackCD.color = currentTrackColor
         
         try? moc.save()
         

@@ -13,7 +13,7 @@ struct PointGroupView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var appVariables: GlobalAppVars
+    @EnvironmentObject var appVariables: AppVariables
     
     let group: PointGroup
     var points: FetchRequest<Point>
@@ -43,7 +43,7 @@ struct PointGroupView: View {
                     
                     appVariables.mapSettingsForAppear = (latitude: point.latitude,
                                                          longitude: point.longitude,
-                                                         span: globalParameters.curLocationSpan)
+                                                         span: AppConstants.curLocationSpan)
                     
                     activePage = ContentView.pages.main
                     

@@ -15,6 +15,7 @@ struct TrackGroupDetailView: View {
     let group: TrackGroup?
     
     @State private var title = ""
+    @State private var info = ""
     @State private var imageSymbol = SFSymbolsAPI.groupDefaultImageSymbol
     
     @State private var showImageSymbolSelector = true
@@ -30,6 +31,7 @@ struct TrackGroupDetailView: View {
         
         if let group = group {
             _title = State(initialValue: group.title)
+            _info = State(initialValue: group.wrappedInfo)
             _imageSymbol = State(initialValue: group.wrappedImageSymbol)
         } else {
             _showImageSymbolSelector = State(initialValue: true)
@@ -59,6 +61,15 @@ struct TrackGroupDetailView: View {
                     
                 }
                 
+                Section(header: Text("Description")) {
+                    
+                    ZStack {
+                        TextEditor(text: $info)
+                        Text(info).opacity(0).padding(.all, 8)
+                    }
+                    
+                }
+                
             }
             
             .navigationBarTitle("Group", displayMode: .inline)
@@ -81,20 +92,11 @@ struct TrackGroupDetailView: View {
     
     func save() {
         
-        var groupForSave: TrackGroup
-        
-        if group == nil {
-            groupForSave = TrackGroup(context: moc)
-            groupForSave.id = UUID()
-        } else {
-            groupForSave = group!
-        }
-        
-        groupForSave.dateOfLastChange = Date()
-        groupForSave.title = title
-        groupForSave.imageSymbol = imageSymbol
-        
-        try? moc.save()
+        TrackGroup.addUpdateGroup(group: group,
+                                  moc: moc,
+                                  title: title,
+                                  info: info,
+                                  imageSymbol: imageSymbol)
         
     }
         

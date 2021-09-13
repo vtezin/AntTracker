@@ -13,6 +13,25 @@ import SwiftUI
 @objc(Track)
 public class Track: NSManagedObject {
     
+    static func saveTrack(track: Track,
+                               moc: NSManagedObjectContext,
+                               title: String,
+                               info: String,
+                               locationString: String,
+                               color: String,
+                               trackGroup: TrackGroup?
+                               ) {
+        track.title = title
+        track.info = info
+        track.locationString = locationString
+        track.color = color.description
+        track.trackGroup = trackGroup
+        
+        try? moc.save()
+        
+    }
+    
+    
     static func deleteTrack(track: Track, moc: NSManagedObjectContext) {
         
         if CurrentTrack.currentTrack.trackCoreData == track {
@@ -28,8 +47,6 @@ public class Track: NSManagedObject {
     }    
     
     func deleteAllPoints(moc: NSManagedObjectContext) {
-        
-        //let trackPointsArray = getTrackPointsAsArray()
         
         for point in trackPointsArray {
             moc.delete(point)
@@ -181,12 +198,12 @@ public class Track: NSManagedObject {
     
     func getTextForKMLFile() -> String {
         
-        var kmlText = kmlAPI.headerFile(title: title)
+        var kmlText = kmlAPI.headerFile(title: wrappedTitle)
         
         kmlText += """
         <Style id=\"lineStyle\">
         <LineStyle>
-        <color>\(Color.getKmlColorByName(colorName: color))</color>
+        <color>\(Color.getKmlColorByName(colorName: wrappedColor))</color>
         <width>4</width>
         </LineStyle>
         </Style>
@@ -206,7 +223,7 @@ public class Track: NSManagedObject {
         
         kmlText += """
         <Placemark>
-        <name>\(title)</name>
+        <name>\(wrappedTitle)</name>
         <styleUrl>#lineStyle</styleUrl>
         <LineString>
         <tessellate>1</tessellate>

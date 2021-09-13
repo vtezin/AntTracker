@@ -23,7 +23,7 @@ struct ContentView: View {
     
     @State var activePage: pages = .main
     @State private var pointListRefreshID: UUID? = nil //for force refreshing
-    @EnvironmentObject var appVariables: GlobalAppVars
+    @EnvironmentObject var appVariables: AppVariables
     
     var body: some View {
         

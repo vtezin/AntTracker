@@ -25,7 +25,7 @@ struct AntTrackerApp: App {
     let clManager = LocationManager()
     let currentTrack = CurrentTrack.currentTrack
     
-    let constants = GlobalAppVars()
+    let appVariables = AppVariables()
     
     init() {
         
@@ -77,7 +77,7 @@ struct AntTrackerApp: App {
             ContentView()
             .environmentObject(clManager)
             .environmentObject(currentTrack)
-            .environmentObject(constants)
+            .environmentObject(appVariables)
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
         }
@@ -110,12 +110,12 @@ func currentTrackColorName() -> String {
 }
 
 func printTest(_ stringToPrint: String) {
-    if globalParameters.printTestData {
+    if AppConstants.printTestData {
         print(Date(), stringToPrint)
     }
 }
 
-enum globalParameters {
+enum AppConstants {
     
     static var printTestData = false
     static let defaultColor = Color.orange
@@ -127,24 +127,28 @@ enum globalParameters {
     
 }
 
-class GlobalAppVars: ObservableObject {
+class AppVariables: ObservableObject {
     
     @Published var needRedrawPointsOnMap = true
     @Published var needChangeMapView = false
-    @Published var selectedPoint: Point? = nil
+    @Published var selectedPoint: Point?
     @Published var centerOfMap = CLLocationCoordinate2D()
     @Published var mapSettingsForAppear: (latitude: CLLocationDegrees,
                                           longitude: CLLocationDegrees,
                                           span: Double?)?
     
+    var lastUsedPointGroup: PointGroup?
+    
 }
 
 func colorForMapText(mapType: MKMapType, colorScheme: ColorScheme) -> Color {
+    
     if mapType == .hybrid {
         return colorScheme == .dark ? .primary : .systemBackground
     } else {
         return .primary
     }
+    
 }
 
 func actionSheetForDelete(title: LocalizedStringKey, deleteAction: @escaping ()->Void, cancelAction: @escaping ()->Void) -> ActionSheet {
@@ -224,3 +228,4 @@ func getDescriptionByCoordinates(latitude: CLLocationDegrees,
 }
 
 let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)
+let appVars = AppVariables()

@@ -71,7 +71,7 @@ extension MainView {
             } else {
                 currentTrack.prepareForStartRecording(moc: moc)
                 moveCenterMapToCurLocation()
-                setMapSpan(delta: globalParameters.curLocationSpan)
+                setMapSpan(delta: AppConstants.curLocationSpan)
                 clManager.trackRecording = true
             }
         }

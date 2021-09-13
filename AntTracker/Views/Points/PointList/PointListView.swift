@@ -13,7 +13,7 @@ struct PointListView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
-    @EnvironmentObject var appVariables: GlobalAppVars
+    @EnvironmentObject var appVariables: AppVariables
     
     @FetchRequest(entity: Point.entity(),
                   sortDescriptors: [NSSortDescriptor(keyPath: \Point.dateAdded, ascending: false)],
@@ -77,7 +77,7 @@ struct PointListView: View {
                     Button(action: {
                         appVariables.mapSettingsForAppear = (latitude: point.latitude,
                                                              longitude: point.longitude,
-                                                             span: globalParameters.curLocationSpan)
+                                                             span: AppConstants.curLocationSpan)
                         
                         activePage = ContentView.pages.main
                     }) {
@@ -132,9 +132,6 @@ extension PointListView {
             PointGroup.deleteGroup(group: group, moc: moc)
             
         }
-        
-        // save the context
-        try? moc.save()
         
     }
     

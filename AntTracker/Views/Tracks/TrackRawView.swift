@@ -15,11 +15,11 @@ struct TrackRawView: View {
         
         VStack(alignment: .leading) {
             
-            Text(track.title)
+            Text(track.wrappedTitle)
                 .font(Font.subheadline.weight(.light))
             HStack{
                 VStack(alignment: .leading){
-                    Text(track.locationString)
+                    Text(track.wrappedLocationString)
                         .modifier(SecondaryInfo())
                 }
                 Spacer()

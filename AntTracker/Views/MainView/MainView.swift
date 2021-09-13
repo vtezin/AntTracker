@@ -55,7 +55,7 @@ struct MainView: View {
     
     @AppStorage("currentTrackColor") var currentTrackColor: String = "orange"
     //constants
-    @EnvironmentObject var appVariables: GlobalAppVars
+    @EnvironmentObject var appVariables: AppVariables
     
     //controls visibility
     @State var showControls = true
@@ -326,7 +326,7 @@ struct MainView: View {
 
         if clReceived {
             if clManager.location.horizontalAccuracy < 50 {
-                setMapSpan(delta: globalParameters.curLocationSpan)
+                setMapSpan(delta: AppConstants.curLocationSpan)
             }
             moveCenterMapToCurLocation()
         } else {

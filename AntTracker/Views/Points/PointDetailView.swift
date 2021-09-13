@@ -17,7 +17,7 @@ struct PointDetailView: View {
     var centerOfMap: CLLocationCoordinate2D?
     
     @Environment(\.managedObjectContext) var moc
-    @EnvironmentObject var appVariables: GlobalAppVars
+    @EnvironmentObject var appVariables: AppVariables
     
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
@@ -75,7 +75,7 @@ struct PointDetailView: View {
             _info = State(initialValue: "")
             _locationString = State(initialValue: "")
             _imageSymbol = State(initialValue: SFSymbolsAPI.pointDefaultImageSymbol)
-            _color = State(initialValue: globalParameters.defaultColor)
+            _color = State(initialValue: AppConstants.defaultColor)
             _dateAdded = State(initialValue: Date())
             _altitude = State(initialValue: 0)
             
@@ -84,6 +84,8 @@ struct PointDetailView: View {
             if distanceToCL <= 30 {
                 _altitude = State(initialValue:lastUsedCLAltitude)
             }
+            
+            _group = State(initialValue: appVars.lastUsedPointGroup)
             
         }
 
@@ -243,7 +245,9 @@ struct PointDetailView: View {
                 
                 ToolbarItem(placement: .bottomBar) {
                     Button(action: {
-                        kmlAPI.shareTextAsKMLFile(text: getTextForKMLFile(),
+                        kmlAPI.shareTextAsKMLFile(text: Point.textForKMLFile(title: title,
+                                                                             coordinate: coordinate,
+                                                                             altitude: altitude),
                                            filename: title)
                     }) {
                         Image(systemName: "square.and.arrow.up")
@@ -317,8 +321,7 @@ struct PointDetailView: View {
     
     func delete() {
         
-        moc.delete(point!)
-        try? moc.save()
+        Point.deletePoint(point: point!, moc: moc)
         
         appVariables.selectedPoint = nil
         appVariables.needRedrawPointsOnMap = true
@@ -342,20 +345,6 @@ struct PointDetailView: View {
         
         appVariables.needRedrawPointsOnMap = true
         lastUsedPointColor = color.description
-        
-    }
-    
-    
-    func getTextForKMLFile() -> String {
-        
-        var kmlText = ""
-        kmlText += kmlAPI.headerFile(title: title)
-        kmlText += kmlAPI.getPointTag(title: title,
-                                      coordinate: coordinate,
-                                      altitude: Double(altitude))
-        kmlText += kmlAPI.footerFile
-        
-        return kmlText
         
     }
     

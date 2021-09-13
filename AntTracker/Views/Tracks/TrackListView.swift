@@ -146,9 +146,6 @@ extension TrackListView {
             
         }
         
-        // save the context
-        try? moc.save()
-        
     }
     
 }

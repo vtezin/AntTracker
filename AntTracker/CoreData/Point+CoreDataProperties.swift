@@ -51,7 +51,7 @@ extension Point {
         if let color = color {
             return color
         } else {
-            return globalParameters.defaultColor.description
+            return AppConstants.defaultColor.description
         }
         
     }

@@ -66,38 +66,65 @@ public class Point: NSManagedObject {
         
         pointForSave.pointGroup = pointGroup
         
+        if let pointGroup = pointGroup {
+            pointGroup.dateOfLastChange = Date()
+        }
+        
         try? moc.save()
         
+        appVars.lastUsedPointGroup = pointGroup
         
     }
     
-    func getTextForKMLFile() -> String {
+    static func deletePoint(point: Point, moc: NSManagedObjectContext) {
         
-        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
-        kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
-        kmlText += "<Document> \n"
-        kmlText += "<name>\(wrappedTitle)</name> \n"
-        kmlText += "<Placemark> \n"
-        kmlText += "<name>\(wrappedTitle)</name> \n"
-        kmlText += "<Point> \n"
-        kmlText += "<tessellate>1</tessellate> \n"
-        kmlText += "<coordinates> \n"
+        moc.delete(point)
+        try? moc.save()
         
-        let latitudeString = String(latitude)
-        let longitudeString = String(longitude)
+    }
+    
+    static func textForKMLFile(title: String,
+                                  coordinate: CLLocationCoordinate2D,
+                                  altitude: Int) -> String {
         
-        kmlText += "\(longitudeString),\(latitudeString) \n"
-        
-        kmlText += """
-        </coordinates>
-        </Point>
-        </Placemark>
-        </Document>
-        </kml>
-        """
+        var kmlText = ""
+        kmlText += kmlAPI.headerFile(title: title)
+        kmlText += kmlAPI.getPointTag(title: title,
+                                      coordinate: coordinate,
+                                      altitude: Double(altitude))
+        kmlText += kmlAPI.footerFile
         
         return kmlText
         
     }
+    
+//    func getTextForKMLFile() -> String {
+//        
+//        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"
+//        kmlText += "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> \n"
+//        kmlText += "<Document> \n"
+//        kmlText += "<name>\(wrappedTitle)</name> \n"
+//        kmlText += "<Placemark> \n"
+//        kmlText += "<name>\(wrappedTitle)</name> \n"
+//        kmlText += "<Point> \n"
+//        kmlText += "<tessellate>1</tessellate> \n"
+//        kmlText += "<coordinates> \n"
+//        
+//        let latitudeString = String(latitude)
+//        let longitudeString = String(longitude)
+//        
+//        kmlText += "\(longitudeString),\(latitudeString) \n"
+//        
+//        kmlText += """
+//        </coordinates>
+//        </Point>
+//        </Placemark>
+//        </Document>
+//        </kml>
+//        """
+//        
+//        return kmlText
+//        
+//    }
     
 }

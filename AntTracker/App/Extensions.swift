@@ -77,7 +77,7 @@ extension Color {
         case "purple":
             return Color.purple
         default:
-            return globalParameters.defaultColor
+            return AppConstants.defaultColor
         }
         
     }

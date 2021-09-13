@@ -27,7 +27,7 @@ extension MainView {
                 .onTapGesture() {
                     
                     let newDelta = max(span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator(),
-                                       globalParameters.minSpan)
+                                       AppConstants.minSpan)
                     setMapSpan(delta: newDelta)
                     
                 }
@@ -36,13 +36,13 @@ extension MainView {
                     
                     makeVibration()
                     moveCenterMapToCurLocation()
-                    setMapSpan(delta: globalParameters.minSpan * 3)
+                    setMapSpan(delta: AppConstants.minSpan * 3)
                     
                 }
             
         }
-        .disabled(span.latitudeDelta == globalParameters.minSpan)
-        .foregroundColor(span.latitudeDelta == globalParameters.minSpan ? .secondary : .primary)
+        .disabled(span.latitudeDelta == AppConstants.minSpan)
+        .foregroundColor(span.latitudeDelta == AppConstants.minSpan ? .secondary : .primary)
         
     }
     
@@ -65,7 +65,7 @@ extension MainView {
             .onTapGesture() {
                 
                 let newDelta = min(span.latitudeDelta * zoomMultiplikator(),
-                                   globalParameters.maxSpan)
+                                   AppConstants.maxSpan)
                 setMapSpan(delta: newDelta)
                 
             }
@@ -94,7 +94,7 @@ extension MainView {
                     moveCenterMapToCurLocation()
                     
                     let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 4,
-                                       globalParameters.maxSpan)
+                                       AppConstants.maxSpan)
                     setMapSpan(delta: newDelta)
 
                 }
@@ -102,8 +102,8 @@ extension MainView {
             }
 
         }
-        .disabled(span.latitudeDelta == globalParameters.maxSpan)
-        .foregroundColor(span.latitudeDelta == globalParameters.maxSpan ? .secondary : .primary)
+        .disabled(span.latitudeDelta == AppConstants.maxSpan)
+        .foregroundColor(span.latitudeDelta == AppConstants.maxSpan ? .secondary : .primary)
         
     }
     
@@ -149,8 +149,8 @@ extension MainView {
             .onTapGesture() {
                 moveCenterMapToCurLocation()
                 
-                if span.latitudeDelta > globalParameters.curLocationSpan {
-                    setMapSpan(delta: globalParameters.curLocationSpan)
+                if span.latitudeDelta > AppConstants.curLocationSpan {
+                    setMapSpan(delta: AppConstants.curLocationSpan)
                 }
                                 
                 withAnimation(.easeOut){
