@@ -7,6 +7,7 @@
 
 import Foundation
 import MapKit
+import SwiftUI
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
@@ -15,19 +16,26 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var heading: CLLocationDirection?
     @Published var headingAnnotationImageView: UIImageView
     
+    @AppStorage("trackRecordingState") var appStorageTrackRecordingState = "none"
+    
     var rotateHeadingAnnotation = false
     
     private let manager = CLLocationManager()
     
-    @Published var trackRecording: Bool {
-        didSet {
-            manager.allowsBackgroundLocationUpdates = trackRecording
+    @Published var trackRecordingState: TrackRecordingStates = .none {
+        didSet{
+            manager.allowsBackgroundLocationUpdates = trackRecordingState == .recording
+            appStorageTrackRecordingState = trackRecordingState.rawValue
         }
+    }
+    
+    enum TrackRecordingStates: String {
+        case recording, paused, none
     }
     
     override init() {
         
-        self.trackRecording = false
+        self.trackRecordingState = .none
     
         let image = UIImage(systemName: "location.north.fill")!
             .withTintColor(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1))
@@ -60,7 +68,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             location = $0
             region = MKCoordinateRegion(center: center, span: span)
             
-            if trackRecording {
+            if trackRecordingState == .recording {
                 DispatchQueue.global(qos: .utility).sync{ [weak self] in
                     CurrentTrack.currentTrack.addNewPointFromLocation(location: self!.location)
                 }

@@ -72,7 +72,7 @@ extension MainView {
     
     func changeAnimatingProperties() {
         
-        animateAnt = clManager.trackRecording
+        animateAnt = clManager.trackRecordingState == .recording
         
         animatingProperties.lineWidth = animateAnt ? 2 : 0
         animatingProperties.scaleEffect = animateAnt ? 3 : 1
@@ -93,13 +93,13 @@ extension MainView {
                     
                     Image(systemName: "ant")
                         .modifier(ControlButton())
-                        .foregroundColor(clManager.trackRecording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
+                        .foregroundColor(clManager.trackRecordingState == .recording ? Color.getColorFromName(colorName: currentTrackColor) : .primary)
                         .overlay(
                             Circle()
                                 .stroke(Color.getColorFromName(colorName: currentTrackColor), lineWidth: animatingProperties.lineWidth)
                                 .scaleEffect(animatingProperties.scaleEffect)
                                 .opacity(animatingProperties.opacity)
-                                .animation(clManager.trackRecording ? pulseAnimation : Animation.default)
+                                .animation(clManager.trackRecordingState == .recording  ? pulseAnimation : Animation.default)
                         )
                     
                 }

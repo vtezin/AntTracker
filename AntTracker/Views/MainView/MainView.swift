@@ -87,7 +87,7 @@ struct MainView: View {
             VStack{
                     
                 if showControls
-                    && (clManager.trackRecording
+                    && (clManager.trackRecordingState == .recording
                     || currentTrack.points.count > 0) {
                     CurrentTrackInfo()
                         .padding()
@@ -287,7 +287,7 @@ struct MainView: View {
         }
         
         
-        if clManager.trackRecording || clManager.location.speed.speedKmHRounded() > 10 {
+        if clManager.trackRecordingState == .recording || clManager.location.speed.speedKmHRounded() > 10 {
             moveCenterMapToCurLocation()
             return
         }

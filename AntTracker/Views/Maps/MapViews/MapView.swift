@@ -65,7 +65,7 @@ struct MapView: UIViewRepresentable {
             removeCurrentTrackFromMapView(mapView: view)
         }
 
-        if clManager.trackRecording || (view.overlays.count == 0 && currentTrack.points.count > 0 )
+        if clManager.trackRecordingState == .recording || (view.overlays.count == 0 && currentTrack.points.count > 0 )
         {
             view.addTrackLine(trackPoints: currentTrack.points,
                               trackTitle: "current track",

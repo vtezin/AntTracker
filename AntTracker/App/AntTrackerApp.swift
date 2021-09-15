@@ -21,6 +21,7 @@ struct AntTrackerApp: App {
     @AppStorage("lastUsedCLAltitude") var lastUsedCLAltitude: Int = 0
     
     @AppStorage("currentTrackCoreDataUIIDString") var currentTrackCoreDataUIIDString = ""
+    @AppStorage("trackRecordingState") var trackRecordingState = "none"
     
     let clManager = LocationManager()
     let currentTrack = CurrentTrack.currentTrack
@@ -62,9 +63,17 @@ struct AntTrackerApp: App {
             
             currentTrack.trackCoreData = trackCoreData
             currentTrack.fillByTrackCoreData(trackCD: trackCoreData)
-            clManager.trackRecording = true
             
-            print("track record restored")
+            switch trackRecordingState {
+            case "recording":
+                clManager.trackRecordingState = .recording
+            case "paused":
+                clManager.trackRecordingState = .paused
+            default:
+                clManager.trackRecordingState = .none
+            }
+            
+            //print("track record restored")
             
         } catch {
             //just failed restoring

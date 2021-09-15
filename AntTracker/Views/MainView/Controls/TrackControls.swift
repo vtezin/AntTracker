@@ -13,7 +13,7 @@ extension MainView {
         
         var buttons = [ActionSheet.Button]()
         
-        buttons.append(.default(Text(clManager.trackRecording ?
+        buttons.append(.default(Text(clManager.trackRecordingState == .recording ?
                                         "Pause" :
                                         currentTrack.points.count > 0 ? "Continue recording"
                                         : "Start recording")) {
@@ -27,7 +27,7 @@ extension MainView {
             
             buttons.append(.default(Text("Finish track")) {
                 
-                if clManager.trackRecording {
+                if clManager.trackRecordingState == .recording {
                     //stop recording
                     startOrStopTrackRecording()
                 }
@@ -66,17 +66,17 @@ extension MainView {
     func startOrStopTrackRecording() {
         
         withAnimation{
-            if clManager.trackRecording {
-                clManager.trackRecording = false
+            if clManager.trackRecordingState == .recording {
+                clManager.trackRecordingState = .paused
             } else {
                 currentTrack.prepareForStartRecording(moc: moc)
                 moveCenterMapToCurLocation()
                 setMapSpan(delta: AppConstants.curLocationSpan)
-                clManager.trackRecording = true
+                clManager.trackRecordingState = .recording
             }
         }
         
-        if clManager.trackRecording {
+        if clManager.trackRecordingState == .recording {
             changeAnimatingProperties()
         } else {
             animatingProperties.resetToDefaults()
@@ -86,7 +86,7 @@ extension MainView {
     
     func resetTrack() {
         
-        clManager.trackRecording = false
+        clManager.trackRecordingState = .none
         
         if let trackCD = currentTrack.trackCoreData {
             Track.deleteTrack(track: trackCD, moc: moc)

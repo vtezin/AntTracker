@@ -56,6 +56,7 @@
 		529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CoordinatesSharing.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52B9DB6926944E2C001B519F /* kmlAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B9DB6826944E2C001B519F /* kmlAPI.swift */; };
+		52C63CEB26F1F3FD00E15379 /* PointInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C63CEA26F1F3FD00E15379 /* PointInfoView.swift */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
 		52D3A92B25E682D4001A50C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92A25E682D4001A50C1 /* ContentView.swift */; };
 		52D3A92D25E682D7001A50C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52D3A92C25E682D7001A50C1 /* Assets.xcassets */; };
@@ -125,6 +126,7 @@
 		529C63032642C40A00A49993 /* CoordinatesSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesSharing.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52B9DB6826944E2C001B519F /* kmlAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = kmlAPI.swift; sourceTree = "<group>"; };
+		52C63CEA26F1F3FD00E15379 /* PointInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointInfoView.swift; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AntTrackerApp.swift; sourceTree = "<group>"; };
 		52D3A92A25E682D4001A50C1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				5213A78D264DB25D0009223D /* PointDetailView.swift */,
+				52C63CEA26F1F3FD00E15379 /* PointInfoView.swift */,
 				5239F00326E5D8A800BB6C85 /* PointGroup */,
 				5239F00A26E5DA2C00BB6C85 /* PointList */,
 			);
@@ -526,6 +529,7 @@
 				526117E4266E38740011197A /* MainView.swift in Sources */,
 				523F53392655037300B0DF4A /* PointAnnotation.swift in Sources */,
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
+				52C63CEB26F1F3FD00E15379 /* PointInfoView.swift in Sources */,
 				52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */,
 				523F262C26C4811500AFB09B /* Interface.swift in Sources */,
 				52512C8D2658528F000619F6 /* TrackControls.swift in Sources */,

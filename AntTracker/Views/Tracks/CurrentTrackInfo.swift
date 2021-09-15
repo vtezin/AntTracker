@@ -27,7 +27,7 @@ struct CurrentTrackInfo: View {
                 VStack{
                     Text(currentTrack.durationString)
                         .fontWeight(.light)
-                    if !clManager.trackRecording {
+                    if clManager.trackRecordingState == .paused {
                         Text("(pause)")
                             .foregroundColor(.secondary)
                             .fontWeight(.light)
