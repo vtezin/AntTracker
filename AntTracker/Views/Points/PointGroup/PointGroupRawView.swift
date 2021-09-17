@@ -22,18 +22,8 @@ struct PointGroupRawView: View {
             } else {
                 
                 HStack{
-                    
-                    ZStack {
-                        Image(systemName: group!.wrappedImageSymbol)
-                            .foregroundColor(.white)
-                            .imageScale(.medium)
-                            .padding(10)
-                            .background(Color.getColorFromName(colorName: group!.wrappedColor))
-                            .clipShape(Circle())
-                        Image(systemName: "bicycle")
-                            .font(Font.title3.weight(.light))
-                            .opacity(0)
-                    }
+
+                    group!.imageView
                     
                     if !group!.showOnMap {
                         Image(systemName: "eye.slash")

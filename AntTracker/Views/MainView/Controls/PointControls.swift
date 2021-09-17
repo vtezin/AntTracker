@@ -282,16 +282,21 @@ extension MainView {
             
             HStack{
                 
+                Button(action: {
+                    withAnimation {
+                        activePage = .editPoint
+                    }
+                }) {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.secondary)
+                }
+                .padding(.leading)
+                
                 Spacer()
                 
                 VStack{
                     HStack{
-                        Image(systemName: selectedPoint.wrappedImageSymbol)
-                            .foregroundColor(.white)
-                            .imageScale(.medium)
-                            .padding(7)
-                            .background(Color.getColorFromName(colorName: selectedPoint.wrappedColor))
-                            .clipShape(Circle())
+                        selectedPoint.imageView
                         Text(selectedPoint.wrappedTitle)
                             .foregroundColor(Color.getColorFromName(colorName: selectedPoint.wrappedColor))
                     }
@@ -320,11 +325,7 @@ extension MainView {
         .padding(10)
         .background(Color.systemBackground
                         .clipShape(RoundedRectangle(cornerRadius: 5)))
-        .onTapGesture {
-            withAnimation {
-                activePage = .editPoint
-            }
-        }
+
         .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
                     .onEnded({ value in
                         if value.translation.height > 0 {
@@ -336,6 +337,30 @@ extension MainView {
                     }))
         .contextMenu{
             
+            if !selectedPoint.wrappedLocationString.isEmpty {
+                
+                Button{
+                    let sharedString = selectedPoint.wrappedLocationString
+                    
+                    // Show the share-view
+                    let av = UIActivityViewController(activityItems: [sharedString], applicationActivities: nil)
+                    UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+                } label: {
+                    Label("Address", systemImage: "square.and.arrow.up")
+                }
+                
+            }
+            
+            Button{
+                let sharedString = selectedPoint.coordinate.coordinateStrings[2]
+                
+                // Show the share-view
+                let av = UIActivityViewController(activityItems: [sharedString], applicationActivities: nil)
+                        UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+            } label: {
+                Label("Coordinates", systemImage: "square.and.arrow.up")
+            }
+            
             Button{
                 kmlAPI.shareTextAsKMLFile(
                     text: selectedPoint.textForKMLFile(),
@@ -344,15 +369,6 @@ extension MainView {
                 Label("KML file", systemImage: "square.and.arrow.up")
             }
             
-            Button{
-                let coordinateString = selectedPoint.coordinate.coordinateStrings[2]
-                
-                // Show the share-view
-                let av = UIActivityViewController(activityItems: [coordinateString], applicationActivities: nil)
-                        UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
-            } label: {
-                Label("Coordinates", systemImage: "square.and.arrow.up")
-            }
             
             Divider()
             

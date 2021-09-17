@@ -17,12 +17,7 @@ struct PointRawView: View {
             
             HStack{
                 
-                Image(systemName: point.wrappedImageSymbol)
-                    .foregroundColor(.white)
-                    .imageScale(.small)
-                    .padding(10)
-                    .background(Color.getColorFromName(colorName: point.wrappedColor))
-                    .clipShape(Circle())
+                point.imageView
                 
                 VStack(alignment: .leading){
                     

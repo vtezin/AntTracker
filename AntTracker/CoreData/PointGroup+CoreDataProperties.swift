@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+import SwiftUI
 
 extension PointGroup {
 
@@ -54,6 +54,24 @@ extension PointGroup {
     
     public var wrappedInfo: String {
         return info ?? ""
+    }
+    
+    public var imageView: some View {
+        
+        ZStack{
+            
+            Image(systemName: wrappedImageSymbol)
+                .foregroundColor(.white)
+                .imageScale(.medium)
+            
+            Image(systemName: "bicycle")
+                .imageScale(.medium)
+                .opacity(0)
+        }
+        .padding(7)
+        .background(Color.getColorFromName(colorName: wrappedColor))
+        .clipShape(Circle())
+        
     }
     
 }

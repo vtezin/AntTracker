@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import MapKit
+import SwiftUI
 
 extension Point {
 
@@ -75,6 +76,24 @@ extension Point {
     public var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude,
                                       longitude: longitude)
+    }
+    
+    public var imageView: some View {
+        
+        ZStack{
+            
+            Image(systemName: wrappedImageSymbol)
+                .foregroundColor(.white)
+                .imageScale(.medium)
+            
+            Image(systemName: "bicycle")
+                .imageScale(.medium)
+                .opacity(0)
+        }
+        .padding(7)
+        .background(Color.getColorFromName(colorName: wrappedColor))
+        .clipShape(Circle())
+        
     }
     
 }
