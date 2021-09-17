@@ -56,7 +56,7 @@ extension MainView {
         }
         
         buttons.append(.cancel(Text("Cancel")) {
-            showCurrentTrackActions = false
+            showActionSheet = false
         })
         
         return buttons

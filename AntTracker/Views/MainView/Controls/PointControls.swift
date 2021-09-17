@@ -306,7 +306,6 @@ extension MainView {
                     }
                 }) {
                     Image(systemName: "xmark")
-                        .imageScale(.small)
                         .foregroundColor(.secondary)
                 }
                 .padding(.trailing)
@@ -358,7 +357,7 @@ extension MainView {
             Divider()
             
             Button{
-                showQuestionBeforeDeleteSelectedPoint = true
+                actionSheetMode = .deleteSelectedPoint
                 showActionSheet = true
             } label: {
                 Label("Delete", systemImage: "trash")

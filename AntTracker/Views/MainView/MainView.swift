@@ -38,12 +38,13 @@ struct MainView: View {
     
     //work whith points
     @AppStorage("showPointsOnTheMap") var showPointsOnTheMap = true
-    @State var showQuestionBeforeDeleteSelectedPoint = false
     
     //action sheets support
     @State var showActionSheet = false
-    
-    
+    enum ActionSheetModes {
+        case deleteSelectedPoint, currentTrackActions
+    }
+    @State var actionSheetMode: ActionSheetModes = .currentTrackActions
     
     //import point
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
@@ -69,7 +70,6 @@ struct MainView: View {
     
     //track
     @State var showQuestionBeforeResetTrack = false
-    @State var showCurrentTrackActions = false
     
     //animations
     @State var rotateCount: Double = 0
@@ -91,10 +91,10 @@ struct MainView: View {
     var body: some View {
             
             VStack{
-                    
+                
                 if showControls
-                    && (clManager.trackRecordingState == .recording
-                    || currentTrack.points.count > 0) {
+                    && clManager.trackRecordingState == .recording
+                    && appVariables.selectedPoint == nil {
                     CurrentTrackInfo()
                         .padding()
                         .transition(.move(edge: .bottom))
@@ -183,16 +183,6 @@ struct MainView: View {
                 if appVariables.selectedPoint != nil {
                     //selected point info
                     selectetPointInfo
-                        .actionSheet(isPresented: $showQuestionBeforeDeleteSelectedPoint) {
-                            
-                            actionSheetForDelete(title: "Delete this point?") {
-                                //delete()
-                                //activePage = ContentView.pages.main
-                            } cancelAction: {
-                                showQuestionBeforeDeleteSelectedPoint = false
-                            }
-                            
-                        }
                     
                 } else {
                     
@@ -259,11 +249,11 @@ struct MainView: View {
         
             .actionSheet(isPresented: $showActionSheet) {
                 
-                if showQuestionBeforeDeleteSelectedPoint {
+                if actionSheetMode == .deleteSelectedPoint {
                     return actionSheetForDelete(title: "Delete this point?") {
                         deleteSelectedPoint()
                     } cancelAction: {
-                        showQuestionBeforeDeleteSelectedPoint = false
+                        showActionSheet = false
                     }
                 } else {
                     
@@ -372,13 +362,6 @@ struct MainView: View {
     func moveCenterMapToCurLocation() {
         center = clManager.region.center
         appVariables.needChangeMapView = true
-    }
-    
-    func makeVibration() {
-
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-        
     }
 
 }

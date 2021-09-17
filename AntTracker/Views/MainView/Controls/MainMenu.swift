@@ -102,7 +102,7 @@ extension MainView {
             
             VStack{
                 
-                if showCurrentTrackActions {
+                if actionSheetMode == MainView.ActionSheetModes.currentTrackActions {
                     Image(systemName: "ant")
                         .modifier(ControlButton())
                 } else {
@@ -125,7 +125,7 @@ extension MainView {
             }
             
             .onTapGesture {
-                showCurrentTrackActions = true
+                actionSheetMode = .currentTrackActions
                 showActionSheet = true
             }
             .onLongPressGesture {

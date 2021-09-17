@@ -236,5 +236,12 @@ func getDescriptionByCoordinates(latitude: CLLocationDegrees,
     
 }
 
+func makeVibration() {
+
+    let generator = UINotificationFeedbackGenerator()
+    generator.notificationOccurred(.success)
+    
+}
+
 let pulseAnimation = Animation.easeIn(duration: 1).repeatForever(autoreverses: false)
 let appVars = AppVariables()

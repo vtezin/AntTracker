@@ -231,7 +231,7 @@ struct MapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 
             if let placemark = view.annotation as? PointAnnotation {
-
+                
                 withAnimation{
                     parent.appVariables.selectedPoint = placemark.point
                 }
@@ -242,9 +242,6 @@ struct MapView: UIViewRepresentable {
                 let region = MKCoordinateRegion(center: center, span: parent.span)
                 
                 mapView.setRegion(region, animated: true)
-//                withAnimation{
-//                    parent.activePage = ContentView.pages.editPoint
-//                }
 
             }  else if ((view.annotation?.isKind(of: MKUserLocation.self)) != nil) {
 
