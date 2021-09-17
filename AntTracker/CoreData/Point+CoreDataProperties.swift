@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+import MapKit
 
 extension Point {
 
@@ -66,6 +66,15 @@ extension Point {
     
     public var wrappedLocationString: String {
         return locationString ?? ""
+    }
+    
+    public var wrappedAltitude: Int {
+        return Int(altitude)
+    }
+    
+    public var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude,
+                                      longitude: longitude)
     }
     
 }

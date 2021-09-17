@@ -96,6 +96,15 @@ struct CurrentTrackInfo: View {
                 showFullInfo.toggle()
             }
         }
+        .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                            .onEnded({ value in
+                                if value.translation.height < 0 {
+                                    // up
+                                    withAnimation{
+                                        showFullInfo = false
+                                    }
+                                }
+                            }))
         
         
     }

@@ -191,6 +191,10 @@ extension CLLocation {
         return String(format: "%.5f", abs(coordinate.longitude)) + "° " + (coordinate.longitude >= 0 ? "E" : "W")
     }
     
+    var roundedAltitude: Int {
+        return Int(altitude)
+    }
+    
 }
 
 extension CLLocationSpeed {

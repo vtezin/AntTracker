@@ -106,6 +106,14 @@ public class Point: NSManagedObject {
         
     }
     
+    func textForKMLFile() -> String {
+        
+        return Point.textForKMLFile(title: wrappedTitle,
+                              coordinate: coordinate,
+                              altitude: wrappedAltitude)
+        
+    }
+    
 //    func getTextForKMLFile() -> String {
 //        
 //        var kmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n"

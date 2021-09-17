@@ -105,7 +105,7 @@ struct PointDetailView: View {
                                 Image(systemName: imageSymbol)
                                     .foregroundColor(.white)
                                     .imageScale(.medium)
-                                    .padding(10)
+                                    .padding(7)
                                     .background(color)
                                     .clipShape(Circle())
                                     .onTapGesture {
@@ -184,7 +184,7 @@ struct PointDetailView: View {
                     HStack{
                         
                         Text(coordinate.coordinateStrings[2])
-                            .modifier(LightText())
+                            .modifier(SecondaryInfo())
                             .contextMenu {
                                 Button {
                                     let pasteBoard = UIPasteboard.general
@@ -196,32 +196,6 @@ struct PointDetailView: View {
                         
                     }
                     
-                }
-                
-                Section(header: Text("Distance from here")) {
-                    Text(localeDistanceString(distanceMeters: CLLocation(latitude: lastUsedCLLatitude, longitude: lastUsedCLLongitude).distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude))))
-                        .modifier(LightText())
-                }
-                
-                if altitude != 0 {
-                    
-                    Section(header: Text("Altitude")) {
-                        
-                        let altitudeDelta = altitude - lastUsedCLAltitude
-                        
-                        HStack{
-                            Text("\(altitude) m")
-                            Spacer()
-                            if altitudeDelta != 0 {
-                                Image(systemName: altitudeDelta > 0 ? "arrow.up.right" : "arrow.down.right")
-                                    .foregroundColor(.secondary)
-                                Text("\(altitudeDelta) m")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    
-                    }
-                    .modifier(LightText())
                 }
                 
             }
@@ -321,11 +295,10 @@ struct PointDetailView: View {
     
     func delete() {
         
-        Point.deletePoint(point: point!, moc: moc)
-        
         appVariables.selectedPoint = nil
+        Point.deletePoint(point: point!, moc: moc)
         appVariables.needRedrawPointsOnMap = true
-        
+    
     }
     
     

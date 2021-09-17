@@ -52,6 +52,8 @@ class PointAnnotation: NSObject, MKAnnotation {
         // attach an information button to the view
         //annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         
+        annotationView!.titleVisibility = .adaptive
+        
         return annotationView!
         
     }

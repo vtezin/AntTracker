@@ -9,6 +9,22 @@ import SwiftUI
 
 extension MainView {
     
+    var mainControlsPane: some View {
+        
+        Group {
+            
+            buttonTrackRecording
+            Spacer()
+            buttonTrackList
+            Spacer()
+            buttonPointsManagement
+            Spacer()
+            buttonAppSettings
+            
+        }
+        
+    }
+    
     var buttonBackToMainControls: some View {
         
         Button(action: {
@@ -110,6 +126,7 @@ extension MainView {
             
             .onTapGesture {
                 showCurrentTrackActions = true
+                showActionSheet = true
             }
             .onLongPressGesture {
                 makeVibration()
@@ -173,9 +190,9 @@ extension MainView {
                             getDescriptionByCoordinates(latitude: lastQuickAddedPoint.latitude,
                                                         longitude: lastQuickAddedPoint.longitude,
                                                         handler: fillLastQuickAddedPointLocationString)
+                            appVariables.selectedPoint = lastQuickAddedPoint
                             
                         }
-                        
                         
                         appVariables.needRedrawPointsOnMap = true
                         

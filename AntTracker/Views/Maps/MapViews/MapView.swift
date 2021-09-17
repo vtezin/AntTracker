@@ -25,7 +25,7 @@ struct MapView: UIViewRepresentable {
     
     @EnvironmentObject var clManager: LocationManager
     @EnvironmentObject var currentTrack: CurrentTrack
-    @EnvironmentObject var constants: AppVariables
+    @EnvironmentObject var appVariables: AppVariables
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
@@ -52,13 +52,13 @@ struct MapView: UIViewRepresentable {
         
         view.mapType = mapType
         
-        if constants.needChangeMapView {
+        if appVariables.needChangeMapView {
             
             let region = MKCoordinateRegion(center: center, span: span)
             view.setRegion(region, animated: span.latitudeDelta < 0.1)
             //print("span: \(span)")
             
-            constants.needChangeMapView = false
+            appVariables.needChangeMapView = false
         }
         
         if view.overlays.count > 0 && currentTrack.points.count == 0 {
@@ -74,7 +74,7 @@ struct MapView: UIViewRepresentable {
         
         
         //updating points
-        if constants.needRedrawPointsOnMap {
+        if appVariables.needRedrawPointsOnMap {
             updatePointsAnnotationsOnMapView(view)
         }
         
@@ -85,9 +85,9 @@ struct MapView: UIViewRepresentable {
     
     func updatePointsAnnotationsOnMapView(_ view: MKMapView) {
                 
-        if constants.needRedrawPointsOnMap {
+        if appVariables.needRedrawPointsOnMap {
             removePointAnnotationsFromMapView(view)
-            constants.needRedrawPointsOnMap = false
+            appVariables.needRedrawPointsOnMap = false
         }
         
         guard showPointsOnTheMap else { return }
@@ -159,11 +159,11 @@ struct MapView: UIViewRepresentable {
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
             
             parent.center = mapView.region.center
-            parent.constants.centerOfMap = mapView.region.center
+            parent.appVariables.centerOfMap = mapView.region.center
             parent.span = mapView.region.span
             
-            if parent.constants.needChangeMapView {
-                parent.constants.needChangeMapView = false
+            if parent.appVariables.needChangeMapView {
+                parent.appVariables.needChangeMapView = false
             }
             
         }
@@ -217,34 +217,41 @@ struct MapView: UIViewRepresentable {
             
         }
         
-        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-            
-            guard let placemark = view.annotation as? PointAnnotation else { return }
-            
-            parent.constants.selectedPoint = placemark.point
-            
-            withAnimation{
-                parent.activePage = ContentView.pages.editPoint
-            }
-            
-        }
+//        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//
+//            guard let placemark = view.annotation as? PointAnnotation else { return }
+//            parent.appVariables.selectedPoint = placemark.point
+//
+//            withAnimation{
+//                parent.activePage = ContentView.pages.editPoint
+//            }
+//
+//        }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            
+
             if let placemark = view.annotation as? PointAnnotation {
-                
-                parent.constants.selectedPoint = placemark.point
-                mapView.deselectAnnotation(placemark, animated: true)
+
                 withAnimation{
-                    parent.activePage = ContentView.pages.editPoint
+                    parent.appVariables.selectedPoint = placemark.point
                 }
+                mapView.deselectAnnotation(placemark, animated: true)
                 
+                let center = CLLocationCoordinate2D(latitude: placemark.point.latitude, longitude: placemark.point.longitude)
+                
+                let region = MKCoordinateRegion(center: center, span: parent.span)
+                
+                mapView.setRegion(region, animated: true)
+//                withAnimation{
+//                    parent.activePage = ContentView.pages.editPoint
+//                }
+
             }  else if ((view.annotation?.isKind(of: MKUserLocation.self)) != nil) {
-                
+
                 mapView.deselectAnnotation(view.annotation, animated: true)
-                
+
             }
-            
+
         }
         
         

@@ -10,6 +10,28 @@ import MapKit
 
 extension MainView {
     
+    var pointControlsPane: some View {
+        
+        VStack{
+            if showGoToCoordinates {
+                barGoToCoordinates
+                    .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
+                    .transition(.move(edge: .bottom))
+            }
+            HStack{
+                buttonBackToMainControls
+                Spacer()
+                buttonAddPoint
+                Spacer()
+                buttonPointList
+                Spacer()
+                buttonPointsMore
+            }
+        }
+        .transition(.move(edge: .bottom))
+        
+    }
+    
     var buttonAddPoint: some View {
         
         Button(action: {
@@ -252,5 +274,108 @@ extension MainView {
         
     }
     
+    var selectetPointInfo: some View {
+        
+        let selectedPoint = appVariables.selectedPoint!
+        
+        return VStack{
+            
+            HStack{
+                
+                Spacer()
+                
+                VStack{
+                    HStack{
+                        Image(systemName: selectedPoint.wrappedImageSymbol)
+                            .foregroundColor(.white)
+                            .imageScale(.medium)
+                            .padding(7)
+                            .background(Color.getColorFromName(colorName: selectedPoint.wrappedColor))
+                            .clipShape(Circle())
+                        Text(selectedPoint.wrappedTitle)
+                            .foregroundColor(Color.getColorFromName(colorName: selectedPoint.wrappedColor))
+                    }
+                    
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    withAnimation{
+                        appVariables.selectedPoint = nil
+                    }
+                }) {
+                    Image(systemName: "xmark")
+                        .imageScale(.small)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.trailing)
+                
+            }
+            
+            HStack {
+                PointInfoView(point: selectedPoint)
+            }
+            
+        }
+        .padding(10)
+        .background(Color.systemBackground
+                        .clipShape(RoundedRectangle(cornerRadius: 5)))
+        .onTapGesture {
+            withAnimation {
+                activePage = .editPoint
+            }
+        }
+        .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                    .onEnded({ value in
+                        if value.translation.height > 0 {
+                            // down
+                            withAnimation{
+                                appVariables.selectedPoint = nil
+                            }
+                        }
+                    }))
+        .contextMenu{
+            
+            Button{
+                kmlAPI.shareTextAsKMLFile(
+                    text: selectedPoint.textForKMLFile(),
+                                   filename: selectedPoint.wrappedTitle)
+            } label: {
+                Label("KML file", systemImage: "square.and.arrow.up")
+            }
+            
+            Button{
+                let coordinateString = selectedPoint.coordinate.coordinateStrings[2]
+                
+                // Show the share-view
+                let av = UIActivityViewController(activityItems: [coordinateString], applicationActivities: nil)
+                        UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+            } label: {
+                Label("Coordinates", systemImage: "square.and.arrow.up")
+            }
+            
+            Divider()
+            
+            Button{
+                showQuestionBeforeDeleteSelectedPoint = true
+                showActionSheet = true
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+            
+        }
+        
+    }
+    
+    func deleteSelectedPoint() {
+        
+        if let pointForDelete = appVariables.selectedPoint {
+            appVariables.selectedPoint = nil
+            Point.deletePoint(point: pointForDelete, moc: moc)
+            appVariables.needRedrawPointsOnMap = true
+        }
+        
+    }
     
 }

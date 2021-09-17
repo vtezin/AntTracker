@@ -37,8 +37,14 @@ struct MainView: View {
     @SceneStorage("lastUsedMapSpan") var lastUsedMapSpan: Double = 0.01
     
     //work whith points
-    @State var selectedPoint: Point?
     @AppStorage("showPointsOnTheMap") var showPointsOnTheMap = true
+    @State var showQuestionBeforeDeleteSelectedPoint = false
+    
+    //action sheets support
+    @State var showActionSheet = false
+    
+    
+    
     //import point
     @AppStorage("lastUsedPointColor") var lastUsedPointColor: String = "orange"
     @State var coordinatesForImportPoint = ""
@@ -93,7 +99,6 @@ struct MainView: View {
                         .padding()
                         .transition(.move(edge: .bottom))
                 }
-                
                 
                 ZStack{
                     
@@ -156,11 +161,9 @@ struct MainView: View {
                             .padding()
                             
                         }
-                        
-                        HStack{
+                                
                             gpsAccuracyInfo()
                                 .padding()
-                        }
                         
                     }
                     
@@ -177,50 +180,43 @@ struct MainView: View {
                     
                 }
                 
-                //controls
-                
-                if showControls {
-                    
-                    HStack{
-                        
-                        if showPointsManagment {
+                if appVariables.selectedPoint != nil {
+                    //selected point info
+                    selectetPointInfo
+                        .actionSheet(isPresented: $showQuestionBeforeDeleteSelectedPoint) {
                             
-                            VStack{
-                                if showGoToCoordinates {
-                                    barGoToCoordinates
-                                        .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
-                                        .transition(.move(edge: .bottom))
-                                }
-                                HStack{
-                                    buttonBackToMainControls
-                                    Spacer()
-                                    buttonAddPoint
-                                    Spacer()
-                                    buttonPointList
-                                    Spacer()
-                                    buttonPointsMore
-                                }
+                            actionSheetForDelete(title: "Delete this point?") {
+                                //delete()
+                                //activePage = ContentView.pages.main
+                            } cancelAction: {
+                                showQuestionBeforeDeleteSelectedPoint = false
                             }
-                            .transition(.move(edge: .bottom))
                             
                         }
-                        else {
+                    
+                } else {
+                    
+                    //controls
+                    
+                    if showControls {
+                        
+                        HStack{
                             
-                            buttonTrackRecording
-                            Spacer()
-                            buttonTrackList
-                            Spacer()
-                            buttonPointsManagement
-                            Spacer()
-                            buttonAppSettings
+                            if showPointsManagment {
+                                pointControlsPane
+                            }
+                            else {
+                                mainControlsPane                                
+                            }
                             
                         }
+                        .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
                         
                     }
-                    .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
+                }
                     
                 }
-            }
+                
             
             .onAppear{
                 
@@ -261,12 +257,23 @@ struct MainView: View {
                       }, secondaryButton: .cancel())
             }
         
-            .actionSheet(isPresented: $showCurrentTrackActions) {
-                ActionSheet(
-                title: Text("Track recording"),
-                message: Text(""),
-                buttons: currentTrackActions()
-                )
+            .actionSheet(isPresented: $showActionSheet) {
+                
+                if showQuestionBeforeDeleteSelectedPoint {
+                    return actionSheetForDelete(title: "Delete this point?") {
+                        deleteSelectedPoint()
+                    } cancelAction: {
+                        showQuestionBeforeDeleteSelectedPoint = false
+                    }
+                } else {
+                    
+                    return ActionSheet(
+                        title: Text("Track recording"),
+                        message: Text(""),
+                        buttons: currentTrackActions()
+                    )
+                }
+                
             }
         
     }

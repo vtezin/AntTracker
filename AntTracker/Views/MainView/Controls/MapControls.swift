@@ -11,8 +11,14 @@ import MapKit
 extension MainView {
     
     func setMapSpan(delta: Double) {
-        span = MKCoordinateSpan(latitudeDelta: delta,
-                                longitudeDelta: delta)
+        
+        var deltaToSet: Double
+        
+        deltaToSet = min(delta, AppConstants.maxSpan)
+        deltaToSet = max(deltaToSet, AppConstants.minSpan)
+        
+        span = MKCoordinateSpan(latitudeDelta: deltaToSet,
+                                longitudeDelta: deltaToSet)
         appVariables.needChangeMapView = true
     }
     
@@ -25,19 +31,14 @@ extension MainView {
                 .modifier(MapButton())
                 
                 .onTapGesture() {
-                    
-                    let newDelta = max(span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator(),
-                                       AppConstants.minSpan)
-                    setMapSpan(delta: newDelta)
-                    
+                    setMapSpan(delta: span.latitudeDelta.rounded(toPlaces: 4)/zoomMultiplikator())
                 }
             
                 .onLongPressGesture {
-                    
                     makeVibration()
-                    moveCenterMapToCurLocation()
-                    setMapSpan(delta: AppConstants.minSpan * 3)
-                    
+                    if span.latitudeDelta > AppConstants.curLocationSpan {
+                        setMapSpan(delta: AppConstants.curLocationSpan)
+                    }
                 }
             
         }
@@ -63,19 +64,15 @@ extension MainView {
             .modifier(MapButton())
             
             .onTapGesture() {
-                
-                let newDelta = min(span.latitudeDelta * zoomMultiplikator(),
-                                   AppConstants.maxSpan)
-                setMapSpan(delta: newDelta)
-                
+                setMapSpan(delta: span.latitudeDelta * zoomMultiplikator())
             }
         
             .onLongPressGesture {
                 
-                makeVibration()
-                followCLforTimer = false
-                
                 if currentTrack.trackCoreData != nil {
+                    
+                    makeVibration()
+                    followCLforTimer = false
                     
                     let statistics = currentTrack.trackCoreData!.getStatistic(moc: moc)
                     let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
@@ -87,15 +84,7 @@ extension MainView {
                                                     longitudinalMeters: maxDist * 1.5)
                     
                     span = region.span
-                    appVariables.needChangeMapView = true
-                    
-                } else {
-                    
-                    moveCenterMapToCurLocation()
-                    
-                    let newDelta = min(span.latitudeDelta * zoomMultiplikator() * 4,
-                                       AppConstants.maxSpan)
-                    setMapSpan(delta: newDelta)
+                    appVariables.needChangeMapView = true                    
 
                 }
                 
