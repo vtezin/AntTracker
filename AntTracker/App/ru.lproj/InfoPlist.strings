@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  AntTracker
+
+  Created by test on 20.09.2021.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Информация о Вашем местоположении необходима для отображения его на карте и записи Ваших маршрутов.";
