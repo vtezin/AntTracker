@@ -55,7 +55,6 @@ extension MainView {
         
     }
     
-    
     var buttonTrackList: some View {
         
         Button(action: {
@@ -102,10 +101,7 @@ extension MainView {
             
             VStack{
                 
-                if actionSheetMode == MainView.ActionSheetModes.currentTrackActions {
-                    Image(systemName: "ant")
-                        .modifier(ControlButton())
-                } else {
+                if !showActionSheet {
                     
                     Image(systemName: "ant")
                         .modifier(ControlButton())
@@ -117,6 +113,11 @@ extension MainView {
                                 .opacity(animatingProperties.opacity)
                                 .animation(clManager.trackRecordingState == .recording  ? pulseAnimation : Animation.default)
                         )
+                    
+                } else {
+                    
+                    Image(systemName: "ant")
+                        .modifier(ControlButton())
                     
                 }
                 

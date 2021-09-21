@@ -132,7 +132,7 @@ extension MainView {
                     .stroke(Color.getColorFromName(colorName: currentTrackColor),
                             lineWidth: followCLforTimer ? 3 : 0)
             )
-            .rotationEffect(.radians(2 * Double.pi * rotateCount))
+            .rotationEffect(.radians(2 * Double.pi * animationsCurLocationButtonRotatesCount))
             //.animation(.easeOut)
             
             .onTapGesture() {
@@ -143,7 +143,7 @@ extension MainView {
                 }
                                 
                 withAnimation(.easeOut){
-                    rotateCount += 1
+                    animationsCurLocationButtonRotatesCount += 1
                 }
             }
         

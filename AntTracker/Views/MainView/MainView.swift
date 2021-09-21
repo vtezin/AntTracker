@@ -72,7 +72,7 @@ struct MainView: View {
     @State var showQuestionBeforeResetTrack = false
     
     //animations
-    @State var rotateCount: Double = 0
+    @State var animationsCurLocationButtonRotatesCount: Double = 0
     
     //other
     @AppStorage("disableAutolockScreen") var disableAutolockScreen: Bool = false
