@@ -131,9 +131,16 @@ extension MainView {
             .rotationEffect(.radians(2 * Double.pi * animationsCurLocationButtonRotatesCount))
             
             .onTapGesture() {
+                
+                //first tap - just move map to CL
+                //second tap - if map center in CL than zoom in
+                
+                let needChangeSpan = followCLbyMap
+                    && span.latitudeDelta > AppConstants.curLocationSpan
+                
                 moveCenterMapToCurLocation()
                 
-                if span.latitudeDelta > AppConstants.curLocationSpan {
+                if needChangeSpan {
                     setMapSpan(delta: AppConstants.curLocationSpan)
                 }
                                 
