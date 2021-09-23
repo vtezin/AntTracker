@@ -21,6 +21,8 @@ struct PointGroupView: View {
     @State private var showingGroupDetailView = false
     @Binding var pointListRefreshID: UUID //for force refreshing
     
+    @State private var showQuestionBeforeDelete = false
+    
     init(group: PointGroup, activePage: Binding<ContentView.pages>, pointListRefreshID: Binding<UUID>) {
         
         self.group = group
@@ -49,7 +51,7 @@ struct PointGroupView: View {
                     activePage = ContentView.pages.main
                     
                 }) {
-                    PointRawView(point: point)
+                    PointRawView(point: point, showPointImage: false)
                 }
 
             }
@@ -60,6 +62,15 @@ struct PointGroupView: View {
         .sheet(isPresented: $showingGroupDetailView) {
             PointGroupDetailView(group: group, pointListRefreshID: $pointListRefreshID)
         }
+        
+        .actionSheet(isPresented: $showQuestionBeforeDelete) {
+            actionSheetForDelete(title: "Delete this group? (all points are saved and become points outside the groups)") {
+                delete()
+            } cancelAction: {
+                showQuestionBeforeDelete = false
+            }
+        }
+        
         .navigationBarTitle(group.title, displayMode: .inline)
         .navigationBarItems(
             trailing: Button(action: {
@@ -69,8 +80,41 @@ struct PointGroupView: View {
                     .modifier(NavigationButton())
             })
         
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack{
+                    group.imageView
+                    Text(group.title)
+                }
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                Spacer()
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                
+                Image(systemName: "trash")
+                    .modifier(ControlButton())
+                    .foregroundColor(.red)
+                    .onTapGesture {
+                        showQuestionBeforeDelete = true
+                    }
+                
+            }
+            
+        }
+        
     }
 
+    func delete() {
+        
+        PointGroup.deleteGroup(group: group, moc: moc)
+        
+        appVariables.needRedrawPointsOnMap = true
+        presentationMode.wrappedValue.dismiss()
+    
+    }
     
 }
 

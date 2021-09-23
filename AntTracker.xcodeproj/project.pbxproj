@@ -304,10 +304,19 @@
 		526117E2266E38200011197A /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				526EF0A226FC44C10073FCC5 /* Support */,
 				526117E3266E38740011197A /* MainView.swift */,
 				52512C8726584E86000619F6 /* Controls */,
 			);
 			path = MainView;
+			sourceTree = "<group>";
+		};
+		526EF0A226FC44C10073FCC5 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				5226028B25F4C83500703DCE /* Modifiers.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
@@ -316,7 +325,6 @@
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				526117E2266E38200011197A /* MainView */,
 				526D9D06261FFD03002A606D /* AppSettings.swift */,
-				5226028B25F4C83500703DCE /* Modifiers.swift */,
 				529C63032642C40A00A49993 /* CoordinatesSharing.swift */,
 				5213A7942651A3340009223D /* Points */,
 				521A0CB325FB4D61001FA9A7 /* Controls */,

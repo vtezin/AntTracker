@@ -69,10 +69,7 @@ extension MainView {
             if clManager.trackRecordingState == .recording {
                 clManager.trackRecordingState = .paused
             } else {
-                currentTrack.prepareForStartRecording(moc: moc)
-                moveCenterMapToCurLocation()
-                setMapSpan(delta: AppConstants.curLocationSpan)
-                clManager.trackRecordingState = .recording
+                startTrackRecording()
             }
         }
         
@@ -82,6 +79,16 @@ extension MainView {
             animatingProperties.resetToDefaults()
         }
         
+    }
+    
+    func startTrackRecording() {
+        
+        currentTrack.prepareForStartRecording(moc: moc)
+        moveCenterMapToCurLocation()
+        setMapSpan(delta: AppConstants.curLocationSpan)
+        
+        clManager.trackRecordingState = .recording
+                
     }
     
     func resetTrack() {

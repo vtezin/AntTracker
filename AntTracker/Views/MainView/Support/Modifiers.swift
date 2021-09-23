@@ -7,7 +7,21 @@
 
 import SwiftUI
 
+struct MapControlColors: ViewModifier {
+    
+    var disabled = false
+    
+    func body(content: Content) -> some View {
+        content
+            .background(Color(UIColor.systemBackground).opacity(disabled ? 0.3 : 0.7))
+            .accentColor(disabled ? .secondary : .primary)
+            //.foregroundColor(disabled ? .secondary : .primary)
+    }
+}
+
 struct MapButton: ViewModifier {
+    
+    var disabled = false
     
     func body(content: Content) -> some View {
         
@@ -16,17 +30,16 @@ struct MapButton: ViewModifier {
             .imageScale(.small)
             .font(Font.title.weight(.light))
             .padding(15)
-            .modifier(MapControlColors())
+            .modifier(MapControlColors(disabled: disabled))
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(Color.systemBackground.opacity(0.8),
+                    .stroke(Color.systemBackground.opacity(disabled ? 0.4 : 0.8),
                             lineWidth: 1)
             )
         
     }
 }
-
 
 struct MapControl: ViewModifier {
     func body(content: Content) -> some View {
@@ -87,13 +100,6 @@ extension Text {
     }
 }
 
-struct MapControlColors: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .background(Color(UIColor.systemBackground).opacity(0.7))
-            .accentColor(.primary)
-    }
-}
 
 struct ClearButton: ViewModifier
 {

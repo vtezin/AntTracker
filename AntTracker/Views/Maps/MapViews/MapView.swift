@@ -8,6 +8,59 @@
 import SwiftUI
 import MapKit
 
+final class WrappedMap: MKMapView, UIGestureRecognizerDelegate {
+    
+    var onLongPress: (CLLocationCoordinate2D, MKMapView) -> Void = { _,_  in }
+    var onDragOrPan: (MKMapView) -> Void = { _ in }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer is UIPanGestureRecognizer || gestureRecognizer is UIRotationGestureRecognizer) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    init() {
+        
+        super.init(frame: .zero)
+        
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress(sender:)))
+        longPressGestureRecognizer.minimumPressDuration = 0.8
+        addGestureRecognizer(longPressGestureRecognizer)
+        
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
+        panGestureRecognizer.minimumNumberOfTouches = 1
+        panGestureRecognizer.maximumNumberOfTouches = 1
+        panGestureRecognizer.delegate = self
+        
+        addGestureRecognizer(panGestureRecognizer)
+        
+    }
+    
+    
+    @objc func onLongPress(sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let location = sender.location(in: self)
+            let coordinate = convert(location, toCoordinateFrom: self)
+            onLongPress(coordinate, self)
+        }
+    }
+    
+    @objc func panGesture(sender: UIPanGestureRecognizer) {
+        if sender.state == .ended {
+            onDragOrPan(self)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+
+
 struct MapView: UIViewRepresentable {
     
     @Binding var mapType: MKMapType
@@ -19,6 +72,8 @@ struct MapView: UIViewRepresentable {
     var points: FetchedResults<Point>
     
     @Binding var showPointsOnTheMap: Bool
+    @Binding var followCLbyMap: Bool
+    @Binding var showPointsManagment: Bool
     
     //working with point selection
     @Binding var activePage: ContentView.pages
@@ -29,7 +84,11 @@ struct MapView: UIViewRepresentable {
     
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
-        let mapView = MKMapView()
+        let mapView = WrappedMap()
+        
+        mapView.onLongPress = onLongPress
+        mapView.onDragOrPan = onDragOrPanMapByUser
+        
         mapView.delegate = context.coordinator
         mapView.mapType = mapType
         
@@ -46,6 +105,22 @@ struct MapView: UIViewRepresentable {
         
         return mapView
         
+    }
+    
+    func onDragOrPanMapByUser(mapView: MKMapView) {
+        //print("map dragged by user")
+        followCLbyMap = false
+        
+    }
+    
+    func onLongPress(coordinate: CLLocationCoordinate2D, mapView: MKMapView) {
+        
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        
+        mapView.setRegion(region, animated: true)
+        showPointsManagment = true
+        followCLbyMap = false
+                
     }
 
     func updateUIView(_ view: MKMapView, context: UIViewRepresentableContext<MapView>) {
@@ -166,6 +241,18 @@ struct MapView: UIViewRepresentable {
                 parent.appVariables.needChangeMapView = false
             }
             
+            if let selectedPoint = parent.appVariables.selectedPoint {
+                
+                if !mapView.visibleMapRect.contains(MKMapPoint(selectedPoint.coordinate))
+                {
+                    print("hide selected point")
+                    withAnimation {
+                        parent.appVariables.selectedPoint = nil
+                    }
+                }
+            }
+            
+            
         }
         
         //rendering track
@@ -234,6 +321,7 @@ struct MapView: UIViewRepresentable {
                 
                 withAnimation{
                     parent.appVariables.selectedPoint = placemark.point
+                    parent.followCLbyMap = false
                 }
                 mapView.deselectAnnotation(placemark, animated: true)
                 

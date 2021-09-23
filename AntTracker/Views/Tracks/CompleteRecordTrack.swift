@@ -13,6 +13,7 @@ struct CompleteRecordTrack: View {
     
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var currentTrack: CurrentTrack
+    @EnvironmentObject var clManager: LocationManager
     
     @State var title = ""
     @State var info = ""
@@ -166,11 +167,13 @@ struct CompleteRecordTrack: View {
                         trackGroup: trackGroup)
         
         currentTrack.reset()
+        clManager.trackRecordingState = .none
         
     }
     
     func delete() {
         Track.deleteTrack(track: currentTrack.trackCoreData!, moc: moc)
+        clManager.trackRecordingState = .none
     }
     
     func fillLocationString(adressString: String) {

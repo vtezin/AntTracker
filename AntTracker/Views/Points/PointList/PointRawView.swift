@@ -10,6 +10,7 @@ import SwiftUI
 struct PointRawView: View {
     
     let point: Point
+    let showPointImage: Bool
     
     var body: some View {
         
@@ -17,7 +18,9 @@ struct PointRawView: View {
             
             HStack{
                 
-                point.imageView
+                if showPointImage {
+                    point.imageView
+                }
                 
                 VStack(alignment: .leading){
                     

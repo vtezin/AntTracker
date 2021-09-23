@@ -22,8 +22,7 @@ struct MainView: View {
     @State var span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     
     @State var needChangeMapView = false
-    @State var followCL = false
-    @State var followCLforTimer = false
+    @State var followCLbyMap = false
     
     @AppStorage("lastUsedCLLatitude") var lastUsedCLLatitude: Double = 0
     @AppStorage("lastUsedCLLongitude") var lastUsedCLLongitude: Double = 0
@@ -93,7 +92,7 @@ struct MainView: View {
             VStack{
                 
                 if showControls
-                    && clManager.trackRecordingState == .recording
+                    && (clManager.trackRecordingState != .none)
                     && appVariables.selectedPoint == nil {
                     CurrentTrackInfo()
                         .padding()
@@ -102,7 +101,7 @@ struct MainView: View {
                 
                 ZStack{
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, points: points, showPointsOnTheMap: $showPointsOnTheMap, activePage: $activePage)
+                    MapView(mapType: $mapType, center: $center, span: $span, points: points, showPointsOnTheMap: $showPointsOnTheMap, followCLbyMap: $followCLbyMap, showPointsManagment: $showPointsManagment, activePage: $activePage)
                         .onTapGesture {
                             withAnimation{
                                 if !showPointsManagment {
@@ -111,7 +110,7 @@ struct MainView: View {
                             }
                         }
                         .onReceive(timer) { _ in
-                            if followCLforTimer{
+                            if followCLbyMap{
                                 moveCenterMapToCurLocation()
                             }
                             if showPointsManagment {
@@ -167,7 +166,7 @@ struct MainView: View {
                         
                     }
                     
-                    if showControls && showPointsManagment {
+                    if showPointsManagment {
                         VStack{
                             Image(systemName: "plus")
                                 .imageScale(.large)
@@ -188,7 +187,7 @@ struct MainView: View {
                     
                     //controls
                     
-                    if showControls {
+                    if showControls || showPointsManagment {
                         
                         HStack{
                             
@@ -362,6 +361,7 @@ struct MainView: View {
     func moveCenterMapToCurLocation() {
         center = clManager.region.center
         appVariables.needChangeMapView = true
+        followCLbyMap = true
     }
 
 }

@@ -159,44 +159,9 @@ extension MainView {
                 
                     .onTapGesture {
                         withAnimation{                        
-                            if followCL {
-                                startStopFollowCLForTimer()
-                            }
+                            followCLbyMap = false
                             showPointsManagment.toggle()
                         }
-                    }
-                    .onLongPressGesture {
-                        
-                        makeVibration()
-                        
-                        moveCenterMapToCurLocation()
-                        
-                        showPointsOnTheMap = true
-                        
-                        //fast adding new point
-                        lastQuickAddedPoint = Point.addUpdatePoint(point: nil,
-                                             moc: moc,
-                                             title: nil,
-                                             info: nil,
-                                             locationString: nil,
-                                             color: nil,
-                                             imageSymbol: nil,
-                                             latitude: clManager.region.center.latitude,
-                                             longitude: clManager.region.center.longitude,
-                                             altitude: clManager.location.altitude,
-                                             pointGroup: appVars.lastUsedPointGroup)
-                        
-                        if let lastQuickAddedPoint = lastQuickAddedPoint{
-                            
-                            getDescriptionByCoordinates(latitude: lastQuickAddedPoint.latitude,
-                                                        longitude: lastQuickAddedPoint.longitude,
-                                                        handler: fillLastQuickAddedPointLocationString)
-                            appVariables.selectedPoint = lastQuickAddedPoint
-                            
-                        }
-                        
-                        appVariables.needRedrawPointsOnMap = true
-                        
                     }
                 
             }

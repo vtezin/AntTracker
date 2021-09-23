@@ -82,7 +82,7 @@ struct PointListView: View {
                         
                         activePage = ContentView.pages.main
                     }) {
-                        PointRawView(point: point)
+                        PointRawView(point: point, showPointImage: true)
                     }
                     
                 }

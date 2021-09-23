@@ -29,7 +29,7 @@ struct PointInfoView: View {
             HStack{
 
                 HStack{
-                    Image(systemName: "arrow.right")
+                    Image(systemName: "location.fill")
                     Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: point.latitude, longitude: point.longitude))))
                 }
 

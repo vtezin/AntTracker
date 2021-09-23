@@ -61,7 +61,7 @@ extension MainView {
                 Image(systemName: "minus")
 
             }
-            .modifier(MapButton())
+            .modifier(MapButton(disabled: span.latitudeDelta == AppConstants.maxSpan ))
             
             .onTapGesture() {
                 setMapSpan(delta: span.latitudeDelta * zoomMultiplikator())
@@ -72,7 +72,7 @@ extension MainView {
                 if currentTrack.trackCoreData != nil {
                     
                     makeVibration()
-                    followCLforTimer = false
+                    followCLbyMap = false
                     
                     let statistics = currentTrack.trackCoreData!.getStatistic(moc: moc)
                     let maxDist = max(statistics.distFromWestToEast, statistics.distFromNorthToSouth)
@@ -125,15 +125,10 @@ extension MainView {
     
     var buttonCurLocation: some View {
         
-        Image(systemName: "location")
+        Image(systemName: followCLbyMap ? "location.fill" : "location")
             .modifier(MapButton())
-            .overlay(
-                Circle()
-                    .stroke(Color.getColorFromName(colorName: currentTrackColor),
-                            lineWidth: followCLforTimer ? 3 : 0)
-            )
+            .foregroundColor(followCLbyMap ? .blue : .primary)
             .rotationEffect(.radians(2 * Double.pi * animationsCurLocationButtonRotatesCount))
-            //.animation(.easeOut)
             
             .onTapGesture() {
                 moveCenterMapToCurLocation()
@@ -145,19 +140,48 @@ extension MainView {
                 withAnimation(.easeOut){
                     animationsCurLocationButtonRotatesCount += 1
                 }
+                
             }
         
             .onLongPressGesture {
+                
                 makeVibration()
-                startStopFollowCLForTimer()
+                
                 moveCenterMapToCurLocation()
+                
+                showPointsOnTheMap = true
+                
+                //fast adding new point
+                lastQuickAddedPoint = Point.addUpdatePoint(point: nil,
+                                     moc: moc,
+                                     title: nil,
+                                     info: nil,
+                                     locationString: nil,
+                                     color: nil,
+                                     imageSymbol: nil,
+                                     latitude: clManager.region.center.latitude,
+                                     longitude: clManager.region.center.longitude,
+                                     altitude: clManager.location.altitude,
+                                     pointGroup: appVars.lastUsedPointGroup)
+                
+                if let lastQuickAddedPoint = lastQuickAddedPoint{
+                    
+                    getDescriptionByCoordinates(latitude: lastQuickAddedPoint.latitude,
+                                                longitude: lastQuickAddedPoint.longitude,
+                                                handler: fillLastQuickAddedPointLocationString)
+                    appVariables.selectedPoint = lastQuickAddedPoint
+                    
+                }
+                
+                appVariables.needRedrawPointsOnMap = true
+                
             }
         
     }
     
     func startStopFollowCLForTimer() {
         
-        followCLforTimer.toggle()
+        followCLbyMap.toggle()
         
     }
     
@@ -255,21 +279,16 @@ extension MainView {
             
             HStack {
                 
-                //if speedOut > 0 {
-                    Text(speedOut.localeSpeedString)
-                        .fontWeight(.light)
-                        .padding(paddingSpeed)
-                        .background(Color.systemBackground
-                                        .opacity(0.7)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5)))
-                        .font(fontSpeed)
-                        .opacity(speedOut == 0 ? 0.5 : 1)
-//                } else {
-//                    Text("")
-//                        .fontWeight(.light)
-//                        .padding(paddingSpeed)
-//                        .opacity(0)
-//                }
+                Text(speedOut.localeSpeedString)
+                    .fontWeight(.light)
+                    .padding(paddingSpeed)
+                    .background(Color.systemBackground
+                                    .opacity(0.7)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5)))
+                    .font(fontSpeed)
+                    .opacity(speedOut == 0 ? 0 : 1)
+                    .transition(.move(edge: .trailing))
+                
                 
             }
             .contextMenu {
