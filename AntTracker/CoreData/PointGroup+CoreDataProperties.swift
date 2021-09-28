@@ -17,7 +17,7 @@ extension PointGroup {
     }
 
     @NSManaged public var id: UUID?
-    @NSManaged public var title: String
+    @NSManaged public var title: String?
     @NSManaged public var info: String?
     @NSManaged public var color: String?
     @NSManaged public var showOnMap: Bool
@@ -54,6 +54,10 @@ extension PointGroup {
     
     public var wrappedInfo: String {
         return info ?? ""
+    }
+    
+    public var wrappedTitle: String {
+        return title ?? ""
     }
     
     public var imageView: some View {

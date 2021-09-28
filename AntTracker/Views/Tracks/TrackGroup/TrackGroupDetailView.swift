@@ -30,7 +30,7 @@ struct TrackGroupDetailView: View {
         self.group = group
         
         if let group = group {
-            _title = State(initialValue: group.title)
+            _title = State(initialValue: group.wrappedTitle)
             _info = State(initialValue: group.wrappedInfo)
             _imageSymbol = State(initialValue: group.wrappedImageSymbol)
         } else {

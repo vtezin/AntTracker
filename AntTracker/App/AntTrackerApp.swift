@@ -26,7 +26,7 @@ struct AntTrackerApp: App {
     let clManager = LocationManager()
     let currentTrack = CurrentTrack.currentTrack
     
-    let appVariables = AppVariables()
+    @StateObject var appVariables = AppVariables()
     
     init() {
         
@@ -85,11 +85,11 @@ struct AntTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-            .environmentObject(clManager)
-            .environmentObject(currentTrack)
-            .environmentObject(appVariables)
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            
+                .environmentObject(clManager)
+                .environmentObject(currentTrack)
+                .environmentObject(appVariables)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .preferredColorScheme(colorSheme(darkMode: appVariables.darkMode))
         }
         .onChange(of: scenePhase) { newScenePhase in
             persistenceController.save()
@@ -147,7 +147,19 @@ class AppVariables: ObservableObject {
                                           longitude: CLLocationDegrees,
                                           span: Double?)?
     
+    @Published var darkMode: Bool? = nil
+    
     var lastUsedPointGroup: PointGroup?
+    
+}
+
+func colorSheme(darkMode: Bool?) -> ColorScheme? {
+    
+    if let darkMode = darkMode {
+        return darkMode ? .dark : .light
+    } else {
+        return nil
+    }
     
 }
 
@@ -179,7 +191,8 @@ func actionSheetForDelete(title: LocalizedStringKey, deleteAction: @escaping ()-
 
 func getDescriptionByCoordinates(latitude: CLLocationDegrees,
                                  longitude: CLLocationDegrees,
-                                 handler: @escaping (String) -> Void ) {
+                                 handler: @escaping (String) -> Void,
+                                 fullAdress: Bool = true) {
     
     let location = CLLocation(latitude: latitude, longitude: longitude)
     let geocoder = CLGeocoder()
@@ -216,12 +229,14 @@ func getDescriptionByCoordinates(latitude: CLLocationDegrees,
                 adressArray.append(subLoc)
             }
             
-            if let street = placemark.thoroughfare {
-                adressArray.append(street)
-            }
-            
-            if let subStreet = placemark.subThoroughfare {
-                adressArray.append(subStreet)
+            if fullAdress {
+                if let street = placemark.thoroughfare {
+                    adressArray.append(street)
+                }
+                
+                if let subStreet = placemark.subThoroughfare {
+                    adressArray.append(subStreet)
+                }
             }
             
             adressArray = adressArray.filter { !$0.isEmpty }

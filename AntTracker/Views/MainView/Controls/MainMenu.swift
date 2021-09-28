@@ -148,23 +148,23 @@ extension MainView {
     }
     
     var buttonPointsManagement: some View {
+        
+        Button(action: {}) {
             
-            Button(action: {}) {
-                
-                VStack {
-                    Image(systemName: "mappin.and.ellipse")
-                        .modifier(ControlButton())
-                    Text("Points").buttonText()
-                }
-                
-                    .onTapGesture {
-                        withAnimation{                        
-                            followCLbyMap = false
-                            showPointsManagment.toggle()
-                        }
-                    }
-                
+            VStack {
+                Image(systemName: "mappin.and.ellipse")
+                    .modifier(ControlButton())
+                Text("Points").buttonText()
             }
+            
+            .onTapGesture {
+                withAnimation{
+                    followCLbyMap = false
+                    showPointsManagment.toggle()
+                }
+            }
+            
+        }
         
     }
     

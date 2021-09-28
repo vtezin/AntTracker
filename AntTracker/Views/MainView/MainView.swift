@@ -144,6 +144,7 @@ struct MainView: View {
                             VStack{
                                 Spacer()
                                 buttonMapType
+                                    .padding()
                             }
                             
                             Spacer()

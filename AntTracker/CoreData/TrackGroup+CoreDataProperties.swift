@@ -17,7 +17,7 @@ extension TrackGroup {
     }
 
     @NSManaged public var id: UUID?
-    @NSManaged public var title: String
+    @NSManaged public var title: String?
     @NSManaged public var info: String?
     @NSManaged public var track: NSSet?
     @NSManaged public var dateOfLastChange: Date
@@ -42,6 +42,10 @@ extension TrackGroup {
     
     public var wrappedInfo: String {
         return info ?? ""
+    }
+    
+    public var wrappedTitle: String {
+        return title ?? ""
     }
     
 }

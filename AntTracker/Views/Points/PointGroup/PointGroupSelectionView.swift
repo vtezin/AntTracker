@@ -34,7 +34,9 @@ struct PointGroupSelectionView: View {
                 ForEach(groups, id: \.id) { group in
                     HStack{
                         PointGroupRawView(group: group)
+                        Spacer()
                     }
+                    .contentShape(Rectangle())
                     .onTapGesture{
                         selectedGroup = group
                         presentationMode.wrappedValue.dismiss()
@@ -42,11 +44,15 @@ struct PointGroupSelectionView: View {
                     
                 }
                 
-                PointGroupRawView(group: nil)
-                    .onTapGesture{
-                        selectedGroup = nil
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                HStack{
+                    PointGroupRawView(group: nil)
+                    Spacer()
+                }
+                .contentShape(Rectangle())
+                .onTapGesture{
+                    selectedGroup = nil
+                    presentationMode.wrappedValue.dismiss()
+                }
                 
             }
             .navigationBarTitle("Select group", displayMode: .inline)

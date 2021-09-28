@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 @objc(PointGroup)
 public class PointGroup: NSManagedObject {
@@ -62,6 +63,23 @@ public class PointGroup: NSManagedObject {
         try? moc.save()
         
     }
+    
+    func getTextForKMLFile() -> String {
+        
+        var kmlText = kmlAPI.headerFile(title: wrappedTitle)
+
+        for point in pointsArray {
+            
+            kmlText += kmlAPI.getPointTag(title: point.wrappedTitle, coordinate: point.coordinate, altitude: point.altitude)
+            
+        }
+            
+        kmlText += kmlAPI.footerFile
+        
+        return kmlText
+        
+    }
+    
     
 }
 

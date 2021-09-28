@@ -50,7 +50,7 @@ struct TrackGroupView: View {
         .sheet(isPresented: $showingGroupDetailView) {
             TrackGroupDetailView(group: group)
         }
-        .navigationBarTitle(group.title, displayMode: .inline)
+        .navigationBarTitle(group.wrappedTitle, displayMode: .inline)
         .navigationBarItems(
             trailing: Button(action: {
                 showingGroupDetailView = true

@@ -134,6 +134,7 @@ struct CompleteRecordTrack: View {
 
             }
             .onAppear{
+                
                 firstResponder = .title
                 
                 if CurrentTrack.currentTrack.points.count > 0 {
@@ -142,7 +143,8 @@ struct CompleteRecordTrack: View {
                     
                     getDescriptionByCoordinates(latitude: startPoint.coordinate.latitude,
                                                 longitude: startPoint.coordinate.longitude,
-                                                handler: fillLocationString)
+                                                handler: fillLocationString,
+                                                fullAdress: false)
                     
                 }
                 

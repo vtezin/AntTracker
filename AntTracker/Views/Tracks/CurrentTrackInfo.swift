@@ -20,7 +20,7 @@ struct CurrentTrackInfo: View {
             
             HStack{
                 Text(localeDistanceString(distanceMeters: currentTrack.totalDistanceMeters))
-                    .font(.title)
+                    .font(.title2)
                 
                 Spacer()
                 

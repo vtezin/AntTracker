@@ -44,6 +44,7 @@ final class WrappedMap: MKMapView, UIGestureRecognizerDelegate {
             let location = sender.location(in: self)
             let coordinate = convert(location, toCoordinateFrom: self)
             onLongPress(coordinate, self)
+            makeVibration()
         }
     }
     
@@ -245,7 +246,6 @@ struct MapView: UIViewRepresentable {
                 
                 if !mapView.visibleMapRect.contains(MKMapPoint(selectedPoint.coordinate))
                 {
-                    print("hide selected point")
                     withAnimation {
                         parent.appVariables.selectedPoint = nil
                     }

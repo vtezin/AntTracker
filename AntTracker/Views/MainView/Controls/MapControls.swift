@@ -118,7 +118,10 @@ extension MainView {
                 lastUsedMapType = mapType == .standard ? "standart" : "hybrid"
                 appVariables.needChangeMapView = true
             }
-            .padding()
+            .onLongPressGesture {
+                makeVibration()
+                appVariables.darkMode = colorScheme == .light                
+            }
         
     }
     
@@ -176,7 +179,7 @@ extension MainView {
                     getDescriptionByCoordinates(latitude: lastQuickAddedPoint.latitude,
                                                 longitude: lastQuickAddedPoint.longitude,
                                                 handler: fillLastQuickAddedPointLocationString)
-                    appVariables.selectedPoint = lastQuickAddedPoint
+                    //appVariables.selectedPoint = lastQuickAddedPoint
                     
                 }
                 
@@ -268,18 +271,12 @@ extension MainView {
         }
         
         var fontSpeed: Font
-        var paddingSpeed: CGFloat
         
         switch speed.speedKmHRounded() {
-        case ..<5:
-            fontSpeed = Font.headline
-            paddingSpeed = 10
-        case 5..<15:
+        case ..<15:
             fontSpeed = Font.title2
-            paddingSpeed = 10
         default:
-            fontSpeed = Font.title
-            paddingSpeed = 10
+            fontSpeed = Font.title2
         }
         
         return
@@ -288,7 +285,7 @@ extension MainView {
                 
                 Text(speedOut.localeSpeedString)
                     .fontWeight(.light)
-                    .padding(paddingSpeed)
+                    .padding(10)
                     .background(Color.systemBackground
                                     .opacity(0.7)
                                     .clipShape(RoundedRectangle(cornerRadius: 5)))
@@ -296,14 +293,6 @@ extension MainView {
                     .opacity(speedOut == 0 ? 0 : 1)
                     .transition(.move(edge: .trailing))
                 
-                
-            }
-            .contextMenu {
-                Button {
-                    mainViewShowCurrentSpeed = false
-                } label: {
-                    Label("Hide", systemImage: "eye.slash")
-                }
             }
 
     }

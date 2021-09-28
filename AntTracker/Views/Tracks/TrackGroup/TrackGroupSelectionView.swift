@@ -32,7 +32,9 @@ struct TrackGroupSelectionView: View {
                 ForEach(groups, id: \.id) { group in
                     HStack{
                         TrackGroupRawView(trackGroup: group)
+                        Spacer()
                     }
+                    .contentShape(Rectangle())
                     .onTapGesture{
                         selectedGroup = group
                         presentationMode.wrappedValue.dismiss()
@@ -40,11 +42,14 @@ struct TrackGroupSelectionView: View {
                     
                 }
                 
-                TrackGroupRawView(trackGroup: nil)
-                    .onTapGesture{
-                        selectedGroup = nil
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                HStack{
+                    TrackGroupRawView(trackGroup: nil)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture{
+                    selectedGroup = nil
+                    presentationMode.wrappedValue.dismiss()
+                }
                 
             }
             .navigationBarTitle("Select group", displayMode: .inline)

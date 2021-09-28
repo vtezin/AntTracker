@@ -53,16 +53,10 @@ struct ControlButton: ViewModifier {
     
     func body(content: Content) -> some View {
         
-        //ZStack {
-            content
-                .imageScale(.small)
-                .font(Font.title.weight(.light))
-                .accentColor(.primary)
-//            Image(systemName: "ant")
-//                .imageScale(.small)
-//                .font(Font.title.weight(.light))
-//                .opacity(0)
-//        }
+        content
+            .imageScale(.small)
+            .font(Font.title.weight(.light))
+            .accentColor(.primary)
         
     }
 }

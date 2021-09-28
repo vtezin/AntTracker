@@ -300,6 +300,11 @@ extension MainView {
                         Text(selectedPoint.wrappedTitle)
                             .foregroundColor(Color.getColorFromName(colorName: selectedPoint.wrappedColor))
                     }
+                    .onTapGesture {
+                        withAnimation {
+                            activePage = .editPoint
+                        }
+                    }
                     
                 }
                 

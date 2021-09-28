@@ -29,7 +29,7 @@ struct TrackGroupRawView: View {
                         .font(Font.title3.weight(.light))
                         .opacity(0)
                 }
-                Text(trackGroup!.title)
+                Text(trackGroup!.wrappedTitle)
                 Spacer()
                 
             }

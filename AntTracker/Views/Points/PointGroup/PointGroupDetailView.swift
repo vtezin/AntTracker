@@ -35,7 +35,7 @@ struct PointGroupDetailView: View {
         self.group = group
         
         if let group = group {
-            _title = State(initialValue: group.title)
+            _title = State(initialValue: group.wrappedTitle)
             _info = State(initialValue: group.wrappedInfo)
             _imageSymbol = State(initialValue: group.wrappedImageSymbol)
             _color = State(initialValue: Color.getColorFromName(colorName: group.wrappedColor))

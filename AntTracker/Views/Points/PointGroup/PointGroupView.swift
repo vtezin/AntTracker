@@ -71,7 +71,7 @@ struct PointGroupView: View {
             }
         }
         
-        .navigationBarTitle(group.title, displayMode: .inline)
+        .navigationBarTitle(group.wrappedTitle, displayMode: .inline)
         .navigationBarItems(
             trailing: Button(action: {
                 showingGroupDetailView = true
@@ -81,11 +81,23 @@ struct PointGroupView: View {
             })
         
         .toolbar {
+            
             ToolbarItem(placement: .principal) {
                 HStack{
                     group.imageView
-                    Text(group.title)
+                    Text(group.wrappedTitle)
                 }
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                
+                Image(systemName: "square.and.arrow.up")
+                    .modifier(ControlButton())
+                    .onTapGesture {
+                        kmlAPI.shareTextAsKMLFile(text: group.getTextForKMLFile(),
+                                                  filename: group.wrappedTitle)
+                    }
+                
             }
             
             ToolbarItem(placement: .bottomBar) {
@@ -102,6 +114,7 @@ struct PointGroupView: View {
                     }
                 
             }
+            
             
         }
         

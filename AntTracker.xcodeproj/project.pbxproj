@@ -304,7 +304,6 @@
 		526117E2266E38200011197A /* MainView */ = {
 			isa = PBXGroup;
 			children = (
-				526EF0A226FC44C10073FCC5 /* Support */,
 				526117E3266E38740011197A /* MainView.swift */,
 				52512C8726584E86000619F6 /* Controls */,
 			);
@@ -322,6 +321,7 @@
 		529B5C3E25F9E84A00BACDA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				526EF0A226FC44C10073FCC5 /* Support */,
 				52D3A92A25E682D4001A50C1 /* ContentView.swift */,
 				526117E2266E38200011197A /* MainView */,
 				526D9D06261FFD03002A606D /* AppSettings.swift */,

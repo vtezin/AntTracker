@@ -33,7 +33,7 @@ struct PointGroupRawView: View {
                     
                     VStack(alignment: .leading){
                         
-                        Text(group!.title)
+                        Text(group!.wrappedTitle)
                         
                         if !group!.wrappedInfo.isEmpty {
                             HStack{

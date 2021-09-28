@@ -312,7 +312,7 @@ struct TrackDetailView: View {
                                 
                                 let centerPoint = statistics.centerPoint
                                 
-                                getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: fillLocationString)
+                                getDescriptionByCoordinates(latitude: centerPoint.latitude, longitude: centerPoint.longitude, handler: fillLocationString, fullAdress: false)
                                 
                             }
                             
