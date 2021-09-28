@@ -29,8 +29,10 @@ struct CurrentTrackInfo: View {
                         .fontWeight(.light)
                     if clManager.trackRecordingState == .paused {
                         Text("(pause)")
-                            .foregroundColor(.secondary)
-                            .fontWeight(.light)
+                            .modifier(SecondaryInfo())
+                    } else if currentTrack.points.isEmpty {
+                        Text("waiting for a good GPS signal or movement")
+                            .modifier(SecondaryInfo())
                     }
                 }
                 

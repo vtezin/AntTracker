@@ -159,8 +159,7 @@ extension MainView {
             
             .onTapGesture {
                 withAnimation{
-                    followCLbyMap = false
-                    showPointsManagment.toggle()
+                    activePage = .pointList
                 }
             }
             

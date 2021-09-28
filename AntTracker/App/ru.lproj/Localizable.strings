@@ -86,8 +86,7 @@
 "Statistic" = "Статистика";
 "Period" = "Период";
 
-"Hide points" = "Скрыть точки";
-"Show points" = "Показать точки";
+"Show points on the map" = "Показывать точки на карте";
 
 "Record" = "Запись";
 "Points" = "Точки";
@@ -139,3 +138,7 @@
 "Location" = "Местоположение";
 
 "Address" = "Адрес";
+"address definition..." = "определение адреса...";
+
+
+"waiting for a good GPS signal or movement" = "ожидание хорошего сигнала GPS или движения";

@@ -329,7 +329,7 @@ struct TrackDetailView: View {
                         let pasteBoard = UIPasteboard.general
                         pasteBoard.string = locationString
                     } label: {
-                        Label("Copy", systemImage: "doc.on.clipboard")
+                        Label("Copy", systemImage: "arrow.right.doc.on.clipboard")
                     }
                 }
                 

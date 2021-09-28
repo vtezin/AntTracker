@@ -26,7 +26,7 @@ final class WrappedMap: MKMapView, UIGestureRecognizerDelegate {
         super.init(frame: .zero)
         
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress(sender:)))
-        longPressGestureRecognizer.minimumPressDuration = 0.8
+        longPressGestureRecognizer.minimumPressDuration = 0.5
         addGestureRecognizer(longPressGestureRecognizer)
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
@@ -119,6 +119,7 @@ struct MapView: UIViewRepresentable {
         let region = MKCoordinateRegion(center: coordinate, span: span)
         
         mapView.setRegion(region, animated: true)
+        appVariables.selectedPoint = nil
         showPointsManagment = true
         followCLbyMap = false
                 

@@ -11,6 +11,8 @@ struct PointListView: View {
     
     @Binding var activePage: ContentView.pages
     
+    @AppStorage("showPointsOnTheMap") var showPointsOnTheMap = true
+    
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var appVariables: AppVariables
@@ -115,6 +117,19 @@ struct PointListView: View {
                         .modifier(NavigationButton())
                 }
             )
+            
+            .toolbar {
+                
+                ToolbarItem(placement: .bottomBar) {
+                    
+                    Toggle(isOn: $showPointsOnTheMap.animation()) {
+                        Text("Show points on the map")
+                    }
+                    
+                }
+                
+                
+            }
             
         }
         .navigationViewStyle(StackNavigationViewStyle())

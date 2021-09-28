@@ -24,6 +24,14 @@ struct PointInfoView: View {
             
             if !point.wrappedLocationString.isEmpty {
                 Text(point.wrappedLocationString).padding(3)
+                    .contextMenu {
+                        Button {
+                            let pasteBoard = UIPasteboard.general
+                            pasteBoard.string = point.wrappedLocationString
+                        } label: {
+                            Label("Copy", systemImage: "arrow.right.doc.on.clipboard")
+                        }
+                    }
             }
             
             HStack{

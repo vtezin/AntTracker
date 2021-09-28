@@ -37,6 +37,7 @@
 		5240810F26C1BAF3002CD327 /* ImageSymbolSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */; };
 		5240811226C1C06E002CD327 /* TrackGroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */; };
 		5240811826C25F5F002CD327 /* SFSymbolsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5240811726C25F5F002CD327 /* SFSymbolsAPI.swift */; };
+		52449A852702E30C00E2ACD9 /* GeoCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52449A842702E30C00E2ACD9 /* GeoCoder.swift */; };
 		52512C8926584F21000619F6 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C8826584F20000619F6 /* MainMenu.swift */; };
 		52512C8D2658528F000619F6 /* TrackControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C8C2658528F000619F6 /* TrackControls.swift */; };
 		52512C92265859CB000619F6 /* PointControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52512C91265859CB000619F6 /* PointControls.swift */; };
@@ -108,6 +109,7 @@
 		5240810E26C1BAF3002CD327 /* ImageSymbolSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSymbolSelectorView.swift; sourceTree = "<group>"; };
 		5240811126C1C06E002CD327 /* TrackGroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackGroupDetailView.swift; sourceTree = "<group>"; };
 		5240811726C25F5F002CD327 /* SFSymbolsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolsAPI.swift; sourceTree = "<group>"; };
+		52449A842702E30C00E2ACD9 /* GeoCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCoder.swift; sourceTree = "<group>"; };
 		52512C8826584F20000619F6 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		52512C8C2658528F000619F6 /* TrackControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackControls.swift; sourceTree = "<group>"; };
 		52512C91265859CB000619F6 /* PointControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointControls.swift; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				52A8EEA8261DE7FB00D2D037 /* Localizable.strings */,
 				52C6C39626F890C700A4709D /* InfoPlist.strings */,
 				52B9DB6826944E2C001B519F /* kmlAPI.swift */,
+				52449A842702E30C00E2ACD9 /* GeoCoder.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				52DD953B260D14EB00F4E700 /* Extensions.swift in Sources */,
 				52C63CEB26F1F3FD00E15379 /* PointInfoView.swift in Sources */,
 				52512CB3265E3280000619F6 /* TrackRawView.swift in Sources */,
+				52449A852702E30C00E2ACD9 /* GeoCoder.swift in Sources */,
 				523F262C26C4811500AFB09B /* Interface.swift in Sources */,
 				52512C8D2658528F000619F6 /* TrackControls.swift in Sources */,
 				52512C92265859CB000619F6 /* PointControls.swift in Sources */,

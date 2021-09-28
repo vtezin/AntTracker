@@ -65,7 +65,11 @@ struct MainView: View {
     
     //controls visibility
     @State var showControls = true
-    @State var showPointsManagment = false
+    @State var showPointsManagment = false {
+        didSet{
+            selectedPositionAddress = "address definition..."
+        }
+    }
     
     //track
     @State var showQuestionBeforeResetTrack = false
@@ -76,7 +80,10 @@ struct MainView: View {
     //other
     @AppStorage("disableAutolockScreen") var disableAutolockScreen: Bool = false
     @State var dateOfSavingCurrentTrack = Date()
-    @State private var stringDistanceFromCLToCenter = ""
+    
+    //select position support
+    @State var selectedPositionDistanceFromCL = ""
+    @State var selectedPositionAddress = ""
     
     //ant animation support
     @State var animatingProperties = AntAnimatingProperties()
@@ -114,7 +121,13 @@ struct MainView: View {
                                 moveCenterMapToCurLocation()
                             }
                             if showPointsManagment {
-                                stringDistanceFromCLToCenter = localeDistanceString(distanceMeters: CLLocation(latitude: center.latitude, longitude: center.longitude).distance(from: clManager.location))
+                                
+                                selectedPositionDistanceFromCL = localeDistanceString(distanceMeters: CLLocation(latitude: center.latitude, longitude: center.longitude).distance(from: clManager.location))
+                                
+                                getDescriptionByCoordinates(latitude: center.latitude,
+                                                            longitude: center.longitude,
+                                                            handler: fillSelectedPositionAdress)
+                                
                             }
                         }
                     .edgesIgnoringSafeArea(.all)
@@ -172,8 +185,6 @@ struct MainView: View {
                             Image(systemName: "plus")
                                 .imageScale(.large)
                                 .font(Font.title.weight(.light))
-                            Text(stringDistanceFromCLToCenter)
-                                .font(Font.callout)
                         }
                         .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
                     }
@@ -268,6 +279,14 @@ struct MainView: View {
         
     }
 
+    func fillSelectedPositionAdress(adressString: String) {
+        
+        withAnimation {
+            selectedPositionAddress = adressString
+        }
+        
+    }
+    
     func setMapPositionOnAppear() {
         
         if let mapSettingsForAppear = appVariables.mapSettingsForAppear {

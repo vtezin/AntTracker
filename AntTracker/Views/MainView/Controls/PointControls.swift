@@ -13,24 +13,120 @@ extension MainView {
     var pointControlsPane: some View {
         
         VStack{
+            
             if showGoToCoordinates {
                 barGoToCoordinates
                     .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
                     .transition(.move(edge: .bottom))
+            } else {
+                                
+                HStack{
+                    Image(systemName: "location.fill")
+                    Text(selectedPositionDistanceFromCL)
+                }
+                .modifier(SecondaryInfo())
+                .padding(.bottom)
+                
+                HStack{
+                    
+                    Text(selectedPositionAddress)
+                        .modifier(SecondaryInfo())
+                        .padding(.bottom)
+                        .contextMenu {
+                            Button {
+                                let pasteBoard = UIPasteboard.general
+                                pasteBoard.string = selectedPositionAddress
+                            } label: {
+                                Label("Copy", systemImage: "arrow.right.doc.on.clipboard")
+                            }
+                        }
+                    
+                }
+                
             }
+            
+            
             HStack{
                 buttonBackToMainControls
                 Spacer()
                 buttonAddPoint
                 Spacer()
-                buttonPointList
+                buttonPointShare
                 Spacer()
-                buttonPointsMore
+                buttonGoToCoordinates
             }
         }
         .transition(.move(edge: .bottom))
+        .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                    .onEnded({ value in
+                        if value.translation.height > 0 {
+                            // down
+                            withAnimation{
+                                showPointsManagment = false
+                            }
+                        }
+                    }))
         
     }
+    
+    var buttonPointShare: some View {
+        
+        Menu{
+            
+            Button(action: {
+                
+                let coordinate = appVariables.centerOfMap
+                let title = "Position from AntTracker"
+                
+                var kmlText = ""
+                kmlText += kmlAPI.headerFile(title: title)
+                kmlText += kmlAPI.getPointTag(title: title,
+                                              coordinate: coordinate, altitude: nil)
+                kmlText += kmlAPI.footerFile
+                
+                kmlAPI.shareTextAsKMLFile(text: kmlText,
+                                   filename: title)
+                
+            }) {
+                Label("KML file", systemImage: "square.and.arrow.up")
+                    //.labelStyle(TitleOnlyLabelStyle())
+            }
+            
+            Button(action: {
+                
+                let av = UIActivityViewController(activityItems: [appVariables.centerOfMap.coordinateStrings[2]],
+                                                  applicationActivities: nil)
+                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true,
+                                                                                completion: nil)
+                
+            }) {
+                Label("Coordinates", systemImage: "square.and.arrow.up")
+                    //.labelStyle(TitleOnlyLabelStyle())
+            }
+            
+            Button(action: {
+                
+                let av = UIActivityViewController(activityItems: [selectedPositionAddress],
+                                                  applicationActivities: nil)
+                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true,
+                                                                                completion: nil)
+                
+            }) {
+                Label("Address", systemImage: "square.and.arrow.up")
+                    //.labelStyle(TitleOnlyLabelStyle())
+            }
+            
+        } label: {
+            
+            VStack{
+                Image(systemName: "square.and.arrow.up")
+                    .modifier(ControlButton())
+                Text("Share").buttonText()
+            }
+        }
+        
+    }
+    
     
     var buttonAddPoint: some View {
         
@@ -140,137 +236,6 @@ extension MainView {
             
         }
         
-        
-    }
-    
-    var buttonSharePosition: some View {
-        
-        Menu{
-            
-            Button(action: {
-                
-                let coordinate = appVariables.centerOfMap
-                let title = "Position from AntTracker"
-                
-                var kmlText = ""
-                kmlText += kmlAPI.headerFile(title: title)
-                kmlText += kmlAPI.getPointTag(title: title,
-                                              coordinate: coordinate, altitude: nil)
-                kmlText += kmlAPI.footerFile
-                
-                kmlAPI.shareTextAsKMLFile(text: kmlText,
-                                   filename: title)
-                
-            }) {
-                Label("KML file", systemImage: "")
-                    .labelStyle(TitleOnlyLabelStyle())
-            }
-            
-            Button(action: {
-                
-                let av = UIActivityViewController(activityItems: [appVariables.centerOfMap.coordinateStrings[2]],
-                                                  applicationActivities: nil)
-                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true,
-                                                                                completion: nil)
-                
-            }) {
-                Label("Coordinates", systemImage: "")
-                    .labelStyle(TitleOnlyLabelStyle())
-            }
-            
-        } label: {
-            
-            VStack{
-                Image(systemName: "square.and.arrow.up")
-                    .modifier(ControlButton())
-                Text("Share").buttonText()
-            }
-        }
-        
-        
-        
-    }
-    
-    var buttonPointList: some View {
-        
-        Button(action: {
-            withAnimation{
-                activePage = .pointList
-            }
-        }) {
-            VStack{
-                Image(systemName: "tray.2").modifier(ControlButton())
-                Text("Points").buttonText()
-            }
-        }
-        
-    }
-    
-    var buttonPointsMore: some View {
-        
-        Menu{
-            
-            Button(action: {
-                
-                let coordinate = appVariables.centerOfMap
-                let title = "Position from AntTracker"
-                
-                var kmlText = ""
-                kmlText += kmlAPI.headerFile(title: title)
-                kmlText += kmlAPI.getPointTag(title: title,
-                                              coordinate: coordinate, altitude: nil)
-                kmlText += kmlAPI.footerFile
-                
-                kmlAPI.shareTextAsKMLFile(text: kmlText,
-                                   filename: title)
-                
-            }) {
-                Label("KML file", systemImage: "square.and.arrow.up")
-                    //.labelStyle(TitleOnlyLabelStyle())
-            }
-            
-            Button(action: {
-                
-                let av = UIActivityViewController(activityItems: [appVariables.centerOfMap.coordinateStrings[2]],
-                                                  applicationActivities: nil)
-                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true,
-                                                                                completion: nil)
-                
-            }) {
-                Label("Coordinates", systemImage: "square.and.arrow.up")
-                    //.labelStyle(TitleOnlyLabelStyle())
-            }
-            
-            Divider()
-            
-            Button(action: {
-                withAnimation {
-                    showGoToCoordinates.toggle()
-                }
-            }) {
-                VStack{
-                    Image(systemName: "arrow.down.to.line").modifier(ControlButton())
-                    Text("Go to").buttonText()
-                }
-            }
-            
-            Button(action: {
-                showPointsOnTheMap.toggle()
-                appVariables.needRedrawPointsOnMap = true
-            }) {
-                Label(showPointsOnTheMap ? "Hide points" : "Show points",
-                    systemImage: "")
-                .labelStyle(TitleOnlyLabelStyle())
-            }
-            
-        } label: {
-            
-            VStack{
-                Image(systemName: "ellipsis.circle")
-                    .modifier(ControlButton())
-                Text("More").buttonText()
-            }
-        }
         
     }
     
