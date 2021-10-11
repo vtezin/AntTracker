@@ -12,50 +12,57 @@ extension MainView {
     
     var pointControlsPane: some View {
         
-        VStack{
+        HStack {
             
-            if showGoToCoordinates {
-                barGoToCoordinates
-                    .padding(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
-                    .transition(.move(edge: .bottom))
-            } else {
-                                
-                HStack{
-                    Image(systemName: "location.fill")
-                    Text(selectedPositionDistanceFromCL)
-                }
-                .modifier(SecondaryInfo())
-                .padding(.bottom)
+            VStack(spacing: 10){
                 
-                HStack{
+                if showGoToCoordinates {
+                    barGoToCoordinates
+                        .transition(.move(edge: .bottom))
+                } else {
                     
-                    Text(selectedPositionAddress)
-                        .modifier(SecondaryInfo())
-                        .padding(.bottom)
-                        .contextMenu {
-                            Button {
-                                let pasteBoard = UIPasteboard.general
-                                pasteBoard.string = selectedPositionAddress
-                            } label: {
-                                Label("Copy", systemImage: "arrow.right.doc.on.clipboard")
-                            }
+                    Group{
+                        HStack{
+                            Image(systemName: "location.fill")
+                            Text(selectedPositionDistanceFromCL)
                         }
+                        .modifier(SecondaryInfo())
+                        
+                        HStack{
+                            Spacer()
+                            Text(selectedPositionAddress)
+                                .modifier(SecondaryInfo())
+                            Spacer()
+                        }
+                    }
                     
+                    .contextMenu {
+                        Button {
+                            let pasteBoard = UIPasteboard.general
+                            pasteBoard.string = selectedPositionAddress
+                        } label: {
+                            Label("Copy address", systemImage: "arrow.right.doc.on.clipboard")
+                        }
+                    }
+                }
+                
+                Divider()
+                
+                HStack{
+                    buttonBackToMainControls
+                    Spacer()
+                    buttonAddPoint
+                    Spacer()
+                    buttonPointShare
+                    Spacer()
+                    buttonGoToCoordinates
                 }
                 
             }
+            .padding(.init(top: 10, leading: 15, bottom: 5, trailing: 15))
             
-            
-            HStack{
-                buttonBackToMainControls
-                Spacer()
-                buttonAddPoint
-                Spacer()
-                buttonPointShare
-                Spacer()
-                buttonGoToCoordinates
-            }
         }
+        .background(Color.systemBackground)
         .transition(.move(edge: .bottom))
         .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
                     .onEnded({ value in
@@ -288,7 +295,9 @@ extension MainView {
             }
             
             HStack {
-                PointInfoView(point: selectedPoint)
+                PointInfoView(point: selectedPoint,
+                              actionSheetMode: $actionSheetMode,
+                              showActionSheet: $showActionSheet)
             }
             
         }
@@ -305,51 +314,6 @@ extension MainView {
                             }
                         }
                     }))
-        .contextMenu{
-            
-            if !selectedPoint.wrappedLocationString.isEmpty {
-                
-                Button{
-                    let sharedString = selectedPoint.wrappedLocationString
-                    
-                    // Show the share-view
-                    let av = UIActivityViewController(activityItems: [sharedString], applicationActivities: nil)
-                    UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
-                } label: {
-                    Label("Address", systemImage: "square.and.arrow.up")
-                }
-                
-            }
-            
-            Button{
-                let sharedString = selectedPoint.coordinate.coordinateStrings[2]
-                
-                // Show the share-view
-                let av = UIActivityViewController(activityItems: [sharedString], applicationActivities: nil)
-                        UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
-            } label: {
-                Label("Coordinates", systemImage: "square.and.arrow.up")
-            }
-            
-            Button{
-                kmlAPI.shareTextAsKMLFile(
-                    text: selectedPoint.textForKMLFile(),
-                                   filename: selectedPoint.wrappedTitle)
-            } label: {
-                Label("KML file", systemImage: "square.and.arrow.up")
-            }
-            
-            
-            Divider()
-            
-            Button{
-                actionSheetMode = .deleteSelectedPoint
-                showActionSheet = true
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-            
-        }
         
     }
     

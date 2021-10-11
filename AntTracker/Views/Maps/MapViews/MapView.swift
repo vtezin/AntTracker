@@ -59,9 +59,6 @@ final class WrappedMap: MKMapView, UIGestureRecognizerDelegate {
     }
 }
 
-
-
-
 struct MapView: UIViewRepresentable {
     
     @Binding var mapType: MKMapType
@@ -69,6 +66,8 @@ struct MapView: UIViewRepresentable {
     //center & span
     @Binding var center: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
+    
+    @Binding var curLocationIsOnVisibleMapRegion: Bool
     
     var points: FetchedResults<Point>
     
@@ -86,7 +85,7 @@ struct MapView: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
        
         let mapView = WrappedMap()
-        
+                
         mapView.onLongPress = onLongPress
         mapView.onDragOrPan = onDragOrPanMapByUser
         
@@ -132,7 +131,7 @@ struct MapView: UIViewRepresentable {
         if appVariables.needChangeMapView {
             
             let region = MKCoordinateRegion(center: center, span: span)
-            view.setRegion(region, animated: span.latitudeDelta < 0.1)
+            view.setRegion(region, animated: true)
             //print("span: \(span)")
             
             appVariables.needChangeMapView = false
@@ -253,6 +252,7 @@ struct MapView: UIViewRepresentable {
                 }
             }
             
+            parent.curLocationIsOnVisibleMapRegion = mapView.locationIsOnVisibleArea(coordinate: parent.clManager.location.coordinate)
             
         }
         

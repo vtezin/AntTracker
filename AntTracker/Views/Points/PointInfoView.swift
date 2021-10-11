@@ -11,8 +11,14 @@ import MapKit
 struct PointInfoView: View {
     
     let point: Point
+    
+    @EnvironmentObject var appVariables: AppVariables
     @EnvironmentObject var clManager: LocationManager
+    @Environment(\.managedObjectContext) var moc
     @AppStorage("mainViewShowCurrentAlt") var mainViewShowCurrentAltitude: Bool = false
+    
+    @Binding var actionSheetMode: MainView.ActionSheetModes
+    @Binding var showActionSheet: Bool
     
     var body: some View {
         
@@ -36,6 +42,40 @@ struct PointInfoView: View {
             
             HStack{
 
+                Menu{
+                    
+                    if !point.wrappedLocationString.isEmpty {
+                        
+                        Button{
+                            point.shareLocationString()
+                        } label: {
+                            Label("Address", systemImage: "square.and.arrow.up")
+                        }
+                        
+                    }
+                    
+                    Button{
+                        point.shareCoordinatesString()
+                    } label: {
+                        Label("Coordinates", systemImage: "square.and.arrow.up")
+                    }
+                    
+                    Button{
+                        point.shareAsKMLFile()
+                    } label: {
+                        Label("KML file", systemImage: "square.and.arrow.up")
+                    }
+                    
+                    
+                } label: {
+                    VStack{
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+                Spacer()
+                
                 HStack{
                     Image(systemName: "location.fill")
                     Text(localeDistanceString(distanceMeters: clManager.location.distance(from: CLLocation(latitude: point.latitude, longitude: point.longitude))))
@@ -59,6 +99,15 @@ struct PointInfoView: View {
                         }
                     }
                 }
+                
+                Spacer()
+                
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+                    .onTapGesture {
+                        actionSheetMode = .deleteSelectedPoint
+                        showActionSheet = true
+                    }
 
             }
             .font(.body)
@@ -68,6 +117,22 @@ struct PointInfoView: View {
         .modifier(SecondaryInfo())
         
     }
+    
+    func deletePoint()  {
+        
+        func deleteSelectedPoint() {
+            
+            if appVariables.selectedPoint == point {
+                appVariables.selectedPoint = nil
+            }
+            
+            Point.deletePoint(point: point, moc: moc)
+            appVariables.needRedrawPointsOnMap = true
+            
+        }
+        
+    }
+    
 }
 
 //struct PointInfoView_Previews: PreviewProvider {

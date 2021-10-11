@@ -64,20 +64,16 @@ struct AppSettings: View {
             }
             
             .navigationBarTitle("Settings", displayMode: .inline)
-            .navigationBarItems(
-                leading: Button(action: {
-                    withAnimation{
-                        activePage = .main
-                    }
-                }) {
-                    HStack{
-                        Image(systemName: "chevron.backward")
-                        Text("Map")
-                    }
-                })
+            .navigationBarItems(leading: Button(action: {
+                withAnimation{activePage = .main}
+            }) {HStack{
+                Image(systemName: "chevron.backward")
+                Text("Map")
+            }
+            },
+            trailing: NavigationLink(destination:ThanksView()){Image(systemName: "hand.thumbsup")})
             
         }
-            
             
         }
 

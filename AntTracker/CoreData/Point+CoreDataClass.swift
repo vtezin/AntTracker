@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 @objc(Point)
 public class Point: NSManagedObject {
@@ -112,6 +113,37 @@ public class Point: NSManagedObject {
                               coordinate: coordinate,
                               altitude: wrappedAltitude)
         
+    }
+    
+    func copyLocationToClipboard() {
+        let pasteBoard = UIPasteboard.general
+        pasteBoard.string = wrappedLocationString
+    }
+    
+    func shareLocationString() {
+        
+        let sharedString = wrappedLocationString
+        
+        // Show the share-view
+        let av = UIActivityViewController(activityItems: [sharedString], applicationActivities: nil)
+        UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+        
+    }
+    
+    func shareCoordinatesString() {
+        
+        let sharedString = coordinate.coordinateStrings[2]
+        
+        // Show the share-view
+        let av = UIActivityViewController(activityItems: [sharedString], applicationActivities: nil)
+                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+        
+    }
+    
+    func shareAsKMLFile() {
+        kmlAPI.shareTextAsKMLFile(
+            text: textForKMLFile(),
+                           filename: wrappedTitle)
     }
     
 //    func getTextForKMLFile() -> String {

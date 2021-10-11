@@ -84,8 +84,11 @@ extension MainView {
     func startTrackRecording() {
         
         currentTrack.prepareForStartRecording(moc: moc)
-        moveCenterMapToCurLocation()
-        setMapSpan(delta: AppConstants.curLocationSpan)
+        
+        if !curLocationIsOnVisibleMapRegion {
+            moveCenterMapToCurLocation()
+            //setMapSpan(delta: AppConstants.curLocationSpan)
+        }
         
         clManager.trackRecordingState = .recording
                 

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5206358C2706F01200546D21 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5206358B2706F01200546D21 /* StoreKit.framework */; };
+		520EF6AF27057ACB0041F99D /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520EF6AE27057ACB0041F99D /* IAP.swift */; };
+		520EF6B227057B330041F99D /* IAPProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520EF6B127057B330041F99D /* IAPProducts.swift */; };
+		520EF6B527057B860041F99D /* ThanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520EF6B427057B860041F99D /* ThanksView.swift */; };
 		5213456A2601C95500F7A43C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 521345682601C95500F7A43C /* Model.xcdatamodeld */; };
 		521345AF2601CD4400F7A43C /* CoreDataPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */; };
 		5213A774264B22790009223D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5213A773264B22790009223D /* Colors.swift */; };
@@ -57,6 +61,7 @@
 		529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C63032642C40A00A49993 /* CoordinatesSharing.swift */; };
 		52A8EEA6261DE7FB00D2D037 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A8EEA8261DE7FB00D2D037 /* Localizable.strings */; };
 		52B9DB6926944E2C001B519F /* kmlAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B9DB6826944E2C001B519F /* kmlAPI.swift */; };
+		52BDD57F2714100A00E0B5F7 /* MKMapViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BDD57E2714100A00E0B5F7 /* MKMapViewExtensions.swift */; };
 		52C63CEB26F1F3FD00E15379 /* PointInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C63CEA26F1F3FD00E15379 /* PointInfoView.swift */; };
 		52C6C39426F890C700A4709D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52C6C39626F890C700A4709D /* InfoPlist.strings */; };
 		52D3A92925E682D4001A50C1 /* AntTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */; };
@@ -79,6 +84,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5206358B2706F01200546D21 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		520EF6AE27057ACB0041F99D /* IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
+		520EF6B127057B330041F99D /* IAPProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPProducts.swift; sourceTree = "<group>"; };
+		520EF6B427057B860041F99D /* ThanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksView.swift; sourceTree = "<group>"; };
 		521345692601C95500F7A43C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		521345AE2601CD4400F7A43C /* CoreDataPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceController.swift; sourceTree = "<group>"; };
 		5213A773264B22790009223D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -129,6 +138,7 @@
 		529C63032642C40A00A49993 /* CoordinatesSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesSharing.swift; sourceTree = "<group>"; };
 		52A8EEA7261DE7FB00D2D037 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52B9DB6826944E2C001B519F /* kmlAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = kmlAPI.swift; sourceTree = "<group>"; };
+		52BDD57E2714100A00E0B5F7 /* MKMapViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapViewExtensions.swift; sourceTree = "<group>"; };
 		52C63CEA26F1F3FD00E15379 /* PointInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointInfoView.swift; sourceTree = "<group>"; };
 		52C6C39526F890C700A4709D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		52D3A92525E682D4001A50C1 /* AntTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,12 +167,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5206358C2706F01200546D21 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5206358A2706F01200546D21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5206358B2706F01200546D21 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		520EF6AD27057AB40041F99D /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				520EF6AE27057ACB0041F99D /* IAP.swift */,
+				520EF6B127057B330041F99D /* IAPProducts.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
 		521345B22601D2C000F7A43C /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +305,7 @@
 			children = (
 				52D3A93825E68310001A50C1 /* MapView.swift */,
 				52F04F672619A30B00C261C0 /* TrackMapView.swift */,
+				52BDD57E2714100A00E0B5F7 /* MKMapViewExtensions.swift */,
 			);
 			path = MapViews;
 			sourceTree = "<group>";
@@ -332,6 +361,7 @@
 				521A0CB325FB4D61001FA9A7 /* Controls */,
 				52F04F632619A16300C261C0 /* Tracks */,
 				52F04F652619A18700C261C0 /* Maps */,
+				520EF6B427057B860041F99D /* ThanksView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -349,6 +379,7 @@
 		529B5C4225F9E8AE00BACDA8 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				520EF6AD27057AB40041F99D /* IAP */,
 				523F261A26C4811500AFB09B /* FirstRespondersForSwiftUI */,
 				52D3A92825E682D4001A50C1 /* AntTrackerApp.swift */,
 				52D3A93C25E6A96D001A50C1 /* LocationManager.swift */,
@@ -367,6 +398,7 @@
 			children = (
 				52D3A92725E682D4001A50C1 /* AntTracker */,
 				52D3A92625E682D4001A50C1 /* Products */,
+				5206358A2706F01200546D21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -514,6 +546,7 @@
 				52512C8926584F21000619F6 /* MainMenu.swift in Sources */,
 				523F262D26C4811500AFB09B /* First Responder Utility.swift in Sources */,
 				5213A78E264DB25D0009223D /* PointDetailView.swift in Sources */,
+				52BDD57F2714100A00E0B5F7 /* MKMapViewExtensions.swift in Sources */,
 				523F262626C4811500AFB09B /* Window Gesture.swift in Sources */,
 				5240810F26C1BAF3002CD327 /* ImageSymbolSelectorView.swift in Sources */,
 				523F262726C4811500AFB09B /* Interoperability Views.swift in Sources */,
@@ -532,9 +565,11 @@
 				5213A781264D544B0009223D /* PointGroup+CoreDataClass.swift in Sources */,
 				5213A774264B22790009223D /* Colors.swift in Sources */,
 				529C63042642C40A00A49993 /* CoordinatesSharing.swift in Sources */,
+				520EF6B527057B860041F99D /* ThanksView.swift in Sources */,
 				5239F00826E5DA2000BB6C85 /* PointListView.swift in Sources */,
 				527BD615265FE6510047FA0C /* TrackDetailView.swift in Sources */,
 				5226028C25F4C83600703DCE /* Modifiers.swift in Sources */,
+				520EF6AF27057ACB0041F99D /* IAP.swift in Sources */,
 				523F262926C4811500AFB09B /* Text Field.swift in Sources */,
 				5239F01126E6920800BB6C85 /* PointGroupDetailView.swift in Sources */,
 				523F533F26550A0900B0DF4A /* TrackPolyline.swift in Sources */,
@@ -560,6 +595,7 @@
 				52DD9537260D138400F4E700 /* Track+CoreDataClass.swift in Sources */,
 				526D9D07261FFD03002A606D /* AppSettings.swift in Sources */,
 				52512CA0265C236E000619F6 /* TrackGroup+CoreDataClass.swift in Sources */,
+				520EF6B227057B330041F99D /* IAPProducts.swift in Sources */,
 				523F262A26C4811500AFB09B /* Text Editor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,7 +744,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
@@ -718,7 +754,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 10.3;
+				MARKETING_VERSION = 10.6;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -732,7 +768,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AntTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 2X2VGHTNU5;
 				ENABLE_PREVIEWS = YES;
@@ -742,7 +778,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 10.3;
+				MARKETING_VERSION = 10.6;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

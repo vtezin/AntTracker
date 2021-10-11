@@ -119,6 +119,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         annotationView.insertSubview(headingAnnotationImageView, at: 0)
         
+        //init heading
+        if let heading = heading {
+            headingAnnotationImageView.transform = CGAffineTransform(rotationAngle: CGFloat(heading * .pi / 180))
+        }
+        
         rotateHeadingAnnotation = true
         
     }

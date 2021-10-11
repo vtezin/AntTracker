@@ -140,5 +140,16 @@
 "Address" = "Адрес";
 "address definition..." = "определение адреса...";
 
-
 "waiting for a good GPS signal or movement" = "ожидание хорошего сигнала GPS или движения";
+
+"Copy address" = "Скопировать адрес";
+
+"Say thanks" = "Сказать спасибо";
+"  All functionality of this application is provided absolutely free. This is the author's principled approach." = "  Вся функциональность данного приложения предоставляется абсолютно бесплатно. Это принципиальный подход автора";
+"  Nevertheless, if you liked the application, then you can make a nice little gift for the author ))" = "  Однако, если приложение Вам понравилось, то здесь Вы можете сделать автору маленький подарок ))";
+"Buy a small" = "Купить маленький";
+"for the author" = "для автора";
+"(it's not expensive)" = "(это совсем не дорого)";
+"Thanks!" = "Спасибо!";
+
+"(the purchase dialog will open in a couple of seconds)" = "(диалог покупки откроется через пару секунд)";

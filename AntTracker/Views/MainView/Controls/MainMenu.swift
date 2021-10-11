@@ -11,7 +11,7 @@ extension MainView {
     
     var mainControlsPane: some View {
         
-        Group {
+        HStack {
             
             buttonTrackRecording
             Spacer()
@@ -22,6 +22,9 @@ extension MainView {
             buttonAppSettings
             
         }
+        .padding(.init(top: 10, leading: 15, bottom: 3, trailing: 15))
+        .background(Color.systemBackground)
+        .transition(.move(edge: .bottom))
         
     }
     

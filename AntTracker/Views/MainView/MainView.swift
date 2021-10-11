@@ -16,6 +16,7 @@ struct MainView: View {
     
     //map bindings
     @State var mapType: MKMapType = .hybrid
+    @State var curLocationIsOnVisibleMapRegion = false
     @AppStorage("lastUsedMapType") var lastUsedMapType: String = "hybrid"
     
     @State var center = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
@@ -95,25 +96,18 @@ struct MainView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
-            
-            VStack{
-                
-                if showControls
-                    && (clManager.trackRecordingState != .none)
-                    && appVariables.selectedPoint == nil {
-                    CurrentTrackInfo()
-                        .padding()
-                        .transition(.move(edge: .bottom))
-                }
                 
                 ZStack{
                     
-                    MapView(mapType: $mapType, center: $center, span: $span, points: points, showPointsOnTheMap: $showPointsOnTheMap, followCLbyMap: $followCLbyMap, showPointsManagment: $showPointsManagment, activePage: $activePage)
+                    MapView(mapType: $mapType, center: $center, span: $span, curLocationIsOnVisibleMapRegion: $curLocationIsOnVisibleMapRegion, points: points, showPointsOnTheMap: $showPointsOnTheMap, followCLbyMap: $followCLbyMap, showPointsManagment: $showPointsManagment, activePage: $activePage)
                         .onTapGesture {
                             withAnimation{
                                 if !showPointsManagment {
                                     showControls.toggle()
+                                } else {
+                                    showPointsManagment = false
                                 }
+                                appVariables.selectedPoint = nil
                             }
                         }
                         .onReceive(timer) { _ in
@@ -138,6 +132,57 @@ struct MainView: View {
                         
                         HStack{
                             
+                            VStack{
+                                Spacer()
+                                Spacer()
+                                Spacer()
+                                buttonMapType
+                                    .padding(.leading)
+                                Spacer()
+                            }
+                            
+                            Spacer()
+                            
+                            VStack{
+                                Spacer()
+                                Spacer()
+                                buttonZoomIn
+                                buttonZoomOut
+                                    .padding(.top)
+                                Spacer()
+                                buttonCurLocation
+                                Spacer()
+                                Spacer()
+                            }
+                            .padding()
+                            
+                        }
+                                
+                        
+                    }
+                    
+                    if showPointsManagment {
+                        VStack{
+                            Image(systemName: "plus")
+                                .imageScale(.large)
+                                .font(Font.title.weight(.light))
+                        }
+                        .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
+                    }
+                    
+                    VStack{
+                        
+                        if showControls
+                            && (clManager.trackRecordingState != .none)
+                            && appVariables.selectedPoint == nil {
+                            CurrentTrackInfo()
+                                .padding(.leading)
+                                .padding(.trailing)
+                                .transition(.move(edge: .top))
+                        }
+                        
+                        HStack{
+                            
                             if mainViewShowCurrentAltitude {
                                 altInfo()
                                     .padding()
@@ -152,71 +197,41 @@ struct MainView: View {
                             
                         }
                         
-                        HStack{
+                        Spacer()
+                        
+                        
+                        if appVariables.selectedPoint != nil {
+                            //selected point info
+                            selectetPointInfo
                             
-                            VStack{
-                                Spacer()
-                                buttonMapType
-                                    .padding()
-                            }
+                        } else {
                             
-                            Spacer()
-                            
-                            VStack{
-                                Spacer()
-                                Spacer()
-                                buttonZoomIn
-                                buttonZoomOut
-                                    .padding(.top)
-                                Spacer()
-                                buttonCurLocation
-                            }
-                            .padding()
-                            
-                        }
-                                
                             gpsAccuracyInfo()
                                 .padding()
-                        
-                    }
-                    
-                    if showPointsManagment {
-                        VStack{
-                            Image(systemName: "plus")
-                                .imageScale(.large)
-                                .font(Font.title.weight(.light))
+                            
+                            //controls
+                            
+                            if showControls || showPointsManagment {
+                                
+                                HStack{
+                                    
+                                    if showPointsManagment {
+                                        pointControlsPane
+                                    }
+                                    else {
+                                        mainControlsPane
+                                    }
+                                    
+                                }
+                                
+                            }
                         }
-                        .foregroundColor(colorForMapText(mapType: mapType, colorScheme: colorScheme))
-                    }
+                            
+                        }
                     
                 }
                 
-                if appVariables.selectedPoint != nil {
-                    //selected point info
-                    selectetPointInfo
-                    
-                } else {
-                    
-                    //controls
-                    
-                    if showControls || showPointsManagment {
-                        
-                        HStack{
-                            
-                            if showPointsManagment {
-                                pointControlsPane
-                            }
-                            else {
-                                mainControlsPane                                
-                            }
-                            
-                        }
-                        .padding(.init(top: 3, leading: 15, bottom: 3, trailing: 15))
-                        
-                    }
-                }
-                    
-                }
+
                 
             
             .onAppear{
@@ -299,12 +314,6 @@ struct MainView: View {
             }
             
             appVariables.mapSettingsForAppear = nil
-            return
-        }
-        
-        
-        if clManager.trackRecordingState == .recording || clManager.location.speed.speedKmHRounded() > 10 {
-            moveCenterMapToCurLocation()
             return
         }
         

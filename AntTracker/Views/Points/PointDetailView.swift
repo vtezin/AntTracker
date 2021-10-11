@@ -218,17 +218,6 @@ struct PointDetailView: View {
             .toolbar {
                 
                 ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                        kmlAPI.shareTextAsKMLFile(text: Point.textForKMLFile(title: title,
-                                                                             coordinate: coordinate,
-                                                                             altitude: altitude),
-                                           filename: title)
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                }
-                
-                ToolbarItem(placement: .bottomBar) {
                     Spacer()
                 }
                 
