@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PointGroupView: View {
     
+    @AppStorage("showPointsOnTheMap") var showPointsOnTheMap = true
+    
     @Binding var activePage: ContentView.pages
     
     @Environment(\.managedObjectContext) var moc
@@ -18,6 +20,7 @@ struct PointGroupView: View {
     let group: PointGroup
     var points: FetchRequest<Point>
     
+    @State private var showOnMap = false
     @State private var showingGroupDetailView = false
     @Binding var pointListRefreshID: UUID //for force refreshing
     
@@ -29,9 +32,10 @@ struct PointGroupView: View {
         points = FetchRequest(entity: Point.entity(),
                               sortDescriptors: [NSSortDescriptor(keyPath: \Point.dateAdded, ascending: false)],
                       predicate: NSPredicate(format: "pointGroup == %@", group))
-        _activePage = activePage
         
+        _activePage = activePage
         _pointListRefreshID = pointListRefreshID
+        _showOnMap = State(initialValue: group.showOnMap)
         
     }
         
@@ -43,12 +47,21 @@ struct PointGroupView: View {
 
                 Button(action: {
                     
+                    if !showOnMap {
+                        
+                        showOnMap = true
+                        PointGroup.toggleShowOnMap(group: group, moc: moc, showOnMap: showOnMap)
+                        
+                    }
+                    
                     appVariables.selectedPoint = point
                     appVariables.mapSettingsForAppear = (latitude: point.latitude,
                                                          longitude: point.longitude,
                                                          span: AppConstants.curLocationSpan)
                     
+                    showPointsOnTheMap = true
                     activePage = ContentView.pages.main
+                    
                     
                 }) {
                     PointRawView(point: point, showPointImage: false)
@@ -98,6 +111,24 @@ struct PointGroupView: View {
                                                   filename: group.wrappedTitle)
                     }
                 
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                Spacer()
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                Toggle(isOn: $showOnMap.animation()) {
+                    HStack{
+                        Image(systemName: "eye")
+                        Text("on the map")
+                    }
+                }
+                .onChange(of: showOnMap) { value in
+                    PointGroup.toggleShowOnMap(group: group, moc: moc, showOnMap: value)
+                    appVariables.needRedrawPointsOnMap = true
+                    pointListRefreshID = UUID()
+                }
             }
             
             ToolbarItem(placement: .bottomBar) {

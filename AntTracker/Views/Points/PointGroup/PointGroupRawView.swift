@@ -12,8 +12,6 @@ struct PointGroupRawView: View {
     let group: PointGroup?
     
     var body: some View {
-        
-        HStack{
             
             if group == nil {
                 Text("< out of groups >")
@@ -22,16 +20,8 @@ struct PointGroupRawView: View {
             } else {
                 
                 HStack{
-
                     group!.imageView
-                    
-                    if !group!.showOnMap {
-                        Image(systemName: "eye.slash")
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    
-                    VStack(alignment: .leading){
+                    VStack(){
                         
                         Text(group!.wrappedTitle)
                         
@@ -44,11 +34,14 @@ struct PointGroupRawView: View {
                         
                     }
                     
+                    if !group!.showOnMap {
+                        Image(systemName: "eye.slash")
+                            .foregroundColor(.secondary)
+                            .imageScale(.small)
+                    }
                 }
                 
             }
-            
-        }
         
     }
     

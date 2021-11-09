@@ -50,12 +50,13 @@ struct PointListView: View {
                                                    activePage: $activePage,
                                                    pointListRefreshID: $pointListRefreshID)) {
 
-                        PointGroupRawView(group: group)
+                        HStack{
+                            PointGroupRawView(group: group)
+                            Spacer()
+                            Text("\(group.pointsArray.count)")
+                                .modifier(SecondaryInfo())
+                        }
                         
-                        Spacer()
-                        
-                        Text("\(group.pointsArray.count)")
-                            .modifier(SecondaryInfo())
                     }
 
                 }
@@ -81,7 +82,7 @@ struct PointListView: View {
                         appVariables.mapSettingsForAppear = (latitude: point.latitude,
                                                              longitude: point.longitude,
                                                              span: AppConstants.curLocationSpan)
-                        
+                        showPointsOnTheMap = true
                         activePage = ContentView.pages.main
                     }) {
                         PointRawView(point: point, showPointImage: true)
@@ -123,7 +124,10 @@ struct PointListView: View {
                 ToolbarItem(placement: .bottomBar) {
                     
                     Toggle(isOn: $showPointsOnTheMap.animation()) {
-                        Text("Show points on the map")
+                        HStack{
+                            Image(systemName: "eye")
+                            Text("on the map")
+                        }
                     }
                     
                 }

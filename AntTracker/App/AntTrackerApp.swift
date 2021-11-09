@@ -40,8 +40,8 @@ struct AntTrackerApp: App {
         
         let trackCDUUID = UUID(uuidString: currentTrackCoreDataUIIDString)
         
-        print("restore track recording " + trackCDUUID!.uuidString)
-        print(trackRecordingState)
+//        print("restore track recording " + trackCDUUID!.uuidString)
+//        print(trackRecordingState)
         
         let moc = persistenceController.container.viewContext
         

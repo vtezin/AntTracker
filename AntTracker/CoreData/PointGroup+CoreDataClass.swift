@@ -43,6 +43,27 @@ public class PointGroup: NSManagedObject {
         
     }
     
+    static func toggleShowOnMap(group: PointGroup?,
+                                moc: NSManagedObjectContext,
+                                showOnMap: Bool
+    ) {
+        
+        var groupForSave: PointGroup
+        
+        if group == nil {
+            groupForSave = PointGroup(context: moc)
+            groupForSave.id = UUID()
+        } else {
+            groupForSave = group!
+        }
+        
+        groupForSave.dateOfLastChange = Date()
+        groupForSave.showOnMap = showOnMap
+        
+        try? moc.save()
+        
+    }
+    
     private func prepareForDelete(moc: NSManagedObjectContext) {
         
         if appVars.lastUsedPointGroup == self {

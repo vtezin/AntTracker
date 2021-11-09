@@ -385,7 +385,6 @@
 				52D3A93C25E6A96D001A50C1 /* LocationManager.swift */,
 				52DD953A260D14EB00F4E700 /* Extensions.swift */,
 				52F9113F261C723500309F63 /* AlertWithTextField.swift */,
-				52A8EEA8261DE7FB00D2D037 /* Localizable.strings */,
 				52C6C39626F890C700A4709D /* InfoPlist.strings */,
 				52B9DB6826944E2C001B519F /* kmlAPI.swift */,
 				52449A842702E30C00E2ACD9 /* GeoCoder.swift */,
@@ -413,6 +412,7 @@
 		52D3A92725E682D4001A50C1 /* AntTracker */ = {
 			isa = PBXGroup;
 			children = (
+				52A8EEA8261DE7FB00D2D037 /* Localizable.strings */,
 				529B5C4225F9E8AE00BACDA8 /* App */,
 				529B5C4125F9E87600BACDA8 /* Model */,
 				521345B22601D2C000F7A43C /* CoreData */,
@@ -754,7 +754,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 10.6;
+				MARKETING_VERSION = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -778,7 +778,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 10.6;
+				MARKETING_VERSION = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.flat112.AntTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

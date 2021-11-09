@@ -27,18 +27,11 @@ struct PointRawView: View {
                     Text(point.wrappedTitle)
                         .modifier(LightText())
                     
-                    Text(point.dateAdded.dateString())
+                    Text(point.wrappedLocationString)
                         .modifier(SecondaryInfo())
                     
                 }
-                
-                Spacer()
-                
-//                if !point.wrappedLocationString.isEmpty {
-                        Text(point.wrappedLocationString)
-                            .modifier(SecondaryInfo())
-//                }
-                
+            
             }
             
         }

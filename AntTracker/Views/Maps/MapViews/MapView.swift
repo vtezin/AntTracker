@@ -244,7 +244,7 @@ struct MapView: UIViewRepresentable {
             
             if let selectedPoint = parent.appVariables.selectedPoint {
                 
-                if !mapView.visibleMapRect.contains(MKMapPoint(selectedPoint.coordinate))
+                if !mapView.locationIsOnVisibleArea(coordinate: selectedPoint.coordinate)
                 {
                     withAnimation {
                         parent.appVariables.selectedPoint = nil

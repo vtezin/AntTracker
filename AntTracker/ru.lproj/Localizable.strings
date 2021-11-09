@@ -117,7 +117,7 @@
 "Statistics" = "Статистика";
 
 "%lld points" = "%lld точек";
-"Show on the map" = "Показать на карте";
+"on the map" = "на карте";
 "Point group" = "Группа точек";
 "Point groups" = "Группы точек";
 
@@ -153,3 +153,6 @@
 "Thanks!" = "Спасибо!";
 
 "(the purchase dialog will open in a couple of seconds)" = "(диалог покупки откроется через пару секунд)";
+
+"Share with the world" = "Поделиться с миром";
+"Praise in the App Store" = "Похвалить в App Store";
